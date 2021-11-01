@@ -1,9 +1,0 @@
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\bin\Debug\netstandard2.0\Pelikula.API.deps.json
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\bin\Debug\netstandard2.0\Pelikula.API.dll
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\bin\Debug\netstandard2.0\Pelikula.API.pdb
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\obj\Debug\netstandard2.0\Pelikula.API.csprojAssemblyReference.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\obj\Debug\netstandard2.0\Pelikula.API.AssemblyInfoInputs.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\obj\Debug\netstandard2.0\Pelikula.API.AssemblyInfo.cs
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\obj\Debug\netstandard2.0\Pelikula.API.csproj.CoreCompileInputs.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\obj\Debug\netstandard2.0\Pelikula.API.dll
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.API\obj\Debug\netstandard2.0\Pelikula.API.pdb

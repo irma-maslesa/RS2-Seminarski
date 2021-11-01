@@ -1,9 +1,0 @@
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\bin\Debug\netcoreapp3.1\Pelikula.DAO.deps.json
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\bin\Debug\netcoreapp3.1\Pelikula.DAO.dll
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\bin\Debug\netcoreapp3.1\Pelikula.DAO.pdb
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\obj\Debug\netcoreapp3.1\Pelikula.DAO.csprojAssemblyReference.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\obj\Debug\netcoreapp3.1\Pelikula.DAO.AssemblyInfoInputs.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\obj\Debug\netcoreapp3.1\Pelikula.DAO.AssemblyInfo.cs
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\obj\Debug\netcoreapp3.1\Pelikula.DAO.csproj.CoreCompileInputs.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\obj\Debug\netcoreapp3.1\Pelikula.DAO.dll
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.DAO\obj\Debug\netcoreapp3.1\Pelikula.DAO.pdb

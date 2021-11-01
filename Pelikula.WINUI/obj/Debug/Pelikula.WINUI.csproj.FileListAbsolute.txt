@@ -1,9 +1,0 @@
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\bin\Debug\Pelikula.WINUI.exe.config
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\bin\Debug\Pelikula.WINUI.exe
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\bin\Debug\Pelikula.WINUI.pdb
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\obj\Debug\Pelikula.WINUI.csprojAssemblyReference.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\obj\Debug\Pelikula.WINUI.Properties.Resources.resources
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\obj\Debug\Pelikula.WINUI.csproj.GenerateResource.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\obj\Debug\Pelikula.WINUI.csproj.CoreCompileInputs.cache
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\obj\Debug\Pelikula.WINUI.exe
-C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.WINUI\obj\Debug\Pelikula.WINUI.pdb
