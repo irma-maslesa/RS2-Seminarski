@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "E/Q4EJw8iofKPkc6lktvPtMKfyGiowOfMb7SnEfc18vGyrPnzB1syo2jQwUFOjLXQBRnjoNw9xKGj5XnqqBJYg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\imra1\\RS2_Pelikula\\Pelikula.DAO\\Pelikula.DAO.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\imra1\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\imra1\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "/e13eqbWeOtFijXDZXwlAhyjB9T20j/7/ESwGUbxjVPBuUZMx2K/xG2qIGjcvvIpXFv07nuH8YOGuQMWX8fG8A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\imra1\\RS2_Pelikula\\Pelikula.API\\Pelikula.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\imra1\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\imra1\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

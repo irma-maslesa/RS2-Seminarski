@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>029be881-e48c-4389-9a75-b5ddde79c334</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pelikula.API\Pelikula.API.csproj" />
+    <ProjectReference Include="..\Pelikula.CORE\Pelikula.CORE.csproj" />
+    <ProjectReference Include="..\Pelikula.DAO\Pelikula.DAO.csproj" />
+  </ItemGroup>
+
+
+</Project>

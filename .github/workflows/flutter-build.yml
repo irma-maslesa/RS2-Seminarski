@@ -1,0 +1,48 @@
+name: Flutter Build
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - .github/workflows/flutter-build.yml
+      - Pelikula.Mobile/**
+  pull_request:
+    branches:
+      - '*'
+    paths:
+      - .github/workflows/flutter-build.yml
+      - Pelikula.Mobile/**
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1.5.3
+      with:
+        flutter-version: '2.5'
+        channel: 'stable'
+    - name: Build
+      run: |
+        cd Pelikula.Mobile # navigate to root of flutter project
+        if [[ "$RUNNER_OS" == "Linux" || "$RUNNER_OS" == "Windows" ]]; then
+          flutter pub get
+          flutter build apk
+          flutter build appbundle
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+          flutter pub get
+          flutter build apk
+          flutter build ios --release --no-codesign
+        else
+          echo "$RUNNER_OS not supported"
+          exit 1
+        fi
+      shell: bash

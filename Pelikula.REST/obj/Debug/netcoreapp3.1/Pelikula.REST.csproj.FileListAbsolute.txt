@@ -1,0 +1,54 @@
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\appsettings.json
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.exe
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.deps.json
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.runtimeconfig.json
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.runtimeconfig.dev.json
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.dll
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.pdb
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.CORE.dll
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.DAO.dll
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.CORE.pdb
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.DAO.pdb
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.csprojAssemblyReference.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.AssemblyInfoInputs.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.AssemblyInfo.cs
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.csproj.CoreCompileInputs.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.MvcApplicationPartsAssemblyInfo.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\staticwebassets\Pelikula.REST.StaticWebAssets.Manifest.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\staticwebassets\Pelikula.REST.StaticWebAssets.xml
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\scopedcss\bundle\Pelikula.REST.styles.css
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.RazorTargetAssemblyInfo.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.csproj.CopyComplete
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.dll
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.pdb
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.genruntimeconfig.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.API.dll
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.API.pdb
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.exe
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.deps.json
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.runtimeconfig.json
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.runtimeconfig.dev.json
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.dll
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.REST.pdb
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.API.dll
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.CORE.dll
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.DAO.dll
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.API.pdb
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.CORE.pdb
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\bin\Debug\netcoreapp3.1\Pelikula.DAO.pdb
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.csprojAssemblyReference.cache
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.AssemblyInfoInputs.cache
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.AssemblyInfo.cs
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.csproj.CoreCompileInputs.cache
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\staticwebassets\Pelikula.REST.StaticWebAssets.Manifest.cache
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\staticwebassets\Pelikula.REST.StaticWebAssets.xml
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\scopedcss\bundle\Pelikula.REST.styles.css
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.RazorTargetAssemblyInfo.cache
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.csproj.CopyComplete
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.dll
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.pdb
+C:\Users\imra1\RS2_Pelikula\Pelikula.REST\obj\Debug\netcoreapp3.1\Pelikula.REST.genruntimeconfig.cache

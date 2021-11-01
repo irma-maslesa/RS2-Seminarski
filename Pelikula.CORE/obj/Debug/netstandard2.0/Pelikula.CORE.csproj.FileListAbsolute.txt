@@ -1,0 +1,9 @@
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\bin\Debug\netstandard2.0\Pelikula.CORE.deps.json
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\bin\Debug\netstandard2.0\Pelikula.CORE.dll
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\bin\Debug\netstandard2.0\Pelikula.CORE.pdb
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\obj\Debug\netstandard2.0\Pelikula.CORE.csprojAssemblyReference.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\obj\Debug\netstandard2.0\Pelikula.CORE.AssemblyInfoInputs.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\obj\Debug\netstandard2.0\Pelikula.CORE.AssemblyInfo.cs
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\obj\Debug\netstandard2.0\Pelikula.CORE.csproj.CoreCompileInputs.cache
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\obj\Debug\netstandard2.0\Pelikula.CORE.dll
+C:\OneDrive - Faculty of Information Technologies\Desktop\RS2_Seminarski_Pelikula\Pelikula.CORE\obj\Debug\netstandard2.0\Pelikula.CORE.pdb

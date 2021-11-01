@@ -1,0 +1,42 @@
+name: Docker Build
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - .github/workflows/docker-build.yml
+      - Dockerfile.NET3
+      - Dockerfile.NET5
+      - docker-compose.yml
+      - Pelikula.sln
+- Pelikula.API/**
+- Pelikula.DAO/**
+- Pelikula.REST/**
+  pull_request:
+    branches:
+      - '*'
+    paths:
+      - .github/workflows/docker-build.yml
+      - Dockerfile.NET3
+      - Dockerfile.NET5
+      - docker-compose.yml
+      - Pelikula.sln
+- Pelikula.API/**
+- Pelikula.DAO/**
+- Pelikula.REST/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Start containers
+      run: |
+        docker-compose --file docker-compose.yml \
+          up --build --detach --timeout 30
+    - name: Stop containers
+      if: always()
+      run: docker-compose --file docker-compose.yml down
+    
