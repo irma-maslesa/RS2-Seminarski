@@ -1,12 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Pelikula.DAO.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace Pelikula.REST { 
+using Microsoft.EntityFrameworkCore;
+using Pelikula.DAO.Model;
+
+namespace Pelikula.DAO {
     public class AppDbContext : DbContext
     {
+        public AppDbContext()
+        {
+        }
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
