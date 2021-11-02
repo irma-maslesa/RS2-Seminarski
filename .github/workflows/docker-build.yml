@@ -11,9 +11,9 @@ on:
       - Dockerfile.NET5
       - docker-compose.yml
       - Pelikula.sln
-- Pelikula.API/**
-- Pelikula.DAO/**
-- Pelikula.REST/**
+      - Pelikula.API/**
+      - Pelikula.DAO/**
+      - Pelikula.REST/**
   pull_request:
     branches:
       - '*'
@@ -23,9 +23,9 @@ on:
       - Dockerfile.NET5
       - docker-compose.yml
       - Pelikula.sln
-- Pelikula.API/**
-- Pelikula.DAO/**
-- Pelikula.REST/**
+      - Pelikula.API/**
+      - Pelikula.DAO/**
+      - Pelikula.REST/**
 
 jobs:
   build:
