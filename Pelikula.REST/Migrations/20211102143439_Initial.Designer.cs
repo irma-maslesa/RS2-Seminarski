@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Pelikula.REST;
+using Pelikula.DAO;
 
 namespace Pelikula.REST.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211102114342_AddedZanr")]
-    partial class AddedZanr
+    [Migration("20211102143439_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
