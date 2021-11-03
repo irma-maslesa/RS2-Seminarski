@@ -1,44 +1,53 @@
-﻿using Pelikula.API.Api;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Pelikula.API.Api;
+using Pelikula.API.Validation;
+using Pelikula.CORE.Helper.Response;
+using Pelikula.CORE.Validation;
+using Pelikula.DAO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace Pelikula.CORE.Impl
 {
-    public class READServiceImpl<ResponseDTO, Entity, SearchDTO> :
-        READService<ResponseDTO, SearchDTO>
+    public class ReadServiceImpl<ResponseDTO, Entity, SearchDTO> :
+        IReadService<ResponseDTO, SearchDTO>
         where ResponseDTO : class
         where Entity : class
         where SearchDTO : class
     {
-        //public ApplicationDbContext context { get; set; }
-        //protected readonly IMapper mapper;
+        protected AppDbContext Context { get; set; }
+        protected readonly IMapper Mapper;
+        protected readonly IBaseValidator<Entity> Validator;
 
-        //public READServiceImpl(ApplicationDbContext context, IMapper mapper)
-        //{
-        //    this.context = context;
-        //    this.mapper = mapper;
-        //}
-
-        public virtual IList<ResponseDTO> Get(SearchDTO search = null)
+        public ReadServiceImpl(AppDbContext context, IMapper mapper, IBaseValidator<Entity> validator)
         {
-            //List<Entity> entityList = context.Set<Entity>().ToList();
-
-            //return mapper.Map<List<ResponseDTO>>(entityList);
-
-            return null;
+            this.Context = context;
+            this.Mapper = mapper;
+            this.Validator = validator;
         }
 
-        public virtual ResponseDTO GetById(int id)
+        public virtual ListPayloadResponse<ResponseDTO> Get(SearchDTO search = null)
         {
-            //Entity entity = context.Set<Entity>().Find(id);
+            List<Entity> entityList = Context.Set<Entity>().ToList();
 
-            //if (entity == null)
-            //    throw new UserException($"{typeof(Entity).Name}({id}) ne postoji!");
+            List<ResponseDTO> responseList = Mapper.Map<List<ResponseDTO>>(entityList);
 
-            //return mapper.Map<ResponseDTO>(entity);
+            return new ListPayloadResponse<ResponseDTO>(HttpStatusCode.OK, responseList);
+        }
 
-            return null;
+        public virtual PayloadResponse<ResponseDTO> GetById(int id)
+        {
+            Validator.ValidateEntityExists(id);
+
+            Entity entity = Context.Set<Entity>().Find(id);
+
+            ResponseDTO response = Mapper.Map<ResponseDTO>(entity);
+
+            return new PayloadResponse<ResponseDTO>(HttpStatusCode.OK, response);
         }
     }
 }

@@ -1,67 +1,69 @@
-﻿using Pelikula.API.Api;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AutoMapper;
+using Pelikula.API.Api;
+using Pelikula.API.Validation;
+using Pelikula.CORE.Helper.Response;
+using Pelikula.DAO;
+using System.Net;
 
 namespace Pelikula.CORE.Impl
 {
-    class CRUDServiceImpl<ResponseDTO, Entity, SearchDTO, InsertDTO, UpdateDTO> :
-        READServiceImpl<ResponseDTO, Entity, SearchDTO>,
-        CRUDService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO>
+    public class CrudServiceImpl<ResponseDTO, Entity, SearchDTO, InsertDTO, UpdateDTO> :
+        ReadServiceImpl<ResponseDTO, Entity, SearchDTO>,
+        ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO>
         where ResponseDTO : class
         where Entity : class
         where SearchDTO : class
         where InsertDTO : class
         where UpdateDTO : class
     {
-        //public ApplicationDbContext context { get; set; }
-        //protected readonly IMapper mapper;
 
-        //public CRUDServiceImpl(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
-        //{
-        //    this.context = context;
-        //    this.mapper = mapper;
-        //}
-
-        public virtual ResponseDTO Insert(InsertDTO request)
+        public CrudServiceImpl(AppDbContext context, IMapper mapper, IBaseValidator<Entity> validator) : base(context, mapper, validator)
         {
-            //Entity entity = mapper.Map<InsertDTO, Entity>(request);
-            //entity = context.Set<Entity>().Add(entity).Entity;
-
-            //context.SaveChanges();
-
-            //return mapper.Map<Entity, ResponseDTO>(entity);
-
-            return null;
         }
 
-        public virtual ResponseDTO Update(int id, UpdateDTO request)
+        public virtual PayloadResponse<ResponseDTO> Insert(InsertDTO request)
         {
-            //Entity entity = context.Set<Entity>().Find(id);
+            Entity entity = Mapper.Map<InsertDTO, Entity>(request);
+            entity = Context.Set<Entity>().Add(entity).Entity;
 
-            //if (entity == null)
-            //    throw new UserException($"{typeof(Entity).Name}({id}) ne postoji!");
+            Context.SaveChanges();
 
-            //entity = mapper.Map(request, entity);
+            ResponseDTO response = Mapper.Map<Entity, ResponseDTO>(entity);
 
-            //context.Set<Entity>().Update(entity);
-            //context.SaveChanges();
+            return new PayloadResponse<ResponseDTO>(HttpStatusCode.OK, response);
+        }
 
-            //return mapper.Map<Entity, ResponseDTO>(entity);
-           
-            return null;
+        public virtual PayloadResponse<ResponseDTO> Update(int id, UpdateDTO request)
+        {
+
+            Validator.ValidateEntityExists(id);
+
+            Entity entity = Context.Set<Entity>().Find(id);
             
+            entity = Mapper.Map(request, entity);
+
+            Context.Set<Entity>().Update(entity);
+            Context.SaveChanges();
+
+            ResponseDTO response = Mapper.Map<Entity, ResponseDTO>(entity);
+
+            return new PayloadResponse<ResponseDTO>(HttpStatusCode.OK, response);
+
         }
 
-        public virtual void Delete(int id)
+        public virtual PayloadResponse<string> Delete(int id)
         {
-            //Entity entity = context.Set<Entity>().Find(id);
 
-            //if (entity == null)
-            //    throw new UserException($"{typeof(Entity).Name}({id}) ne postoji!");
+            Validator.ValidateEntityExists(id);
 
-            //context.Set<Entity>().Remove(entity);
-            //context.SaveChanges();
+            Entity entity = Context.Set<Entity>().Find(id);
+
+            Context.Set<Entity>().Remove(entity);
+            Context.SaveChanges();
+
+            string response = $"{typeof(Entity).Name} obrisan!";
+
+            return new PayloadResponse<string>(HttpStatusCode.OK, response);
         }
     }
 }

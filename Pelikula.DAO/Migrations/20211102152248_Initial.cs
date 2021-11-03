@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Pelikula.REST.Migrations
+namespace Pelikula.DAO.Migrations
 {
     public partial class Initial : Migration
     {

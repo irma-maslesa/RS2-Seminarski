@@ -1,18 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Pelikula.API.Api;
 using Pelikula.DAO;
+using Pelikula.CORE.Impl;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Pelikula.CORE.Validation;
+using Pelikula.API.Validation;
+using Pelikula.CORE.Filter;
 
 namespace Pelikula.REST
 {
@@ -62,16 +60,21 @@ namespace Pelikula.REST
                     }
                 });
             });
-    }
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddControllers(x =>
+            {
+                x.Filters.Add<ExceptionFilterAttribute>();
+            });
+
+            services.AddScoped<IZanrValidator, ZanrValidatorImpl>();
+            services.AddScoped<IZanrService, ZanrServiceImpl>();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-
             app.UseDeveloperExceptionPage();
 
             app.UseSwagger();

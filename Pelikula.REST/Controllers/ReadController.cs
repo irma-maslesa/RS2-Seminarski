@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Pelikula.API.Api;
+using Pelikula.CORE.Helper.Response;
 
 namespace API.Controllers
 {
@@ -11,21 +12,21 @@ namespace API.Controllers
         where ResponseDTO : class
         where SearchDTO : class
     {
-        protected readonly READService<ResponseDTO, SearchDTO> readService;
+        protected readonly IReadService<ResponseDTO, SearchDTO> readService;
 
-        public ReadController(READService<ResponseDTO, SearchDTO> readService)
+        public ReadController(IReadService<ResponseDTO, SearchDTO> readService)
         {
             this.readService = readService;
         }
 
         [HttpGet]
-        public virtual IList<ResponseDTO> Get([FromQuery] SearchDTO search)
+        public virtual ListPayloadResponse<ResponseDTO> Get([FromQuery] SearchDTO search)
         {
             return readService.Get(search);
         }
 
         [HttpGet("{id}")]
-        public virtual ResponseDTO GetById(int id)
+        public virtual PayloadResponse<ResponseDTO> GetById(int id)
         {
             return readService.GetById(id);
         }

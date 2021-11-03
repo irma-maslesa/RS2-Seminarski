@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Pelikula.CORE.Helper.Response
 {
-    public class AbstractResponse
+    public abstract class AbstractResponse
     {
-        private int ResponseCode { get; set; }
-        private string ResponseDetail { get; set; }
+        public int ResponseCode { get; set; }
+        public string ResponseDetail { get; set; }
 
         protected AbstractResponse(HttpStatusCode responseCode)
         {

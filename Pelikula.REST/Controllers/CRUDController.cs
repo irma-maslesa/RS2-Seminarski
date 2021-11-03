@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Pelikula.API.Api;
+using Pelikula.CORE.Helper.Response;
 
 namespace API.Controllers
 {
@@ -11,30 +12,29 @@ namespace API.Controllers
         where InsertDTO : class
         where UpdateDTO : class
     {
-        protected readonly CRUDService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService;
+        protected readonly ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService;
 
-        public CRUDController(CRUDService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService):base(crudService)
+        public CRUDController(ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService):base(crudService)
         {
             this.crudService = crudService;
         }
 
         [HttpPost]
-        public virtual ResponseDTO Insert([FromBody] InsertDTO trener)
+        public virtual PayloadResponse<ResponseDTO> Insert([FromBody] InsertDTO trener)
         {
             return crudService.Insert(trener);
         }
 
         [HttpPut("{id}")]
-        public virtual ResponseDTO Update(int id, UpdateDTO trener)
+        public virtual PayloadResponse<ResponseDTO> Update(int id, UpdateDTO trener)
         {
             return crudService.Update(id, trener);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public PayloadResponse<string> Delete(int id)
         {
-            crudService.Delete(id);
-            //return crudService.delete(id);
+            return crudService.Delete(id);
         }
     }
 }
