@@ -11,6 +11,7 @@ using System;
 using Pelikula.CORE.Validation;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
+using System.IO;
 
 namespace Pelikula.REST
 {

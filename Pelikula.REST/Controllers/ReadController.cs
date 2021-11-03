@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using Pelikula.API.Api;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.API.Model.Helper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using System.Text.Json;
+using System.Web;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -19,10 +26,10 @@ namespace API.Controllers
             this.readService = readService;
         }
 
-        [HttpGet]
-        public virtual ListPayloadResponse<ResponseDTO> Get([FromQuery] SearchDTO search)
+        [HttpPost("get")]
+        public virtual PagedPayloadResponse<ResponseDTO> Get(FilterModel filter)
         {
-            return readService.Get(search);
+            return readService.Get(filter.Pagination, filter.Filter, filter.Sorting);
         }
 
         [HttpGet("{id}")]

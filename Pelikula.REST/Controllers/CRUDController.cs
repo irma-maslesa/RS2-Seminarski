@@ -5,7 +5,7 @@ using Pelikula.CORE.Helper.Response;
 
 namespace API.Controllers
 {
-    public class CRUDController<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> :
+    public class CrudController<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> :
         ReadController<ResponseDTO, SearchDTO>
         where ResponseDTO : class
         where SearchDTO : class
@@ -14,7 +14,7 @@ namespace API.Controllers
     {
         protected readonly ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService;
 
-        public CRUDController(ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService):base(crudService)
+        public CrudController(ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService):base(crudService)
         {
             this.crudService = crudService;
         }

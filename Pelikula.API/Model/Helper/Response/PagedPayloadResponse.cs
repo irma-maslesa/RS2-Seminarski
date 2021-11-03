@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pelikula.API.Model.Helper;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -34,33 +35,10 @@ namespace Pelikula.CORE.Helper.Response
             NumberOfRecords = numberOfRecords;
         }
 
-        public PagedPayloadResponse(HttpStatusCode statusCode, PagedData<T> pagedData) :
+        public PagedPayloadResponse(HttpStatusCode statusCode, PaginationUtility.PagedData<T> pagedData) :
             this(statusCode, pagedData.RecordsPerPage, pagedData.Page, pagedData.NumberOfPages,
                 pagedData.NumberOfRecords, pagedData.Records)
         {
-        }
-
-        public void populateSinglePagePayload(List<T> payload)
-        {
-            if (payload == null)
-            {
-                Payload = null;
-            }
-            else
-            {
-                populatePayload(payload.Count, 1, 1, 1, payload);
-            }
-
-        }
-
-        public void populatePayload(int recordsPerPage, int page,
-            int numberOfPages, int numberOfRecords, IEnumerable<T> payload)
-        {
-            Payload = payload;
-            RecordsPerPage = recordsPerPage;
-            Page = page;
-            NumberOfPages = numberOfPages;
-            NumberOfRecords = numberOfRecords;
         }
     }
 }

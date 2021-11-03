@@ -1,4 +1,6 @@
-﻿using Pelikula.CORE.Helper.Response;
+﻿using Pelikula.API.Model.Helper;
+using Pelikula.CORE.Helper.Response;
+using System.Collections.Generic;
 
 namespace Pelikula.API.Api
 {
@@ -6,7 +8,9 @@ namespace Pelikula.API.Api
         where ResponseDTO : class
         where SearchDTO : class
     {
-        ListPayloadResponse<ResponseDTO> Get(SearchDTO search = null);
+        ListPayloadResponse<ResponseDTO> Get( IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null);
+
+        PagedPayloadResponse<ResponseDTO> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null);
         PayloadResponse<ResponseDTO> GetById(int id);
     }
 }
