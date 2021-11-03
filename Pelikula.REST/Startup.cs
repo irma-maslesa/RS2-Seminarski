@@ -71,6 +71,12 @@ namespace Pelikula.REST
 
             services.AddScoped<IZanrValidator, ZanrValidatorImpl>();
             services.AddScoped<IZanrService, ZanrServiceImpl>();
+
+            services.AddScoped<ITipKorisnikaValidator, TipKorisnikaValidatorImpl>();
+            services.AddScoped<ITipKorisnikaService, TipKorisnikaServiceImpl>();
+
+            services.AddScoped<IKorisnikValidator, KorisnikValidatorImpl>();
+            services.AddScoped<IKorisnikService, KorisnikServiceImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

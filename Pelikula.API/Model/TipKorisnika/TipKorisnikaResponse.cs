@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Pelikula.API.Model.Zanr
+namespace Pelikula.API.Model.TipKorisnika
 {
-    public class ZanrSearchRequest
+    public class TipKorisnikaResponse
     {
+        public int Id { get; set; }
+
         public string Naziv { get; set; }
     }
 }

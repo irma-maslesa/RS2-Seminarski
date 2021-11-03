@@ -9,19 +9,19 @@ using System.Text;
 using Pelikula.CORE.Filter;
 using System.Net;
 using System.ComponentModel;
+using Pelikula.API.Model;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ReadController<ResponseDTO, SearchDTO> :
+    public class ReadController<ResponseDTO> :
         ControllerBase
         where ResponseDTO : class
-        where SearchDTO : class
     {
-        protected readonly IReadService<ResponseDTO, SearchDTO> readService;
+        protected readonly IReadService<ResponseDTO> readService;
 
-        public ReadController(IReadService<ResponseDTO, SearchDTO> readService)
+        public ReadController(IReadService<ResponseDTO> readService)
         {
             this.readService = readService;
         }
@@ -65,6 +65,47 @@ namespace API.Controllers
             }
             
             return readService.Get(paginationParams, filterParams, sortingParams);
+        }
+
+        [HttpGet("lov")]
+        public virtual PagedPayloadResponse<LoV> GetLoVs([FromQuery] string pagination, [FromQuery, Description("someDesc")] List<string> filter, [FromQuery] List<string> sorting)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
+            IEnumerable<FilterUtility.FilterParams> filterParams = new List<FilterUtility.FilterParams>();
+            IEnumerable<SortingUtility.SortingParams> sortingParams = new List<SortingUtility.SortingParams>();
+
+            try
+            {
+                paginationParams = pagination != null ? JsonConvert.DeserializeObject<PaginationUtility.PaginationParams>(pagination) : null;
+            }
+            catch (System.Exception)
+            {
+                stringBuilder.Append("Paginacija - Neispravan JSON format. ");
+            }
+            try
+            {
+                filterParams = JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>($"[{string.Join(",", filter)}]");
+            }
+            catch (System.Exception)
+            {
+                stringBuilder.Append("Filter - Neispravan JSON format. ");
+            }
+            try
+            {
+                sortingParams = JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>($"[{string.Join(",", sorting)}]");
+            }
+            catch (System.Exception)
+            {
+                stringBuilder.Append("Sorting - Neispravan JSON format. ");
+            }
+
+            if (stringBuilder.ToString().Any())
+            {
+                throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
+            }
+
+            return readService.GetLoVs(paginationParams, filterParams, sortingParams);
         }
 
         [HttpGet("{id}")]

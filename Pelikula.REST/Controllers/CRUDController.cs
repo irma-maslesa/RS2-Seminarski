@@ -5,16 +5,15 @@ using Pelikula.CORE.Helper.Response;
 
 namespace API.Controllers
 {
-    public class CrudController<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> :
-        ReadController<ResponseDTO, SearchDTO>
+    public class CrudController<ResponseDTO, InsertDTO, UpdateDTO> :
+        ReadController<ResponseDTO>
         where ResponseDTO : class
-        where SearchDTO : class
         where InsertDTO : class
         where UpdateDTO : class
     {
-        protected readonly ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService;
+        protected readonly ICrudService<ResponseDTO, InsertDTO, UpdateDTO> crudService;
 
-        public CrudController(ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> crudService):base(crudService)
+        public CrudController(ICrudService<ResponseDTO, InsertDTO, UpdateDTO> crudService):base(crudService)
         {
             this.crudService = crudService;
         }

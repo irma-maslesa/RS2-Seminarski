@@ -9,7 +9,7 @@ using Pelikula.DAO.Model;
 namespace Pelikula.CORE.Impl
 {
     public class ZanrServiceImpl :
-        CrudServiceImpl<ZanrResponse, Zanr, ZanrSearchRequest, ZanrUpsertRequest, ZanrUpsertRequest>,
+        CrudServiceImpl<ZanrResponse, Zanr, ZanrUpsertRequest, ZanrUpsertRequest>,
         IZanrService
     {
         public ZanrServiceImpl(AppDbContext context, IMapper mapper, IZanrValidator validator) : base(context, mapper, validator)

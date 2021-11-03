@@ -16,5 +16,7 @@ namespace Pelikula.DAO {
         }
 
         public virtual DbSet<Zanr> Zanr { get; set; }
+        public virtual DbSet<TipKorisnika> TipKorisnika { get; set; }
+        public virtual DbSet<Korisnik> Korisnik { get; set; }
     }
 }

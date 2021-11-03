@@ -7,12 +7,11 @@ using System.Net;
 
 namespace Pelikula.CORE.Impl
 {
-    public class CrudServiceImpl<ResponseDTO, Entity, SearchDTO, InsertDTO, UpdateDTO> :
-        ReadServiceImpl<ResponseDTO, Entity, SearchDTO>,
-        ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO>
+    public class CrudServiceImpl<ResponseDTO, Entity, InsertDTO, UpdateDTO> :
+        ReadServiceImpl<ResponseDTO, Entity>,
+        ICrudService<ResponseDTO, InsertDTO, UpdateDTO>
         where ResponseDTO : class
         where Entity : class
-        where SearchDTO : class
         where InsertDTO : class
         where UpdateDTO : class
     {

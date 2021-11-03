@@ -2,7 +2,7 @@
 
 namespace Pelikula.API.Api
 {
-    public interface IZanrService : ICrudService<ZanrResponse, ZanrSearchRequest, ZanrUpsertRequest, ZanrUpsertRequest>
+    public interface IZanrService : ICrudService<ZanrResponse, ZanrUpsertRequest, ZanrUpsertRequest>
     {
     }
 }

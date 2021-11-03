@@ -2,9 +2,8 @@
 
 namespace Pelikula.API.Api
 {
-    public interface ICrudService<ResponseDTO, SearchDTO, InsertDTO, UpdateDTO> : IReadService<ResponseDTO, SearchDTO>
+    public interface ICrudService<ResponseDTO, InsertDTO, UpdateDTO> : IReadService<ResponseDTO>
         where ResponseDTO : class
-        where SearchDTO : class
         where InsertDTO : class
         where UpdateDTO : class
     {
