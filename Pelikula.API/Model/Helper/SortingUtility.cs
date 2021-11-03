@@ -18,7 +18,7 @@ namespace Pelikula.API.Model.Helper
 
         public class SortingParams
         {
-            public string SortOrder { get; set; } = SortOrders.ASC.ToString();
+            public string SortOrder { get; set; } = string.Empty;
             public string ColumnName { get; set; } = string.Empty;
         }
 
@@ -46,6 +46,7 @@ namespace Pelikula.API.Model.Helper
             }
             public static IEnumerable<T> SortData(IEnumerable<SortingParams> sortingParams, IEnumerable<T> data)
             {
+                ValidateSortingParams(sortingParams);
                 IOrderedEnumerable<T> sortedData = null;
                 foreach (var sortingParam in sortingParams.Where(x => !String.IsNullOrEmpty(x.ColumnName)))
                 {
@@ -75,5 +76,26 @@ namespace Pelikula.API.Model.Helper
                 return sortedData ?? data;
             }
         }
+
+        private static void ValidateSortingParams(IEnumerable<SortingParams> sortingParams)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (var sortingParam in sortingParams)
+            {
+                if (sortingParam.ColumnName.Equals(string.Empty) ||
+                    sortingParam.SortOrder.Equals(string.Empty))
+                {
+                    stringBuilder.Append($"Fillter ({sortingParam.ColumnName} - {sortingParam.SortOrder}) nije ispravan! ");
+                }
+            }
+
+            if (stringBuilder.ToString().Any())
+            {
+                throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
+
+            }
+        }
+
     }
 }

@@ -26,23 +26,25 @@ namespace Pelikula.API.Model.Helper
             isequalto,
             isnotequalto
         }
-        
+
         public class FilterParams
         {
             public string ColumnName { get; set; } = string.Empty;
             public string FilterValue { get; set; } = string.Empty;
-            /// <summary>This is your IdNumber you received earlier</summary>
-            public string FilterOption { get; set; } = FilterOptions.contains.ToString();
+            public string FilterOption { get; set; } = string.Empty;
         }
 
         public static class Filter<T>
         {
             public static IEnumerable<T> FilteredData(IEnumerable<FilterParams> filterParams, IEnumerable<T> data)
             {
+                ValidateFilterParams(filterParams);
+
                 IEnumerable<string> distinctColumns = filterParams.Where(x => !String.IsNullOrEmpty(x.ColumnName)).Select(x => x.ColumnName).Distinct();
 
                 foreach (string colName in distinctColumns)
                 {
+
                     var filterColumn = typeof(T).GetProperty(colName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
                     if (filterColumn != null)
                     {
@@ -57,7 +59,7 @@ namespace Pelikula.API.Model.Helper
                                 sameColData.Add(FilterData(val.FilterOption, data, filterColumn, val.FilterValue));
                             }
 
-                            data = sameColData.Aggregate((a,b) => a.Intersect(b));
+                            data = sameColData.Aggregate((a, b) => a.Intersect(b));
                         }
                         else
                         {
@@ -73,6 +75,7 @@ namespace Pelikula.API.Model.Helper
             }
             private static IEnumerable<T> FilterData(string option, IEnumerable<T> data, PropertyInfo filterColumn, string filterValue)
             {
+
                 FilterOptions filterOption;
                 try
                 {
@@ -204,6 +207,27 @@ namespace Pelikula.API.Model.Helper
                         #endregion
                 }
                 return data;
+            }
+        }
+
+        private static void ValidateFilterParams(IEnumerable<FilterParams> filterParams)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (var filterParam in filterParams)
+            {
+                if (filterParam.ColumnName.Equals(string.Empty) ||
+                    filterParam.FilterValue.Equals(string.Empty) ||
+                    filterParam.FilterOption.Equals(string.Empty))
+                {
+                    stringBuilder.Append($"Fillter ({filterParam.ColumnName} - {filterParam.FilterValue} - {filterParam.FilterOption}) nije ispravan! ");
+                }
+            }
+
+            if (stringBuilder.ToString().Any())
+            {
+                throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
+
             }
         }
     }
