@@ -63,10 +63,18 @@ namespace Pelikula.API.Model.Helper
                     var colName = typeof(T).GetProperty(sortingParam.ColumnName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
                     if (colName != null)
                     {
-                        sortedData = sortedData == null ? sortOrder == SortOrders.ASC ? data.OrderBy(x => colName.GetValue(x, null))
-                                                                                                   : data.OrderByDescending(x => colName.GetValue(x, null))
-                                                        : sortOrder == SortOrders.ASC ? sortedData.ThenBy(x => colName.GetValue(x, null))
-                                                                                            : sortedData.ThenByDescending(x => colName.GetValue(x, null));
+                        if (sortedData == null)
+                        {
+                            sortedData = sortOrder == SortOrders.ASC
+                                ? data.OrderBy(x => colName.GetValue(x, null))
+                                : data.OrderByDescending(x => colName.GetValue(x, null));
+                        }
+                        else
+                        {
+                            sortedData = sortOrder == SortOrders.ASC
+                                ? sortedData.ThenBy(x => colName.GetValue(x, null))
+                                : sortedData.ThenByDescending(x => colName.GetValue(x, null));
+                        }
                     }
                     else
                     {

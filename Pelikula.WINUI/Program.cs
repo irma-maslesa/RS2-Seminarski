@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Pelikula.WINUI.Zanr;
+using System;
 using System.Windows.Forms;
 
 namespace Pelikula.WINUI
@@ -16,7 +14,7 @@ namespace Pelikula.WINUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new FrmZanr());
         }
     }
 }

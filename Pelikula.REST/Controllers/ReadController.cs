@@ -14,7 +14,7 @@ using Pelikula.API.Model;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ReadController<ResponseDTO> :
         ControllerBase
         where ResponseDTO : class
@@ -27,7 +27,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public virtual PagedPayloadResponse<ResponseDTO> Get([FromQuery] string pagination, [FromQuery, Description("someDesc")]  List<string> filter, [FromQuery] List<string> sorting)
+        public virtual PagedPayloadResponse<ResponseDTO> Get([FromQuery] string pagination, [FromQuery]  string filter, [FromQuery] string sorting)
         {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
@@ -44,7 +44,7 @@ namespace API.Controllers
             }
             try
             {
-                filterParams = JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>($"[{string.Join(",", filter)}]");
+                filterParams = filter != null && filter.Any()? JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>(filter):null;
             }
             catch (System.Exception)
             {
@@ -52,7 +52,7 @@ namespace API.Controllers
             }
             try
             {
-                sortingParams = JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>($"[{string.Join(",", sorting)}]");
+                sortingParams = sorting != null && sorting.Any() ?  JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>(sorting):null;
             }
             catch (System.Exception)
             {
@@ -68,7 +68,7 @@ namespace API.Controllers
         }
 
         [HttpGet("lov")]
-        public virtual PagedPayloadResponse<LoV> GetLoVs([FromQuery] string pagination, [FromQuery, Description("someDesc")] List<string> filter, [FromQuery] List<string> sorting)
+        public virtual PagedPayloadResponse<LoV> GetLoVs([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting)
         {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
@@ -85,7 +85,7 @@ namespace API.Controllers
             }
             try
             {
-                filterParams = JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>($"[{string.Join(",", filter)}]");
+                filterParams = filter != null && filter.Any() ? JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>(filter) : null;
             }
             catch (System.Exception)
             {
@@ -93,7 +93,7 @@ namespace API.Controllers
             }
             try
             {
-                sortingParams = JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>($"[{string.Join(",", sorting)}]");
+                sortingParams = sorting != null && sorting.Any() ? JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>(sorting) : null;
             }
             catch (System.Exception)
             {
