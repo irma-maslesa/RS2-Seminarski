@@ -1,4 +1,4 @@
-﻿using Pelikula.API.Model.Zanr;
+﻿using Pelikula.API.Model.TipKorisnika;
 using Pelikula.CORE.Helper.Response;
 using System;
 using System.Collections.Generic;
@@ -10,34 +10,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Pelikula.WINUI.Zanr
+namespace Pelikula.WINUI.Forms.TipKorisnika
 {
-    public partial class FrmZanrDodajUredi : Form
+    public partial class FrmTipKorisnikaDodajUredi : Form
     {
-        private readonly ApiService _service = new ApiService("Zanr");
+        private readonly ApiService _service = new ApiService("TipKorisnika");
         private readonly int? _id;
-        private ZanrResponse _initial = new ZanrResponse();
+        private TipKorisnikaResponse _initial = new TipKorisnikaResponse();
 
-        public FrmZanrDodajUredi( int? id = null)
+        public FrmTipKorisnikaDodajUredi(int? id = null)
         {
             _id = id;
 
             InitializeComponent();
         }
 
-        private async void FrmZanrDodajUredi_Load(object sender, EventArgs e)
+        private async void FrmTipKorisnikaDodajUredi_Load(object sender, EventArgs e)
         {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
 
-            txtOpis.AutoSize = false;
-            txtOpis.WordWrap = true;
-            txtOpis.Multiline = true;
-            txtOpis.ScrollBars = ScrollBars.Vertical;
-
-
-            Text = "Dodaj žanr";
+            Text = "Dodaj tip korisnika";
 
             if (_id.HasValue)
             {
@@ -45,9 +39,9 @@ namespace Pelikula.WINUI.Zanr
                 string _text = Text;
                 Text += " (Loading ...)";
 
-                Text = "Uredi žanr";
+                Text = "Uredi tip korisnika";
 
-                PayloadResponse<ZanrResponse> response = await _service.GetById<PayloadResponse<ZanrResponse>>(_id.Value);
+                PayloadResponse<TipKorisnikaResponse> response = await _service.GetById<PayloadResponse<TipKorisnikaResponse>>(_id.Value);
                 _initial = response.Payload;
 
                 SetValues();
@@ -60,7 +54,6 @@ namespace Pelikula.WINUI.Zanr
         private void EnableChildren()
         {
             txtNaziv.Enabled = true;
-            txtOpis.Enabled = true;
             btnOcisti.Enabled = true;
             btnSpremi.Enabled = true;
         }
@@ -68,7 +61,6 @@ namespace Pelikula.WINUI.Zanr
         private void DisableChildren()
         {
             txtNaziv.Enabled = false;
-            txtOpis.Enabled = false;
             btnOcisti.Enabled = false;
             btnSpremi.Enabled = false;
         }
@@ -76,7 +68,6 @@ namespace Pelikula.WINUI.Zanr
         private void SetValues()
         {
             txtNaziv.Text = _initial.Naziv;
-            txtOpis.Text =_initial.Opis;
         }
 
         private async void BtnSpremi_Click(object sender, EventArgs e)
@@ -87,18 +78,18 @@ namespace Pelikula.WINUI.Zanr
                 return;
             }
 
-            ZanrUpsertRequest request = new ZanrUpsertRequest() { Naziv = txtNaziv.Text, Opis = string.IsNullOrWhiteSpace(txtOpis.Text)? null: txtOpis.Text };
+            TipKorisnikaUpsertRequest request = new TipKorisnikaUpsertRequest() { Naziv = txtNaziv.Text};
 
             if (_id.HasValue)
             {
 
-                PayloadResponse<ZanrResponse> response = await _service.Update<PayloadResponse<ZanrResponse>>(_id.Value, request);
-                MessageBox.Show($"Žanr {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                PayloadResponse<TipKorisnikaResponse> response = await _service.Update<PayloadResponse<TipKorisnikaResponse>>(_id.Value, request);
+                MessageBox.Show($"TipKorisnika {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                PayloadResponse<ZanrResponse> response = await _service.Insert<PayloadResponse<ZanrResponse>>(request);
-                MessageBox.Show($"Žanr {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                PayloadResponse<TipKorisnikaResponse> response = await _service.Insert<PayloadResponse<TipKorisnikaResponse>>(request);
+                MessageBox.Show($"TipKorisnika {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
 
