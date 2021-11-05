@@ -102,6 +102,7 @@ namespace Pelikula.WINUI.Zanr
             // 
             // FrmZanrDodajUredi
             // 
+            this.AcceptButton = this.btnSpremi;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 240);
@@ -110,7 +111,11 @@ namespace Pelikula.WINUI.Zanr
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSpremi);
             this.Controls.Add(this.txtNaziv);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmZanrDodajUredi";
+            this.ShowIcon = false;
             this.Text = "Dodaj žanr";
             this.Load += new System.EventHandler(this.FrmZanrDodajUredi_Load);
             this.groupBox1.ResumeLayout(false);
