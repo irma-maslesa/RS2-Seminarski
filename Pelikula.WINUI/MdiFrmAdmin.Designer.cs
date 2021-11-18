@@ -65,8 +65,9 @@ namespace Pelikula.WINUI
             // korisniciToolStripMenuItem
             // 
             this.korisniciToolStripMenuItem.Name = "korisniciToolStripMenuItem";
-            this.korisniciToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.korisniciToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.korisniciToolStripMenuItem.Text = "Korisnici";
+            this.korisniciToolStripMenuItem.Click += new System.EventHandler(this.KorisniciToolStripMenuItem_Click);
             // 
             // tipoviKorisnikaToolStripMenuItem
             // 
@@ -78,7 +79,7 @@ namespace Pelikula.WINUI
             // ZanroviToolStripMenuItem
             // 
             this.ZanroviToolStripMenuItem.Name = "ZanroviToolStripMenuItem";
-            this.ZanroviToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.ZanroviToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ZanroviToolStripMenuItem.Text = "Žanrovi";
             this.ZanroviToolStripMenuItem.Click += new System.EventHandler(this.ZanroviToolStripMenuItem_Click);
             // 

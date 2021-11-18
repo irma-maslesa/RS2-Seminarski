@@ -1,4 +1,5 @@
-﻿using Pelikula.WINUI.Forms.TipKorisnika;
+﻿using Pelikula.WINUI.Forms.Korisnik;
+using Pelikula.WINUI.Forms.TipKorisnika;
 using Pelikula.WINUI.Zanr;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,12 @@ namespace Pelikula.WINUI
 
                 frm.Show();
             }
-        }       
+        }
+
+        private void KorisniciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmKorisnik frm = new FrmKorisnik();
+            OpenForm(frm);
+        }
     }
 }

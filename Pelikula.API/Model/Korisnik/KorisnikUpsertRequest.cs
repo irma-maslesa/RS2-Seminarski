@@ -18,6 +18,8 @@ namespace Pelikula.API.Model.Korisnik
         public DateTime? DatumRodjenja { get; set; }
         public byte[] Slika { get; set; }
         public byte[] SlikaThumb { get; set; }
+        public string LozinkaHash { get; set; }
+        public string LozinkaSalt { get; set; }
 
         public virtual int TipKorisnikaId { get; set; }
     }

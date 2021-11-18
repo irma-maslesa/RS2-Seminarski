@@ -55,6 +55,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Korisnik\FrmKorisnik.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Korisnik\FrmKorisnik.Designer.cs">
+      <DependentUpon>FrmKorisnik.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Korisnik\FrmKorisnikDodajUredi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Korisnik\FrmKorisnikDodajUredi.Designer.cs">
+      <DependentUpon>FrmKorisnikDodajUredi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\TipKorisnika\FrmTipKorisnika.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,12 +79,14 @@
     <Compile Include="Forms\TipKorisnika\FrmTipKorisnikaDodajUredi.Designer.cs">
       <DependentUpon>FrmTipKorisnikaDodajUredi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="MdiFrmAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MdiFrmAdmin.Designer.cs">
       <DependentUpon>MdiFrmAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="SaveImageModel.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,6 +102,12 @@
     <Compile Include="Zanr\ZanrDodajUredi.Designer.cs">
       <DependentUpon>ZanrDodajUredi.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\Korisnik\FrmKorisnik.resx">
+      <DependentUpon>FrmKorisnik.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Korisnik\FrmKorisnikDodajUredi.resx">
+      <DependentUpon>FrmKorisnikDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\TipKorisnika\FrmTipKorisnika.resx">
       <DependentUpon>FrmTipKorisnika.cs</DependentUpon>
     </EmbeddedResource>
@@ -112,6 +132,7 @@
     <EmbeddedResource Include="Zanr\ZanrDodajUredi.resx">
       <DependentUpon>ZanrDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

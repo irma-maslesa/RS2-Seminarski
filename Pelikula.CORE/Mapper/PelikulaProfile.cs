@@ -19,7 +19,12 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<TipKorisnika, LoV>().ReverseMap();
             CreateMap<TipKorisnikaUpsertRequest, TipKorisnika>().ReverseMap();
 
-            CreateMap<Korisnik, KorisnikResponse>().ReverseMap();
+            CreateMap<Korisnik, KorisnikResponse>()
+                .ForMember(dest => dest.Slika,
+                opts => opts.MapFrom(src => src.Slika == null || src.Slika.Length == 0? null:src.Slika))
+                .ForMember(dest => dest.SlikaThumb,
+                opts => opts.MapFrom(src => src.SlikaThumb == null || src.SlikaThumb.Length == 0 ? null : src.SlikaThumb))
+                .ReverseMap();
             CreateMap<Korisnik, LoV>()
                 .ForMember(dest=> dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.Ime} {src.Prezime} ({src.KorisnickoIme})"))
