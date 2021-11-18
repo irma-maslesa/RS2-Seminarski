@@ -83,7 +83,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             if (_id.HasValue)
             {
 
-                PayloadResponse<TipKorisnikaResponse> response = await _service.Update<PayloadResponse<TipKorisnikaResponse>>(_id.Value, request);
+                await _service.Update<PayloadResponse<TipKorisnikaResponse>>(_id.Value, request);
                 MessageBox.Show($"TipKorisnika {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else

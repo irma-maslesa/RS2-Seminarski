@@ -92,7 +92,7 @@ namespace Pelikula.WINUI.Zanr
             if (_id.HasValue)
             {
 
-                PayloadResponse<ZanrResponse> response = await _service.Update<PayloadResponse<ZanrResponse>>(_id.Value, request);
+                await _service.Update<PayloadResponse<ZanrResponse>>(_id.Value, request);
                 MessageBox.Show($"Žanr {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else

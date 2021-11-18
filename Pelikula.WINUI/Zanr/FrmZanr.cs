@@ -129,8 +129,10 @@ namespace Pelikula.WINUI.Zanr
 
         private async void BtnDodaj_Click(object sender, EventArgs e)
         {
-            FrmZanrDodajUredi frm = new FrmZanrDodajUredi();
-            frm.StartPosition = FormStartPosition.CenterParent;
+            FrmZanrDodajUredi frm = new FrmZanrDodajUredi
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
             if (frm.ShowDialog() == DialogResult.OK)
                 await GetGridData(adding: true);
@@ -138,8 +140,10 @@ namespace Pelikula.WINUI.Zanr
 
         private async void BtnUredi_Click(object sender, EventArgs e)
         {
-            FrmZanrDodajUredi frm = new FrmZanrDodajUredi(((ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem).Id);
-            frm.StartPosition = FormStartPosition.CenterParent;
+            FrmZanrDodajUredi frm = new FrmZanrDodajUredi(((ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem).Id)
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
             if (frm.ShowDialog() == DialogResult.OK)
                 await GetGridData();

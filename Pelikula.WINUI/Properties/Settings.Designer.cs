@@ -31,5 +31,41 @@ namespace Pelikula.WINUI.Properties {
                 return ((string)(this["ApiURL"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("220")]
+        public int ResizedImageWidth {
+            get {
+                return ((int)(this["ResizedImageWidth"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("220")]
+        public int ResizedImageHeight {
+            get {
+                return ((int)(this["ResizedImageHeight"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int CroppedImageWidth {
+            get {
+                return ((int)(this["CroppedImageWidth"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int CroppedImageHeight {
+            get {
+                return ((int)(this["CroppedImageHeight"]));
+            }
+        }
     }
 }

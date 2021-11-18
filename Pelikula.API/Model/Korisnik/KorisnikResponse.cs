@@ -20,6 +20,6 @@ namespace Pelikula.API.Model.Korisnik
         public byte[] Slika { get; set; }
         public byte[] SlikaThumb { get; set; }
 
-        public virtual TipKorisnikaResponse TipKorisnika { get; set; }
+        public TipKorisnikaResponse TipKorisnika { get; set; }
     }
 }
