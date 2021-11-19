@@ -1,10 +1,4 @@
-﻿using Pelikula.CORE.Helper.Response;
-using Pelikula.DAO;
-using Pelikula.DAO.Model;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using Pelikula.DAO.Model;
 
 namespace Pelikula.API.Validation
 {

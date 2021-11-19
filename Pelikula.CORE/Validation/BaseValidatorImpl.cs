@@ -1,10 +1,6 @@
-﻿using Pelikula.CORE.Helper.Response;
-using Pelikula.DAO;
+﻿using Pelikula.DAO;
 using Pelikula.API.Validation;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using Pelikula.CORE.Filter;
 
 namespace Pelikula.CORE.Validation

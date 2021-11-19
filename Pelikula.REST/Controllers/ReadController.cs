@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using Pelikula.CORE.Filter;
 using System.Net;
-using System.ComponentModel;
 using Pelikula.API.Model;
 
 namespace API.Controllers

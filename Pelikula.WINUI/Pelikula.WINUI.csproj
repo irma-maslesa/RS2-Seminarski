@@ -132,7 +132,6 @@
     <EmbeddedResource Include="Zanr\ZanrDodajUredi.resx">
       <DependentUpon>ZanrDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -152,6 +151,9 @@
       <Project>{e1fcbb13-170a-4d60-b3b3-8db1a158841e}</Project>
       <Name>Pelikula.API</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\eye2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

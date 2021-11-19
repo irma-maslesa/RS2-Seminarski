@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Pelikula.API.Api;
 using Pelikula.CORE.Helper.Response;
 

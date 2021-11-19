@@ -211,9 +211,9 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void cbTipKorisnika_SelectedValueChanged(object sender, EventArgs e)
+        private async void CbTipKorisnika_SelectedValueChanged(object sender, EventArgs e)
         {
-            GetGridData();
+            await GetGridData();
         }
     }
 }

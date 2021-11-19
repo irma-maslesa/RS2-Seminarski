@@ -1,17 +1,13 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Pelikula.API.Api;
 using Pelikula.API.Model;
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Helper.Response;
-using Pelikula.CORE.Validation;
 using Pelikula.DAO;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 
 namespace Pelikula.CORE.Impl
 {
@@ -54,7 +50,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<ResponseDTO>(HttpStatusCode.OK, response);
         }
 
-        public PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
+        public virtual PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
         {
             IEnumerable<Entity> entityList = Context.Set<Entity>().ToList();
 

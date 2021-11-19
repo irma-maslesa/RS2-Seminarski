@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Pelikula.API.Model;
+using Pelikula.API.Model.Anketa;
+using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
+using Pelikula.API.Model.Obavijest;
 using Pelikula.API.Model.TipKorisnika;
 using Pelikula.API.Model.Zanr;
 using Pelikula.DAO.Model;
@@ -30,6 +33,29 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 opts => opts.MapFrom(src => $"{src.Ime} {src.Prezime} ({src.KorisnickoIme})"))
                 .ReverseMap();
             CreateMap<KorisnikUpsertRequest, Korisnik>().ReverseMap();
+
+
+            CreateMap<JedinicaMjere, JedinicaMjereResponse>().ReverseMap();
+            CreateMap<JedinicaMjere, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => src.KratkiNaziv)).ReverseMap();
+            CreateMap<JedinicaMjereUpsertRequest, JedinicaMjere>().ReverseMap();
+
+            CreateMap<Obavijest, ObavijestResponse>()
+                .ReverseMap();
+            CreateMap<Obavijest, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/YYY})"))
+                .ReverseMap();
+            CreateMap<ObavijestUpsertRequest, Obavijest>().ReverseMap();
+
+            CreateMap<Anketa, AnketaResponse>()
+                .ReverseMap();
+            CreateMap<Anketa, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/YYY})"))
+                .ReverseMap();
+            CreateMap<AnketaUpsertRequest, Anketa>().ReverseMap();
         }
     }
 }

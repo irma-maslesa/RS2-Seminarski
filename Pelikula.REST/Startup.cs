@@ -11,7 +11,6 @@ using System;
 using Pelikula.CORE.Validation;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
-using System.IO;
 
 namespace Pelikula.REST
 {
@@ -77,6 +76,15 @@ namespace Pelikula.REST
 
             services.AddScoped<IKorisnikValidator, KorisnikValidatorImpl>();
             services.AddScoped<IKorisnikService, KorisnikServiceImpl>();
+
+            services.AddScoped<IJedinicaMjereValidator, JedinicaMjereValidatorImpl>();
+            services.AddScoped<IJedinicaMjereService, JedinicaMjereServiceImpl>();
+
+            services.AddScoped<IObavijestValidator, ObavijestValidatorImpl>();
+            services.AddScoped<IObavijestService, ObavijestServiceImpl>();
+
+            services.AddScoped<IAnketaValidator, AnketaValidatorImpl>();
+            services.AddScoped<IAnketaService, AnketaServiceImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
