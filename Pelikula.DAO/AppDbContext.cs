@@ -21,5 +21,6 @@ namespace Pelikula.DAO {
         public virtual DbSet<JedinicaMjere> JedinicaMjere { get; set; }
         public virtual DbSet<Obavijest> Obavijest { get; set; }
         public virtual DbSet<Anketa> Anketa { get; set; }
+        public virtual DbSet<AnketaOdgovor> AnketaOdgovor { get; set; }
     }
 }

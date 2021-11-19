@@ -11,7 +11,7 @@ namespace Pelikula.DAO.Model
     {
         public Anketa()
         {
-            //AnketaOdgovor = new HashSet<AnketaOdgovor>();
+            AnketaOdgovor = new HashSet<AnketaOdgovor>();
         }
 
         public int Id { get; set; }
@@ -21,6 +21,6 @@ namespace Pelikula.DAO.Model
         public DateTime? ZakljucenoDatum { get; set; }
 
         public virtual Korisnik Korisnik { get; set; }
-        //public virtual ICollection<AnketaOdgovor> AnketaOdgovor { get; set; }
+        public virtual ICollection<AnketaOdgovor> AnketaOdgovor { get; set; }
     }
 }

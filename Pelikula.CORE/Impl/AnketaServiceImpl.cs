@@ -14,19 +14,21 @@ using System.Net;
 namespace Pelikula.CORE.Impl
 {
     public class AnketaServiceImpl :
-        CrudServiceImpl<AnketaResponse, Anketa, AnketaUpsertRequest, AnketaUpsertRequest>,
+        CrudServiceImpl<AnketaResponse, Anketa, AnketaInsertRequest, AnketaUpdateRequest>,
         IAnketaService
     {
         protected IKorisnikValidator KorisnikValidator { get; set; }
+        protected new IAnketaValidator Validator { get; set; }
 
         public AnketaServiceImpl(AppDbContext context, IMapper mapper, IAnketaValidator validator, IKorisnikValidator korisnikValidator) : base(context, mapper, validator)
         {
             KorisnikValidator = korisnikValidator;
+            Validator = validator;
         }
 
         public override PagedPayloadResponse<AnketaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
         {
-            IEnumerable<Anketa> entityList = Context.Set<Anketa>().Include(e => e.Korisnik).ToList();
+            IEnumerable<Anketa> entityList = Context.Set<Anketa>().Include(e => e.Korisnik).Include(e => e.AnketaOdgovor).ToList();
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Anketa>.FilteredData(filter, entityList) : entityList;
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Anketa>.SortData(sorting, entityList) : entityList;
@@ -41,19 +43,31 @@ namespace Pelikula.CORE.Impl
         {
             Validator.ValidateEntityExists(id);
 
-            Anketa entity = Context.Set<Anketa>().Include(e => e.Korisnik).FirstOrDefault(e => e.Id == id);
+            Anketa entity = Context.Set<Anketa>().Include(e => e.Korisnik).Include(e => e.AnketaOdgovor).FirstOrDefault(e => e.Id == id);
 
             AnketaResponse response = Mapper.Map<AnketaResponse>(entity);
 
             return new PayloadResponse<AnketaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<AnketaResponse> Insert(AnketaUpsertRequest request)
+        public override PayloadResponse<AnketaResponse> Insert(AnketaInsertRequest request)
         {
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
+            Validator.ValidateOdgovori(request.Odgovori);
 
-            Anketa entity = Mapper.Map<AnketaUpsertRequest, Anketa>(request);
+            Anketa entity = Mapper.Map<AnketaInsertRequest, Anketa>(request);
             entity = Context.Set<Anketa>().Add(entity).Entity;
+            Context.SaveChanges();
+
+            if (request.Odgovori != null)
+            {
+                foreach(var odgovor in request.Odgovori)
+                {
+                    odgovor.AnketaId = entity.Id;
+                    Context.AnketaOdgovor.Add(Mapper.Map<AnketaOdgovorInsertRequest, AnketaOdgovor>(odgovor));
+                }
+
+            }
 
             Context.SaveChanges();
 
@@ -62,16 +76,37 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<AnketaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<AnketaResponse> Update(int id, AnketaUpsertRequest request)
+        public override PayloadResponse<AnketaResponse> Update(int id, AnketaUpdateRequest request)
         {
             Validator.ValidateEntityExists(id);
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
+            Validator.ValidateOdgovori(request.Odgovori);
 
             Anketa entity = Context.Set<Anketa>().Find(id);
-
             entity = Mapper.Map(request, entity);
-
             Context.Set<Anketa>().Update(entity);
+            Context.SaveChanges();
+
+            if (request.Odgovori != null)
+            {
+                foreach (var odgovor in request.Odgovori)
+                {
+                    var odgovorEntity = Context.AnketaOdgovor.Find(odgovor.Id);
+
+                    if (odgovorEntity != null)
+                    {
+                        odgovorEntity = Mapper.Map(odgovor, odgovorEntity);
+                        Context.AnketaOdgovor.Update(odgovorEntity);
+                    }
+                    else
+                    {
+                        odgovor.AnketaId = entity.Id;
+                        Context.AnketaOdgovor.Add(Mapper.Map<AnketaOdgovorUpdateRequest, AnketaOdgovor>(odgovor));
+
+                    }
+                }
+            }
+
             Context.SaveChanges();
 
             AnketaResponse response = Mapper.Map<Anketa, AnketaResponse>(entity);
