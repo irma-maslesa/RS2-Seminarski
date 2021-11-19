@@ -82,6 +82,9 @@ namespace Pelikula.REST
 
             services.AddScoped<IObavijestValidator, ObavijestValidatorImpl>();
             services.AddScoped<IObavijestService, ObavijestServiceImpl>();
+
+            services.AddScoped<IAnketaValidator, AnketaValidatorImpl>();
+            services.AddScoped<IAnketaService, AnketaServiceImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
