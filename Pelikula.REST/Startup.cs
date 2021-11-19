@@ -77,6 +77,9 @@ namespace Pelikula.REST
 
             services.AddScoped<IKorisnikValidator, KorisnikValidatorImpl>();
             services.AddScoped<IKorisnikService, KorisnikServiceImpl>();
+
+            services.AddScoped<IJedinicaMjereValidator, JedinicaMjereValidatorImpl>();
+            services.AddScoped<IJedinicaMjereService, JedinicaMjereServiceImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

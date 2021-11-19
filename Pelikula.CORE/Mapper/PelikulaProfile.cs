@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Pelikula.API.Model;
+using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.TipKorisnika;
 using Pelikula.API.Model.Zanr;
@@ -30,6 +31,13 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 opts => opts.MapFrom(src => $"{src.Ime} {src.Prezime} ({src.KorisnickoIme})"))
                 .ReverseMap();
             CreateMap<KorisnikUpsertRequest, Korisnik>().ReverseMap();
+
+
+            CreateMap<JedinicaMjere, JedinicaMjereResponse>().ReverseMap();
+            CreateMap<JedinicaMjere, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => src.KratkiNaziv)).ReverseMap();
+            CreateMap<JedinicaMjereUpsertRequest, JedinicaMjere>().ReverseMap();
         }
     }
 }
