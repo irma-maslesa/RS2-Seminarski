@@ -2,7 +2,7 @@
 
 namespace Pelikula.API.Api
 {
-    public interface IAnketaService : ICrudService<AnketaResponse, AnketaUpsertRequest, AnketaUpsertRequest>
+    public interface IAnketaService : ICrudService<AnketaResponse, AnketaInsertRequest, AnketaUpdateRequest>
     {
     }
 }

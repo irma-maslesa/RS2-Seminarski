@@ -24,12 +24,12 @@ namespace FudbalskaLigaBiH.CORE.Mapper
 
             CreateMap<Korisnik, KorisnikResponse>()
                 .ForMember(dest => dest.Slika,
-                opts => opts.MapFrom(src => src.Slika == null || src.Slika.Length == 0? null:src.Slika))
+                opts => opts.MapFrom(src => src.Slika == null || src.Slika.Length == 0 ? null : src.Slika))
                 .ForMember(dest => dest.SlikaThumb,
                 opts => opts.MapFrom(src => src.SlikaThumb == null || src.SlikaThumb.Length == 0 ? null : src.SlikaThumb))
                 .ReverseMap();
             CreateMap<Korisnik, LoV>()
-                .ForMember(dest=> dest.Naziv,
+                .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.Ime} {src.Prezime} ({src.KorisnickoIme})"))
                 .ReverseMap();
             CreateMap<KorisnikUpsertRequest, Korisnik>().ReverseMap();
@@ -50,12 +50,32 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<ObavijestUpsertRequest, Obavijest>().ReverseMap();
 
             CreateMap<Anketa, AnketaResponse>()
+                .ForMember(dest => dest.Odgovori, 
+                opts => opts.MapFrom(src => src.AnketaOdgovor))
                 .ReverseMap();
             CreateMap<Anketa, LoV>()
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/YYY})"))
                 .ReverseMap();
-            CreateMap<AnketaUpsertRequest, Anketa>().ReverseMap();
+            CreateMap<AnketaInsertRequest, Anketa>()
+                .ForMember(dest => dest.AnketaOdgovor,
+                opts => opts.Ignore())
+                .ReverseMap(); 
+            CreateMap<AnketaUpdateRequest, Anketa>()
+                 .ForMember(dest => dest.AnketaOdgovor,
+                 opts => opts.Ignore())
+                 .ReverseMap();
+
+            CreateMap<AnketaOdgovor, AnketaOdgovorResponse>()
+                .ReverseMap();
+            CreateMap<AnketaOdgovor, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.RedniBroj}. {src.Odgovor}"))
+                .ReverseMap();
+            CreateMap<AnketaOdgovorInsertRequest, AnketaOdgovor>()
+                .ReverseMap(); 
+            CreateMap<AnketaOdgovorUpdateRequest, AnketaOdgovor>()
+                 .ReverseMap();
         }
     }
 }
