@@ -3,7 +3,6 @@ using Pelikula.API.Api;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Helper.Response;
-using Pelikula.CORE.Validation;
 using Pelikula.DAO;
 using Pelikula.DAO.Model;
 using System.Net;

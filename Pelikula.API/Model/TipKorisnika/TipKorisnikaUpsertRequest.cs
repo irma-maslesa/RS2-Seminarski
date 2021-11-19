@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pelikula.API.Model.TipKorisnika
+﻿namespace Pelikula.API.Model.TipKorisnika
 {
     public class TipKorisnikaUpsertRequest
     {

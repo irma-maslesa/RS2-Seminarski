@@ -2,7 +2,7 @@
 
 namespace Pelikula.API.Validation
 {
-    public interface IKorisnikValidator : IBaseValidator<Korisnik>
+    public interface IObavijestValidator : IBaseValidator<Obavijest>
     {
     }
 }

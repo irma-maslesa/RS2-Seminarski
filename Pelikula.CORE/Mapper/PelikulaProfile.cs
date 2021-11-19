@@ -2,6 +2,7 @@
 using Pelikula.API.Model;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
+using Pelikula.API.Model.Obavijest;
 using Pelikula.API.Model.TipKorisnika;
 using Pelikula.API.Model.Zanr;
 using Pelikula.DAO.Model;
@@ -38,6 +39,14 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => src.KratkiNaziv)).ReverseMap();
             CreateMap<JedinicaMjereUpsertRequest, JedinicaMjere>().ReverseMap();
+
+            CreateMap<Obavijest, ObavijestResponse>()
+                .ReverseMap();
+            CreateMap<Obavijest, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/YYY})"))
+                .ReverseMap();
+            CreateMap<ObavijestUpsertRequest, Obavijest>().ReverseMap();
         }
     }
 }

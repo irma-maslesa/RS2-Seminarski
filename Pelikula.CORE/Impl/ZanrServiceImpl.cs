@@ -2,7 +2,6 @@
 using Pelikula.API.Api;
 using Pelikula.API.Model.Zanr;
 using Pelikula.API.Validation;
-using Pelikula.CORE.Validation;
 using Pelikula.DAO;
 using Pelikula.DAO.Model;
 

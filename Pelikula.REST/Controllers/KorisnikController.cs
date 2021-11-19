@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Pelikula.API.Api;
+﻿using Pelikula.API.Api;
 using Pelikula.API.Model.Korisnik;
 
 namespace API.Controllers

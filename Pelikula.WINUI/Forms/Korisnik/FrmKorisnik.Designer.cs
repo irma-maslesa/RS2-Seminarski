@@ -314,7 +314,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.cbTipKorisnika.Name = "cbTipKorisnika";
             this.cbTipKorisnika.Size = new System.Drawing.Size(175, 21);
             this.cbTipKorisnika.TabIndex = 0;
-            this.cbTipKorisnika.SelectedValueChanged += new System.EventHandler(this.cbTipKorisnika_SelectedValueChanged);
+            this.cbTipKorisnika.SelectedValueChanged += new System.EventHandler(this.CbTipKorisnika_SelectedValueChanged);
             // 
             // FrmKorisnik
             // 

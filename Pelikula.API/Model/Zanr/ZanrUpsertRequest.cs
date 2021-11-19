@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pelikula.API.Model.Zanr
+﻿namespace Pelikula.API.Model.Zanr
 {
     public class ZanrUpsertRequest
     {

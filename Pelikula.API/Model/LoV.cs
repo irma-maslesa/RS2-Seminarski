@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pelikula.API.Model
+﻿namespace Pelikula.API.Model
 {
     public class LoV
     {
