@@ -8,5 +8,8 @@ namespace Pelikula.API.Validation
     {
         void ValidateOdgovori(List<AnketaOdgovorInsertRequest> requests);
         void ValidateOdgovori(List<AnketaOdgovorUpdateRequest> requests);
+        void ValidateOdgovorExists(int anketaOdgovorId);
+        void ValidateKorisnikOdgovorDoesNotExists(int korisnikId, int anketaOdgovorId);
+        void ValidateAnketaIsNotClosed(int id);
     }
 }

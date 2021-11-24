@@ -11,7 +11,7 @@ namespace Pelikula.API.Model.Anketa
         public DateTime Datum { get; set; }
         public DateTime? ZakljucenoDatum { get; set; }
 
-        public LoV Korisnik { get; set; }
+        public virtual LoV Korisnik { get; set; }
 
         public List<AnketaOdgovorResponse> Odgovori { get; set; }
     }
