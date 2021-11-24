@@ -18,15 +18,15 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public virtual PayloadResponse<ResponseDTO> Insert([FromBody] InsertDTO trener)
+        public virtual PayloadResponse<ResponseDTO> Insert([FromBody] InsertDTO dtoObject)
         {
-            return crudService.Insert(trener);
+            return crudService.Insert(dtoObject);
         }
 
         [HttpPut("{id}")]
-        public virtual PayloadResponse<ResponseDTO> Update(int id, UpdateDTO trener)
+        public virtual PayloadResponse<ResponseDTO> Update(int id, UpdateDTO dtoObject)
         {
-            return crudService.Update(id, trener);
+            return crudService.Update(id, dtoObject);
         }
 
         [HttpDelete("{id}")]

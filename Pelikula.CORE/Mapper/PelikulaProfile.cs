@@ -50,20 +50,20 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<ObavijestUpsertRequest, Obavijest>().ReverseMap();
 
             CreateMap<Anketa, AnketaResponse>()
-                /*.ForMember(dest => dest.Odgovori, 
-                opts => opts.MapFrom(src => src.AnketaOdgovor))*/
+                .ForMember(dest => dest.Odgovori, 
+                opts => opts.MapFrom(src => src.AnketaOdgovor))
                 .ReverseMap();
             CreateMap<Anketa, LoV>()
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/YYY})"))
                 .ReverseMap();
             CreateMap<AnketaInsertRequest, Anketa>()
-                /*.ForMember(dest => dest.AnketaOdgovor,
-                opts => opts.Ignore())*/
+                .ForMember(dest => dest.AnketaOdgovor,
+                opts => opts.Ignore())
                 .ReverseMap(); 
             CreateMap<AnketaUpdateRequest, Anketa>()
-                 /*.ForMember(dest => dest.AnketaOdgovor,
-                 opts => opts.Ignore())*/
+                 .ForMember(dest => dest.AnketaOdgovor,
+                 opts => opts.Ignore())
                  .ReverseMap();
 
             CreateMap<AnketaOdgovor, AnketaOdgovorResponse>()
@@ -76,6 +76,9 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ReverseMap(); 
             CreateMap<AnketaOdgovorUpdateRequest, AnketaOdgovor>()
                  .ReverseMap();
+
+            CreateMap<AnketaOdgovorKorisnikInsertRequest, AnketaOdgovorKorisnik>()
+                .ReverseMap();
         }
     }
 }
