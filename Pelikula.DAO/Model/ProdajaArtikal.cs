@@ -7,16 +7,15 @@ using System.Collections.Generic;
 
 namespace Pelikula.DAO.Model
 {
-    public partial class TipKorisnika
+    public partial class ProdajaArtikal
     {
-        public TipKorisnika()
-        {
-            Korisnik = new HashSet<Korisnik>();
-        }
-
         public int Id { get; set; }
-        public string Naziv { get; set; }
+        public int ProdajaId { get; set; }
+        public int ArtikalId { get; set; }
+        public decimal Cijena { get; set; }
+        public int Kolicina { get; set; }
 
-        public virtual ICollection<Korisnik> Korisnik { get; set; }
+        public virtual Artikal Artikal { get; set; }
+        public virtual Prodaja Prodaja { get; set; }
     }
 }

@@ -11,13 +11,13 @@ namespace Pelikula.DAO.Model
     {
         public JedinicaMjere()
         {
-           // Artikal = new HashSet<Artikal>();
+            Artikal = new HashSet<Artikal>();
         }
 
         public int Id { get; set; }
         public string KratkiNaziv { get; set; }
         public string Naziv { get; set; }
 
-        //public virtual ICollection<Artikal> Artikal { get; set; }
+        public virtual ICollection<Artikal> Artikal { get; set; }
     }
 }

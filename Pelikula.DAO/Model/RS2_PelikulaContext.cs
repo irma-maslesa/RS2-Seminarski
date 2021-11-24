@@ -1,20 +1,24 @@
-﻿
-
+﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Pelikula.DAO.Model;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Pelikula.DAO
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
+namespace Pelikula.DAO.Model
 {
-    public partial class AppDbContext : DbContext
+    public partial class RS2_PelikulaContext : DbContext
     {
-        public AppDbContext()
+        public RS2_PelikulaContext()
         {
         }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+        public RS2_PelikulaContext(DbContextOptions<RS2_PelikulaContext> options)
             : base(options)
         {
         }
+
         public virtual DbSet<Anketa> Anketa { get; set; }
         public virtual DbSet<AnketaOdgovor> AnketaOdgovor { get; set; }
         public virtual DbSet<AnketaOdgovorKorisnik> AnketaOdgovorKorisnik { get; set; }
