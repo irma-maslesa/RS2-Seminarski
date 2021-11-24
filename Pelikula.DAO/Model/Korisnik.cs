@@ -12,12 +12,12 @@ namespace Pelikula.DAO.Model
         public Korisnik()
         {
             Anketa = new HashSet<Anketa>();
-            //AnketaOdgovorKorisnik = new HashSet<AnketaOdgovorKorisnik>();
-            //Dojam = new HashSet<Dojam>();
+            AnketaOdgovorKorisnik = new HashSet<AnketaOdgovorKorisnik>();
+            Dojam = new HashSet<Dojam>();
             Obavijest = new HashSet<Obavijest>();
-            //Prodaja = new HashSet<Prodaja>();
-            //ProjekcijaKorisnik = new HashSet<ProjekcijaKorisnik>();
-            //Rezervacija = new HashSet<Rezervacija>();
+            Prodaja = new HashSet<Prodaja>();
+            ProjekcijaKorisnik = new HashSet<ProjekcijaKorisnik>();
+            Rezervacija = new HashSet<Rezervacija>();
         }
 
         public int Id { get; set; }
@@ -35,11 +35,11 @@ namespace Pelikula.DAO.Model
 
         public virtual TipKorisnika TipKorisnika { get; set; }
         public virtual ICollection<Anketa> Anketa { get; set; }
-        //public virtual ICollection<AnketaOdgovorKorisnik> AnketaOdgovorKorisnik { get; set; }
-        //public virtual ICollection<Dojam> Dojam { get; set; }
+        public virtual ICollection<AnketaOdgovorKorisnik> AnketaOdgovorKorisnik { get; set; }
+        public virtual ICollection<Dojam> Dojam { get; set; }
         public virtual ICollection<Obavijest> Obavijest { get; set; }
-        //public virtual ICollection<Prodaja> Prodaja { get; set; }
-        //public virtual ICollection<ProjekcijaKorisnik> ProjekcijaKorisnik { get; set; }
-        //public virtual ICollection<Rezervacija> Rezervacija { get; set; }
+        public virtual ICollection<Prodaja> Prodaja { get; set; }
+        public virtual ICollection<ProjekcijaKorisnik> ProjekcijaKorisnik { get; set; }
+        public virtual ICollection<Rezervacija> Rezervacija { get; set; }
     }
 }

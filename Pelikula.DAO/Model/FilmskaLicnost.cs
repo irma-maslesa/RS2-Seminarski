@@ -7,17 +7,21 @@ using System.Collections.Generic;
 
 namespace Pelikula.DAO.Model
 {
-    public partial class Zanr
+    public partial class FilmskaLicnost
     {
-        public Zanr()
+        public FilmskaLicnost()
         {
             Film = new HashSet<Film>();
+            FilmGlumac = new HashSet<FilmGlumac>();
         }
 
         public int Id { get; set; }
-        public string Naziv { get; set; }
-        public string Opis { get; set; }
+        public string Ime { get; set; }
+        public string Prezime { get; set; }
+        public bool IsReziser { get; set; }
+        public bool IsGlumac { get; set; }
 
         public virtual ICollection<Film> Film { get; set; }
+        public virtual ICollection<FilmGlumac> FilmGlumac { get; set; }
     }
 }
