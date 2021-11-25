@@ -67,5 +67,16 @@ namespace Pelikula.WINUI.Properties {
                 return ((int)(this["CroppedImageHeight"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::Pelikula.API.Model.Korisnik.KorisnikResponse PrijavljeniKorisnik {
+            get {
+                return ((global::Pelikula.API.Model.Korisnik.KorisnikResponse)(this["PrijavljeniKorisnik"]));
+            }
+            set {
+                this["PrijavljeniKorisnik"] = value;
+            }
+        }
     }
 }

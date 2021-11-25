@@ -1,5 +1,4 @@
-﻿using Pelikula.WINUI.Forms.TipKorisnika;
-using Pelikula.WINUI.Zanr;
+﻿using Pelikula.WINUI.Forms.Korisnik;
 using System;
 using System.Windows.Forms;
 
@@ -15,7 +14,14 @@ namespace Pelikula.WINUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MdiFrmAdmin());
+
+            FrmPrijava frm = new FrmPrijava();
+            frm.ShowDialog();
+
+            if(frm.DialogResult == DialogResult.OK)
+            {
+                Application.Run(new MdiFrmMain());
+            }
         }
     }
 }

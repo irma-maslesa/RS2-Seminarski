@@ -133,9 +133,9 @@ namespace Pelikula.WINUI.Forms.Korisnik
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(304, 207);
+            this.pictureBox1.Location = new System.Drawing.Point(305, 209);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.Size = new System.Drawing.Size(15, 15);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 24;
             this.pictureBox1.TabStop = false;
@@ -198,7 +198,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.txtLozinka.Location = new System.Drawing.Point(93, 207);
             this.txtLozinka.Name = "txtLozinka";
             this.txtLozinka.PasswordChar = '*';
-            this.txtLozinka.Size = new System.Drawing.Size(197, 20);
+            this.txtLozinka.Size = new System.Drawing.Size(231, 20);
             this.txtLozinka.TabIndex = 17;
             this.txtLozinka.Validating += new System.ComponentModel.CancelEventHandler(this.txtLozinka_Validating);
             // 
