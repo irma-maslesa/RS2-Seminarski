@@ -67,6 +67,12 @@
     <Compile Include="Forms\Korisnik\FrmKorisnikDodajUredi.Designer.cs">
       <DependentUpon>FrmKorisnikDodajUredi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Korisnik\FrmPrijava.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Korisnik\FrmPrijava.Designer.cs">
+      <DependentUpon>FrmPrijava.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\TipKorisnika\FrmTipKorisnika.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,26 +86,26 @@
       <DependentUpon>FrmTipKorisnikaDodajUredi.cs</DependentUpon>
     </Compile>
     <Compile Include="SaveImageHelper.cs" />
-    <Compile Include="MdiFrmAdmin.cs">
+    <Compile Include="MdiFrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MdiFrmAdmin.Designer.cs">
-      <DependentUpon>MdiFrmAdmin.cs</DependentUpon>
+    <Compile Include="MdiFrmMain.Designer.cs">
+      <DependentUpon>MdiFrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="SaveImageModel.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Zanr\FrmZanr.cs">
+    <Compile Include="Forms\Zanr\FrmZanr.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Zanr\FrmZanr.Designer.cs">
+    <Compile Include="Forms\Zanr\FrmZanr.Designer.cs">
       <DependentUpon>FrmZanr.cs</DependentUpon>
     </Compile>
-    <Compile Include="Zanr\ZanrDodajUredi.cs">
+    <Compile Include="Forms\Zanr\ZanrDodajUredi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Zanr\ZanrDodajUredi.Designer.cs">
+    <Compile Include="Forms\Zanr\ZanrDodajUredi.Designer.cs">
       <DependentUpon>ZanrDodajUredi.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Forms\Korisnik\FrmKorisnik.resx">
@@ -108,14 +114,17 @@
     <EmbeddedResource Include="Forms\Korisnik\FrmKorisnikDodajUredi.resx">
       <DependentUpon>FrmKorisnikDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Korisnik\FrmPrijava.resx">
+      <DependentUpon>FrmPrijava.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\TipKorisnika\FrmTipKorisnika.resx">
       <DependentUpon>FrmTipKorisnika.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TipKorisnika\FrmTipKorisnikaDodajUredi.resx">
       <DependentUpon>FrmTipKorisnikaDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MdiFrmAdmin.resx">
-      <DependentUpon>MdiFrmAdmin.cs</DependentUpon>
+    <EmbeddedResource Include="MdiFrmMain.resx">
+      <DependentUpon>MdiFrmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -125,13 +134,15 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Zanr\FrmZanr.resx">
+    <EmbeddedResource Include="Forms\Zanr\FrmZanr.resx">
       <DependentUpon>FrmZanr.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Zanr\ZanrDodajUredi.resx">
+    <EmbeddedResource Include="Forms\Zanr\ZanrDodajUredi.resx">
       <DependentUpon>ZanrDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -154,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\eye2.png" />
+    <None Include="Assets\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

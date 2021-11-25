@@ -1,5 +1,5 @@
 ﻿
-namespace Pelikula.WINUI.Zanr
+namespace Pelikula.WINUI.Forms.Zanr
 {
     partial class FrmZanrDodajUredi
     {

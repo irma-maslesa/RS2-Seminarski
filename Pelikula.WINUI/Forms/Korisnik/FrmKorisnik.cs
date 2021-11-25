@@ -4,11 +4,8 @@ using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
