@@ -37,7 +37,6 @@ namespace Pelikula.CORE.Impl
 
             List<KorisnikResponse> responseList = Mapper.Map<List<KorisnikResponse>>(KorisnikList);
 
-            responseList.ForEach(e => { e.Slika = e.Slika?.Length == 0 ? null : e.Slika; e.SlikaThumb = e.SlikaThumb?.Length == 0 ? null : e.SlikaThumb; });
             PaginationUtility.PagedData<KorisnikResponse> pagedResponse = PaginationUtility.Paginaion<KorisnikResponse>.PaginateData(responseList, pagination);
             return new PagedPayloadResponse<KorisnikResponse>(HttpStatusCode.OK, pagedResponse);
         }

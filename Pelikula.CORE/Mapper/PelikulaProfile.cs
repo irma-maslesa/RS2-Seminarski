@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Pelikula.API.Model;
 using Pelikula.API.Model.Anketa;
+using Pelikula.API.Model.Artikal;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Obavijest;
@@ -14,6 +15,8 @@ namespace FudbalskaLigaBiH.CORE.Mapper
     {
         public PelikulaProfile()
         {
+            AllowNullCollections = true;
+
             CreateMap<Zanr, ZanrResponse>().ReverseMap();
             CreateMap<Zanr, LoV>().ReverseMap();
             CreateMap<ZanrUpsertRequest, Zanr>().ReverseMap();
@@ -22,12 +25,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<TipKorisnika, LoV>().ReverseMap();
             CreateMap<TipKorisnikaUpsertRequest, TipKorisnika>().ReverseMap();
 
-            CreateMap<Korisnik, KorisnikResponse>()
-                .ForMember(dest => dest.Slika,
-                opts => opts.MapFrom(src => src.Slika == null || src.Slika.Length == 0 ? null : src.Slika))
-                .ForMember(dest => dest.SlikaThumb,
-                opts => opts.MapFrom(src => src.SlikaThumb == null || src.SlikaThumb.Length == 0 ? null : src.SlikaThumb))
-                .ReverseMap();
+            CreateMap<Korisnik, KorisnikResponse>().ReverseMap();
             CreateMap<Korisnik, LoV>()
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.Ime} {src.Prezime} ({src.KorisnickoIme})"))
@@ -42,8 +40,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 opts => opts.MapFrom(src => src.KratkiNaziv)).ReverseMap();
             CreateMap<JedinicaMjereUpsertRequest, JedinicaMjere>().ReverseMap();
 
-            CreateMap<Obavijest, ObavijestResponse>()
-                .ReverseMap();
+            CreateMap<Obavijest, ObavijestResponse>().ReverseMap();
             CreateMap<Obavijest, LoV>()
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/YYY})"))
@@ -67,19 +64,20 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                  opts => opts.Ignore())
                  .ReverseMap();
 
-            CreateMap<AnketaOdgovor, AnketaOdgovorResponse>()
-                .ReverseMap();
+            CreateMap<AnketaOdgovor, AnketaOdgovorResponse>().ReverseMap();
             CreateMap<AnketaOdgovor, LoV>()
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.RedniBroj}. {src.Odgovor}"))
                 .ReverseMap();
-            CreateMap<AnketaOdgovorInsertRequest, AnketaOdgovor>()
-                .ReverseMap(); 
-            CreateMap<AnketaOdgovorUpdateRequest, AnketaOdgovor>()
-                 .ReverseMap();
+            CreateMap<AnketaOdgovorInsertRequest, AnketaOdgovor>().ReverseMap(); 
+            CreateMap<AnketaOdgovorUpdateRequest, AnketaOdgovor>().ReverseMap();
 
             CreateMap<AnketaOdgovorKorisnikInsertRequest, AnketaOdgovorKorisnik>()
                 .ReverseMap();
+
+            CreateMap<Artikal, ArtikalResponse>().ReverseMap();
+            CreateMap<Artikal, LoV>().ReverseMap();
+            CreateMap<ArtikalUpsertRequest, Artikal>().ReverseMap();
         }
     }
 }
