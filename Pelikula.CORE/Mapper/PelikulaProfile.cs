@@ -33,6 +33,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 opts => opts.MapFrom(src => $"{src.Ime} {src.Prezime} ({src.KorisnickoIme})"))
                 .ReverseMap();
             CreateMap<KorisnikUpsertRequest, Korisnik>().ReverseMap();
+            CreateMap<KorisnikRegistracijaRequest, Korisnik>().ReverseMap();
 
 
             CreateMap<JedinicaMjere, JedinicaMjereResponse>().ReverseMap();

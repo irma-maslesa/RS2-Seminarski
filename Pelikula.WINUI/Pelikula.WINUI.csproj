@@ -79,7 +79,7 @@
     <Compile Include="Forms\TipKorisnika\FrmTipKorisnikaDodajUredi.Designer.cs">
       <DependentUpon>FrmTipKorisnikaDodajUredi.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helper.cs" />
+    <Compile Include="SaveImageHelper.cs" />
     <Compile Include="MdiFrmAdmin.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,4 +1,6 @@
-﻿namespace Pelikula.API.Validation
+﻿using Pelikula.API.Model.Korisnik;
+
+namespace Pelikula.API.Validation
 {
     public interface IBaseValidator<Entity>
         where Entity : class
