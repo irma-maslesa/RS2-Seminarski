@@ -11,6 +11,8 @@ using System;
 using Pelikula.CORE.Validation;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
+using Microsoft.AspNetCore.Authentication;
+using Pelikula.REST.Security;
 
 namespace Pelikula.REST
 {
@@ -85,6 +87,9 @@ namespace Pelikula.REST
 
             services.AddScoped<IAnketaValidator, AnketaValidatorImpl>();
             services.AddScoped<IAnketaService, AnketaServiceImpl>();
+
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
-﻿using Pelikula.API.Model;
+﻿using Pelikula.API;
+using Pelikula.API.Model;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
 using System;
@@ -105,8 +106,8 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
                 if (!string.IsNullOrEmpty(txtLozinka.Text.Trim()))
                 {
-                    _request.LozinkaSalt = Helper.GenerateSalt();
-                    _request.LozinkaHash = Helper.GenerateHash(_request.LozinkaSalt, txtLozinka.Text);
+                    _request.LozinkaSalt = PasswordHelper.GenerateSalt();
+                    _request.LozinkaHash = PasswordHelper.GenerateHash(_request.LozinkaSalt, txtLozinka.Text);
                 }
 
                 _request.TipKorisnikaId = ((LoV)cbTipKorisnika.SelectedItem).Id;
@@ -146,7 +147,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
         {
             ofdSlika.ShowDialog();
 
-            var slikaData = Helper.PrepareSaveImage(ofdSlika.FileName);
+            var slikaData = SaveImageHelper.PrepareSaveImage(ofdSlika.FileName);
 
             if (slikaData != null)
             {
