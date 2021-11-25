@@ -88,6 +88,9 @@ namespace Pelikula.REST
             services.AddScoped<IAnketaValidator, AnketaValidatorImpl>();
             services.AddScoped<IAnketaService, AnketaServiceImpl>();
 
+            services.AddScoped<IArtikalValidator, ArtikalValidatorImpl>();
+            services.AddScoped<IArtikalService, ArtikalServiceImpl>();
+
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
