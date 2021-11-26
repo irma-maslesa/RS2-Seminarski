@@ -16,25 +16,37 @@ namespace Pelikula.WINUI.Forms.Korisnik
         private readonly ApiService _service = new ApiService("Korisnik");
         private readonly ApiService _tipKorisnikaService = new ApiService("TipKorisnika");
 
+        private readonly KorisnikResponse _prijavljeniKorisnik;
+
         List<LoV> tipKorisnikaList = new List<LoV>();
 
         public FrmKorisnik()
         {
             InitializeComponent();
             dgvKorisnici.AutoGenerateColumns = false;
+            _prijavljeniKorisnik = Properties.Settings.Default.PrijavljeniKorisnik;
         }
         private async void FrmKorisnik_Load(object sender, EventArgs e)
         {
             DisableChildren();
 
             tipKorisnikaList = (await _tipKorisnikaService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
-            tipKorisnikaList.Insert(0, new LoV { Id = -1, Naziv = "Svi" });
 
-            cbTipKorisnika.DataSource = tipKorisnikaList;
-            cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(o => o.Id == -1);
+            if (_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
+            {
+                cbTipKorisnika.DataSource = new List<LoV> { tipKorisnikaList.FirstOrDefault(o => o.Naziv.ToLower().Equals(KorisnikTip.Klijent.ToString().ToLower())) };
+                cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(o => o.Naziv.ToLower().Equals(KorisnikTip.Klijent.ToString().ToLower()));
+                cbTipKorisnika.Enabled = false;
+            }
+            else
+            {
+                cbTipKorisnika.DataSource = tipKorisnikaList;
+                tipKorisnikaList.Insert(0, new LoV { Id = -1, Naziv = "Svi" });
+                cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(o => o.Id == -1);
+            }
+
             cbTipKorisnika.DisplayMember = "Naziv";
             cbTipKorisnika.ValueMember = "Id";
-
             await GetGridData();
         }
 
@@ -146,7 +158,10 @@ namespace Pelikula.WINUI.Forms.Korisnik
             txtKorisnickoIme.Enabled = true;
             txtEmail.Enabled = true;
 
-            cbTipKorisnika.Enabled = true;
+            if (_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
+                cbTipKorisnika.Enabled = false;
+            else
+                cbTipKorisnika.Enabled = true;
 
             btnPretrazi.Enabled = true;
             btnDodaj.Enabled = true;

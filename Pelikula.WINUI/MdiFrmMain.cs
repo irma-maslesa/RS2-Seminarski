@@ -1,4 +1,5 @@
 ﻿using Pelikula.API.Model;
+using Pelikula.WINUI.Forms.Anketa;
 using Pelikula.WINUI.Forms.Artikal;
 using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
@@ -66,7 +67,6 @@ namespace Pelikula.WINUI
             ZanroviToolStripMenuItem.Visible = false;
             jediniceMjereToolStripMenuItem.Visible = false;
             filmskeLicnostiToolStripMenuItem.Visible = false;
-            klijentiToolStripMenuItem.Visible = false;
             filmoviToolStripMenuItem.Visible = false;
             projekcijeToolStripMenuItem.Visible = false;
             artikliToolStripMenuItem.Visible = false;
@@ -107,7 +107,7 @@ namespace Pelikula.WINUI
                         anketeToolStripMenuItem.Visible = true;
                         break;
                     case KorisnikTip.Radnik:
-                        klijentiToolStripMenuItem.Visible = true;
+                        korisniciToolStripMenuItem.Visible = true;
                         rezervacijeToolStripMenuItem.Visible = true;
                         prodajaToolStripMenuItem.Visible = true;
                         break;
@@ -174,6 +174,12 @@ namespace Pelikula.WINUI
         private void ObavijestiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmObavijest frm = new FrmObavijest();
+            OpenForm(frm);
+        }
+
+        private void AnketeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmAnketa frm = new FrmAnketa();
             OpenForm(frm);
         }
     }

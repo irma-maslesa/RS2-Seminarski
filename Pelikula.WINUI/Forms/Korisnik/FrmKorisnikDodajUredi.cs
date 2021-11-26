@@ -9,8 +9,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pelikula.WINUI.Forms.Korisnik
@@ -25,11 +23,14 @@ namespace Pelikula.WINUI.Forms.Korisnik
         private KorisnikResponse _initial = new KorisnikResponse();
         private KorisnikUpsertRequest _request = new KorisnikUpsertRequest();
 
+        private readonly KorisnikResponse _prijavljeniKorisnik;
+
         IEnumerable<LoV> tipKorisnikaList = new List<LoV>();
 
         public FrmKorisnikDodajUredi(int? id = null)
         {
             _id = id;
+            _prijavljeniKorisnik = Properties.Settings.Default.PrijavljeniKorisnik;
 
             InitializeComponent();
         }
@@ -50,6 +51,11 @@ namespace Pelikula.WINUI.Forms.Korisnik
             cbTipKorisnika.DataSource = tipKorisnikaList;
             cbTipKorisnika.DisplayMember = "Naziv";
             cbTipKorisnika.ValueMember = "Id";
+            if (_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
+            {
+                cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(o => o.Naziv.ToLower().Equals(KorisnikTip.Klijent.ToString().ToLower()));
+                cbTipKorisnika.Enabled = false;
+            }
 
             if (_id.HasValue)
             {
@@ -247,7 +253,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
                 }
             }
         }
-        
+
         private void cbTipKorisnika_Validating(object sender, CancelEventArgs e)
         {
             if (cbTipKorisnika.SelectedItem == null)
