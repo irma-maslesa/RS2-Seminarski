@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Pelikula.API.Model.Helper;
 using System.Windows.Forms;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.API.Model.Anketa;
 
 namespace Pelikula.WINUI
 {
@@ -146,6 +147,28 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(id)
                         .DeleteAsync()
                         .ReceiveJson<PayloadResponse<string>>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
+        public async Task<PayloadResponse<AnketaResponse>> ZatvoriAnketu(int id)
+        {
+            try
+            {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment(id)
+                        .AppendPathSegment("zatvori")
+                        .PutJsonAsync(null)
+                        .ReceiveJson<PayloadResponse<AnketaResponse>>();
             }
             catch (FlurlHttpException ex)
             {

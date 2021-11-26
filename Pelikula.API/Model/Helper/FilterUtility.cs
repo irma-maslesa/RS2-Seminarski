@@ -176,7 +176,7 @@ namespace Pelikula.API.Model.Helper
                             {
                                 data = data.Where(x => Convert.ToInt32(filterColumn.GetValue(x, null)) == outValue).ToList();
                             }
-                            else if ((filterColumn.PropertyType == typeof(Nullable<DateTime>)) && DateTime.TryParse(filterValue, out dateValue))
+                            else if ((filterColumn.PropertyType == typeof(Nullable<DateTime>)) && (DateTime.TryParse(filterValue, out dateValue) || filterValue == null))
                             {
                                 data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) == dateValue).ToList();
                                 break;
@@ -193,7 +193,7 @@ namespace Pelikula.API.Model.Helper
                         {
                             data = data.Where(x => Convert.ToInt32(filterColumn.GetValue(x, null)) != outValue).ToList();
                         }
-                        else if ((filterColumn.PropertyType == typeof(Nullable<DateTime>)) && DateTime.TryParse(filterValue, out dateValue))
+                        else if ((filterColumn.PropertyType == typeof(Nullable<DateTime>)) && (DateTime.TryParse(filterValue, out dateValue) || filterValue == null))
                         {
                             data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) != dateValue).ToList();
                             break;
@@ -217,7 +217,7 @@ namespace Pelikula.API.Model.Helper
             foreach (var filterParam in filterParams)
             {
                 if (filterParam.ColumnName.Equals(string.Empty) ||
-                    filterParam.FilterValue.Equals(string.Empty) ||
+                    (filterParam.FilterValue != null && filterParam.FilterValue.Equals(string.Empty)) ||
                     filterParam.FilterOption.Equals(string.Empty))
                 {
                     stringBuilder.Append($"Fillter ({filterParam.ColumnName} - {filterParam.FilterValue} - {filterParam.FilterOption}) nije ispravan! ");

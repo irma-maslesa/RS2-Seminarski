@@ -35,7 +35,7 @@ namespace Pelikula.WINUI
             this.saleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ZanroviToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jediniceMjereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.klijentiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filmskeLicnostiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filmoviToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projekcijeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.artikliToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,7 +43,6 @@ namespace Pelikula.WINUI
             this.prodajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.izvjestajiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.obavijestiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filmskeLicnostiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dojmoviToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.anketeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.odjavaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,7 +60,7 @@ namespace Pelikula.WINUI
             this.saleToolStripMenuItem,
             this.ZanroviToolStripMenuItem,
             this.jediniceMjereToolStripMenuItem,
-            this.klijentiToolStripMenuItem,
+            this.filmskeLicnostiToolStripMenuItem,
             this.filmoviToolStripMenuItem,
             this.projekcijeToolStripMenuItem,
             this.artikliToolStripMenuItem,
@@ -69,7 +68,6 @@ namespace Pelikula.WINUI
             this.prodajaToolStripMenuItem,
             this.izvjestajiToolStripMenuItem,
             this.obavijestiToolStripMenuItem,
-            this.filmskeLicnostiToolStripMenuItem,
             this.dojmoviToolStripMenuItem,
             this.anketeToolStripMenuItem,
             this.odjavaToolStripMenuItem});
@@ -113,11 +111,11 @@ namespace Pelikula.WINUI
             this.jediniceMjereToolStripMenuItem.Text = "Jedinice mjere";
             this.jediniceMjereToolStripMenuItem.Click += new System.EventHandler(this.JediniceMjereToolStripMenuItem_Click);
             // 
-            // klijentiToolStripMenuItem
+            // filmskeLicnostiToolStripMenuItem
             // 
-            this.klijentiToolStripMenuItem.Name = "klijentiToolStripMenuItem";
-            this.klijentiToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.klijentiToolStripMenuItem.Text = "Klijenti";
+            this.filmskeLicnostiToolStripMenuItem.Name = "filmskeLicnostiToolStripMenuItem";
+            this.filmskeLicnostiToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
+            this.filmskeLicnostiToolStripMenuItem.Text = "Filmske ličnosti";
             // 
             // filmoviToolStripMenuItem
             // 
@@ -163,12 +161,6 @@ namespace Pelikula.WINUI
             this.obavijestiToolStripMenuItem.Text = "Obavijesti";
             this.obavijestiToolStripMenuItem.Click += new System.EventHandler(this.ObavijestiToolStripMenuItem_Click);
             // 
-            // filmskeLicnostiToolStripMenuItem
-            // 
-            this.filmskeLicnostiToolStripMenuItem.Name = "filmskeLicnostiToolStripMenuItem";
-            this.filmskeLicnostiToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
-            this.filmskeLicnostiToolStripMenuItem.Text = "Filmske ličnosti";
-            // 
             // dojmoviToolStripMenuItem
             // 
             this.dojmoviToolStripMenuItem.Name = "dojmoviToolStripMenuItem";
@@ -180,6 +172,7 @@ namespace Pelikula.WINUI
             this.anketeToolStripMenuItem.Name = "anketeToolStripMenuItem";
             this.anketeToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.anketeToolStripMenuItem.Text = "Ankete";
+            this.anketeToolStripMenuItem.Click += new System.EventHandler(this.AnketeToolStripMenuItem_Click);
             // 
             // odjavaToolStripMenuItem
             // 
@@ -236,7 +229,6 @@ namespace Pelikula.WINUI
         private System.Windows.Forms.ToolStripMenuItem ZanroviToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jediniceMjereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filmskeLicnostiToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem klijentiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filmoviToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projekcijeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem artikliToolStripMenuItem;
