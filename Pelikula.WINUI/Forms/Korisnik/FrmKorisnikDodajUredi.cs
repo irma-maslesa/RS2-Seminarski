@@ -53,16 +53,12 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
             if (_id.HasValue)
             {
-                string _text = Text;
-                Text += " (Loading ...)";
-
                 Text = "Uredi korisnika";
 
                 PayloadResponse<KorisnikResponse> response = await _service.GetById<PayloadResponse<KorisnikResponse>>(_id.Value);
                 _initial = response.Payload;
 
                 SetValues();
-                Text = _text;
             }
         }
 

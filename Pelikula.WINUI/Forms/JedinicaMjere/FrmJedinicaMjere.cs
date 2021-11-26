@@ -32,8 +32,6 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
 
             int _currentIndex = dgvJediniceMjere.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvJediniceMjere.CurrentRow?.Index;
-            string _text = Text;
-            Text += " (Loading ...)";
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
@@ -68,8 +66,6 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            Text = _text;
 
             if (adding)
             {

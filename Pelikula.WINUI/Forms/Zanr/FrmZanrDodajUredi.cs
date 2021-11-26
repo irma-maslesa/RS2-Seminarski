@@ -35,8 +35,6 @@ namespace Pelikula.WINUI.Forms.Zanr
             if (_id.HasValue)
             {
                 DisableChildren();
-                string _text = Text;
-                Text += " (Loading ...)";
 
                 Text = "Uredi žanr";
 
@@ -46,7 +44,6 @@ namespace Pelikula.WINUI.Forms.Zanr
                 SetValues();
 
                 EnableChildren();
-                Text = _text;
             }
         }
 

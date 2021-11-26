@@ -1,4 +1,5 @@
 ﻿using Pelikula.API.Model;
+using Pelikula.WINUI.Forms.Artikal;
 using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
 using Pelikula.WINUI.Forms.TipKorisnika;
@@ -163,8 +164,10 @@ namespace Pelikula.WINUI
             OpenForm(frm);
         }
 
-
-
-
+        private void ArtikliToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmArtikal frm = new FrmArtikal();
+            OpenForm(frm);
+        }
     }
 }

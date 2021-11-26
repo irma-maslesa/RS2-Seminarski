@@ -33,8 +33,6 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
 
             int _currentIndex = dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvTipoviKorisnika.CurrentRow?.Index;
-            string _text = Text;
-            Text += " (Loading ...)";
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
@@ -69,8 +67,6 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            Text = _text;
 
             if (adding)
             {

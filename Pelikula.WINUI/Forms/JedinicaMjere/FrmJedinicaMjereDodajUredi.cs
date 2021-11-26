@@ -29,8 +29,6 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
             if (_id.HasValue)
             {
                 DisableChildren();
-                string _text = Text;
-                Text += " (Loading ...)";
 
                 Text = "Uredi jedinicu mjere";
 
@@ -40,7 +38,6 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
                 SetValues();
 
                 EnableChildren();
-                Text = _text;
             }
         }
 
