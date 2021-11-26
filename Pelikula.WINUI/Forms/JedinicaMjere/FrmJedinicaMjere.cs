@@ -1,22 +1,22 @@
 ﻿using Pelikula.API.Model.Helper;
-using Pelikula.API.Model.Zanr;
+using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.CORE.Helper.Response;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Pelikula.WINUI.Forms.Zanr
+namespace Pelikula.WINUI.Forms.JedinicaMjere
 {
-    public partial class FrmZanr : Form
+    public partial class FrmJedinicaMjere : Form
     {
-        private readonly ApiService _ZanrService = new ApiService("Zanr");
+        private readonly ApiService _service = new ApiService("JedinicaMjere");
 
-        public FrmZanr()
+        public FrmJedinicaMjere()
         {
             InitializeComponent();
         }
-        private async void FrmZanr_Load(object sender, EventArgs e)
+        private async void FrmJedinicaMjere_Load(object sender, EventArgs e)
         {
             await GetGridData();
         }
@@ -30,8 +30,8 @@ namespace Pelikula.WINUI.Forms.Zanr
         {
             DisableChildren();
 
-            int _currentIndex = dgvZanrovi.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvZanrovi.CurrentRow?.Index;
+            int _currentIndex = dgvJediniceMjere.FirstDisplayedScrollingRowIndex;
+            int? _selectedRowIndex = dgvJediniceMjere.CurrentRow?.Index;
             string _text = Text;
             Text += " (Loading ...)";
 
@@ -51,19 +51,19 @@ namespace Pelikula.WINUI.Forms.Zanr
 
             Cursor = Cursors.WaitCursor;
 
-            PagedPayloadResponse<ZanrResponse> obj = await _ZanrService.Get<PagedPayloadResponse<ZanrResponse>>(null, filters, null);
+            PagedPayloadResponse<JedinicaMjereResponse> obj = await _service.Get<PagedPayloadResponse<JedinicaMjereResponse>>(null, filters, null);
 
-            dgvZanrovi.DataSource = obj.Payload;
-            dgvZanrovi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvZanrovi.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvJediniceMjere.DataSource = obj.Payload;
+            dgvJediniceMjere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvJediniceMjere.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
-                dgvZanrovi.ClearSelection();
+                dgvJediniceMjere.ClearSelection();
 
             Cursor = Cursors.Default;
 
             EnableChildren();
 
-            if (dgvZanrovi.RowCount == 0)
+            if (dgvJediniceMjere.RowCount == 0)
             {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
@@ -73,31 +73,31 @@ namespace Pelikula.WINUI.Forms.Zanr
 
             if (adding)
             {
-                dgvZanrovi.FirstDisplayedScrollingRowIndex = dgvZanrovi.RowCount - 1;
+                dgvJediniceMjere.FirstDisplayedScrollingRowIndex = dgvJediniceMjere.RowCount - 1;
             }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvZanrovi.RowCount)
+            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvJediniceMjere.RowCount)
             {
-                dgvZanrovi.FirstDisplayedScrollingRowIndex = _currentIndex;
+                dgvJediniceMjere.FirstDisplayedScrollingRowIndex = _currentIndex;
             }
-            else if (!adding && _currentIndex < 0 && dgvZanrovi.RowCount > 0)
+            else if (!adding && _currentIndex < 0 && dgvJediniceMjere.RowCount > 0)
             {
-                dgvZanrovi.FirstDisplayedScrollingRowIndex = 0;
+                dgvJediniceMjere.FirstDisplayedScrollingRowIndex = 0;
             }
 
             if (adding)
             {
-                dgvZanrovi.CurrentCell = dgvZanrovi.Rows[dgvZanrovi.RowCount - 1].Cells[0];
-                dgvZanrovi.Rows[dgvZanrovi.RowCount - 1].Selected = true;
+                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[dgvJediniceMjere.RowCount - 1].Cells[0];
+                dgvJediniceMjere.Rows[dgvJediniceMjere.RowCount - 1].Selected = true;
             }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvZanrovi.RowCount)
+            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvJediniceMjere.RowCount)
             {
-                dgvZanrovi.CurrentCell = dgvZanrovi.Rows[_selectedRowIndex.Value - 1].Cells[0];
-                dgvZanrovi.Rows[_selectedRowIndex.Value - 1].Selected = true;
+                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvJediniceMjere.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
             {
-                dgvZanrovi.CurrentCell = dgvZanrovi.Rows[_selectedRowIndex.Value].Cells[0];
-                dgvZanrovi.Rows[_selectedRowIndex.Value].Selected = true;
+                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvJediniceMjere.Rows[_selectedRowIndex.Value].Selected = true;
             }
         }
         private void EnableChildren()
@@ -107,7 +107,7 @@ namespace Pelikula.WINUI.Forms.Zanr
             btnDodaj.Enabled = true;
             btnUredi.Enabled = true;
             btnObrisi.Enabled = true;
-            dgvZanrovi.Enabled = true;
+            dgvJediniceMjere.Enabled = true;
         }
 
         private void DisableChildren()
@@ -117,12 +117,12 @@ namespace Pelikula.WINUI.Forms.Zanr
             btnDodaj.Enabled = false;
             btnUredi.Enabled = false;
             btnObrisi.Enabled = false;
-            dgvZanrovi.Enabled = false;
+            dgvJediniceMjere.Enabled = false;
         }
 
         private async void BtnDodaj_Click(object sender, EventArgs e)
         {
-            FrmZanrDodajUredi frm = new FrmZanrDodajUredi
+            FrmJedinicaMjereDodajUredi frm = new FrmJedinicaMjereDodajUredi
             {
                 StartPosition = FormStartPosition.CenterParent
             };
@@ -133,7 +133,7 @@ namespace Pelikula.WINUI.Forms.Zanr
 
         private async void BtnUredi_Click(object sender, EventArgs e)
         {
-            FrmZanrDodajUredi frm = new FrmZanrDodajUredi(((ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem).Id)
+            FrmJedinicaMjereDodajUredi frm = new FrmJedinicaMjereDodajUredi(((JedinicaMjereResponse)dgvJediniceMjere.CurrentRow.DataBoundItem).Id)
             {
                 StartPosition = FormStartPosition.CenterParent
             };
@@ -144,11 +144,11 @@ namespace Pelikula.WINUI.Forms.Zanr
 
         private async void BtnObrisi_Click(object sender, EventArgs e)
         {
-            ZanrResponse Zanr = (ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem;
+            JedinicaMjereResponse data = (JedinicaMjereResponse)dgvJediniceMjere.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati žanr {Zanr.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati jedinicu mjere {data.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                await _ZanrService.Delete(Zanr.Id);
+                await _service.Delete(data.Id);
                 await GetGridData();
             }
         }

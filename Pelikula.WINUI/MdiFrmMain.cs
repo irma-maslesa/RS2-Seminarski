@@ -1,4 +1,5 @@
 ﻿using Pelikula.API.Model;
+using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
 using Pelikula.WINUI.Forms.TipKorisnika;
 using Pelikula.WINUI.Forms.Zanr;
@@ -60,7 +61,7 @@ namespace Pelikula.WINUI
             korisniciToolStripMenuItem.Visible = false;
             tipoviKorisnikaToolStripMenuItem.Visible = false;
             saleToolStripMenuItem.Visible = false;
-            zanroviToolStripMenuItem.Visible = false;
+            ZanroviToolStripMenuItem.Visible = false;
             jediniceMjereToolStripMenuItem.Visible = false;
             filmskeLicnostiToolStripMenuItem.Visible = false;
             klijentiToolStripMenuItem.Visible = false;
@@ -83,7 +84,7 @@ namespace Pelikula.WINUI
                         korisniciToolStripMenuItem.Visible = true;
                         tipoviKorisnikaToolStripMenuItem.Visible = true;
                         saleToolStripMenuItem.Visible = true;
-                        zanroviToolStripMenuItem.Visible = true;
+                        ZanroviToolStripMenuItem.Visible = true;
                         jediniceMjereToolStripMenuItem.Visible = true;
                         filmskeLicnostiToolStripMenuItem.Visible = true;
                         filmoviToolStripMenuItem.Visible = true;
@@ -113,6 +114,26 @@ namespace Pelikula.WINUI
 
         }
 
+        private void OpenForm(Form frm)
+        {
+            if (!MdiChildren.Select(f => f.Name).Contains(frm.Name))
+            {
+                foreach (Form childForm in MdiChildren)
+                {
+                    childForm.Close();
+                }
+
+                frm.MdiParent = this;
+
+                frm.WindowState = FormWindowState.Maximized;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                frm.Dock = DockStyle.Fill;
+                frm.ControlBox = false;
+
+                frm.Show();
+            }
+        }
+
         private void ZanroviToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmZanr frm = new FrmZanr();
@@ -136,25 +157,14 @@ namespace Pelikula.WINUI
             if (MessageBox.Show("Jeste li sigurni da se želite odjaviti?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 Application.Restart();
         }
-
-        private void OpenForm(Form frm)
+        private void JediniceMjereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!MdiChildren.Select(f => f.Name).Contains(frm.Name))
-            {
-                foreach (Form childForm in MdiChildren)
-                {
-                    childForm.Close();
-                }
-
-                frm.MdiParent = this;
-
-                frm.WindowState = FormWindowState.Maximized;
-                frm.FormBorderStyle = FormBorderStyle.None;
-                frm.Dock = DockStyle.Fill;
-                frm.ControlBox = false;
-
-                frm.Show();
-            }
+            FrmJedinicaMjere frm = new FrmJedinicaMjere();
+            OpenForm(frm);
         }
+
+
+
+
     }
 }

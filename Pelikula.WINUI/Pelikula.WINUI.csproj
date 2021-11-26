@@ -85,6 +85,18 @@
     <Compile Include="Forms\TipKorisnika\FrmTipKorisnikaDodajUredi.Designer.cs">
       <DependentUpon>FrmTipKorisnikaDodajUredi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\JedinicaMjere\FrmJedinicaMjere.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\JedinicaMjere\FrmJedinicaMjere.Designer.cs">
+      <DependentUpon>FrmJedinicaMjere.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\JedinicaMjere\FrmJedinicaMjereDodajUredi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\JedinicaMjere\FrmJedinicaMjereDodajUredi.Designer.cs">
+      <DependentUpon>FrmJedinicaMjereDodajUredi.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaveImageHelper.cs" />
     <Compile Include="MdiFrmMain.cs">
       <SubType>Form</SubType>
@@ -102,11 +114,11 @@
     <Compile Include="Forms\Zanr\FrmZanr.Designer.cs">
       <DependentUpon>FrmZanr.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Zanr\ZanrDodajUredi.cs">
+    <Compile Include="Forms\Zanr\FrmZanrDodajUredi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Zanr\ZanrDodajUredi.Designer.cs">
-      <DependentUpon>ZanrDodajUredi.cs</DependentUpon>
+    <Compile Include="Forms\Zanr\FrmZanrDodajUredi.Designer.cs">
+      <DependentUpon>FrmZanrDodajUredi.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Forms\Korisnik\FrmKorisnik.resx">
       <DependentUpon>FrmKorisnik.cs</DependentUpon>
@@ -122,6 +134,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TipKorisnika\FrmTipKorisnikaDodajUredi.resx">
       <DependentUpon>FrmTipKorisnikaDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\JedinicaMjere\FrmJedinicaMjere.resx">
+      <DependentUpon>FrmJedinicaMjere.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\JedinicaMjere\FrmJedinicaMjereDodajUredi.resx">
+      <DependentUpon>FrmJedinicaMjereDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MdiFrmMain.resx">
       <DependentUpon>MdiFrmMain.cs</DependentUpon>
@@ -139,8 +157,8 @@
     <EmbeddedResource Include="Forms\Zanr\FrmZanr.resx">
       <DependentUpon>FrmZanr.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Zanr\ZanrDodajUredi.resx">
-      <DependentUpon>ZanrDodajUredi.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Zanr\FrmZanrDodajUredi.resx">
+      <DependentUpon>FrmZanrDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
