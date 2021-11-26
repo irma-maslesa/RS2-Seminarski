@@ -29,7 +29,6 @@ namespace Pelikula.WINUI.Forms.Zanr
             txtOpis.Multiline = true;
             txtOpis.ScrollBars = ScrollBars.Vertical;
 
-
             Text = "Dodaj žanr";
 
             if (_id.HasValue)

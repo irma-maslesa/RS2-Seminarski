@@ -2,6 +2,7 @@
 using Pelikula.WINUI.Forms.Artikal;
 using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
+using Pelikula.WINUI.Forms.Obavijest;
 using Pelikula.WINUI.Forms.TipKorisnika;
 using Pelikula.WINUI.Forms.Zanr;
 using System;
@@ -167,6 +168,12 @@ namespace Pelikula.WINUI
         private void ArtikliToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmArtikal frm = new FrmArtikal();
+            OpenForm(frm);
+        }
+
+        private void ObavijestiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmObavijest frm = new FrmObavijest();
             OpenForm(frm);
         }
     }

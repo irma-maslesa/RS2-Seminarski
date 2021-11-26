@@ -161,6 +161,7 @@ namespace Pelikula.WINUI
             this.obavijestiToolStripMenuItem.Name = "obavijestiToolStripMenuItem";
             this.obavijestiToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.obavijestiToolStripMenuItem.Text = "Obavijesti";
+            this.obavijestiToolStripMenuItem.Click += new System.EventHandler(this.ObavijestiToolStripMenuItem_Click);
             // 
             // filmskeLicnostiToolStripMenuItem
             // 
