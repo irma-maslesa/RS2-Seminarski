@@ -136,6 +136,7 @@ namespace Pelikula.WINUI
             this.artikliToolStripMenuItem.Name = "artikliToolStripMenuItem";
             this.artikliToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.artikliToolStripMenuItem.Text = "Artikli";
+            this.artikliToolStripMenuItem.Click += new System.EventHandler(this.ArtikliToolStripMenuItem_Click);
             // 
             // rezervacijeToolStripMenuItem
             // 

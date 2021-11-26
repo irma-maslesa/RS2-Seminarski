@@ -32,8 +32,6 @@ namespace Pelikula.WINUI.Forms.Zanr
 
             int _currentIndex = dgvZanrovi.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvZanrovi.CurrentRow?.Index;
-            string _text = Text;
-            Text += " (Loading ...)";
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
@@ -68,8 +66,6 @@ namespace Pelikula.WINUI.Forms.Zanr
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            Text = _text;
 
             if (adding)
             {

@@ -49,8 +49,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
             int _currentIndex = dgvKorisnici.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvKorisnici.CurrentRow?.Index;
-            string _text = Text;
-            Text += " (Loading ...)";
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             CreateFilters(filters, txtIme, "Ime");
@@ -79,8 +77,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            Text = _text;
 
             if (adding)
             {

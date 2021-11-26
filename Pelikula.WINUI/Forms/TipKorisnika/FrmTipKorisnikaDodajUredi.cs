@@ -36,8 +36,6 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             if (_id.HasValue)
             {
                 DisableChildren();
-                string _text = Text;
-                Text += " (Loading ...)";
 
                 Text = "Uredi tip korisnika";
 
@@ -47,7 +45,6 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
                 SetValues();
 
                 EnableChildren();
-                Text = _text;
             }
         }
 
