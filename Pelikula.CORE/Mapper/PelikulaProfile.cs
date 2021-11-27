@@ -7,6 +7,7 @@ using Pelikula.API.Model.FilmskaLicnost;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Obavijest;
+using Pelikula.API.Model.Sala;
 using Pelikula.API.Model.TipKorisnika;
 using Pelikula.API.Model.Zanr;
 using Pelikula.DAO.Model;
@@ -102,6 +103,15 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ForMember(dest => dest.FilmGlumac,
                 opts => opts.Ignore())
                 .ReverseMap();
+
+            CreateMap<Sjediste, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.Red}{src.Broj}"))
+                .ReverseMap();
+
+            CreateMap<Sala, SalaResponse>().ReverseMap();
+            CreateMap<Sala, LoV>().ReverseMap();
+            CreateMap<SalaUpsertRequest, Sala>().ReverseMap();
         }
     }
 }
