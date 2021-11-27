@@ -91,6 +91,12 @@ namespace Pelikula.REST
             services.AddScoped<IArtikalValidator, ArtikalValidatorImpl>();
             services.AddScoped<IArtikalService, ArtikalServiceImpl>();
 
+            services.AddScoped<IFilmskaLicnostValidator, FilmskaLicnostValidatorImpl>();
+            services.AddScoped<IFilmskaLicnostService, FilmskaLicnostServiceImpl>();
+
+            services.AddScoped<IFilmValidator, FilmValidatorImpl>();
+            services.AddScoped<IFilmService, FilmServiceImpl>();
+
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }

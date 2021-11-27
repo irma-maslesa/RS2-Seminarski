@@ -2,6 +2,8 @@
 using Pelikula.API.Model;
 using Pelikula.API.Model.Anketa;
 using Pelikula.API.Model.Artikal;
+using Pelikula.API.Model.Film;
+using Pelikula.API.Model.FilmskaLicnost;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Obavijest;
@@ -48,7 +50,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<ObavijestUpsertRequest, Obavijest>().ReverseMap();
 
             CreateMap<Anketa, AnketaResponse>()
-                .ForMember(dest => dest.Odgovori, 
+                .ForMember(dest => dest.Odgovori,
                 opts => opts.MapFrom(src => src.AnketaOdgovor))
                 .ReverseMap();
             CreateMap<Anketa, LoV>()
@@ -58,7 +60,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<AnketaInsertRequest, Anketa>()
                 .ForMember(dest => dest.AnketaOdgovor,
                 opts => opts.Ignore())
-                .ReverseMap(); 
+                .ReverseMap();
             CreateMap<AnketaUpdateRequest, Anketa>()
                  .ForMember(dest => dest.AnketaOdgovor,
                  opts => opts.Ignore())
@@ -69,7 +71,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.RedniBroj}. {src.Odgovor}"))
                 .ReverseMap();
-            CreateMap<AnketaOdgovorInsertRequest, AnketaOdgovor>().ReverseMap(); 
+            CreateMap<AnketaOdgovorInsertRequest, AnketaOdgovor>().ReverseMap();
             CreateMap<AnketaOdgovorUpdateRequest, AnketaOdgovor>().ReverseMap();
 
             CreateMap<AnketaOdgovorKorisnikInsertRequest, AnketaOdgovorKorisnik>()
@@ -78,6 +80,28 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<Artikal, ArtikalResponse>().ReverseMap();
             CreateMap<Artikal, LoV>().ReverseMap();
             CreateMap<ArtikalUpsertRequest, Artikal>().ReverseMap();
+
+            CreateMap<FilmskaLicnost, FilmskaLicnostResponse>().ReverseMap();
+            CreateMap<FilmskaLicnost, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.Ime} {src.Prezime}"))
+                .ReverseMap();
+            CreateMap<FilmskaLicnostUpsertRequest, FilmskaLicnost>().ReverseMap();
+
+            CreateMap<FilmGlumac, FilmGlumacResponse>().ReverseMap();
+
+            CreateMap<Film, FilmResponse>()
+                .ForMember(dest => dest.Glumci,
+                opts => opts.MapFrom(src => src.FilmGlumac))
+                .ReverseMap();
+            CreateMap<Film, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => src.Naslov))
+                .ReverseMap();
+            CreateMap<FilmUpsertRequest, Film>()
+                .ForMember(dest => dest.FilmGlumac,
+                opts => opts.Ignore())
+                .ReverseMap();
         }
     }
 }
