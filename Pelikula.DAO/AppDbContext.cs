@@ -442,9 +442,7 @@ namespace Pelikula.DAO
 
             modelBuilder.Entity<Sjediste>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Red).HasMaxLength(1);
 
@@ -453,6 +451,7 @@ namespace Pelikula.DAO
                 entity.HasOne(d => d.Sala)
                     .WithMany(p => p.Sjediste)
                     .HasForeignKey(d => d.SalaId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Sjediste_Sala");
             });
 

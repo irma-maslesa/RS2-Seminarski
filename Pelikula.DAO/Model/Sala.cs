@@ -18,6 +18,8 @@ namespace Pelikula.DAO.Model
         public int Id { get; set; }
         public string Naziv { get; set; }
         public int? BrojSjedista { get; set; }
+        public int? BrojSjedistaDuzina { get; set; }
+        public int? BrojSjedistaSirina { get; set; }
 
         public virtual ICollection<Projekcija> Projekcija { get; set; }
         public virtual ICollection<Sjediste> Sjediste { get; set; }
