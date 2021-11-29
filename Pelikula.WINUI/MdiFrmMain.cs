@@ -4,6 +4,7 @@ using Pelikula.WINUI.Forms.Artikal;
 using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
 using Pelikula.WINUI.Forms.Obavijest;
+using Pelikula.WINUI.Forms.Sala;
 using Pelikula.WINUI.Forms.TipKorisnika;
 using Pelikula.WINUI.Forms.Zanr;
 using System;
@@ -180,6 +181,12 @@ namespace Pelikula.WINUI
         private void AnketeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmAnketa frm = new FrmAnketa();
+            OpenForm(frm);
+        }
+
+        private void SaleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmSala frm = new FrmSala();
             OpenForm(frm);
         }
     }

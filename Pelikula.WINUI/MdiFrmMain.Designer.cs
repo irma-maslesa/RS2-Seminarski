@@ -96,6 +96,7 @@ namespace Pelikula.WINUI
             this.saleToolStripMenuItem.Name = "saleToolStripMenuItem";
             this.saleToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.saleToolStripMenuItem.Text = "Sale";
+            this.saleToolStripMenuItem.Click += new System.EventHandler(this.SaleToolStripMenuItem_Click);
             // 
             // ZanroviToolStripMenuItem
             // 
