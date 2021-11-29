@@ -117,6 +117,7 @@ namespace Pelikula.WINUI
             this.filmskeLicnostiToolStripMenuItem.Name = "filmskeLicnostiToolStripMenuItem";
             this.filmskeLicnostiToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
             this.filmskeLicnostiToolStripMenuItem.Text = "Filmske ličnosti";
+            this.filmskeLicnostiToolStripMenuItem.Click += new System.EventHandler(this.filmskeLicnostiToolStripMenuItem_Click);
             // 
             // filmoviToolStripMenuItem
             // 

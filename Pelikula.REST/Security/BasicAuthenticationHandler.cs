@@ -47,7 +47,9 @@ namespace Pelikula.REST.Security
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
                 var korisnickoIme = credentials[0];
                 var lozinka = credentials[1];
-                korisnik = _service.Autentifikacija(korisnickoIme, lozinka).Payload;
+                var response = await _service.Autentifikacija(korisnickoIme, lozinka);
+
+                korisnik = response.Payload;
             }
             catch
             {

@@ -89,11 +89,9 @@ namespace Pelikula.CORE.Impl
                 .Select(e => e.Sifra)
                 .FirstOrDefault();
 
-            if(najvecaSifra != null)
+            if (najvecaSifra != null)
             {
-                int sifra;
-
-                if (int.TryParse(najvecaSifra, out sifra))
+                if (int.TryParse(najvecaSifra, out int sifra))
                     return string.Format("{0:D6}", ++sifra);
                 else
                     throw new UserException("Nemoguće postavljanje šifre!", HttpStatusCode.BadRequest);

@@ -13,6 +13,7 @@ using Pelikula.DAO.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Pelikula.CORE.Impl
 {
@@ -88,11 +89,11 @@ namespace Pelikula.CORE.Impl
 
         }
 
-        public PayloadResponse<KorisnikResponse> Autentifikacija(string korisnickoIme, string lozinka)
+        public async Task<PayloadResponse<KorisnikResponse>> Autentifikacija(string korisnickoIme, string lozinka)
         {
-            var korisnik = Context.Korisnik
+            var korisnik = await Context.Korisnik
                 .Include(x => x.TipKorisnika)
-                .FirstOrDefault(x => x.KorisnickoIme.ToLower().Equals(korisnickoIme.ToLower()));
+                .FirstOrDefaultAsync(x => x.KorisnickoIme.ToLower().Equals(korisnickoIme.ToLower()));
 
             if (korisnik != null)
             {

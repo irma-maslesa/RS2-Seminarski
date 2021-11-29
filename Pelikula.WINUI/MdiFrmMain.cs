@@ -1,6 +1,7 @@
 ﻿using Pelikula.API.Model;
 using Pelikula.WINUI.Forms.Anketa;
 using Pelikula.WINUI.Forms.Artikal;
+using Pelikula.WINUI.Forms.FilmskaLicnost;
 using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
 using Pelikula.WINUI.Forms.Obavijest;
@@ -8,13 +9,9 @@ using Pelikula.WINUI.Forms.Sala;
 using Pelikula.WINUI.Forms.TipKorisnika;
 using Pelikula.WINUI.Forms.Zanr;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pelikula.WINUI
@@ -187,6 +184,12 @@ namespace Pelikula.WINUI
         private void SaleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmSala frm = new FrmSala();
+            OpenForm(frm);
+        }
+
+        private void filmskeLicnostiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmFilmskaLicnost frm = new FrmFilmskaLicnost();
             OpenForm(frm);
         }
     }
