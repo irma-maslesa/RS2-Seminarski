@@ -100,6 +100,9 @@ namespace Pelikula.REST
             services.AddScoped<ISalaValidator, SalaValidatorImpl>();
             services.AddScoped<ISalaService, SalaServiceImpl>();
 
+            services.AddScoped<IProjekcijaValidator, ProjekcijaValidatorImpl>();
+            services.AddScoped<IProjekcijaService, ProjekcijaServiceImpl>();
+
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }

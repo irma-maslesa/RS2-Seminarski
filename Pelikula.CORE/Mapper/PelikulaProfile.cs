@@ -7,6 +7,7 @@ using Pelikula.API.Model.FilmskaLicnost;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Obavijest;
+using Pelikula.API.Model.Projekcija;
 using Pelikula.API.Model.Sala;
 using Pelikula.API.Model.TipKorisnika;
 using Pelikula.API.Model.Zanr;
@@ -46,7 +47,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<Obavijest, ObavijestResponse>().ReverseMap();
             CreateMap<Obavijest, LoV>()
                 .ForMember(dest => dest.Naziv,
-                opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/YYY})"))
+                opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/yyyy})"))
                 .ReverseMap();
             CreateMap<ObavijestUpsertRequest, Obavijest>().ReverseMap();
 
@@ -56,7 +57,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ReverseMap();
             CreateMap<Anketa, LoV>()
                 .ForMember(dest => dest.Naziv,
-                opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/YYY})"))
+                opts => opts.MapFrom(src => $"{src.Naslov} ({src.Datum:dd/MM/yyyy})"))
                 .ReverseMap();
             CreateMap<AnketaInsertRequest, Anketa>()
                 .ForMember(dest => dest.AnketaOdgovor,
@@ -112,6 +113,30 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<Sala, SalaResponse>().ReverseMap();
             CreateMap<Sala, LoV>().ReverseMap();
             CreateMap<SalaUpsertRequest, Sala>().ReverseMap();
+
+            CreateMap<ProjekcijaTermin, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => src.Termin))
+                .ReverseMap();
+            CreateMap<ProjekcijaTerminInsertRequest, ProjekcijaTermin>().ReverseMap();
+            CreateMap<ProjekcijaTerminUpdateRequest, ProjekcijaTermin>().ReverseMap();
+
+            CreateMap<Projekcija, ProjekcijaResponse>()
+                .ForMember(dest => dest.Termini,
+                opts => opts.MapFrom(src => src.ProjekcijaTermin))
+                .ReverseMap();
+            CreateMap<Projekcija, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.Film.Naslov} - {src.Sala.Naziv} ({src.VrijediOd:dd/MM/yyyy} - {src.VrijediDo:dd/MM/yyyy})"))
+                .ReverseMap();
+            CreateMap<ProjekcijaInsertRequest, Projekcija>()
+                .ForMember(dest => dest.ProjekcijaTermin,
+                opts => opts.Ignore())
+                .ReverseMap();
+            CreateMap<ProjekcijaUpdateRequest, Projekcija>()
+                 .ForMember(dest => dest.ProjekcijaTermin,
+                 opts => opts.Ignore())
+                 .ReverseMap();
         }
     }
 }
