@@ -47,8 +47,8 @@ namespace Pelikula.WINUI.Forms.Sala
                 filters.Add(filter);
             }
 
-            addBrojSjedistaFilter(filters, txtMinMjesta, FilterUtility.FilterOptions.isgreaterthanorequalto);
-            addBrojSjedistaFilter(filters, txtMaxMjesta, FilterUtility.FilterOptions.islessthanorequalto);
+            CreateBrojSjedistaFilter(filters, txtMinMjesta, FilterUtility.FilterOptions.isgreaterthanorequalto);
+            CreateBrojSjedistaFilter(filters, txtMaxMjesta, FilterUtility.FilterOptions.islessthanorequalto);
 
             Cursor = Cursors.WaitCursor;
 
@@ -100,7 +100,7 @@ namespace Pelikula.WINUI.Forms.Sala
             }
         }
 
-        private void addBrojSjedistaFilter(List<FilterUtility.FilterParams> filters, MaskedTextBox txt, FilterUtility.FilterOptions option)
+        private void CreateBrojSjedistaFilter(List<FilterUtility.FilterParams> filters, MaskedTextBox txt, FilterUtility.FilterOptions option)
         {
             if (!string.IsNullOrEmpty(txt.Text))
             {

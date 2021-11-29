@@ -124,6 +124,7 @@ namespace Pelikula.WINUI
             this.filmoviToolStripMenuItem.Name = "filmoviToolStripMenuItem";
             this.filmoviToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.filmoviToolStripMenuItem.Text = "Filmovi";
+            this.filmoviToolStripMenuItem.Click += new System.EventHandler(this.FilmoviToolStripMenuItem_Click);
             // 
             // projekcijeToolStripMenuItem
             // 

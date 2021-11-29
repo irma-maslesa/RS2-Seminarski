@@ -1,6 +1,7 @@
 ﻿using Pelikula.API.Model;
 using Pelikula.WINUI.Forms.Anketa;
 using Pelikula.WINUI.Forms.Artikal;
+using Pelikula.WINUI.Forms.Film;
 using Pelikula.WINUI.Forms.FilmskaLicnost;
 using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
@@ -190,6 +191,12 @@ namespace Pelikula.WINUI
         private void filmskeLicnostiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmFilmskaLicnost frm = new FrmFilmskaLicnost();
+            OpenForm(frm);
+        }
+
+        private void FilmoviToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmFilm frm = new FrmFilm();
             OpenForm(frm);
         }
     }

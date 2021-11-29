@@ -88,6 +88,18 @@
     <Compile Include="Forms\FilmskaLicnost\FrmFilmskaLicnostDodajUredi.Designer.cs">
       <DependentUpon>FrmFilmskaLicnostDodajUredi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Film\FrmFilm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Film\FrmFilm.Designer.cs">
+      <DependentUpon>FrmFilm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Film\FrmFilmDodajUredi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Film\FrmFilmDodajUredi.Designer.cs">
+      <DependentUpon>FrmFilmDodajUredi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Sala\FrmSala.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -204,6 +216,12 @@
     <EmbeddedResource Include="Forms\FilmskaLicnost\FrmFilmskaLicnostDodajUredi.resx">
       <DependentUpon>FrmFilmskaLicnostDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Film\FrmFilm.resx">
+      <DependentUpon>FrmFilm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Film\FrmFilmDodajUredi.resx">
+      <DependentUpon>FrmFilmDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Sala\FrmSala.resx">
       <DependentUpon>FrmSala.cs</DependentUpon>
     </EmbeddedResource>
@@ -287,8 +305,6 @@
     <Content Include="Assets\eye2.png" />
     <None Include="Assets\logo.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Forms\Film\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
