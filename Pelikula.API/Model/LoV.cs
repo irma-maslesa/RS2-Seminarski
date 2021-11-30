@@ -10,5 +10,18 @@
         {
             return Naziv;
         }
+
+        public override bool Equals(object obj)
+        {
+            if ((obj == null) || !GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                var lov = (LoV)obj;
+                return Id == lov.Id && Naziv == lov.Naziv;
+            }
+        }
     }
 }

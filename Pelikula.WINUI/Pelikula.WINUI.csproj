@@ -76,6 +76,30 @@
     <Compile Include="Forms\Anketa\FrmAnketaRezultati.Designer.cs">
       <DependentUpon>FrmAnketaRezultati.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FilmskaLicnost\FrmFilmskaLicnost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FilmskaLicnost\FrmFilmskaLicnost.Designer.cs">
+      <DependentUpon>FrmFilmskaLicnost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FilmskaLicnost\FrmFilmskaLicnostDodajUredi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FilmskaLicnost\FrmFilmskaLicnostDodajUredi.Designer.cs">
+      <DependentUpon>FrmFilmskaLicnostDodajUredi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Film\FrmFilm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Film\FrmFilm.Designer.cs">
+      <DependentUpon>FrmFilm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Film\FrmFilmDodajUredi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Film\FrmFilmDodajUredi.Designer.cs">
+      <DependentUpon>FrmFilmDodajUredi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Sala\FrmSala.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +210,18 @@
     <EmbeddedResource Include="Forms\Anketa\FrmAnketaRezultati.resx">
       <DependentUpon>FrmAnketaRezultati.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FilmskaLicnost\FrmFilmskaLicnost.resx">
+      <DependentUpon>FrmFilmskaLicnost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FilmskaLicnost\FrmFilmskaLicnostDodajUredi.resx">
+      <DependentUpon>FrmFilmskaLicnostDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Film\FrmFilm.resx">
+      <DependentUpon>FrmFilm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Film\FrmFilmDodajUredi.resx">
+      <DependentUpon>FrmFilmDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Sala\FrmSala.resx">
       <DependentUpon>FrmSala.cs</DependentUpon>
     </EmbeddedResource>
@@ -269,5 +305,6 @@
     <Content Include="Assets\eye2.png" />
     <None Include="Assets\logo.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

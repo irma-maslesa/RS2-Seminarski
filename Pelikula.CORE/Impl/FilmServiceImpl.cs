@@ -70,9 +70,11 @@ namespace Pelikula.CORE.Impl
             {
                 foreach (var id in request.FilmGlumacIds)
                 {
-                    FilmGlumac filmGlumacEntity = new FilmGlumac();
-                    filmGlumacEntity.FilmId = entity.Id;
-                    filmGlumacEntity.FilmskaLicnostId = id;
+                    FilmGlumac filmGlumacEntity = new FilmGlumac
+                    {
+                        FilmId = entity.Id,
+                        FilmskaLicnostId = id
+                    };
 
                     Context.FilmGlumac.Add(filmGlumacEntity);
                 }
@@ -91,7 +93,7 @@ namespace Pelikula.CORE.Impl
             if (request.ZanrId.HasValue)
                 ZanrValidator.ValidateEntityExists(request.ZanrId.Value);
             if (request.RediteljId.HasValue)
-                ZanrValidator.ValidateEntityExists(request.RediteljId.Value);
+                FilmskaLicnostValidator.ValidateEntityExists(request.RediteljId.Value);
             if (request.FilmGlumacIds != null)
                 FilmskaLicnostValidator.ValidateEntitiesExists(request.FilmGlumacIds);
 
@@ -105,7 +107,7 @@ namespace Pelikula.CORE.Impl
             Context.Set<Film>().Update(entity);
             Context.SaveChanges();
 
-            
+
 
             if (request.FilmGlumacIds != null)
             {
@@ -113,11 +115,13 @@ namespace Pelikula.CORE.Impl
                 {
                     FilmGlumac filmGlumacEntity = Context.FilmGlumac.FirstOrDefault(e => e.FilmId == entity.Id && e.FilmskaLicnostId == glumacId);
 
-                    if(filmGlumacEntity == null)
+                    if (filmGlumacEntity == null)
                     {
-                        filmGlumacEntity = new FilmGlumac();
-                        filmGlumacEntity.FilmId = entity.Id;
-                        filmGlumacEntity.FilmskaLicnostId = glumacId;
+                        filmGlumacEntity = new FilmGlumac
+                        {
+                            FilmId = entity.Id,
+                            FilmskaLicnostId = glumacId
+                        };
 
                         Context.FilmGlumac.Add(filmGlumacEntity);
                     }

@@ -60,6 +60,7 @@ namespace Pelikula.WINUI.Forms.Zanr
             // 
             this.dgvZanrovi.AllowUserToAddRows = false;
             this.dgvZanrovi.AllowUserToDeleteRows = false;
+            this.dgvZanrovi.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvZanrovi.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvZanrovi.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvZanrovi.Location = new System.Drawing.Point(3, 16);

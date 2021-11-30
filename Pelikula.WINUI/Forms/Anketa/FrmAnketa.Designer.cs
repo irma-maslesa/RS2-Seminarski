@@ -74,6 +74,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             // 
             this.dgvAnkete.AllowUserToAddRows = false;
             this.dgvAnkete.AllowUserToDeleteRows = false;
+            this.dgvAnkete.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAnkete.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAnkete.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,

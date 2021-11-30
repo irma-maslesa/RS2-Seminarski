@@ -60,6 +60,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
             // 
             this.dgvJediniceMjere.AllowUserToAddRows = false;
             this.dgvJediniceMjere.AllowUserToDeleteRows = false;
+            this.dgvJediniceMjere.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvJediniceMjere.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvJediniceMjere.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvJediniceMjere.Location = new System.Drawing.Point(3, 16);

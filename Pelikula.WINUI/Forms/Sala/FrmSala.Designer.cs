@@ -64,6 +64,7 @@ namespace Pelikula.WINUI.Forms.Sala
             // 
             this.dgvSala.AllowUserToAddRows = false;
             this.dgvSala.AllowUserToDeleteRows = false;
+            this.dgvSala.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSala.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSala.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSala.Location = new System.Drawing.Point(3, 16);
