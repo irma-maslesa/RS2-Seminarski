@@ -31,6 +31,11 @@ namespace Pelikula.WINUI.Forms.Artikal
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvArtikli = new System.Windows.Forms.DataGridView();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Naziv = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sifra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cijena = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JedinicaMjere = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txNaziv = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnObrisi = new System.Windows.Forms.Button();
@@ -43,11 +48,6 @@ namespace Pelikula.WINUI.Forms.Artikal
             this.btnPretrazi = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cbJedinicaMjere = new System.Windows.Forms.ComboBox();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Naziv = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sifra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cijena = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.JedinicaMjere = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArtikli)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -70,6 +70,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             // 
             this.dgvArtikli.AllowUserToAddRows = false;
             this.dgvArtikli.AllowUserToDeleteRows = false;
+            this.dgvArtikli.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvArtikli.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvArtikli.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -84,6 +85,41 @@ namespace Pelikula.WINUI.Forms.Artikal
             this.dgvArtikli.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvArtikli.Size = new System.Drawing.Size(1174, 422);
             this.dgvArtikli.TabIndex = 0;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            // 
+            // Naziv
+            // 
+            this.Naziv.DataPropertyName = "Naziv";
+            this.Naziv.HeaderText = "Naziv";
+            this.Naziv.Name = "Naziv";
+            this.Naziv.ReadOnly = true;
+            // 
+            // Sifra
+            // 
+            this.Sifra.DataPropertyName = "Sifra";
+            this.Sifra.HeaderText = "Šifra";
+            this.Sifra.Name = "Sifra";
+            this.Sifra.ReadOnly = true;
+            // 
+            // Cijena
+            // 
+            this.Cijena.DataPropertyName = "Cijena";
+            this.Cijena.HeaderText = "Cijena";
+            this.Cijena.Name = "Cijena";
+            this.Cijena.ReadOnly = true;
+            // 
+            // JedinicaMjere
+            // 
+            this.JedinicaMjere.DataPropertyName = "JedinicaMjere";
+            this.JedinicaMjere.HeaderText = "Jedinica mjere";
+            this.JedinicaMjere.Name = "JedinicaMjere";
+            this.JedinicaMjere.ReadOnly = true;
             // 
             // txNaziv
             // 
@@ -204,41 +240,6 @@ namespace Pelikula.WINUI.Forms.Artikal
             this.cbJedinicaMjere.Size = new System.Drawing.Size(175, 21);
             this.cbJedinicaMjere.TabIndex = 0;
             this.cbJedinicaMjere.SelectedValueChanged += new System.EventHandler(this.CbJedinicaMjere_SelectedValueChanged);
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            // 
-            // Naziv
-            // 
-            this.Naziv.DataPropertyName = "Naziv";
-            this.Naziv.HeaderText = "Naziv";
-            this.Naziv.Name = "Naziv";
-            this.Naziv.ReadOnly = true;
-            // 
-            // Sifra
-            // 
-            this.Sifra.DataPropertyName = "Sifra";
-            this.Sifra.HeaderText = "Šifra";
-            this.Sifra.Name = "Sifra";
-            this.Sifra.ReadOnly = true;
-            // 
-            // Cijena
-            // 
-            this.Cijena.DataPropertyName = "Cijena";
-            this.Cijena.HeaderText = "Cijena";
-            this.Cijena.Name = "Cijena";
-            this.Cijena.ReadOnly = true;
-            // 
-            // JedinicaMjere
-            // 
-            this.JedinicaMjere.DataPropertyName = "JedinicaMjere";
-            this.JedinicaMjere.HeaderText = "Jedinica mjere";
-            this.JedinicaMjere.Name = "JedinicaMjere";
-            this.JedinicaMjere.ReadOnly = true;
             // 
             // FrmArtikal
             // 

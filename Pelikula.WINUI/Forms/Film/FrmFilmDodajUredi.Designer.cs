@@ -30,7 +30,7 @@ namespace Pelikula.WINUI.Forms.Film
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.cmbZanr = new System.Windows.Forms.ComboBox();
+            this.cbZanr = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtSadrzaj = new System.Windows.Forms.TextBox();
             this.txtImdbLink = new System.Windows.Forms.TextBox();
@@ -38,7 +38,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtGodinaSnimanja = new System.Windows.Forms.MaskedTextBox();
             this.txtTrajanje = new System.Windows.Forms.MaskedTextBox();
             this.txtVideoLink = new System.Windows.Forms.TextBox();
-            this.cmbReditelj = new System.Windows.Forms.ComboBox();
+            this.cbReditelj = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,7 +52,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pbPlakat = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lbGlumci = new System.Windows.Forms.ListBox();
+            this.clbGlumci = new System.Windows.Forms.CheckedListBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ofdPlakat = new System.Windows.Forms.OpenFileDialog();
@@ -63,15 +63,16 @@ namespace Pelikula.WINUI.Forms.Film
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // cmbZanr
+            // cbZanr
             // 
-            this.cmbZanr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbZanr.FormattingEnabled = true;
-            this.cmbZanr.Location = new System.Drawing.Point(8, 188);
-            this.cmbZanr.Margin = new System.Windows.Forms.Padding(2);
-            this.cmbZanr.Name = "cmbZanr";
-            this.cmbZanr.Size = new System.Drawing.Size(175, 21);
-            this.cmbZanr.TabIndex = 49;
+            this.cbZanr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbZanr.FormattingEnabled = true;
+            this.cbZanr.Location = new System.Drawing.Point(8, 188);
+            this.cbZanr.Margin = new System.Windows.Forms.Padding(2);
+            this.cbZanr.Name = "cbZanr";
+            this.cbZanr.Size = new System.Drawing.Size(175, 21);
+            this.cbZanr.TabIndex = 49;
+            this.cbZanr.Validating += new System.ComponentModel.CancelEventHandler(this.cbZanr_Validating);
             // 
             // label8
             // 
@@ -90,8 +91,9 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtSadrzaj.Margin = new System.Windows.Forms.Padding(2);
             this.txtSadrzaj.Multiline = true;
             this.txtSadrzaj.Name = "txtSadrzaj";
-            this.txtSadrzaj.Size = new System.Drawing.Size(484, 76);
+            this.txtSadrzaj.Size = new System.Drawing.Size(470, 76);
             this.txtSadrzaj.TabIndex = 43;
+            this.txtSadrzaj.Validating += new System.ComponentModel.CancelEventHandler(this.txtSadrzaj_Validating);
             // 
             // txtImdbLink
             // 
@@ -100,6 +102,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtImdbLink.Name = "txtImdbLink";
             this.txtImdbLink.Size = new System.Drawing.Size(175, 20);
             this.txtImdbLink.TabIndex = 38;
+            this.txtImdbLink.Validating += new System.ComponentModel.CancelEventHandler(this.txtImdbLink_Validating);
             // 
             // label5
             // 
@@ -121,16 +124,18 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtGodinaSnimanja.Size = new System.Drawing.Size(175, 20);
             this.txtGodinaSnimanja.TabIndex = 32;
             this.txtGodinaSnimanja.ValidatingType = typeof(int);
+            this.txtGodinaSnimanja.Validating += new System.ComponentModel.CancelEventHandler(this.txtGodinaSnimanja_Validating);
             // 
             // txtTrajanje
             // 
             this.txtTrajanje.Location = new System.Drawing.Point(8, 68);
             this.txtTrajanje.Margin = new System.Windows.Forms.Padding(2);
-            this.txtTrajanje.Mask = "00000";
+            this.txtTrajanje.Mask = "000";
             this.txtTrajanje.Name = "txtTrajanje";
             this.txtTrajanje.Size = new System.Drawing.Size(175, 20);
             this.txtTrajanje.TabIndex = 30;
             this.txtTrajanje.ValidatingType = typeof(int);
+            this.txtTrajanje.Validating += new System.ComponentModel.CancelEventHandler(this.txtTrajanje_Validating);
             // 
             // txtVideoLink
             // 
@@ -139,16 +144,18 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtVideoLink.Name = "txtVideoLink";
             this.txtVideoLink.Size = new System.Drawing.Size(175, 20);
             this.txtVideoLink.TabIndex = 36;
+            this.txtVideoLink.Validating += new System.ComponentModel.CancelEventHandler(this.txtVideoLink_Validating);
             // 
-            // cmbReditelj
+            // cbReditelj
             // 
-            this.cmbReditelj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbReditelj.FormattingEnabled = true;
-            this.cmbReditelj.Location = new System.Drawing.Point(8, 150);
-            this.cmbReditelj.Margin = new System.Windows.Forms.Padding(2);
-            this.cmbReditelj.Name = "cmbReditelj";
-            this.cmbReditelj.Size = new System.Drawing.Size(175, 21);
-            this.cmbReditelj.TabIndex = 34;
+            this.cbReditelj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbReditelj.FormattingEnabled = true;
+            this.cbReditelj.Location = new System.Drawing.Point(8, 150);
+            this.cbReditelj.Margin = new System.Windows.Forms.Padding(2);
+            this.cbReditelj.Name = "cbReditelj";
+            this.cbReditelj.Size = new System.Drawing.Size(175, 21);
+            this.cbReditelj.TabIndex = 34;
+            this.cbReditelj.Validating += new System.ComponentModel.CancelEventHandler(this.cbReditelj_Validating);
             // 
             // label4
             // 
@@ -227,6 +234,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtNaslov.Name = "txtNaslov";
             this.txtNaslov.Size = new System.Drawing.Size(321, 20);
             this.txtNaslov.TabIndex = 28;
+            this.txtNaslov.Validating += new System.ComponentModel.CancelEventHandler(this.txtNaslov_Validating);
             // 
             // label1
             // 
@@ -247,6 +255,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.btnDodajPlakat.TabIndex = 24;
             this.btnDodajPlakat.Text = "Dodaj plakat";
             this.btnDodajPlakat.UseVisualStyleBackColor = true;
+            this.btnDodajPlakat.Click += new System.EventHandler(this.BtnDodajPlakat_Click);
             // 
             // groupBox1
             // 
@@ -270,10 +279,10 @@ namespace Pelikula.WINUI.Forms.Film
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.clbGlumci);
             this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.lbGlumci);
             this.groupBox2.Controls.Add(this.txtNaslov);
-            this.groupBox2.Controls.Add(this.cmbZanr);
+            this.groupBox2.Controls.Add(this.cbZanr);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label6);
@@ -282,7 +291,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.groupBox2.Controls.Add(this.txtImdbLink);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.cmbReditelj);
+            this.groupBox2.Controls.Add(this.cbReditelj);
             this.groupBox2.Controls.Add(this.txtGodinaSnimanja);
             this.groupBox2.Controls.Add(this.txtVideoLink);
             this.groupBox2.Controls.Add(this.txtTrajanje);
@@ -293,18 +302,19 @@ namespace Pelikula.WINUI.Forms.Film
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Informacije";
             // 
-            // lbGlumci
+            // clbGlumci
             // 
-            this.lbGlumci.FormattingEnabled = true;
-            this.lbGlumci.Location = new System.Drawing.Point(198, 69);
-            this.lbGlumci.Name = "lbGlumci";
-            this.lbGlumci.Size = new System.Drawing.Size(175, 225);
-            this.lbGlumci.TabIndex = 50;
+            this.clbGlumci.FormattingEnabled = true;
+            this.clbGlumci.Location = new System.Drawing.Point(198, 79);
+            this.clbGlumci.Name = "clbGlumci";
+            this.clbGlumci.Size = new System.Drawing.Size(175, 214);
+            this.clbGlumci.TabIndex = 52;
+            this.clbGlumci.Validating += new System.ComponentModel.CancelEventHandler(this.clbGlumci_Validating);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(195, 54);
+            this.label9.Location = new System.Drawing.Point(195, 63);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(39, 13);
@@ -352,7 +362,7 @@ namespace Pelikula.WINUI.Forms.Film
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cmbZanr;
+        private System.Windows.Forms.ComboBox cbZanr;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtSadrzaj;
         private System.Windows.Forms.TextBox txtImdbLink;
@@ -360,7 +370,7 @@ namespace Pelikula.WINUI.Forms.Film
         private System.Windows.Forms.MaskedTextBox txtGodinaSnimanja;
         private System.Windows.Forms.MaskedTextBox txtTrajanje;
         private System.Windows.Forms.TextBox txtVideoLink;
-        private System.Windows.Forms.ComboBox cmbReditelj;
+        private System.Windows.Forms.ComboBox cbReditelj;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -376,7 +386,7 @@ namespace Pelikula.WINUI.Forms.Film
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ListBox lbGlumci;
         private System.Windows.Forms.OpenFileDialog ofdPlakat;
+        private System.Windows.Forms.CheckedListBox clbGlumci;
     }
 }

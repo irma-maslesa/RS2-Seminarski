@@ -93,7 +93,7 @@ namespace Pelikula.CORE.Impl
             if (request.ZanrId.HasValue)
                 ZanrValidator.ValidateEntityExists(request.ZanrId.Value);
             if (request.RediteljId.HasValue)
-                ZanrValidator.ValidateEntityExists(request.RediteljId.Value);
+                FilmskaLicnostValidator.ValidateEntityExists(request.RediteljId.Value);
             if (request.FilmGlumacIds != null)
                 FilmskaLicnostValidator.ValidateEntitiesExists(request.FilmGlumacIds);
 

@@ -60,6 +60,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             // 
             this.dgvTipoviKorisnika.AllowUserToAddRows = false;
             this.dgvTipoviKorisnika.AllowUserToDeleteRows = false;
+            this.dgvTipoviKorisnika.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTipoviKorisnika.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTipoviKorisnika.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTipoviKorisnika.Location = new System.Drawing.Point(3, 16);

@@ -66,6 +66,7 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             // 
             this.dgvFilmskeLicnosti.AllowUserToAddRows = false;
             this.dgvFilmskeLicnosti.AllowUserToDeleteRows = false;
+            this.dgvFilmskeLicnosti.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFilmskeLicnosti.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFilmskeLicnosti.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFilmskeLicnosti.Location = new System.Drawing.Point(3, 16);

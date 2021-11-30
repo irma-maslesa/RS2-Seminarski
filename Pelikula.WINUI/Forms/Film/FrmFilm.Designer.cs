@@ -29,7 +29,7 @@ namespace Pelikula.WINUI.Forms.Film
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvFilmovi = new System.Windows.Forms.DataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,6 +76,7 @@ namespace Pelikula.WINUI.Forms.Film
             // 
             this.dgvFilmovi.AllowUserToAddRows = false;
             this.dgvFilmovi.AllowUserToDeleteRows = false;
+            this.dgvFilmovi.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFilmovi.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFilmovi.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -109,9 +110,9 @@ namespace Pelikula.WINUI.Forms.Film
             // Datum
             // 
             this.Datum.DataPropertyName = "Reditelj";
-            dataGridViewCellStyle3.Format = "g";
-            dataGridViewCellStyle3.NullValue = null;
-            this.Datum.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Format = "g";
+            dataGridViewCellStyle1.NullValue = null;
+            this.Datum.DefaultCellStyle = dataGridViewCellStyle1;
             this.Datum.HeaderText = "Reditelj";
             this.Datum.Name = "Datum";
             this.Datum.ReadOnly = true;
