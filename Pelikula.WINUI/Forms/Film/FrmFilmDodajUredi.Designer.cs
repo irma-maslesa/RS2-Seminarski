@@ -72,7 +72,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.cbZanr.Name = "cbZanr";
             this.cbZanr.Size = new System.Drawing.Size(175, 21);
             this.cbZanr.TabIndex = 49;
-            this.cbZanr.Validating += new System.ComponentModel.CancelEventHandler(this.cbZanr_Validating);
+            this.cbZanr.Validating += new System.ComponentModel.CancelEventHandler(this.CbZanr_Validating);
             // 
             // label8
             // 
@@ -93,7 +93,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtSadrzaj.Name = "txtSadrzaj";
             this.txtSadrzaj.Size = new System.Drawing.Size(470, 76);
             this.txtSadrzaj.TabIndex = 43;
-            this.txtSadrzaj.Validating += new System.ComponentModel.CancelEventHandler(this.txtSadrzaj_Validating);
+            this.txtSadrzaj.Validating += new System.ComponentModel.CancelEventHandler(this.TxtSadrzaj_Validating);
             // 
             // txtImdbLink
             // 
@@ -102,7 +102,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtImdbLink.Name = "txtImdbLink";
             this.txtImdbLink.Size = new System.Drawing.Size(175, 20);
             this.txtImdbLink.TabIndex = 38;
-            this.txtImdbLink.Validating += new System.ComponentModel.CancelEventHandler(this.txtImdbLink_Validating);
+            this.txtImdbLink.Validating += new System.ComponentModel.CancelEventHandler(this.TxtImdbLink_Validating);
             // 
             // label5
             // 
@@ -124,7 +124,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtGodinaSnimanja.Size = new System.Drawing.Size(175, 20);
             this.txtGodinaSnimanja.TabIndex = 32;
             this.txtGodinaSnimanja.ValidatingType = typeof(int);
-            this.txtGodinaSnimanja.Validating += new System.ComponentModel.CancelEventHandler(this.txtGodinaSnimanja_Validating);
+            this.txtGodinaSnimanja.Validating += new System.ComponentModel.CancelEventHandler(this.TxtGodinaSnimanja_Validating);
             // 
             // txtTrajanje
             // 
@@ -135,7 +135,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtTrajanje.Size = new System.Drawing.Size(175, 20);
             this.txtTrajanje.TabIndex = 30;
             this.txtTrajanje.ValidatingType = typeof(int);
-            this.txtTrajanje.Validating += new System.ComponentModel.CancelEventHandler(this.txtTrajanje_Validating);
+            this.txtTrajanje.Validating += new System.ComponentModel.CancelEventHandler(this.TxtTrajanje_Validating);
             // 
             // txtVideoLink
             // 
@@ -144,7 +144,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtVideoLink.Name = "txtVideoLink";
             this.txtVideoLink.Size = new System.Drawing.Size(175, 20);
             this.txtVideoLink.TabIndex = 36;
-            this.txtVideoLink.Validating += new System.ComponentModel.CancelEventHandler(this.txtVideoLink_Validating);
+            this.txtVideoLink.Validating += new System.ComponentModel.CancelEventHandler(this.TxtVideoLink_Validating);
             // 
             // cbReditelj
             // 
@@ -155,7 +155,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.cbReditelj.Name = "cbReditelj";
             this.cbReditelj.Size = new System.Drawing.Size(175, 21);
             this.cbReditelj.TabIndex = 34;
-            this.cbReditelj.Validating += new System.ComponentModel.CancelEventHandler(this.cbReditelj_Validating);
+            this.cbReditelj.Validating += new System.ComponentModel.CancelEventHandler(this.CbReditelj_Validating);
             // 
             // label4
             // 
@@ -234,7 +234,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.txtNaslov.Name = "txtNaslov";
             this.txtNaslov.Size = new System.Drawing.Size(321, 20);
             this.txtNaslov.TabIndex = 28;
-            this.txtNaslov.Validating += new System.ComponentModel.CancelEventHandler(this.txtNaslov_Validating);
+            this.txtNaslov.Validating += new System.ComponentModel.CancelEventHandler(this.TxtNaslov_Validating);
             // 
             // label1
             // 
@@ -309,7 +309,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.clbGlumci.Name = "clbGlumci";
             this.clbGlumci.Size = new System.Drawing.Size(175, 214);
             this.clbGlumci.TabIndex = 52;
-            this.clbGlumci.Validating += new System.ComponentModel.CancelEventHandler(this.clbGlumci_Validating);
+            this.clbGlumci.Validating += new System.ComponentModel.CancelEventHandler(this.ClbGlumci_Validating);
             // 
             // label9
             // 

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace Pelikula.CORE.Impl
 {
     public class ProjekcijaServiceImpl :
-        CrudServiceImpl<ProjekcijaResponse, Projekcija, ProjekcijaInsertRequest, ProjekcijaUpdateRequest>,
+        CrudServiceImpl<ProjekcijaResponse, Projekcija, ProjekcijaUpsertRequest, ProjekcijaUpsertRequest>,
         IProjekcijaService
     {
         protected new IProjekcijaValidator Validator { get; set; }
@@ -70,23 +70,32 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<LoV>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<ProjekcijaResponse> Insert(ProjekcijaInsertRequest request)
+        public override PayloadResponse<ProjekcijaResponse> Insert(ProjekcijaUpsertRequest request)
         {
-            Validator.ValidateEntityExists(request);
+            Validator.ValidateEntityExists(null, request);
             SalaValidator.ValidateEntityExists(request.SalaId);
             FilmValidator.ValidateEntityExists(request.FilmId);
-            Validator.ValidateTermin(request.ProjekcijaTermin);
+            var trajanjeFilma = Context.Film.Where(e => e.Id == request.FilmId).Select(e => e.Trajanje).First();
+            Validator.ValidateTermin(request.ProjekcijaTermin, trajanjeFilma.Value);
 
-            Projekcija entity = Mapper.Map<ProjekcijaInsertRequest, Projekcija>(request);
+            request.VrijediOd = new DateTime(request.VrijediOd.Year, request.VrijediOd.Month, request.VrijediOd.Day, 0, 0, 0, 0);
+            request.VrijediDo = new DateTime(request.VrijediDo.Year, request.VrijediDo.Month, request.VrijediDo.Day, 23, 59, 59, 999);
+            Projekcija entity = Mapper.Map<ProjekcijaUpsertRequest, Projekcija>(request);
             entity = Context.Set<Projekcija>().Add(entity).Entity;
             Context.SaveChanges();
+
+            var numberOfDays = (request.VrijediDo - request.VrijediOd).TotalDays;
 
             if (request.ProjekcijaTermin != null)
             {
                 foreach (var termin in request.ProjekcijaTermin)
                 {
                     termin.ProjekcijaId = entity.Id;
-                    Context.ProjekcijaTermin.Add(Mapper.Map<ProjekcijaTerminInsertRequest, ProjekcijaTermin>(termin));
+                    for (int i = 0; i <= numberOfDays; i++)
+                    {
+                        termin.Termin = request.VrijediOd.AddDays(i).Date.Add(termin.Termin.TimeOfDay);
+                        Context.ProjekcijaTermin.Add(Mapper.Map<ProjekcijaTerminUpsertRequest, ProjekcijaTermin>(termin));
+                    }
                 }
 
             }
@@ -98,13 +107,14 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<ProjekcijaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<ProjekcijaResponse> Update(int id, ProjekcijaUpdateRequest request)
+        public override PayloadResponse<ProjekcijaResponse> Update(int id, ProjekcijaUpsertRequest request)
         {
             Validator.ValidateEntityExists(id, request);
             Validator.ValidateEntityExists(id);
             SalaValidator.ValidateEntityExists(request.SalaId);
             FilmValidator.ValidateEntityExists(request.FilmId);
-            Validator.ValidateTermin(request.ProjekcijaTermin);
+            var trajanjeFilma = Context.Film.Where(e => e.Id == request.FilmId).Select(e => e.Trajanje).First();
+            Validator.ValidateTermin(request.ProjekcijaTermin, trajanjeFilma.Value);
 
             Projekcija entity = Context.Set<Projekcija>().Find(id);
 
@@ -113,23 +123,36 @@ namespace Pelikula.CORE.Impl
             Context.Set<Projekcija>().Update(entity);
             Context.SaveChanges();
 
+            var numberOfDays = (request.VrijediDo - request.VrijediOd).TotalDays;
+
             if (request.ProjekcijaTermin != null)
             {
+                var projekcijaTerminEntites = Context.ProjekcijaTermin.Where(e => e.ProjekcijaId == entity.Id).ToList();
+                var entitesGroupedByTime = projekcijaTerminEntites.GroupBy(e => e.Termin.Value.TimeOfDay);
+                var terminiList = entitesGroupedByTime.Select(e => e.Key).ToList();
+
+                var existingTerminTimes = request.ProjekcijaTermin.Select(e => e.Termin.TimeOfDay);
+
+                var terminTimesForDelete = terminiList.Where(e => !existingTerminTimes.Contains(e)).ToList();
+
+                var projekcijaTerminEntitesForDelete = projekcijaTerminEntites.Where(e => terminTimesForDelete.Contains(e.Termin.Value.TimeOfDay)).ToList();
+                Context.RemoveRange(projekcijaTerminEntitesForDelete);
+
                 foreach (var termin in request.ProjekcijaTermin)
                 {
-                    ProjekcijaTermin terminEntity = Context.ProjekcijaTermin.Find(termin.Id);
-
-                    if (terminEntity != null)
-                    {
-                        terminEntity = Mapper.Map(termin, terminEntity);
-                        Context.ProjekcijaTermin.Update(terminEntity);
-                    }
-                    else
+                    if (!terminiList.Contains(termin.Termin.TimeOfDay))
                     {
                         termin.ProjekcijaId = entity.Id;
-                        Context.ProjekcijaTermin.Add(Mapper.Map<ProjekcijaTerminUpdateRequest, ProjekcijaTermin>(termin));
+                        for (int i = 0; i <= numberOfDays; i++)
+                        {
+                            termin.Termin = request.VrijediOd.AddDays(i).Date.Add(termin.Termin.TimeOfDay);
+                            Context.ProjekcijaTermin.Add(Mapper.Map<ProjekcijaTerminUpsertRequest, ProjekcijaTermin>(termin));
+                        }
+
                     }
+
                 }
+
             }
 
             Context.SaveChanges();

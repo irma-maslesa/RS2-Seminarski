@@ -5,15 +5,16 @@ using System.Collections.Generic;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace Pelikula.DAO.Model
+namespace Pelikula.DAO.Database
 {
-    public partial class SjedisteRezervacija
+    public partial class ProdajaRezervacija
     {
         public int Id { get; set; }
-        public int? SjedisteId { get; set; }
-        public int? RezervacijaId { get; set; }
+        public int ProdajaId { get; set; }
+        public int RezervacijaId { get; set; }
+        public decimal Cijena { get; set; }
 
+        public virtual Prodaja Prodaja { get; set; }
         public virtual Rezervacija Rezervacija { get; set; }
-        public virtual Sjediste Sjediste { get; set; }
     }
 }

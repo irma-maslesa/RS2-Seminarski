@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace API.Controllers
 {
     public class ProjekcijaController :
-        CrudController<ProjekcijaResponse, ProjekcijaInsertRequest, ProjekcijaUpdateRequest>
+        CrudController<ProjekcijaResponse, ProjekcijaUpsertRequest, ProjekcijaUpsertRequest>
     {
         protected readonly IProjekcijaService Service;
 

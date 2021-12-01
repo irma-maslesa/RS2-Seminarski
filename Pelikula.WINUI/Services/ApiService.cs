@@ -10,6 +10,7 @@ using Pelikula.API.Model.Helper;
 using System.Windows.Forms;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.API.Model.Anketa;
+using Pelikula.API.Model.Projekcija;
 
 namespace Pelikula.WINUI
 {
@@ -180,5 +181,34 @@ namespace Pelikula.WINUI
                 return default;
             }
         }
+
+        public async Task<PagedPayloadResponse<ProjekcijaResponse>> GetAktivne(PaginationUtility.PaginationParams paginationParams, IEnumerable<FilterUtility.FilterParams> filterParams, IEnumerable<SortingUtility.SortingParams> sortingParams)
+        {
+            var queryParams = new
+            {
+                pagination = paginationParams != null ? JsonConvert.SerializeObject(paginationParams) : null,
+                filter = filterParams != null && filterParams.Any() ? JsonConvert.SerializeObject(filterParams) : null,
+                sorting = sortingParams != null && sortingParams.Any() ? JsonConvert.SerializeObject(sortingParams) : null
+            };
+
+            try
+            {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                    .AppendPathSegment(_route)
+                    .AppendPathSegment("aktivne")
+                    .SetQueryParams(queryParams)
+                    .GetJsonAsync<PagedPayloadResponse<ProjekcijaResponse>>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
     }
 }

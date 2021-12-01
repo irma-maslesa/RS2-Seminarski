@@ -69,7 +69,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.txtIme.Name = "txtIme";
             this.txtIme.Size = new System.Drawing.Size(150, 20);
             this.txtIme.TabIndex = 6;
-            this.txtIme.Validating += new System.ComponentModel.CancelEventHandler(this.txtIme_Validating);
+            this.txtIme.Validating += new System.ComponentModel.CancelEventHandler(this.TxtIme_Validating);
             // 
             // btnOcisti
             // 
@@ -182,7 +182,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.cbTipKorisnika.Name = "cbTipKorisnika";
             this.cbTipKorisnika.Size = new System.Drawing.Size(231, 21);
             this.cbTipKorisnika.TabIndex = 19;
-            this.cbTipKorisnika.Validating += new System.ComponentModel.CancelEventHandler(this.cbTipKorisnika_Validating);
+            this.cbTipKorisnika.Validating += new System.ComponentModel.CancelEventHandler(this.CbTipKorisnika_Validating);
             // 
             // cbSpol
             // 
@@ -191,7 +191,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.cbSpol.Name = "cbSpol";
             this.cbSpol.Size = new System.Drawing.Size(231, 21);
             this.cbSpol.TabIndex = 14;
-            this.cbSpol.Validating += new System.ComponentModel.CancelEventHandler(this.cbSpol_Validating);
+            this.cbSpol.Validating += new System.ComponentModel.CancelEventHandler(this.CbSpol_Validating);
             // 
             // txtLozinka
             // 
@@ -200,7 +200,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.txtLozinka.PasswordChar = '*';
             this.txtLozinka.Size = new System.Drawing.Size(231, 20);
             this.txtLozinka.TabIndex = 17;
-            this.txtLozinka.Validating += new System.ComponentModel.CancelEventHandler(this.txtLozinka_Validating);
+            this.txtLozinka.Validating += new System.ComponentModel.CancelEventHandler(this.TxtLozinka_Validating);
             // 
             // label6
             // 
@@ -217,7 +217,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.txtKorisnickoIme.Name = "txtKorisnickoIme";
             this.txtKorisnickoIme.Size = new System.Drawing.Size(231, 20);
             this.txtKorisnickoIme.TabIndex = 15;
-            this.txtKorisnickoIme.Validating += new System.ComponentModel.CancelEventHandler(this.txtKorisnickoIme_Validating);
+            this.txtKorisnickoIme.Validating += new System.ComponentModel.CancelEventHandler(this.TxtKorisnickoIme_Validating);
             // 
             // label5
             // 
@@ -234,7 +234,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(231, 20);
             this.txtEmail.TabIndex = 11;
-            this.txtEmail.Validating += new System.ComponentModel.CancelEventHandler(this.txtEmail_Validating);
+            this.txtEmail.Validating += new System.ComponentModel.CancelEventHandler(this.TxtEmail_Validating);
             // 
             // label3
             // 
@@ -251,7 +251,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.txtPrezime.Name = "txtPrezime";
             this.txtPrezime.Size = new System.Drawing.Size(139, 20);
             this.txtPrezime.TabIndex = 9;
-            this.txtPrezime.Validating += new System.ComponentModel.CancelEventHandler(this.txtPrezime_Validating);
+            this.txtPrezime.Validating += new System.ComponentModel.CancelEventHandler(this.TxtPrezime_Validating);
             // 
             // label2
             // 

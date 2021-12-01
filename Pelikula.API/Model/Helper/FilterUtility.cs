@@ -48,8 +48,9 @@ namespace Pelikula.API.Model.Helper
                     var filterColumn = typeof(T).GetProperty(colName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
                     if (filterColumn != null)
                     {
-                        IEnumerable<FilterParams> filterValues = filterParams.Where(x => x.ColumnName.Equals(colName)).Distinct();
-
+                        var equals = filterParams.ElementAt(0).ColumnName.Equals(colName);
+                        IEnumerable<FilterParams> filterValues = filterParams.Where(x => x.ColumnName.Equals(colName));
+                        var count = filterValues.Count();
                         if (filterValues.Count() > 1)
                         {
                             List<IEnumerable<T>> sameColData = new List<IEnumerable<T>>();
@@ -63,6 +64,7 @@ namespace Pelikula.API.Model.Helper
                         }
                         else
                         {
+                            var value = filterValues.FirstOrDefault();
                             data = FilterData(filterValues.FirstOrDefault().FilterOption, data, filterColumn, filterValues.FirstOrDefault().FilterValue);
                         }
                     }
@@ -126,6 +128,11 @@ namespace Pelikula.API.Model.Helper
                             data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) > dateValue).ToList();
 
                         }
+                        else if ((filterColumn.PropertyType == typeof(DateTime)) && DateTime.TryParse(filterValue, out dateValue))
+                        {
+                            data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) > dateValue).ToList();
+                            break;
+                        }
                         break;
 
                     case FilterOptions.isgreaterthanorequalto:
@@ -134,6 +141,11 @@ namespace Pelikula.API.Model.Helper
                             data = data.Where(x => Convert.ToInt32(filterColumn.GetValue(x, null)) >= outValue).ToList();
                         }
                         else if ((filterColumn.PropertyType == typeof(Nullable<DateTime>)) && DateTime.TryParse(filterValue, out dateValue))
+                        {
+                            data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) >= dateValue).ToList();
+                            break;
+                        }
+                        else if ((filterColumn.PropertyType == typeof(DateTime)) && DateTime.TryParse(filterValue, out dateValue))
                         {
                             data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) >= dateValue).ToList();
                             break;
@@ -150,6 +162,11 @@ namespace Pelikula.API.Model.Helper
                             data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) < dateValue).ToList();
                             break;
                         }
+                        else if ((filterColumn.PropertyType == typeof(DateTime)) && DateTime.TryParse(filterValue, out dateValue))
+                        {
+                            data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) < dateValue).ToList();
+                            break;
+                        }
                         break;
 
                     case FilterOptions.islessthanorequalto:
@@ -158,6 +175,11 @@ namespace Pelikula.API.Model.Helper
                             data = data.Where(x => Convert.ToInt32(filterColumn.GetValue(x, null)) <= outValue).ToList();
                         }
                         else if ((filterColumn.PropertyType == typeof(Nullable<DateTime>)) && DateTime.TryParse(filterValue, out dateValue))
+                        {
+                            data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) <= dateValue).ToList();
+                            break;
+                        }
+                        else if ((filterColumn.PropertyType == typeof(DateTime)) && DateTime.TryParse(filterValue, out dateValue))
                         {
                             data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) <= dateValue).ToList();
                             break;
@@ -181,6 +203,11 @@ namespace Pelikula.API.Model.Helper
                                 data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) == dateValue).ToList();
                                 break;
                             }
+                            else if ((filterColumn.PropertyType == typeof(DateTime)) && DateTime.TryParse(filterValue, out dateValue))
+                            {
+                                data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) == dateValue).ToList();
+                                break;
+                            }
                             else
                             {
                                 data = data.Where(x => filterColumn.GetValue(x, null) != null && filterColumn.GetValue(x, null).ToString().ToLower() == filterValue.ToLower()).ToList();
@@ -196,6 +223,11 @@ namespace Pelikula.API.Model.Helper
                         else if ((filterColumn.PropertyType == typeof(Nullable<DateTime>)) && (DateTime.TryParse(filterValue, out dateValue) || filterValue == null))
                         {
                             data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) != dateValue).ToList();
+                            break;
+                        }
+                        else if ((filterColumn.PropertyType == typeof(DateTime)) && DateTime.TryParse(filterValue, out dateValue))
+                        {
+                            data = data.Where(x => Convert.ToDateTime(filterColumn.GetValue(x, null)) == dateValue).ToList();
                             break;
                         }
                         else

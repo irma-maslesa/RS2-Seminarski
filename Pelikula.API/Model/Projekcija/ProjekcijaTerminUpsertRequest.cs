@@ -2,9 +2,9 @@
 
 namespace Pelikula.API.Model.Projekcija
 {
-    public partial class ProjekcijaTerminInsertRequest
+    public partial class ProjekcijaTerminUpsertRequest
     {
         public int ProjekcijaId { get; set; }
-        public TimeSpan Termin { get; set; }
+        public DateTime Termin { get; set; }
     }
 }
