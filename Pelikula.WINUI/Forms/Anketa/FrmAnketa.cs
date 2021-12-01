@@ -226,7 +226,7 @@ namespace Pelikula.WINUI.Forms.Anketa
         {
             AnketaResponse data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati obavijest {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati anketu {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 await _service.Delete(data.Id);
                 await GetGridData();
@@ -240,8 +240,10 @@ namespace Pelikula.WINUI.Forms.Anketa
 
         private void BtnPrikazi_Click(object sender, EventArgs e)
         {
-            var frm = new FrmAnketaRezultati(((AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem).Id);
-            frm.StartPosition = FormStartPosition.CenterParent;
+            var frm = new FrmAnketaRezultati(((AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem).Id)
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
             frm.ShowDialog();
         }
 

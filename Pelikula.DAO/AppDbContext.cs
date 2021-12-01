@@ -161,7 +161,9 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.ImdbLink).HasMaxLength(100);
 
-                entity.Property(e => e.Naslov).HasMaxLength(250);
+                entity.Property(e => e.Naslov)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
                 entity.Property(e => e.RediteljId).HasColumnName("RediteljID");
 
@@ -174,11 +176,13 @@ namespace Pelikula.DAO
                 entity.HasOne(d => d.Reditelj)
                     .WithMany(p => p.Film)
                     .HasForeignKey(d => d.RediteljId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Film_FilmskaLicnost_RediteljId");
 
                 entity.HasOne(d => d.Zanr)
                     .WithMany(p => p.Film)
                     .HasForeignKey(d => d.ZanrId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Film_Zanr_ZanrId");
             });
 
@@ -461,20 +465,14 @@ namespace Pelikula.DAO
                     .HasColumnName("ID")
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.ProjekcijaTerminId).HasColumnName("ProjekcijaTerminID");
-
                 entity.Property(e => e.RezervacijaId).HasColumnName("RezervacijaID");
 
                 entity.Property(e => e.SjedisteId).HasColumnName("SjedisteID");
 
-                entity.HasOne(d => d.ProjekcijaTermin)
-                    .WithMany(p => p.SjedisteRezervacija)
-                    .HasForeignKey(d => d.ProjekcijaTerminId)
-                    .HasConstraintName("FK_SjedisteRezervacija_ProjekcijaTermin");
-
                 entity.HasOne(d => d.Rezervacija)
                     .WithMany(p => p.SjedisteRezervacija)
                     .HasForeignKey(d => d.RezervacijaId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_SjedisteRezervacija_Rezervacija");
 
                 entity.HasOne(d => d.Sjediste)
@@ -498,7 +496,6 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.Opis).HasMaxLength(2000);
             });
-
         }
 
     }

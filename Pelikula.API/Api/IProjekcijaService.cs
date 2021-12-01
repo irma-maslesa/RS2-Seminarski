@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pelikula.API.Api
 {
-    public interface IProjekcijaService : ICrudService<ProjekcijaResponse, ProjekcijaInsertRequest, ProjekcijaUpdateRequest>
+    public interface IProjekcijaService : ICrudService<ProjekcijaResponse, ProjekcijaUpsertRequest, ProjekcijaUpsertRequest>
     {
         PagedPayloadResponse<ProjekcijaResponse> GetActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting);
 

@@ -100,6 +100,18 @@
     <Compile Include="Forms\Film\FrmFilmDodajUredi.Designer.cs">
       <DependentUpon>FrmFilmDodajUredi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Projekcija\FrmProjekcijaDodajUredi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Projekcija\FrmProjekcijaDodajUredi.Designer.cs">
+      <DependentUpon>FrmProjekcijaDodajUredi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Projekcija\FrmProjekcija.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Projekcija\FrmProjekcija.Designer.cs">
+      <DependentUpon>FrmProjekcija.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Sala\FrmSala.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,6 +233,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Film\FrmFilmDodajUredi.resx">
       <DependentUpon>FrmFilmDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Projekcija\FrmProjekcijaDodajUredi.resx">
+      <DependentUpon>FrmProjekcijaDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Projekcija\FrmProjekcija.resx">
+      <DependentUpon>FrmProjekcija.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Sala\FrmSala.resx">
       <DependentUpon>FrmSala.cs</DependentUpon>

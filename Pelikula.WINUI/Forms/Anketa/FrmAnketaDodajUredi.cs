@@ -15,8 +15,8 @@ namespace Pelikula.WINUI.Forms.Anketa
         private readonly int? _id;
 
         private AnketaResponse _initial = new AnketaResponse();
-        private AnketaInsertRequest _insertRequest = new AnketaInsertRequest();
-        private AnketaUpdateRequest _updateRequest = new AnketaUpdateRequest();
+        private readonly AnketaInsertRequest _insertRequest = new AnketaInsertRequest();
+        private readonly AnketaUpdateRequest _updateRequest = new AnketaUpdateRequest();
 
         public FrmAnketaDodajUredi(int? id = null)
         {
@@ -99,11 +99,13 @@ namespace Pelikula.WINUI.Forms.Anketa
 
                     foreach (var odgovor in _initial.Odgovori)
                     {
-                        var updateOdg = new AnketaOdgovorUpdateRequest();
-                        updateOdg.AnketaId = _id.Value;
-                        updateOdg.Id = odgovor.Id;
-                        updateOdg.Odgovor = odgovor.Odgovor;
-                        updateOdg.RedniBroj = odgovor.RedniBroj;
+                        var updateOdg = new AnketaOdgovorUpdateRequest
+                        {
+                            AnketaId = _id.Value,
+                            Id = odgovor.Id,
+                            Odgovor = odgovor.Odgovor,
+                            RedniBroj = odgovor.RedniBroj
+                        };
 
                         _updateRequest.Odgovori.Add(updateOdg);
                     }
@@ -217,7 +219,7 @@ namespace Pelikula.WINUI.Forms.Anketa
         }
 
         //VALIDACIJA
-        private void txtNaslov_Validating(object sender, CancelEventArgs e)
+        private void TxtNaslov_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtNaslov.Text.Trim()))
             {
@@ -230,20 +232,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             }
         }
 
-        private void cbOdgovor2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbOdgovor2.Checked)
-            {
-                txtOdgovor2.ReadOnly = false;
-            }
-            else
-            {
-                txtOdgovor2.Text = string.Empty;
-                txtOdgovor2.ReadOnly = true;
-            }
-        }
-
-        private void cbOdgovor1_CheckedChanged(object sender, EventArgs e)
+        private void CbOdgovor1_CheckedChanged(object sender, EventArgs e)
         {
             if (cbOdgovor1.Checked)
             {
@@ -256,7 +245,20 @@ namespace Pelikula.WINUI.Forms.Anketa
             }
         }
 
-        private void cbOdgovor3_CheckedChanged(object sender, EventArgs e)
+        private void CbOdgovor2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbOdgovor2.Checked)
+            {
+                txtOdgovor2.ReadOnly = false;
+            }
+            else
+            {
+                txtOdgovor2.Text = string.Empty;
+                txtOdgovor2.ReadOnly = true;
+            }
+        }
+
+        private void CbOdgovor3_CheckedChanged(object sender, EventArgs e)
         {
             if (cbOdgovor3.Checked)
             {
@@ -269,7 +271,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             }
         }
 
-        private void cbOdgovor4_CheckedChanged(object sender, EventArgs e)
+        private void CbOdgovor4_CheckedChanged(object sender, EventArgs e)
         {
             if (cbOdgovor4.Checked)
             {
@@ -282,7 +284,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             }
         }
 
-        private void cbOdgovor5_CheckedChanged(object sender, EventArgs e)
+        private void CbOdgovor5_CheckedChanged(object sender, EventArgs e)
         {
             if (cbOdgovor5.Checked)
             {

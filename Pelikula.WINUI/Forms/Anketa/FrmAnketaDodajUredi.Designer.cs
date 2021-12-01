@@ -60,7 +60,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             this.txtNaslov.Name = "txtNaslov";
             this.txtNaslov.Size = new System.Drawing.Size(320, 20);
             this.txtNaslov.TabIndex = 6;
-            this.txtNaslov.Validating += new System.ComponentModel.CancelEventHandler(this.txtNaslov_Validating);
+            this.txtNaslov.Validating += new System.ComponentModel.CancelEventHandler(this.TxtNaslov_Validating);
             // 
             // btnOcisti
             // 
@@ -130,7 +130,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             this.cbOdgovor5.Size = new System.Drawing.Size(15, 14);
             this.cbOdgovor5.TabIndex = 8;
             this.cbOdgovor5.UseVisualStyleBackColor = true;
-            this.cbOdgovor5.CheckedChanged += new System.EventHandler(this.cbOdgovor5_CheckedChanged);
+            this.cbOdgovor5.CheckedChanged += new System.EventHandler(this.CbOdgovor5_CheckedChanged);
             // 
             // txtOdgovor4
             // 
@@ -150,7 +150,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             this.cbOdgovor4.Size = new System.Drawing.Size(15, 14);
             this.cbOdgovor4.TabIndex = 6;
             this.cbOdgovor4.UseVisualStyleBackColor = true;
-            this.cbOdgovor4.CheckedChanged += new System.EventHandler(this.cbOdgovor4_CheckedChanged);
+            this.cbOdgovor4.CheckedChanged += new System.EventHandler(this.CbOdgovor4_CheckedChanged);
             // 
             // txtOdgovor3
             // 
@@ -170,7 +170,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             this.cbOdgovor3.Size = new System.Drawing.Size(15, 14);
             this.cbOdgovor3.TabIndex = 4;
             this.cbOdgovor3.UseVisualStyleBackColor = true;
-            this.cbOdgovor3.CheckedChanged += new System.EventHandler(this.cbOdgovor3_CheckedChanged);
+            this.cbOdgovor3.CheckedChanged += new System.EventHandler(this.CbOdgovor3_CheckedChanged);
             // 
             // txtOdgovor2
             // 
@@ -190,7 +190,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             this.cbOdgovor2.Size = new System.Drawing.Size(15, 14);
             this.cbOdgovor2.TabIndex = 2;
             this.cbOdgovor2.UseVisualStyleBackColor = true;
-            this.cbOdgovor2.CheckedChanged += new System.EventHandler(this.cbOdgovor2_CheckedChanged);
+            this.cbOdgovor2.CheckedChanged += new System.EventHandler(this.CbOdgovor2_CheckedChanged);
             // 
             // txtOdgovor1
             // 
@@ -211,7 +211,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             this.cbOdgovor1.Size = new System.Drawing.Size(15, 14);
             this.cbOdgovor1.TabIndex = 0;
             this.cbOdgovor1.UseVisualStyleBackColor = true;
-            this.cbOdgovor1.CheckedChanged += new System.EventHandler(this.cbOdgovor1_CheckedChanged);
+            this.cbOdgovor1.CheckedChanged += new System.EventHandler(this.CbOdgovor1_CheckedChanged);
             // 
             // FrmAnketaDodajUredi
             // 

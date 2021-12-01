@@ -97,7 +97,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             this.txtCijena.Size = new System.Drawing.Size(191, 20);
             this.txtCijena.TabIndex = 22;
             this.txtCijena.ValidatingType = typeof(System.DateTime);
-            this.txtCijena.Validating += new System.ComponentModel.CancelEventHandler(this.txtCijena_Validating);
+            this.txtCijena.Validating += new System.ComponentModel.CancelEventHandler(this.TxtCijena_Validating);
             // 
             // label8
             // 
@@ -115,7 +115,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             this.cbJedinicaMjere.Name = "cbJedinicaMjere";
             this.cbJedinicaMjere.Size = new System.Drawing.Size(191, 21);
             this.cbJedinicaMjere.TabIndex = 19;
-            this.cbJedinicaMjere.Validating += new System.ComponentModel.CancelEventHandler(this.cbJedinicaMjere_Validating);
+            this.cbJedinicaMjere.Validating += new System.ComponentModel.CancelEventHandler(this.CbJedinicaMjere_Validating);
             // 
             // label6
             // 

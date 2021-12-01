@@ -1,4 +1,7 @@
-﻿namespace Pelikula.API.Model
+﻿using System;
+using System.Collections.Generic;
+
+namespace Pelikula.API.Model
 {
     public class LoV
     {
@@ -13,15 +16,20 @@
 
         public override bool Equals(object obj)
         {
-            if ((obj == null) || !GetType().Equals(obj.GetType()))
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
             {
                 return false;
             }
             else
             {
-                var lov = (LoV)obj;
-                return Id == lov.Id && Naziv == lov.Naziv;
+                LoV lov = (LoV)obj;
+                return (Id == lov.Id) && (Naziv == lov.Naziv);
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Naziv);
         }
     }
 }

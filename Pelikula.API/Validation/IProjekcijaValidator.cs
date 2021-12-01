@@ -6,9 +6,7 @@ namespace Pelikula.API.Validation
 {
     public interface IProjekcijaValidator : IBaseValidator<Projekcija>
     {
-        void ValidateEntityExists(ProjekcijaInsertRequest request);
-        void ValidateEntityExists(int id, ProjekcijaUpdateRequest request);
-        void ValidateTermin(List<ProjekcijaTerminInsertRequest> requests);
-        void ValidateTermin(List<ProjekcijaTerminUpdateRequest> requests);
+        void ValidateEntityExists(int? id, ProjekcijaUpsertRequest request);
+        void ValidateTermin(List<ProjekcijaTerminUpsertRequest> requests, int trajanjeFilma);
     }
 }

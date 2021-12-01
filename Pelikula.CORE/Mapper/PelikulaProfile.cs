@@ -116,10 +116,10 @@ namespace FudbalskaLigaBiH.CORE.Mapper
 
             CreateMap<ProjekcijaTermin, LoV>()
                 .ForMember(dest => dest.Naziv,
-                opts => opts.MapFrom(src => src.Termin))
+                opts => opts.MapFrom(src => $"{src.Termin:dd/MM/yyyy, HH:mm}"))
                 .ReverseMap();
-            CreateMap<ProjekcijaTerminInsertRequest, ProjekcijaTermin>().ReverseMap();
-            CreateMap<ProjekcijaTerminUpdateRequest, ProjekcijaTermin>().ReverseMap();
+            CreateMap<ProjekcijaTerminUpsertRequest, ProjekcijaTermin>().ReverseMap();
+            CreateMap<ProjekcijaTerminUpsertRequest, ProjekcijaTermin>().ReverseMap();
 
             CreateMap<Projekcija, ProjekcijaResponse>()
                 .ForMember(dest => dest.Termini,
@@ -129,11 +129,11 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.Film.Naslov} - {src.Sala.Naziv} ({src.VrijediOd:dd/MM/yyyy} - {src.VrijediDo:dd/MM/yyyy})"))
                 .ReverseMap();
-            CreateMap<ProjekcijaInsertRequest, Projekcija>()
+            CreateMap<ProjekcijaUpsertRequest, Projekcija>()
                 .ForMember(dest => dest.ProjekcijaTermin,
                 opts => opts.Ignore())
                 .ReverseMap();
-            CreateMap<ProjekcijaUpdateRequest, Projekcija>()
+            CreateMap<ProjekcijaUpsertRequest, Projekcija>()
                  .ForMember(dest => dest.ProjekcijaTermin,
                  opts => opts.Ignore())
                  .ReverseMap();

@@ -18,17 +18,19 @@ namespace Pelikula.WINUI.Forms.Film
         private readonly ApiService _zanrService = new ApiService("Zanr");
         private readonly ApiService _filmskaLicnostService = new ApiService("FilmskaLicnost");
         private readonly int? _id;
+        private readonly bool _details;
 
         private FilmResponse _initial = new FilmResponse();
-        private FilmUpsertRequest _request = new FilmUpsertRequest();
+        private readonly FilmUpsertRequest _request = new FilmUpsertRequest();
 
         IEnumerable<LoV> zanrList = new List<LoV>();
         IEnumerable<LoV> rediteljList = new List<LoV>();
         IEnumerable<LoV> glumacList = new List<LoV>();
 
-        public FrmFilmDodajUredi(int? id = null)
+        public FrmFilmDodajUredi(int? id = null, bool details = false)
         {
             _id = id;
+            _details = details;
 
             InitializeComponent();
         }
@@ -40,6 +42,26 @@ namespace Pelikula.WINUI.Forms.Film
             MinimizeBox = false;
 
             Text = "Dodaj film";
+
+            if (_details)
+            {
+                Text = "Detalji o filmu";
+                btnDodajPlakat.Visible = false;
+                btnOcisti.Visible = false;
+                btnSnimi.Visible = false;
+
+                txtNaslov.Enabled = false;
+                txtTrajanje.Enabled = false;
+                txtGodinaSnimanja.Enabled = false;
+                txtVideoLink.Enabled = false;
+                txtImdbLink.Enabled = false;
+                txtSadrzaj.Enabled = false;
+
+                cbReditelj.Enabled = false;
+                cbZanr.Enabled = false;
+                clbGlumci.SelectionMode = SelectionMode.None;
+
+            }
 
             zanrList = (await _zanrService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
             cbZanr.DataSource = zanrList;
@@ -79,6 +101,8 @@ namespace Pelikula.WINUI.Forms.Film
 
                 SetValues();
             }
+
+
         }
 
         private void SetValues()
@@ -103,7 +127,7 @@ namespace Pelikula.WINUI.Forms.Film
                 .ToList();
 
             if (clbGlumci.CheckedItems.Count > 0)
-                for (int i=0; i <clbGlumci.Items.Count; i++)
+                for (int i = 0; i < clbGlumci.Items.Count; i++)
                     clbGlumci.SetItemChecked(clbGlumci.Items.IndexOf(clbGlumci.Items[i]), false);
 
             izabraniGlumci.ForEach(e => clbGlumci.SetItemChecked(clbGlumci.Items.IndexOf(e), true));
@@ -169,7 +193,7 @@ namespace Pelikula.WINUI.Forms.Film
         }
 
         //VALIDACIJA
-        private void txtNaslov_Validating(object sender, CancelEventArgs e)
+        private void TxtNaslov_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtNaslov.Text.Trim()))
             {
@@ -182,7 +206,7 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void txtTrajanje_Validating(object sender, CancelEventArgs e)
+        private void TxtTrajanje_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtTrajanje.Text.Trim()))
             {
@@ -195,7 +219,7 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void txtGodinaSnimanja_Validating(object sender, CancelEventArgs e)
+        private void TxtGodinaSnimanja_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtGodinaSnimanja.Text.Trim()))
             {
@@ -208,7 +232,7 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void txtImdbLink_Validating(object sender, CancelEventArgs e)
+        private void TxtImdbLink_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtImdbLink.Text.Trim()))
             {
@@ -221,7 +245,7 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void txtVideoLink_Validating(object sender, CancelEventArgs e)
+        private void TxtVideoLink_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtVideoLink.Text.Trim()))
             {
@@ -234,7 +258,7 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void cbReditelj_Validating(object sender, CancelEventArgs e)
+        private void CbReditelj_Validating(object sender, CancelEventArgs e)
         {
             if (cbReditelj.SelectedItem == null)
             {
@@ -247,7 +271,7 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void cbZanr_Validating(object sender, CancelEventArgs e)
+        private void CbZanr_Validating(object sender, CancelEventArgs e)
         {
             if (cbZanr.SelectedItem == null)
             {
@@ -260,7 +284,7 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void txtSadrzaj_Validating(object sender, CancelEventArgs e)
+        private void TxtSadrzaj_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtSadrzaj.Text.Trim()))
             {
@@ -273,7 +297,7 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void clbGlumci_Validating(object sender, CancelEventArgs e)
+        private void ClbGlumci_Validating(object sender, CancelEventArgs e)
         {
             if (clbGlumci.CheckedItems.Count <= 0)
             {

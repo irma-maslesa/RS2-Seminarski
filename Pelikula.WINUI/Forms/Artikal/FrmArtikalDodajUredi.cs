@@ -20,7 +20,7 @@ namespace Pelikula.WINUI.Forms.Artikal
         private readonly int? _id;
 
         private ArtikalResponse _initial = new ArtikalResponse();
-        private ArtikalUpsertRequest _request = new ArtikalUpsertRequest();
+        private readonly ArtikalUpsertRequest _request = new ArtikalUpsertRequest();
 
         IEnumerable<LoV> jedinicaMjereList = new List<LoV>();
 
@@ -146,7 +146,7 @@ namespace Pelikula.WINUI.Forms.Artikal
         }
 
 
-        private void cbJedinicaMjere_Validating(object sender, CancelEventArgs e)
+        private void CbJedinicaMjere_Validating(object sender, CancelEventArgs e)
         {
             if (cbJedinicaMjere.SelectedItem == null)
             {
@@ -159,7 +159,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             }
         }
 
-        private void txtCijena_Validating(object sender, CancelEventArgs e)
+        private void TxtCijena_Validating(object sender, CancelEventArgs e)
         {
             var cijenaText = txtCijena.Text.Trim().Replace(",", "");
             if (string.IsNullOrEmpty(cijenaText))

@@ -131,6 +131,7 @@ namespace Pelikula.WINUI
             this.projekcijeToolStripMenuItem.Name = "projekcijeToolStripMenuItem";
             this.projekcijeToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
             this.projekcijeToolStripMenuItem.Text = "Projekcije";
+            this.projekcijeToolStripMenuItem.Click += new System.EventHandler(this.ProjekcijeToolStripMenuItem_Click);
             // 
             // artikliToolStripMenuItem
             // 

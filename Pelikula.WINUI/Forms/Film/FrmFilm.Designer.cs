@@ -227,7 +227,7 @@ namespace Pelikula.WINUI.Forms.Film
             this.groupBox2.Size = new System.Drawing.Size(528, 71);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Pretraga filmskih ličnosti";
+            this.groupBox2.Text = "Pretraga filmova";
             // 
             // txtMaxTrajanje
             // 

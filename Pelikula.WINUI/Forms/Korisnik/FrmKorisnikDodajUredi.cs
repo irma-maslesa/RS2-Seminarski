@@ -21,7 +21,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
         private readonly int? _id;
 
         private KorisnikResponse _initial = new KorisnikResponse();
-        private KorisnikUpsertRequest _request = new KorisnikUpsertRequest();
+        private readonly KorisnikUpsertRequest _request = new KorisnikUpsertRequest();
 
         private readonly KorisnikResponse _prijavljeniKorisnik;
 
@@ -162,7 +162,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
 
         //VALIDACIJA
-        private void txtIme_Validating(object sender, CancelEventArgs e)
+        private void TxtIme_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtIme.Text.Trim()))
             {
@@ -175,7 +175,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void txtPrezime_Validating(object sender, CancelEventArgs e)
+        private void TxtPrezime_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtPrezime.Text.Trim()))
             {
@@ -188,7 +188,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void txtEmail_Validating(object sender, CancelEventArgs e)
+        private void TxtEmail_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtEmail.Text.Trim()))
             {
@@ -210,7 +210,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void txtKorisnickoIme_Validating(object sender, CancelEventArgs e)
+        private void TxtKorisnickoIme_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtKorisnickoIme.Text.Trim()))
             {
@@ -228,7 +228,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void txtLozinka_Validating(object sender, CancelEventArgs e)
+        private void TxtLozinka_Validating(object sender, CancelEventArgs e)
         {
             if (!_id.HasValue)
             {
@@ -254,7 +254,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void cbTipKorisnika_Validating(object sender, CancelEventArgs e)
+        private void CbTipKorisnika_Validating(object sender, CancelEventArgs e)
         {
             if (cbTipKorisnika.SelectedItem == null)
             {
@@ -267,7 +267,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void cbSpol_Validating(object sender, CancelEventArgs e)
+        private void CbSpol_Validating(object sender, CancelEventArgs e)
         {
             if (cbSpol.SelectedItem == null)
             {
