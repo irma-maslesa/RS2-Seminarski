@@ -171,8 +171,15 @@ namespace Pelikula.WINUI.Forms.Anketa
                         }
                     }
 
-                    await _service.Update<PayloadResponse<AnketaResponse>>(_id.Value, _updateRequest);
-                    MessageBox.Show($"Anketa {txtNaslov.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var response = await _service.Update<PayloadResponse<AnketaResponse>>(_id.Value, _updateRequest);
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Anketa {txtNaslov.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
                 else
                 {
@@ -205,11 +212,15 @@ namespace Pelikula.WINUI.Forms.Anketa
                     _insertRequest.Odgovori = odgovori;
 
                     PayloadResponse<AnketaResponse> response = await _service.Insert<PayloadResponse<AnketaResponse>>(_insertRequest);
-                    MessageBox.Show($"Anketa {response.Payload.Naslov} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
 
-                DialogResult = DialogResult.OK;
-                Close();
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Anketa {response.Payload.Naslov} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                }
             }
         }
 

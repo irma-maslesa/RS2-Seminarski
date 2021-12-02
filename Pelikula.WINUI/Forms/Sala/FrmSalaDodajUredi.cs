@@ -94,14 +94,27 @@ namespace Pelikula.WINUI.Forms.Sala
 
             if (_id.HasValue)
             {
+                var response = await _service.Update<PayloadResponse<SalaResponse>>(_id.Value, request);
 
-                await _service.Update<PayloadResponse<SalaResponse>>(_id.Value, request);
-                MessageBox.Show($"Sala {txtNaziv.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (response != null)
+                {
+                    MessageBox.Show($"Sala {txtNaziv.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
             else
             {
                 PayloadResponse<SalaResponse> response = await _service.Insert<PayloadResponse<SalaResponse>>(request);
-                MessageBox.Show($"Sala {response.Payload.Naziv} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (response != null)
+                {
+                    MessageBox.Show($"Sala {response.Payload.Naziv} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
 
 

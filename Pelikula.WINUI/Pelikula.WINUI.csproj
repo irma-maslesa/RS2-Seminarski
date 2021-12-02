@@ -76,6 +76,12 @@
     <Compile Include="Forms\Anketa\FrmAnketaRezultati.Designer.cs">
       <DependentUpon>FrmAnketaRezultati.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Dojam\FrmDojam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Dojam\FrmDojam.Designer.cs">
+      <DependentUpon>FrmDojam.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FilmskaLicnost\FrmFilmskaLicnost.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Anketa\FrmAnketaRezultati.resx">
       <DependentUpon>FrmAnketaRezultati.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Dojam\FrmDojam.resx">
+      <DependentUpon>FrmDojam.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FilmskaLicnost\FrmFilmskaLicnost.resx">
       <DependentUpon>FrmFilmskaLicnost.cs</DependentUpon>

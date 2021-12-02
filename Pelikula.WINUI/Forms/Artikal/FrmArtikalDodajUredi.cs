@@ -87,18 +87,28 @@ namespace Pelikula.WINUI.Forms.Artikal
                 if (_id.HasValue)
                 {
 
-                    await _service.Update<PayloadResponse<ArtikalResponse>>(_id.Value, _request);
-                    MessageBox.Show($"Artikal {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var response = await _service.Update<PayloadResponse<ArtikalResponse>>(_id.Value, _request);
+
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Artikal {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
                 else
                 {
                     PayloadResponse<ArtikalResponse> response = await _service.Insert<PayloadResponse<ArtikalResponse>>(_request);
-                    MessageBox.Show($"Artikal {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Artikal {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
-
-
-                DialogResult = DialogResult.OK;
-                Close();
             }
         }
 

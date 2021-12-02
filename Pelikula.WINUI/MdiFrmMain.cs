@@ -1,6 +1,7 @@
 ﻿using Pelikula.API.Model;
 using Pelikula.WINUI.Forms.Anketa;
 using Pelikula.WINUI.Forms.Artikal;
+using Pelikula.WINUI.Forms.Dojam;
 using Pelikula.WINUI.Forms.Film;
 using Pelikula.WINUI.Forms.FilmskaLicnost;
 using Pelikula.WINUI.Forms.JedinicaMjere;
@@ -204,6 +205,12 @@ namespace Pelikula.WINUI
         private void ProjekcijeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmProjekcija frm = new FrmProjekcija();
+            OpenForm(frm);
+        }
+
+        private void DojmoviToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmDojam frm = new FrmDojam();
             OpenForm(frm);
         }
     }

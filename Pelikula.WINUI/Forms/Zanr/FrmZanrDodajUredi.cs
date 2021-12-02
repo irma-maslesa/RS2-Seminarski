@@ -11,7 +11,7 @@ namespace Pelikula.WINUI.Forms.Zanr
         private readonly int? _id;
         private ZanrResponse _initial = new ZanrResponse();
 
-        public FrmZanrDodajUredi( int? id = null)
+        public FrmZanrDodajUredi(int? id = null)
         {
             _id = id;
 
@@ -65,7 +65,7 @@ namespace Pelikula.WINUI.Forms.Zanr
         private void SetValues()
         {
             txtNaziv.Text = _initial.Naziv;
-            txtOpis.Text =_initial.Opis;
+            txtOpis.Text = _initial.Opis;
         }
 
         private async void BtnSpremi_Click(object sender, EventArgs e)
@@ -76,23 +76,32 @@ namespace Pelikula.WINUI.Forms.Zanr
                 return;
             }
 
-            ZanrUpsertRequest request = new ZanrUpsertRequest() { Naziv = txtNaziv.Text, Opis = string.IsNullOrWhiteSpace(txtOpis.Text)? null: txtOpis.Text };
+            ZanrUpsertRequest request = new ZanrUpsertRequest() { Naziv = txtNaziv.Text, Opis = string.IsNullOrWhiteSpace(txtOpis.Text) ? null : txtOpis.Text };
 
             if (_id.HasValue)
             {
+                var response = await _service.Update<PayloadResponse<ZanrResponse>>(_id.Value, request);
 
-                await _service.Update<PayloadResponse<ZanrResponse>>(_id.Value, request);
-                MessageBox.Show($"Žanr {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (response != null)
+                {
+                    MessageBox.Show($"Žanr {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
             else
             {
                 PayloadResponse<ZanrResponse> response = await _service.Insert<PayloadResponse<ZanrResponse>>(request);
-                MessageBox.Show($"Žanr {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (response != null)
+                {
+                    MessageBox.Show($"Žanr {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
-
-
-            DialogResult = DialogResult.OK;
-            Close();
         }
 
         private void BtnOcisti_Click(object sender, EventArgs e)

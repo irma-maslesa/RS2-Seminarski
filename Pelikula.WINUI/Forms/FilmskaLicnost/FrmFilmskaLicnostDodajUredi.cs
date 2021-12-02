@@ -97,7 +97,6 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
                 return;
 
 
-
             FilmskaLicnostUpsertRequest request = new FilmskaLicnostUpsertRequest()
             {
                 Ime = txtIme.Text,
@@ -109,18 +108,28 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             if (_id.HasValue)
             {
 
-                await _service.Update<PayloadResponse<FilmskaLicnostResponse>>(_id.Value, request);
-                MessageBox.Show($"Filmska ličnost {txtIme.Text} {txtPrezime.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var response = await _service.Update<PayloadResponse<FilmskaLicnostResponse>>(_id.Value, request);
+
+                if (response != null)
+                {
+                    MessageBox.Show($"Filmska ličnost {txtIme.Text} {txtPrezime.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
             else
             {
                 PayloadResponse<FilmskaLicnostResponse> response = await _service.Insert<PayloadResponse<FilmskaLicnostResponse>>(request);
-                MessageBox.Show($"Filmska ličnost {response.Payload.Ime} {response.Payload.Prezime} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (response != null)
+                {
+                    MessageBox.Show($"Filmska ličnost {response.Payload.Ime} {response.Payload.Prezime} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
-
-
-            DialogResult = DialogResult.OK;
-            Close();
         }
 
         private void BtnOcisti_Click(object sender, EventArgs e)

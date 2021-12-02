@@ -199,10 +199,10 @@ namespace Pelikula.WINUI.Forms.Projekcija
 
                     if (response != null)
                     {
-                        MessageBox.Show($"Projekcija {((LoV)cbFilm.SelectedItem).Naziv} - {((LoV)cbSala.SelectedItem).Naziv} ({_request.VrijediOd:dd/MM/yyyy} - {_request.VrijediDo:dd/MM/yyyy}) uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Projekcija  {response.Payload.Film.Naziv} - {response.Payload.Sala.Naziv} ({response.Payload.VrijediOd:dd/MM/yyyy} - {response.Payload.VrijediDo:dd/MM/yyyy}) uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
-                        MessageBox.Show($"Projekcija  {response.Payload.Film.Naziv} - {response.Payload.Sala.Naziv} ({response.Payload.VrijediOd:dd/MM/yyyy} - {response.Payload.VrijediDo:dd/MM/yyyy}) uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Close();
                     }
                 }
 
