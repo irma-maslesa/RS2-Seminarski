@@ -2,6 +2,7 @@
 using Pelikula.API.Model;
 using Pelikula.API.Model.Anketa;
 using Pelikula.API.Model.Artikal;
+using Pelikula.API.Model.Dojam;
 using Pelikula.API.Model.Film;
 using Pelikula.API.Model.FilmskaLicnost;
 using Pelikula.API.Model.JedinicaMjere;
@@ -137,6 +138,13 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                  .ForMember(dest => dest.ProjekcijaTermin,
                  opts => opts.Ignore())
                  .ReverseMap();
+
+            CreateMap<Dojam, DojamResponse>().ReverseMap();
+            CreateMap<Dojam, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.Korisnik.KorisnickoIme} {src.Projekcija.Film.Naslov} - {src.Projekcija.Sala.Naziv} ({src.Projekcija.VrijediOd:dd/MM/yyyy}) - {src.Projekcija.VrijediDo:dd/MM/yyyy} ({src.Ocjena})"))
+                .ReverseMap();
+            CreateMap<DojamUpsertRequest, Dojam>().ReverseMap();
         }
     }
 }

@@ -103,6 +103,9 @@ namespace Pelikula.REST
             services.AddScoped<IProjekcijaValidator, ProjekcijaValidatorImpl>();
             services.AddScoped<IProjekcijaService, ProjekcijaServiceImpl>();
 
+            services.AddScoped<IDojamValidator, DojamValidatorImpl>();
+            services.AddScoped<IDojamService, DojamServiceImpl>();
+
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
