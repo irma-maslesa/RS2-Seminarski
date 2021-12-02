@@ -76,7 +76,7 @@ namespace Pelikula.CORE.Impl
             SalaValidator.ValidateEntityExists(request.SalaId);
             FilmValidator.ValidateEntityExists(request.FilmId);
             var trajanjeFilma = Context.Film.Where(e => e.Id == request.FilmId).Select(e => e.Trajanje).First();
-            Validator.ValidateTermin(request.ProjekcijaTermin, trajanjeFilma.Value);
+            Validator.ValidateTermin(request.ProjekcijaTermin, trajanjeFilma);
 
             request.VrijediOd = new DateTime(request.VrijediOd.Year, request.VrijediOd.Month, request.VrijediOd.Day, 0, 0, 0, 0);
             request.VrijediDo = new DateTime(request.VrijediDo.Year, request.VrijediDo.Month, request.VrijediDo.Day, 23, 59, 59, 999);
@@ -114,7 +114,7 @@ namespace Pelikula.CORE.Impl
             SalaValidator.ValidateEntityExists(request.SalaId);
             FilmValidator.ValidateEntityExists(request.FilmId);
             var trajanjeFilma = Context.Film.Where(e => e.Id == request.FilmId).Select(e => e.Trajanje).First();
-            Validator.ValidateTermin(request.ProjekcijaTermin, trajanjeFilma.Value);
+            Validator.ValidateTermin(request.ProjekcijaTermin, trajanjeFilma);
 
             Projekcija entity = Context.Set<Projekcija>().Find(id);
 
@@ -202,10 +202,8 @@ namespace Pelikula.CORE.Impl
                                                         .Where(e => e.KorisnikId == korisnik.Id)
                                                         .Select(e => e.Projekcija).ToListAsync();
 
-                preporuceniRediteljiIds.AddRange(posjeceneProjekcije.Where(e => e.Film.RediteljId != null)
-                                                                    .Select(e => e.Film.RediteljId.Value));
-                preporuceniZanroviIds.AddRange(posjeceneProjekcije.Where(e => e.Film.ZanrId != null)
-                                                                    .Select(e => e.Film.ZanrId.Value));
+                preporuceniRediteljiIds.AddRange(posjeceneProjekcije.Select(e => e.Film.RediteljId));
+                preporuceniZanroviIds.AddRange(posjeceneProjekcije.Select(e => e.Film.ZanrId));
 
                 preporuceneProjekcijeIds.AddRange(posjeceneProjekcije.Select(e => e.Id));
 
@@ -219,8 +217,8 @@ namespace Pelikula.CORE.Impl
                                                         .Include(e => e.Sala)
                                                         .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo.Date >= datum &&
                                                                     !preporuceneProjekcijeIds.Contains(e.Id) &&
-                                                                    ((e.Film.RediteljId != null && preporuceniRediteljiIds.Contains(e.Film.RediteljId.Value)) ||
-                                                                    (e.Film.ZanrId != null && preporuceniZanroviIds.Contains(e.Film.ZanrId.Value))))
+                                                                    (preporuceniRediteljiIds.Contains(e.Film.RediteljId) ||
+                                                                    preporuceniZanroviIds.Contains(e.Film.ZanrId)))
                                                         .OrderBy(e => Guid.NewGuid()).Take(maksimalnoPreporucenih)
                                                         .ToListAsync();
                     }
@@ -231,8 +229,7 @@ namespace Pelikula.CORE.Impl
                                                         .Include(e => e.Film)
                                                         .Include(e => e.Sala)
                                                         .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo.Date >= datum &&
-                                                                    !preporuceneProjekcijeIds.Contains(e.Id) &&
-                                                                    e.Film.RediteljId != null && preporuceniRediteljiIds.Contains(e.Film.RediteljId.Value))
+                                                                    !preporuceneProjekcijeIds.Contains(e.Id) && preporuceniRediteljiIds.Contains(e.Film.RediteljId))
                                                         .OrderBy(e => Guid.NewGuid()).Take(maksimalnoPreporucenih)
                                                         .ToListAsync();
                     }
@@ -243,8 +240,7 @@ namespace Pelikula.CORE.Impl
                                                         .Include(e => e.Film)
                                                         .Include(e => e.Sala)
                                                         .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo.Date >= datum &&
-                                                                    !preporuceneProjekcijeIds.Contains(e.Id) &&
-                                                                    e.Film.ZanrId != null && preporuceniZanroviIds.Contains(e.Film.ZanrId.Value))
+                                                                    !preporuceneProjekcijeIds.Contains(e.Id) && preporuceniZanroviIds.Contains(e.Film.ZanrId))
                                                         .OrderBy(e => Guid.NewGuid()).Take(maksimalnoPreporucenih)
                                                         .ToListAsync();
                     }
