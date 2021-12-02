@@ -63,28 +63,36 @@ namespace Pelikula.WINUI.Forms.Obavijest
                 _request.Tekst = txtTekst.Text;
                 _request.Datum = _initial.Datum;
 
-                if(_initial.Korisnik != null)
+                if (_initial.Korisnik != null)
                     _request.KorisnikId = _initial.Korisnik.Id;
 
                 if (_id.HasValue)
                 {
+                    var response = await _service.Update<PayloadResponse<ObavijestResponse>>(_id.Value, _request);
 
-                    await _service.Update<PayloadResponse<ObavijestResponse>>(_id.Value, _request);
-                    MessageBox.Show($"Obavijest {txtNaslov.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Obavijest {txtNaslov.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
                 else
                 {
-
                     _request.Datum = DateTime.Now;
                     _request.KorisnikId = Properties.Settings.Default.PrijavljeniKorisnik.Id;
 
                     PayloadResponse<ObavijestResponse> response = await _service.Insert<PayloadResponse<ObavijestResponse>>(_request);
-                    MessageBox.Show($"Obavijest {response.Payload.Naslov} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Obavijest {response.Payload.Naslov} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
-
-
-                DialogResult = DialogResult.OK;
-                Close();
             }
         }
 

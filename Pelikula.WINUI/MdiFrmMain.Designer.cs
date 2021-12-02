@@ -170,6 +170,7 @@ namespace Pelikula.WINUI
             this.dojmoviToolStripMenuItem.Name = "dojmoviToolStripMenuItem";
             this.dojmoviToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.dojmoviToolStripMenuItem.Text = "Dojmovi";
+            this.dojmoviToolStripMenuItem.Click += new System.EventHandler(this.DojmoviToolStripMenuItem_Click);
             // 
             // anketeToolStripMenuItem
             // 

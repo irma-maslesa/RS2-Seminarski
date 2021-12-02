@@ -75,23 +75,32 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
                 return;
             }
 
-            TipKorisnikaUpsertRequest request = new TipKorisnikaUpsertRequest() { Naziv = txtNaziv.Text};
+            TipKorisnikaUpsertRequest request = new TipKorisnikaUpsertRequest() { Naziv = txtNaziv.Text };
 
             if (_id.HasValue)
             {
+                var response = await _service.Update<PayloadResponse<TipKorisnikaResponse>>(_id.Value, request);
 
-                await _service.Update<PayloadResponse<TipKorisnikaResponse>>(_id.Value, request);
-                MessageBox.Show($"TipKorisnika {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (response != null)
+                {
+                    MessageBox.Show($"Tip korisnika {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
             else
             {
                 PayloadResponse<TipKorisnikaResponse> response = await _service.Insert<PayloadResponse<TipKorisnikaResponse>>(request);
-                MessageBox.Show($"TipKorisnika {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (response != null)
+                {
+                    MessageBox.Show($"Tip korisnika {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
-
-
-            DialogResult = DialogResult.OK;
-            Close();
         }
 
         private void BtnOcisti_Click(object sender, EventArgs e)

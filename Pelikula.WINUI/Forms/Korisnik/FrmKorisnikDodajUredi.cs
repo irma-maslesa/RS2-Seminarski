@@ -116,19 +116,28 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
                 if (_id.HasValue)
                 {
+                    var response = await _service.Update<PayloadResponse<KorisnikResponse>>(_id.Value, _request);
 
-                    await _service.Update<PayloadResponse<KorisnikResponse>>(_id.Value, _request);
-                    MessageBox.Show($"Korisnik {txtIme.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Korisnik {txtIme.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
                 else
                 {
                     PayloadResponse<KorisnikResponse> response = await _service.Insert<PayloadResponse<KorisnikResponse>>(_request);
-                    MessageBox.Show($"Korisnik {response.Payload.Ime} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Korisnik {response.Payload.Ime} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
-
-
-                DialogResult = DialogResult.OK;
-                Close();
             }
         }
 

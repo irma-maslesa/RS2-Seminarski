@@ -157,18 +157,28 @@ namespace Pelikula.WINUI.Forms.Film
                 if (_id.HasValue)
                 {
 
-                    await _service.Update<PayloadResponse<FilmResponse>>(_id.Value, _request);
-                    MessageBox.Show($"Film {txtNaslov.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var response = await _service.Update<PayloadResponse<FilmResponse>>(_id.Value, _request);
+
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Film {txtNaslov.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
                 else
                 {
                     PayloadResponse<FilmResponse> response = await _service.Insert<PayloadResponse<FilmResponse>>(_request);
-                    MessageBox.Show($"Film {response.Payload.Naslov} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (response != null)
+                    {
+                        MessageBox.Show($"Film {response.Payload.Naslov} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
                 }
-
-
-                DialogResult = DialogResult.OK;
-                Close();
             }
         }
 

@@ -11,7 +11,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
         private readonly int? _id;
         private JedinicaMjereResponse _initial = new JedinicaMjereResponse();
 
-        public FrmJedinicaMjereDodajUredi( int? id = null)
+        public FrmJedinicaMjereDodajUredi(int? id = null)
         {
             _id = id;
 
@@ -60,7 +60,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
         private void SetValues()
         {
             txtNaziv.Text = _initial.Naziv;
-            txtKratkiNaziv.Text =_initial.KratkiNaziv;
+            txtKratkiNaziv.Text = _initial.KratkiNaziv;
         }
 
         private async void BtnSpremi_Click(object sender, EventArgs e)
@@ -86,19 +86,28 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
 
             if (_id.HasValue)
             {
+                var response = await _service.Update<PayloadResponse<JedinicaMjereResponse>>(_id.Value, request);
 
-                await _service.Update<PayloadResponse<JedinicaMjereResponse>>(_id.Value, request);
-                MessageBox.Show($"Jedinica mjere {txtNaziv.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (response != null)
+                {
+                    MessageBox.Show($"Jedinica mjere {txtNaziv.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
             else
             {
                 PayloadResponse<JedinicaMjereResponse> response = await _service.Insert<PayloadResponse<JedinicaMjereResponse>>(request);
-                MessageBox.Show($"Jedinica mjere {response.Payload.Naziv} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (response != null)
+                {
+                    MessageBox.Show($"Jedinica mjere {response.Payload.Naziv} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
-
-
-            DialogResult = DialogResult.OK;
-            Close();
         }
 
         private void BtnOcisti_Click(object sender, EventArgs e)
