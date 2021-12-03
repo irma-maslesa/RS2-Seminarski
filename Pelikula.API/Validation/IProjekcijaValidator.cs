@@ -8,5 +8,6 @@ namespace Pelikula.API.Validation
     {
         void ValidateEntityExists(int? id, ProjekcijaUpsertRequest request);
         void ValidateTermin(List<ProjekcijaTerminUpsertRequest> requests, int trajanjeFilma);
+        void ValidateTerminExists(int projekcijaTerminId);
     }
 }
