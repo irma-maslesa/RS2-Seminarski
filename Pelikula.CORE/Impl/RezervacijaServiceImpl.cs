@@ -8,6 +8,7 @@ using Pelikula.API.Validation;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;
 using Pelikula.DAO.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -170,6 +171,23 @@ namespace Pelikula.CORE.Impl
                     && e.DatumOtkazano == null && e.DatumProdano == null);
 
             RezervacijaResponse response = Mapper.Map<RezervacijaResponse>(entity);
+
+            return new PayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, response);
+        }
+
+        public PayloadResponse<RezervacijaResponse> Otkazi(int id)
+        {
+            Validator.ValidateEntityExists(id);
+            Validator.ValidateEntityOtkazano(id);
+            Validator.ValidateEntityProdano(id);
+
+            Rezervacija entity = Context.Set<Rezervacija>().Include(e => e.SjedisteRezervacija).FirstOrDefault(e => e.Id == id);
+
+            entity.DatumOtkazano = DateTime.Now;
+            Context.Set<Rezervacija>().Update(entity);
+            Context.SaveChanges();
+
+            RezervacijaResponse response = Mapper.Map<Rezervacija, RezervacijaResponse>(entity);
 
             return new PayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, response);
         }

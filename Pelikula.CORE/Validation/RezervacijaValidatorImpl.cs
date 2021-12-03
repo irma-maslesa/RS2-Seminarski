@@ -25,5 +25,18 @@ namespace Pelikula.CORE.Validation
                 throw new UserException($"Korisnik(${korisnikId}) ima već kreiranu rezervaciju za termin({projekcijaTerminId})! ", HttpStatusCode.BadRequest);
 
         }
+
+
+        public void ValidateEntityOtkazano(int id)
+        {
+            if (Context.Rezervacija.Find(id).DatumOtkazano != null)
+                throw new UserException($"Rezervacija({id}) je već otkazana! ", HttpStatusCode.BadRequest);
+        }
+
+        public void ValidateEntityProdano(int id)
+        {
+            if (Context.Rezervacija.Find(id).DatumProdano != null)
+                throw new UserException($"Rezervacija({id}) je već prodana! ", HttpStatusCode.BadRequest);
+        }
     }
 }
