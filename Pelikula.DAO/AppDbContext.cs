@@ -461,9 +461,7 @@ namespace Pelikula.DAO
 
             modelBuilder.Entity<SjedisteRezervacija>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.RezervacijaId).HasColumnName("RezervacijaID");
 
@@ -496,6 +494,7 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.Opis).HasMaxLength(2000);
             });
+
         }
 
     }

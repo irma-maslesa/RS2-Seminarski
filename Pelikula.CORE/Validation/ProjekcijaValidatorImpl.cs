@@ -47,5 +47,11 @@ namespace Pelikula.CORE.Validation
                     throw new UserException($"Razlika između početka projekcija mora biti najmanje {trajanjeFilma + 10} minuta!", HttpStatusCode.BadRequest);
 
         }
+
+        public void ValidateTerminExists(int projekcijaTerminId)
+        {
+            if (!Context.ProjekcijaTermin.Any(e => e.Id == projekcijaTerminId))
+                throw new UserException($"Termin({projekcijaTerminId}) ne postoji! ", HttpStatusCode.BadRequest);
+        }
     }
 }
