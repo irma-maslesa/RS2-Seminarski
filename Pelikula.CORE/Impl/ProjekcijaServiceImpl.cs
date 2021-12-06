@@ -289,5 +289,16 @@ namespace Pelikula.CORE.Impl
 
             return new PayloadResponse<string>(HttpStatusCode.OK, "Posjeta uspješno dodana!");
         }
+
+        public ListPayloadResponse<LoV> GetTermine(int projekcijaId)
+        {
+            Validator.ValidateEntityExists(projekcijaId);
+
+            List<ProjekcijaTermin>  entityList = Context.Set<ProjekcijaTermin>().Where( e => e.ProjekcijaId == projekcijaId).ToList();
+
+            List<LoV> response = Mapper.Map<List<LoV>>(entityList);
+
+            return new ListPayloadResponse<LoV>(HttpStatusCode.OK, response);
+        }
     }
 }

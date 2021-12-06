@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.API.Model.Anketa;
 using Pelikula.API.Model.Projekcija;
+using Pelikula.API.Model;
+using Pelikula.API.Model.Rezervacija;
 
 namespace Pelikula.WINUI
 {
@@ -210,5 +212,47 @@ namespace Pelikula.WINUI
             }
         }
 
+        public async Task<ListPayloadResponse<LoV>> GetTermini(int projekcijaId)
+        {
+            try
+            {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment(projekcijaId)
+                        .AppendPathSegment("termini")
+                        .GetJsonAsync<ListPayloadResponse<LoV>>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
+        public async Task<PayloadResponse<RezervacijaResponse>> OtkaziRezervaciju(int id)
+        {
+            try
+            {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment(id)
+                        .AppendPathSegment("otkazi")
+                        .PutJsonAsync(null)
+                        .ReceiveJson<PayloadResponse<RezervacijaResponse>>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
     }
 }

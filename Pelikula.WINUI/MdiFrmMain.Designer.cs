@@ -117,7 +117,7 @@ namespace Pelikula.WINUI
             this.filmskeLicnostiToolStripMenuItem.Name = "filmskeLicnostiToolStripMenuItem";
             this.filmskeLicnostiToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
             this.filmskeLicnostiToolStripMenuItem.Text = "Filmske ličnosti";
-            this.filmskeLicnostiToolStripMenuItem.Click += new System.EventHandler(this.filmskeLicnostiToolStripMenuItem_Click);
+            this.filmskeLicnostiToolStripMenuItem.Click += new System.EventHandler(this.FilmskeLicnostiToolStripMenuItem_Click);
             // 
             // filmoviToolStripMenuItem
             // 
@@ -145,6 +145,7 @@ namespace Pelikula.WINUI
             this.rezervacijeToolStripMenuItem.Name = "rezervacijeToolStripMenuItem";
             this.rezervacijeToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.rezervacijeToolStripMenuItem.Text = "Rezervacije";
+            this.rezervacijeToolStripMenuItem.Click += new System.EventHandler(this.RezervacijeToolStripMenuItem_Click);
             // 
             // prodajaToolStripMenuItem
             // 

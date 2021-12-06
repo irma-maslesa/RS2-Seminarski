@@ -8,6 +8,7 @@ using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
 using Pelikula.WINUI.Forms.Obavijest;
 using Pelikula.WINUI.Forms.Projekcija;
+using Pelikula.WINUI.Forms.Rezervacija;
 using Pelikula.WINUI.Forms.Sala;
 using Pelikula.WINUI.Forms.TipKorisnika;
 using Pelikula.WINUI.Forms.Zanr;
@@ -21,7 +22,7 @@ namespace Pelikula.WINUI
 {
     public partial class MdiFrmMain : Form
     {
-        private KorisnikTip? prijavljeniKorisnikTip = null;
+        private readonly KorisnikTip? prijavljeniKorisnikTip = null;
 
         public MdiFrmMain()
         {
@@ -190,7 +191,7 @@ namespace Pelikula.WINUI
             OpenForm(frm);
         }
 
-        private void filmskeLicnostiToolStripMenuItem_Click(object sender, EventArgs e)
+        private void FilmskeLicnostiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmFilmskaLicnost frm = new FrmFilmskaLicnost();
             OpenForm(frm);
@@ -211,6 +212,12 @@ namespace Pelikula.WINUI
         private void DojmoviToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmDojam frm = new FrmDojam();
+            OpenForm(frm);
+        }
+
+        private void RezervacijeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmRezervacija frm = new FrmRezervacija();
             OpenForm(frm);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Pelikula.API.Model.Helper;
+﻿using Pelikula.API.Model;
+using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Projekcija;
 using Pelikula.CORE.Helper.Response;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace Pelikula.API.Api
         Task<ListPayloadResponse<ProjekcijaResponse>> GetPreporucene(string korisnickoIme);
 
         PayloadResponse<string> PosjetiProjekciju(int projekcijaId, int korisnikId);
+        ListPayloadResponse<LoV> GetTermine(int projekcijaId);
     }
 }

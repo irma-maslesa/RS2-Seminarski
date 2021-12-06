@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Pelikula.API.Model;
 
 namespace API.Controllers
 {
@@ -74,6 +75,12 @@ namespace API.Controllers
         public PayloadResponse<string> PosjetiProjekciju(int projekcijaId, int korisnikId)
         {
             return Service.PosjetiProjekciju(projekcijaId, korisnikId);
+        }
+
+        [HttpGet("{projekcijaId}/termini")]
+        public ListPayloadResponse<LoV> GetTermine(int projekcijaId)
+        {
+            return Service.GetTermine(projekcijaId);
         }
 
     }

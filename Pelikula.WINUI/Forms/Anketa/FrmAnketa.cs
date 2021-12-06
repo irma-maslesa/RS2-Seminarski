@@ -265,9 +265,12 @@ namespace Pelikula.WINUI.Forms.Anketa
 
         private void DgvAnkete_SelectionChanged(object sender, EventArgs e)
         {
-            var data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
+            AnketaResponse data = null;
 
-            if (data.ZakljucenoDatum != null)
+            if (dgvAnkete.CurrentRow != null)
+                data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
+
+            if (data != null && data.ZakljucenoDatum != null)
                 btnZakljucaj.Enabled = false;
             else
                 btnZakljucaj.Enabled = true;

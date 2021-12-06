@@ -48,9 +48,7 @@ namespace Pelikula.API.Model.Helper
                     var filterColumn = typeof(T).GetProperty(colName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
                     if (filterColumn != null)
                     {
-                        var equals = filterParams.ElementAt(0).ColumnName.Equals(colName);
                         IEnumerable<FilterParams> filterValues = filterParams.Where(x => x.ColumnName.Equals(colName));
-                        var count = filterValues.Count();
                         if (filterValues.Count() > 1)
                         {
                             List<IEnumerable<T>> sameColData = new List<IEnumerable<T>>();
@@ -64,7 +62,6 @@ namespace Pelikula.API.Model.Helper
                         }
                         else
                         {
-                            var value = filterValues.FirstOrDefault();
                             data = FilterData(filterValues.FirstOrDefault().FilterOption, data, filterColumn, filterValues.FirstOrDefault().FilterValue);
                         }
                     }
