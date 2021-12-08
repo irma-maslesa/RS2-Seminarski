@@ -51,6 +51,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             cbTipKorisnika.DataSource = tipKorisnikaList;
             cbTipKorisnika.DisplayMember = "Naziv";
             cbTipKorisnika.ValueMember = "Id";
+
             if (_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
             {
                 cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(o => o.Naziv.ToLower().Equals(KorisnikTip.Klijent.ToString().ToLower()));
@@ -75,6 +76,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             txtEmail.Text = _initial.Email;
 
             txtKorisnickoIme.Text = _initial.KorisnickoIme;
+            txtLozinka.Text = null;
 
             if (_initial.DatumRodjenja != null)
                 dtpDatumRodjenja.Value = _initial.DatumRodjenja.Value;
@@ -84,7 +86,10 @@ namespace Pelikula.WINUI.Forms.Korisnik
             else
                 pbSlika.Image = null;
 
-            cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(e => e.Id == _initial.TipKorisnika?.Id);
+            if(!_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
+                cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(e => e.Id == _initial.TipKorisnika?.Id);
+            else
+                cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(o => o.Naziv.ToLower().Equals(KorisnikTip.Klijent.ToString().ToLower()));
 
             cbSpol.SelectedIndex = _initial.Spol == "M" ? cbSpol.FindStringExact("Muški") : cbSpol.FindStringExact("Ženski");
         }

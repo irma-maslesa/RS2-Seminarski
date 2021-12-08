@@ -37,9 +37,11 @@ namespace Pelikula.WINUI.Forms.Sala
             this.errNaziv = new System.Windows.Forms.ErrorProvider(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtBrojSjedistaRed = new System.Windows.Forms.MaskedTextBox();
-            this.txtBrojRedova = new System.Windows.Forms.MaskedTextBox();
+            this.nudBrojSjedistaRed = new System.Windows.Forms.NumericUpDown();
+            this.nudBrojRedova = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.errNaziv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBrojSjedistaRed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBrojRedova)).BeginInit();
             this.SuspendLayout();
             // 
             // txtNaziv
@@ -100,23 +102,49 @@ namespace Pelikula.WINUI.Forms.Sala
             this.label3.TabIndex = 9;
             this.label3.Text = "Broj redova";
             // 
-            // txtBrojSjedistaRed
+            // nudBrojSjedistaRed
             // 
-            this.txtBrojSjedistaRed.Location = new System.Drawing.Point(114, 57);
-            this.txtBrojSjedistaRed.Mask = "00";
-            this.txtBrojSjedistaRed.Name = "txtBrojSjedistaRed";
-            this.txtBrojSjedistaRed.Size = new System.Drawing.Size(246, 20);
-            this.txtBrojSjedistaRed.TabIndex = 10;
-            this.txtBrojSjedistaRed.ValidatingType = typeof(int);
+            this.nudBrojSjedistaRed.Location = new System.Drawing.Point(114, 58);
+            this.nudBrojSjedistaRed.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudBrojSjedistaRed.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudBrojSjedistaRed.Name = "nudBrojSjedistaRed";
+            this.nudBrojSjedistaRed.Size = new System.Drawing.Size(246, 20);
+            this.nudBrojSjedistaRed.TabIndex = 12;
+            this.nudBrojSjedistaRed.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // txtBrojRedova
+            // nudBrojRedova
             // 
-            this.txtBrojRedova.Location = new System.Drawing.Point(114, 92);
-            this.txtBrojRedova.Mask = "00";
-            this.txtBrojRedova.Name = "txtBrojRedova";
-            this.txtBrojRedova.Size = new System.Drawing.Size(246, 20);
-            this.txtBrojRedova.TabIndex = 11;
-            this.txtBrojRedova.ValidatingType = typeof(int);
+            this.nudBrojRedova.Location = new System.Drawing.Point(114, 93);
+            this.nudBrojRedova.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudBrojRedova.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudBrojRedova.Name = "nudBrojRedova";
+            this.nudBrojRedova.Size = new System.Drawing.Size(246, 20);
+            this.nudBrojRedova.TabIndex = 13;
+            this.nudBrojRedova.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // FrmSalaDodajUredi
             // 
@@ -124,8 +152,8 @@ namespace Pelikula.WINUI.Forms.Sala
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 163);
-            this.Controls.Add(this.txtBrojRedova);
-            this.Controls.Add(this.txtBrojSjedistaRed);
+            this.Controls.Add(this.nudBrojRedova);
+            this.Controls.Add(this.nudBrojSjedistaRed);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnOcisti);
@@ -140,6 +168,8 @@ namespace Pelikula.WINUI.Forms.Sala
             this.Text = "Dodaj jedinicu mjere";
             this.Load += new System.EventHandler(this.FrmSalaDodajUredi_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errNaziv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBrojSjedistaRed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBrojRedova)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,8 +183,8 @@ namespace Pelikula.WINUI.Forms.Sala
         private System.Windows.Forms.Button btnOcisti;
         private System.Windows.Forms.ErrorProvider errNaziv;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.MaskedTextBox txtBrojRedova;
-        private System.Windows.Forms.MaskedTextBox txtBrojSjedistaRed;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown nudBrojRedova;
+        private System.Windows.Forms.NumericUpDown nudBrojSjedistaRed;
     }
 }

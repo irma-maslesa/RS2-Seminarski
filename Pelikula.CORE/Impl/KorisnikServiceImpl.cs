@@ -23,10 +23,13 @@ namespace Pelikula.CORE.Impl
     {
         protected new IKorisnikValidator Validator { get; set; }
         protected ITipKorisnikaValidator TipKorisnikaValidator { get; set; }
-        public KorisnikServiceImpl(AppDbContext context, IMapper mapper, IKorisnikValidator validator, ITipKorisnikaValidator tipKorisnikaValidator) : base(context, mapper, validator)
+        protected IProjekcijaValidator ProjekcijaValidator { get; set; }
+
+        public KorisnikServiceImpl(AppDbContext context, IMapper mapper, IKorisnikValidator validator, ITipKorisnikaValidator tipKorisnikaValidator, IProjekcijaValidator projekcijaValidator) : base(context, mapper, validator)
         {
             Validator = validator;
             TipKorisnikaValidator = tipKorisnikaValidator;
+            ProjekcijaValidator = projekcijaValidator;
         }
 
         public override PagedPayloadResponse<KorisnikResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
@@ -124,6 +127,32 @@ namespace Pelikula.CORE.Impl
 
             var response = Mapper.Map<Korisnik, KorisnikResponse>(entity);
             return new PayloadResponse<KorisnikResponse>(HttpStatusCode.OK, response);
+        }
+
+        public ListPayloadResponse<LoV> GetKlijentiForTermin(int projekcijaTerminId, bool bezRezervacije)
+        {
+            ProjekcijaValidator.ValidateTerminExists(projekcijaTerminId);
+            IEnumerable<Korisnik> entityList;
+
+            if (bezRezervacije)
+            {
+                var korisniciSaRezervacijomIds = Context.Rezervacija
+                    .Where(e => e.ProjekcijaTerminId == projekcijaTerminId)
+                    .Select(e => e.KorisnikId)
+                    .ToList();
+
+                entityList = Context.Korisnik.Include(e => e.TipKorisnika)
+                     .Where(e => !korisniciSaRezervacijomIds.Contains(e.Id) && e.TipKorisnika.Naziv == KorisnikTip.Klijent.ToString())
+                     .ToList();
+            }
+            else
+                entityList = Context.Korisnik.Include(e => e.TipKorisnika)
+                     .Where(e => e.TipKorisnika.Naziv == KorisnikTip.Klijent.ToString())
+                     .ToList();
+
+            List<LoV> responseList = Mapper.Map<List<LoV>>(entityList);
+
+            return new ListPayloadResponse<LoV>(HttpStatusCode.OK, responseList);
         }
     }
 }

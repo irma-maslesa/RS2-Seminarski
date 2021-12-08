@@ -118,6 +118,18 @@
     <Compile Include="Forms\Projekcija\FrmProjekcija.Designer.cs">
       <DependentUpon>FrmProjekcija.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Rezervacija\FrmRezervacijaDodajUredi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Rezervacija\FrmRezervacijaDodajUredi.Designer.cs">
+      <DependentUpon>FrmRezervacijaDodajUredi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Rezervacija\FrmRezervacija.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Rezervacija\FrmRezervacija.Designer.cs">
+      <DependentUpon>FrmRezervacija.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Sala\FrmSala.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -248,6 +260,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Projekcija\FrmProjekcija.resx">
       <DependentUpon>FrmProjekcija.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Rezervacija\FrmRezervacijaDodajUredi.resx">
+      <DependentUpon>FrmRezervacijaDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Rezervacija\FrmRezervacija.resx">
+      <DependentUpon>FrmRezervacija.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Sala\FrmSala.resx">
       <DependentUpon>FrmSala.cs</DependentUpon>

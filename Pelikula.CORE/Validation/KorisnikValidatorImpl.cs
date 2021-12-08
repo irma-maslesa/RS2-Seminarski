@@ -20,7 +20,7 @@ namespace Pelikula.CORE.Validation
                 throw new UserException($"Korisničko ime {korisnickoIme} je zauzeto!", HttpStatusCode.BadRequest);
 
             }
-            else if(Context.Korisnik.Any(e => e.KorisnickoIme == korisnickoIme))
+            else if(!id.HasValue && Context.Korisnik.Any(e => e.KorisnickoIme == korisnickoIme))
             {
                 throw new UserException($"Korisničko ime {korisnickoIme} je zauzeto!", HttpStatusCode.BadRequest);
             }
@@ -32,7 +32,7 @@ namespace Pelikula.CORE.Validation
             {
                 throw new UserException($"Email {email} se već koristi!", HttpStatusCode.BadRequest);
             }
-            else if (Context.Korisnik.Any(e => e.Email == email))
+            else if (!id.HasValue &&  Context.Korisnik.Any(e => e.Email == email))
             {
                 throw new UserException($"Email {email} se već koristi!", HttpStatusCode.BadRequest);
             }

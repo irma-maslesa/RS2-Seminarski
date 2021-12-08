@@ -51,8 +51,8 @@ namespace Pelikula.WINUI.Forms.Sala
         private void DisableChildren()
         {
             txtNaziv.Enabled = false;
-            txtBrojSjedistaRed.Enabled = false;
-            txtBrojRedova.Enabled = false;
+            nudBrojSjedistaRed.Enabled = false;
+            nudBrojRedova.Enabled = false;
             btnOcisti.Enabled = false;
             btnSpremi.Enabled = false;
         }
@@ -61,8 +61,8 @@ namespace Pelikula.WINUI.Forms.Sala
         {
             txtNaziv.Text = _initial.Naziv;
 
-            txtBrojSjedistaRed.Text = _initial.BrojSjedistaSirina.ToString();
-            txtBrojRedova.Text = _initial.BrojSjedistaDuzina.ToString();
+            nudBrojSjedistaRed.Value = _initial.BrojSjedistaSirina;
+            nudBrojRedova.Value = _initial.BrojSjedistaDuzina;
         }
 
         private async void BtnSpremi_Click(object sender, EventArgs e)
@@ -75,22 +75,10 @@ namespace Pelikula.WINUI.Forms.Sala
                 errCount++;
             }
 
-            if (string.IsNullOrWhiteSpace(txtBrojSjedistaRed.Text))
-            {
-                errNaziv.SetError(txtBrojSjedistaRed, "Obavezno polje!");
-                errCount++;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtBrojRedova.Text))
-            {
-                errNaziv.SetError(txtBrojRedova, "Obavezno polje!");
-                errCount++;
-            }
-
             if (errCount != 0)
                 return;
 
-            SalaUpsertRequest request = new SalaUpsertRequest() { Naziv = txtNaziv.Text, BrojSjedistaSirina = int.Parse(txtBrojSjedistaRed.Text), BrojSjedistaDuzina = int.Parse(txtBrojRedova.Text) };
+            SalaUpsertRequest request = new SalaUpsertRequest() { Naziv = txtNaziv.Text, BrojSjedistaSirina = (int)nudBrojSjedistaRed.Value, BrojSjedistaDuzina = (int)nudBrojRedova.Value };
 
             if (_id.HasValue)
             {
