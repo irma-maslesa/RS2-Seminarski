@@ -10,8 +10,8 @@ namespace Pelikula.DAO.Model
     public partial class SjedisteRezervacija
     {
         public int Id { get; set; }
-        public int? SjedisteId { get; set; }
-        public int? RezervacijaId { get; set; }
+        public int SjedisteId { get; set; }
+        public int RezervacijaId { get; set; }
 
         public virtual Rezervacija Rezervacija { get; set; }
         public virtual Sjediste Sjediste { get; set; }

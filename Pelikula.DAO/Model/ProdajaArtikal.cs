@@ -12,7 +12,6 @@ namespace Pelikula.DAO.Model
         public int Id { get; set; }
         public int ProdajaId { get; set; }
         public int ArtikalId { get; set; }
-        public decimal Cijena { get; set; }
         public int Kolicina { get; set; }
 
         public virtual Artikal Artikal { get; set; }

@@ -169,9 +169,6 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<ProdajaArtikal, ProdajaArtikalResponse>().ReverseMap();
             CreateMap<ProdajaArtikalInsertRequest, ProdajaArtikal>().ReverseMap();
 
-            CreateMap<ProdajaRezervacija, ProdajaRezervacijaResponse>().ReverseMap();
-            CreateMap<ProdajaRezervacijaInsertRequest, ProdajaRezervacija>().ReverseMap();
-
             CreateMap<Prodaja, ProdajaResponse>().ReverseMap();
             CreateMap<ProdajaInsertRequest, Prodaja>().ReverseMap();
         }

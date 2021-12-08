@@ -1,4 +1,4 @@
-﻿using Pelikula.API.Model.Korisnik;
+﻿using Pelikula.API.Model.Rezervacija;
 using System;
 using System.Collections.Generic;
 
@@ -12,8 +12,10 @@ namespace Pelikula.API.Model.Prodaja
         public decimal Popust { get; set; }
         public decimal Porez { get; set; }
 
-        public KorisnikResponse Korisnik { get; set; }
+        public decimal UkupnaCijena { get; set; }
+
+        public LoV Korisnik { get; set; }
         public ICollection<ProdajaArtikalResponse> ProdajaArtikal { get; set; }
-        public ICollection<ProdajaRezervacijaResponse> ProdajaRezervacija { get; set; }
+        public RezervacijaResponse Rezervacija { get; set; }
     }
 }

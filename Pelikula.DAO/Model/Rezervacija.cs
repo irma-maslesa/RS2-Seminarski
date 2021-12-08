@@ -11,12 +11,12 @@ namespace Pelikula.DAO.Model
     {
         public Rezervacija()
         {
-            ProdajaRezervacija = new HashSet<ProdajaRezervacija>();
+            Prodaja = new HashSet<Prodaja>();
             SjedisteRezervacija = new HashSet<SjedisteRezervacija>();
         }
 
         public int Id { get; set; }
-        public int? KorisnikId { get; set; }
+        public int KorisnikId { get; set; }
         public int BrojSjedista { get; set; }
         public decimal Cijena { get; set; }
         public DateTime Datum { get; set; }
@@ -27,7 +27,7 @@ namespace Pelikula.DAO.Model
 
         public virtual Korisnik Korisnik { get; set; }
         public virtual ProjekcijaTermin ProjekcijaTermin { get; set; }
-        public virtual ICollection<ProdajaRezervacija> ProdajaRezervacija { get; set; }
+        public virtual ICollection<Prodaja> Prodaja { get; set; }
         public virtual ICollection<SjedisteRezervacija> SjedisteRezervacija { get; set; }
     }
 }

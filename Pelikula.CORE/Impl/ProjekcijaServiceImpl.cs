@@ -128,14 +128,14 @@ namespace Pelikula.CORE.Impl
             if (request.ProjekcijaTermin != null)
             {
                 var projekcijaTerminEntites = Context.ProjekcijaTermin.Where(e => e.ProjekcijaId == entity.Id).ToList();
-                var entitesGroupedByTime = projekcijaTerminEntites.GroupBy(e => e.Termin.Value.TimeOfDay);
+                var entitesGroupedByTime = projekcijaTerminEntites.GroupBy(e => e.Termin.TimeOfDay);
                 var terminiList = entitesGroupedByTime.Select(e => e.Key).ToList();
 
                 var existingTerminTimes = request.ProjekcijaTermin.Select(e => e.Termin.TimeOfDay);
 
                 var terminTimesForDelete = terminiList.Where(e => !existingTerminTimes.Contains(e)).ToList();
 
-                var projekcijaTerminEntitesForDelete = projekcijaTerminEntites.Where(e => terminTimesForDelete.Contains(e.Termin.Value.TimeOfDay)).ToList();
+                var projekcijaTerminEntitesForDelete = projekcijaTerminEntites.Where(e => terminTimesForDelete.Contains(e.Termin.TimeOfDay)).ToList();
                 Context.RemoveRange(projekcijaTerminEntitesForDelete);
 
                 foreach (var termin in request.ProjekcijaTermin)
@@ -306,7 +306,7 @@ namespace Pelikula.CORE.Impl
             Validator.ValidateEntityExists(projekcijaId);
 
             List<ProjekcijaTermin> entityList = Context.Set<ProjekcijaTermin>()
-                .Where(e => e.ProjekcijaId == projekcijaId && e.Termin.Value > DateTime.Now)
+                .Where(e => e.ProjekcijaId == projekcijaId && e.Termin > DateTime.Now)
                 .ToList();
 
             List<LoV> response = Mapper.Map<List<LoV>>(entityList);
