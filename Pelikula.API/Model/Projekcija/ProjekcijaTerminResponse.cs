@@ -8,10 +8,11 @@ namespace Pelikula.API.Model.Projekcija
         public int Id { get; set; }
         public DateTime? Termin { get; set; }
 
-        public LoV Projekcija { get; set; }
+        public ProjekcijaResponse Projekcija { get; set; }
+
         public override string ToString()
         {
-            return $"{Projekcija.Naziv} - {Termin.GetValueOrDefault(): dd/MM/yyyy, HH:mm}";
+            return $"{Projekcija} - {Termin.GetValueOrDefault(): dd/MM/yyyy, HH:mm}";
         }
     }
 }

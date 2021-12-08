@@ -9,7 +9,7 @@ namespace API.Controllers
     public class KorisnikController :
         CrudController<KorisnikResponse, KorisnikUpsertRequest, KorisnikUpsertRequest>
     {
-        protected readonly IKorisnikService Service;
+        protected new readonly IKorisnikService Service;
 
         public KorisnikController(IKorisnikService service) : base(service)
         {

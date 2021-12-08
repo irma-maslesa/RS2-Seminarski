@@ -18,11 +18,11 @@ namespace API.Controllers
         ControllerBase
         where ResponseDTO : class
     {
-        protected readonly IReadService<ResponseDTO> readService;
+        protected readonly IReadService<ResponseDTO> Service;
 
-        public ReadController(IReadService<ResponseDTO> readService)
+        public ReadController(IReadService<ResponseDTO> service)
         {
-            this.readService = readService;
+            Service = service;
         }
 
         [HttpGet]
@@ -63,7 +63,7 @@ namespace API.Controllers
                 throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
             }
             
-            return readService.Get(paginationParams, filterParams, sortingParams);
+            return Service.Get(paginationParams, filterParams, sortingParams);
         }
 
         [HttpGet("lov")]
@@ -104,13 +104,13 @@ namespace API.Controllers
                 throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
             }
 
-            return readService.GetLoVs(paginationParams, filterParams, sortingParams);
+            return Service.GetLoVs(paginationParams, filterParams, sortingParams);
         }
 
         [HttpGet("{id}")]
         public virtual PayloadResponse<ResponseDTO> GetById(int id)
         {
-            return readService.GetById(id);
+            return Service.GetById(id);
         }
     }
 }

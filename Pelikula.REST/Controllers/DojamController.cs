@@ -8,7 +8,7 @@ namespace API.Controllers
     public class DojamController :
         CrudController<DojamResponse, DojamUpsertRequest, DojamUpsertRequest>
     {
-        protected readonly IDojamService Service;
+        protected new readonly IDojamService Service;
 
         public DojamController(IDojamService service) : base(service)
         {

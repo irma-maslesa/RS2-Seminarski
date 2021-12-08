@@ -15,7 +15,7 @@ namespace API.Controllers
     public class AnketaController :
         CrudController<AnketaResponse, AnketaInsertRequest, AnketaUpdateRequest>
     {
-        protected readonly IAnketaService Service;
+        protected new readonly IAnketaService Service;
 
         public AnketaController(IAnketaService service) : base(service)
         {
