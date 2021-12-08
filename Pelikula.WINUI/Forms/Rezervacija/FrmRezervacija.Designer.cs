@@ -270,6 +270,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.btnObrisi.TabIndex = 4;
             this.btnObrisi.Text = "Obriši";
             this.btnObrisi.UseVisualStyleBackColor = true;
+            this.btnObrisi.Click += new System.EventHandler(this.BtnObrisi_Click);
             // 
             // btnUredi
             // 
@@ -279,6 +280,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.btnUredi.TabIndex = 3;
             this.btnUredi.Text = "Uredi";
             this.btnUredi.UseVisualStyleBackColor = true;
+            this.btnUredi.Click += new System.EventHandler(this.BtnUredi_Click);
             // 
             // btnDodaj
             // 
@@ -288,6 +290,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.btnDodaj.TabIndex = 2;
             this.btnDodaj.Text = "Dodaj";
             this.btnDodaj.UseVisualStyleBackColor = true;
+            this.btnDodaj.Click += new System.EventHandler(this.BtnDodaj_Click);
             // 
             // err
             // 

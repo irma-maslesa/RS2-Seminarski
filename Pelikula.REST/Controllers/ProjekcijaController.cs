@@ -83,5 +83,11 @@ namespace API.Controllers
             return Service.GetTermine(projekcijaId);
         }
 
+        [HttpGet("{projekcijaId}/aktivni-termini")]
+        public ListPayloadResponse<LoV> GetAktivneTermine(int projekcijaId)
+        {
+            return Service.GetAktivneTermine(projekcijaId);
+        }
+
     }
 }

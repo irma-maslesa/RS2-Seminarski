@@ -233,6 +233,27 @@ namespace Pelikula.WINUI
             }
         }
 
+        public async Task<ListPayloadResponse<LoV>> GetAktivniTermini(int projekcijaId)
+        {
+            try
+            {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment(projekcijaId)
+                        .AppendPathSegment("aktivni-termini")
+                        .GetJsonAsync<ListPayloadResponse<LoV>>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
         public async Task<PayloadResponse<RezervacijaResponse>> OtkaziRezervaciju(int id)
         {
             try
@@ -254,5 +275,70 @@ namespace Pelikula.WINUI
                 return default;
             }
         }
+
+        public async Task<ListPayloadResponse<LoV>> GetSjedista(int projekcijaId)
+        {
+            try
+            {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment(projekcijaId)
+                        .AppendPathSegment("sjedista")
+                        .GetJsonAsync<ListPayloadResponse<LoV>>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
+        public async Task<ListPayloadResponse<LoV>> GetZauzetaSjedista(int projekcijaTerminId)
+        {
+            try
+            {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment(projekcijaTerminId)
+                        .AppendPathSegment("zauzeta-sjedista")
+                        .GetJsonAsync<ListPayloadResponse<LoV>>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
+        public async Task<ListPayloadResponse<LoV>> GetKlijentiForTermin(int projekcijaTerminId, bool bezRezervacije)
+        {
+            try
+            {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment(projekcijaTerminId)
+                        .AppendPathSegment(bezRezervacije)
+                        .AppendPathSegment("klijenti")
+                        .GetJsonAsync<ListPayloadResponse<LoV>>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
     }
 }

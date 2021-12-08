@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Pelikula.API.Api;
+using Pelikula.API.Model;
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Sala;
 using Pelikula.API.Validation;
@@ -17,8 +18,11 @@ namespace Pelikula.CORE.Impl
         CrudServiceImpl<SalaResponse, Sala, SalaUpsertRequest, SalaUpsertRequest>,
         ISalaService
     {
-        public SalaServiceImpl(AppDbContext context, IMapper mapper, ISalaValidator validator) : base(context, mapper, validator)
+        protected IProjekcijaValidator ProjekcijaValidator { get; set; }
+
+        public SalaServiceImpl(AppDbContext context, IMapper mapper, ISalaValidator validator, IProjekcijaValidator projekcijaValidator) : base(context, mapper, validator)
         {
+            ProjekcijaValidator = projekcijaValidator;
         }
 
         public override PagedPayloadResponse<SalaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
@@ -45,7 +49,7 @@ namespace Pelikula.CORE.Impl
             Validator.ValidateEntityExists(id);
 
             Sala entity = Context.Set<Sala>().Include(e => e.Sjediste).FirstOrDefault(e => e.Id == id);
-            entity.Sjediste = entity.Sjediste.OrderBy(e => e.Red).ThenBy(e => e.Broj).ToList();
+            entity.Sjediste = entity.Sjediste.OrderByDescending(e => e.Red).ThenByDescending(e => e.Broj).ToList();
 
             SalaResponse response = Mapper.Map<SalaResponse>(entity);
 
@@ -110,5 +114,36 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<SalaResponse>(HttpStatusCode.OK, response);
         }
 
+        public ListPayloadResponse<LoV> GetZauzetaSjedista(int projekcijaTerminId)
+        {
+            ProjekcijaValidator.ValidateTerminExists(projekcijaTerminId);
+
+            var zauzetaSjedistaIds = Context.SjedisteRezervacija
+                .Include(e => e.Rezervacija)
+                .Where(e => e.Rezervacija.ProjekcijaTerminId == projekcijaTerminId)
+                .Select(e => e.SjedisteId)
+                .ToList();
+
+            var zauzetaSjedistaEntites = Context.Sjediste.Where(e => zauzetaSjedistaIds.Contains(e.Id)).ToList();
+            var response = Mapper.Map<List<LoV>>(zauzetaSjedistaEntites);
+
+            return new ListPayloadResponse<LoV>(HttpStatusCode.OK, response);
+        }
+
+        public ListPayloadResponse<LoV> GetSjedista(int projekcijaId)
+        {
+            ProjekcijaValidator.ValidateEntityExists(projekcijaId);
+
+            var salaId = Context.Projekcija.FirstOrDefault(e => e.Id == projekcijaId).SalaId;
+            var sjedistaEntites = Context.Sjediste
+                .Where(e => e.SalaId == salaId )
+                .OrderByDescending(e => e.Red)
+                .ThenByDescending(e => e.Broj)
+                .ToList();
+
+            var response = Mapper.Map<List<LoV>>(sjedistaEntites);
+
+            return new ListPayloadResponse<LoV>(HttpStatusCode.OK, response);
+        }
     }
 }

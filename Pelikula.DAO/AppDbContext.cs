@@ -429,6 +429,7 @@ namespace Pelikula.DAO
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Rezervacija)
                     .HasForeignKey(d => d.KorisnikId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Rezervacija_Korisnik_KorisnikId");
 
                 entity.HasOne(d => d.ProjekcijaTermin)
@@ -494,7 +495,6 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.Opis).HasMaxLength(2000);
             });
-
         }
 
     }

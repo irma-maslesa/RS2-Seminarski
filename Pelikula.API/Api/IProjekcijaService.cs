@@ -14,6 +14,8 @@ namespace Pelikula.API.Api
         Task<ListPayloadResponse<ProjekcijaResponse>> GetPreporucene(string korisnickoIme);
 
         PayloadResponse<string> PosjetiProjekciju(int projekcijaId, int korisnikId);
+       
         ListPayloadResponse<LoV> GetTermine(int projekcijaId);
+        ListPayloadResponse<LoV> GetAktivneTermine(int projekcijaId);
     }
 }
