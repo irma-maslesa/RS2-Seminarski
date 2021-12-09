@@ -28,7 +28,6 @@ namespace Pelikula.DAO
         public virtual DbSet<Obavijest> Obavijest { get; set; }
         public virtual DbSet<Prodaja> Prodaja { get; set; }
         public virtual DbSet<ProdajaArtikal> ProdajaArtikal { get; set; }
-        public virtual DbSet<ProdajaRezervacija> ProdajaRezervacija { get; set; }
         public virtual DbSet<Projekcija> Projekcija { get; set; }
         public virtual DbSet<ProjekcijaKorisnik> ProjekcijaKorisnik { get; set; }
         public virtual DbSet<ProjekcijaTermin> ProjekcijaTermin { get; set; }
@@ -511,6 +510,5 @@ namespace Pelikula.DAO
                 entity.Property(e => e.Opis).HasMaxLength(2000);
             });
         }
-
     }
 }

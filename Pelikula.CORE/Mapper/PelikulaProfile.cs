@@ -170,7 +170,10 @@ namespace FudbalskaLigaBiH.CORE.Mapper
             CreateMap<ProdajaArtikalInsertRequest, ProdajaArtikal>().ReverseMap();
 
             CreateMap<Prodaja, ProdajaResponse>().ReverseMap();
-            CreateMap<ProdajaInsertRequest, Prodaja>().ReverseMap();
+            CreateMap<ProdajaInsertRequest, Prodaja>()
+                .ForMember(dest => dest.ProdajaArtikal,
+                opts => opts.Ignore())
+                .ReverseMap();
         }
     }
 }

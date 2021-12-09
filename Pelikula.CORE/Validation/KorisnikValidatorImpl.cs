@@ -1,4 +1,6 @@
-﻿using Pelikula.API.Validation;
+﻿using Microsoft.EntityFrameworkCore;
+using Pelikula.API.Model;
+using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
 using Pelikula.DAO;
 using Pelikula.DAO.Model;
@@ -35,6 +37,20 @@ namespace Pelikula.CORE.Validation
             else if (!id.HasValue &&  Context.Korisnik.Any(e => e.Email == email))
             {
                 throw new UserException($"Email {email} se već koristi!", HttpStatusCode.BadRequest);
+            }
+        }
+
+        public void ValidateTipKorisnika(int id, KorisnikTip tipKorisnika)
+        {
+            var uloga = Context.Korisnik
+                .Include(e => e.TipKorisnika)
+                .Where(e => e.Id == id)
+                .Select(e => e.TipKorisnika.Naziv)
+                .FirstOrDefault();
+
+            if(uloga.ToLower() != tipKorisnika.ToString().ToLower())
+            {
+                throw new UserException($"Korisnik({id}) nije {tipKorisnika}! ", HttpStatusCode.BadRequest);
             }
         }
     }

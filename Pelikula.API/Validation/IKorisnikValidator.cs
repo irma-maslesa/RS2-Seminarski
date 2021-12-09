@@ -1,4 +1,4 @@
-﻿using Pelikula.API.Model.Korisnik;
+﻿using Pelikula.API.Model;
 using Pelikula.DAO.Model;
 
 namespace Pelikula.API.Validation
@@ -7,5 +7,7 @@ namespace Pelikula.API.Validation
     {
         void ValidateKorisnickoIme(string korisnickoIme, int? id = null);
         void ValidateEmail(string email, int? id= null);
+
+        void ValidateTipKorisnika(int id, KorisnikTip tipKorisnika);
     }
 }
