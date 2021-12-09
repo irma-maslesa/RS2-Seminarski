@@ -8,7 +8,7 @@ namespace API.Controllers
     public class RezervacijaController :
         CrudController<RezervacijaResponse, RezervacijaUpsertRequest, RezervacijaUpsertRequest>
     {
-        protected readonly IRezervacijaService Service;
+        protected new readonly IRezervacijaService Service;
 
         public RezervacijaController(IRezervacijaService service) : base(service)
         {

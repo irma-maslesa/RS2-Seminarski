@@ -10,29 +10,29 @@ namespace API.Controllers
         where InsertDTO : class
         where UpdateDTO : class
     {
-        protected readonly ICrudService<ResponseDTO, InsertDTO, UpdateDTO> crudService;
+        protected new readonly ICrudService<ResponseDTO, InsertDTO, UpdateDTO> Service;
 
-        public CrudController(ICrudService<ResponseDTO, InsertDTO, UpdateDTO> crudService):base(crudService)
+        public CrudController(ICrudService<ResponseDTO, InsertDTO, UpdateDTO> service):base(service)
         {
-            this.crudService = crudService;
+            Service = service;
         }
 
         [HttpPost]
         public virtual PayloadResponse<ResponseDTO> Insert([FromBody] InsertDTO dtoObject)
         {
-            return crudService.Insert(dtoObject);
+            return Service.Insert(dtoObject);
         }
 
         [HttpPut("{id}")]
         public virtual PayloadResponse<ResponseDTO> Update(int id, UpdateDTO dtoObject)
         {
-            return crudService.Update(id, dtoObject);
+            return Service.Update(id, dtoObject);
         }
 
         [HttpDelete("{id}")]
         public PayloadResponse<string> Delete(int id)
         {
-            return crudService.Delete(id);
+            return Service.Delete(id);
         }
     }
 }

@@ -1,32 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Pelikula.API.Api;
-using Pelikula.CORE.Helper.Response;
-using Pelikula.API.Model.Helper;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Text;
-using Pelikula.CORE.Filter;
-using System.Net;
+using Pelikula.API.Api;
 using Pelikula.API.Model;
+using Pelikula.API.Model.Helper;
+using Pelikula.API.Model.Prodaja;
+using Pelikula.CORE.Filter;
+using Pelikula.CORE.Helper.Response;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ReadController<ResponseDTO> :
-        ControllerBase
-        where ResponseDTO : class
+    public class ProdajaController :
+        CrudController<ProdajaResponse, ProdajaInsertRequest, object>
     {
-        protected readonly IReadService<ResponseDTO> Service;
+        protected new readonly IProdajaService Service;
 
-        public ReadController(IReadService<ResponseDTO> service)
+        public ProdajaController(IProdajaService service) : base(service)
         {
             Service = service;
         }
 
         [HttpGet]
-        public virtual PagedPayloadResponse<ResponseDTO> Get([FromQuery] string pagination, [FromQuery]  string filter, [FromQuery] string sorting)
+        public override PagedPayloadResponse<ProdajaResponse> Get([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting)
         {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
@@ -43,7 +41,7 @@ namespace API.Controllers
             }
             try
             {
-                filterParams = filter != null && filter.Any()? JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>(filter):null;
+                filterParams = filter != null && filter.Any() ? JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>(filter) : null;
             }
             catch (System.Exception)
             {
@@ -51,7 +49,7 @@ namespace API.Controllers
             }
             try
             {
-                sortingParams = sorting != null && sorting.Any() ?  JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>(sorting):null;
+                sortingParams = sorting != null && sorting.Any() ? JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>(sorting) : null;
             }
             catch (System.Exception)
             {
@@ -62,12 +60,13 @@ namespace API.Controllers
             {
                 throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
             }
-            
+
             return Service.Get(paginationParams, filterParams, sortingParams);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("lov")]
-        public virtual PagedPayloadResponse<LoV> GetLoVs([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting)
+        public override PagedPayloadResponse<LoV> GetLoVs([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting)
         {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
@@ -108,9 +107,18 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public virtual PayloadResponse<ResponseDTO> GetById(int id)
+        public override PayloadResponse<ProdajaResponse> GetById(int id)
         {
             return Service.GetById(id);
         }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPut("{id}")]
+        public override PayloadResponse<ProdajaResponse> Update(int id, object dtoObject)
+        {
+            return Service.Update(id, dtoObject);
+        }
+
+
     }
 }

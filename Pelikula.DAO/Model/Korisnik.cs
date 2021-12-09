@@ -29,7 +29,7 @@ namespace Pelikula.DAO.Model
         public string Prezime { get; set; }
         public string Email { get; set; }
         public string Spol { get; set; }
-        public DateTime? DatumRodjenja { get; set; }
+        public DateTime DatumRodjenja { get; set; }
         public byte[] Slika { get; set; }
         public byte[] SlikaThumb { get; set; }
 

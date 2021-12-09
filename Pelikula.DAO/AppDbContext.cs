@@ -28,7 +28,6 @@ namespace Pelikula.DAO
         public virtual DbSet<Obavijest> Obavijest { get; set; }
         public virtual DbSet<Prodaja> Prodaja { get; set; }
         public virtual DbSet<ProdajaArtikal> ProdajaArtikal { get; set; }
-        public virtual DbSet<ProdajaRezervacija> ProdajaRezervacija { get; set; }
         public virtual DbSet<Projekcija> Projekcija { get; set; }
         public virtual DbSet<ProjekcijaKorisnik> ProjekcijaKorisnik { get; set; }
         public virtual DbSet<ProjekcijaTermin> ProjekcijaTermin { get; set; }
@@ -50,7 +49,9 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.KorisnikId).HasColumnName("KorisnikID");
 
-                entity.Property(e => e.Naslov).HasMaxLength(250);
+                entity.Property(e => e.Naslov)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Anketa)
@@ -67,7 +68,9 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.AnketaId).HasColumnName("AnketaID");
 
-                entity.Property(e => e.Odgovor).HasMaxLength(1000);
+                entity.Property(e => e.Odgovor)
+                    .IsRequired()
+                    .HasMaxLength(1000);
 
                 entity.HasOne(d => d.Anketa)
                     .WithMany(p => p.AnketaOdgovor)
@@ -112,9 +115,13 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.JedinicaMjereId).HasColumnName("JedinicaMjereID");
 
-                entity.Property(e => e.Naziv).HasMaxLength(250);
+                entity.Property(e => e.Naziv)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
-                entity.Property(e => e.Sifra).HasMaxLength(20);
+                entity.Property(e => e.Sifra)
+                    .IsRequired()
+                    .HasMaxLength(20);
 
                 entity.HasOne(d => d.JedinicaMjere)
                     .WithMany(p => p.Artikal)
@@ -215,14 +222,22 @@ namespace Pelikula.DAO
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Ime).HasMaxLength(250);
+                entity.Property(e => e.Ime)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
-                entity.Property(e => e.Prezime).HasMaxLength(250);
+                entity.Property(e => e.Prezime)
+                    .IsRequired()
+                    .HasMaxLength(250);
             });
 
             modelBuilder.Entity<JedinicaMjere>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.KratkiNaziv).IsRequired();
+
+                entity.Property(e => e.Naziv).IsRequired();
             });
 
             modelBuilder.Entity<Korisnik>(entity =>
@@ -232,26 +247,36 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Email).HasMaxLength(150);
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(150);
 
-                entity.Property(e => e.Ime).HasMaxLength(250);
+                entity.Property(e => e.Ime)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
-                entity.Property(e => e.KorisnickoIme).HasMaxLength(250);
+                entity.Property(e => e.KorisnickoIme)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
                 entity.Property(e => e.LozinkaHash).HasMaxLength(250);
 
                 entity.Property(e => e.LozinkaSalt).HasMaxLength(250);
 
-                entity.Property(e => e.Prezime).HasMaxLength(250);
+                entity.Property(e => e.Prezime)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
-                entity.Property(e => e.Spol).HasMaxLength(10);
+                entity.Property(e => e.Spol)
+                    .IsRequired()
+                    .HasMaxLength(10);
 
                 entity.Property(e => e.TipKorisnikaId).HasColumnName("TipKorisnikaID");
 
                 entity.HasOne(d => d.TipKorisnika)
                     .WithMany(p => p.Korisnik)
                     .HasForeignKey(d => d.TipKorisnikaId)
-                    .HasConstraintName("FK_Korisnik_TipKorisnika_TipKorisnikaId");
+                    .HasConstraintName("FK_Korisnik_TipKorisnika");
             });
 
             modelBuilder.Entity<Obavijest>(entity =>
@@ -263,9 +288,13 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.KorisnikId).HasColumnName("KorisnikID");
 
-                entity.Property(e => e.Naslov).HasMaxLength(250);
+                entity.Property(e => e.Naslov)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
-                entity.Property(e => e.Tekst).HasMaxLength(2000);
+                entity.Property(e => e.Tekst)
+                    .IsRequired()
+                    .HasMaxLength(2000);
 
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Obavijest)
@@ -279,13 +308,22 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.BrojRacuna).IsRequired();
+
                 entity.Property(e => e.Popust).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.Porez).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Prodaja)
-                    .HasForeignKey(d => d.KorisnikId);
+                    .HasForeignKey(d => d.KorisnikId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.Rezervacija)
+                    .WithMany(p => p.Prodaja)
+                    .HasForeignKey(d => d.RezervacijaId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Prodaja_Rezervacija");
             });
 
             modelBuilder.Entity<ProdajaArtikal>(entity =>
@@ -300,8 +338,6 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.ArtikalId).HasColumnName("ArtikalID");
 
-                entity.Property(e => e.Cijena).HasColumnType("decimal(18, 2)");
-
                 entity.Property(e => e.ProdajaId).HasColumnName("ProdajaID");
 
                 entity.HasOne(d => d.Artikal)
@@ -313,34 +349,6 @@ namespace Pelikula.DAO
                     .WithMany(p => p.ProdajaArtikal)
                     .HasForeignKey(d => d.ProdajaId)
                     .HasConstraintName("FK_ProdajaArtikalDodjela_Prodaja_ProdajaId");
-            });
-
-            modelBuilder.Entity<ProdajaRezervacija>(entity =>
-            {
-                entity.HasIndex(e => e.ProdajaId)
-                    .HasName("IX_ProdajaRezervacijaDodjela_ProdajaId");
-
-                entity.HasIndex(e => e.RezervacijaId)
-                    .HasName("IX_ProdajaRezervacijaDodjela_RezervacijaId");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Cijena).HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.ProdajaId).HasColumnName("ProdajaID");
-
-                entity.Property(e => e.RezervacijaId).HasColumnName("RezervacijaID");
-
-                entity.HasOne(d => d.Prodaja)
-                    .WithMany(p => p.ProdajaRezervacija)
-                    .HasForeignKey(d => d.ProdajaId)
-                    .HasConstraintName("FK_ProdajaRezervacijaDodjela_Prodaja_ProdajaId");
-
-                entity.HasOne(d => d.Rezervacija)
-                    .WithMany(p => p.ProdajaRezervacija)
-                    .HasForeignKey(d => d.RezervacijaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProdajaRezervacijaDodjela_Rezervacija_RezervacijaId");
             });
 
             modelBuilder.Entity<Projekcija>(entity =>
@@ -429,7 +437,6 @@ namespace Pelikula.DAO
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Rezervacija)
                     .HasForeignKey(d => d.KorisnikId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Rezervacija_Korisnik_KorisnikId");
 
                 entity.HasOne(d => d.ProjekcijaTermin)
@@ -442,21 +449,24 @@ namespace Pelikula.DAO
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Naziv).HasMaxLength(250);
+                entity.Property(e => e.Naziv)
+                    .IsRequired()
+                    .HasMaxLength(250);
             });
 
             modelBuilder.Entity<Sjediste>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Red).HasMaxLength(1);
+                entity.Property(e => e.Red)
+                    .IsRequired()
+                    .HasMaxLength(1);
 
                 entity.Property(e => e.SalaId).HasColumnName("SalaID");
 
                 entity.HasOne(d => d.Sala)
                     .WithMany(p => p.Sjediste)
                     .HasForeignKey(d => d.SalaId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Sjediste_Sala");
             });
 
@@ -471,12 +481,12 @@ namespace Pelikula.DAO
                 entity.HasOne(d => d.Rezervacija)
                     .WithMany(p => p.SjedisteRezervacija)
                     .HasForeignKey(d => d.RezervacijaId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_SjedisteRezervacija_Rezervacija");
 
                 entity.HasOne(d => d.Sjediste)
                     .WithMany(p => p.SjedisteRezervacija)
                     .HasForeignKey(d => d.SjedisteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SjedisteRezervacija_Sjediste");
             });
 
@@ -484,18 +494,21 @@ namespace Pelikula.DAO
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Naziv).HasMaxLength(250);
+                entity.Property(e => e.Naziv)
+                    .IsRequired()
+                    .HasMaxLength(250);
             });
 
             modelBuilder.Entity<Zanr>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Naziv).HasMaxLength(250);
+                entity.Property(e => e.Naziv)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
                 entity.Property(e => e.Opis).HasMaxLength(2000);
             });
         }
-
     }
 }

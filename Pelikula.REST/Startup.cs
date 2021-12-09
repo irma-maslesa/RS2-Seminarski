@@ -13,6 +13,7 @@ using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
 using Microsoft.AspNetCore.Authentication;
 using Pelikula.REST.Security;
+using Microsoft.Extensions.Hosting;
 
 namespace Pelikula.REST
 {
@@ -109,6 +110,9 @@ namespace Pelikula.REST
             services.AddScoped<IRezervacijaValidator, RezervacijaValidatorImpl>();
             services.AddScoped<IRezervacijaService, RezervacijaServiceImpl>();
 
+            services.AddScoped<IProdajaValidator, ProdajaValidatorImpl>();
+            services.AddScoped<IProdajaService, ProdajaServiceImpl>();
+
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
@@ -116,7 +120,10 @@ namespace Pelikula.REST
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -127,6 +134,7 @@ namespace Pelikula.REST
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

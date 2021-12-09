@@ -9,7 +9,7 @@ namespace API.Controllers
     public class SalaController :
         CrudController<SalaResponse, SalaUpsertRequest, SalaUpsertRequest>
     {
-        protected readonly ISalaService Service;
+        protected new readonly ISalaService Service;
 
         public SalaController(ISalaService service) : base(service)
         {

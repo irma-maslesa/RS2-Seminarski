@@ -16,7 +16,7 @@ namespace Pelikula.DAO.Model
 
         public int Id { get; set; }
         public int ProjekcijaId { get; set; }
-        public DateTime? Termin { get; set; }
+        public DateTime Termin { get; set; }
 
         public virtual Projekcija Projekcija { get; set; }
         public virtual ICollection<Rezervacija> Rezervacija { get; set; }

@@ -17,7 +17,7 @@ namespace API.Controllers
     public class ProjekcijaController :
         CrudController<ProjekcijaResponse, ProjekcijaUpsertRequest, ProjekcijaUpsertRequest>
     {
-        protected readonly IProjekcijaService Service;
+        protected new readonly IProjekcijaService Service;
 
         public ProjekcijaController(IProjekcijaService service) : base(service)
         {

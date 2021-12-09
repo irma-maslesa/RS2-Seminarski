@@ -8,6 +8,7 @@ using Pelikula.API.Model.FilmskaLicnost;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Obavijest;
+using Pelikula.API.Model.Prodaja;
 using Pelikula.API.Model.Projekcija;
 using Pelikula.API.Model.Rezervacija;
 using Pelikula.API.Model.Sala;
@@ -122,7 +123,6 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 opts => opts.MapFrom(src => $"{src.Termin:dd/MM/yyyy, HH:mm}"))
                 .ReverseMap();
             CreateMap<ProjekcijaTerminUpsertRequest, ProjekcijaTermin>().ReverseMap();
-            CreateMap<ProjekcijaTerminUpsertRequest, ProjekcijaTermin>().ReverseMap();
 
             CreateMap<Projekcija, ProjekcijaResponse>()
                 .ForMember(dest => dest.Termini,
@@ -165,10 +165,15 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ForMember(dest => dest.SjedisteRezervacija,
                 opts => opts.Ignore())
                 .ReverseMap();
-            CreateMap<RezervacijaUpsertRequest, Rezervacija>()
-                 .ForMember(dest => dest.SjedisteRezervacija,
-                 opts => opts.Ignore())
-                 .ReverseMap();
+
+            CreateMap<ProdajaArtikal, ProdajaArtikalResponse>().ReverseMap();
+            CreateMap<ProdajaArtikalInsertRequest, ProdajaArtikal>().ReverseMap();
+
+            CreateMap<Prodaja, ProdajaResponse>().ReverseMap();
+            CreateMap<ProdajaInsertRequest, Prodaja>()
+                .ForMember(dest => dest.ProdajaArtikal,
+                opts => opts.Ignore())
+                .ReverseMap();
         }
     }
 }
