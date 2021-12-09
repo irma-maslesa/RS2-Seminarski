@@ -43,6 +43,8 @@ namespace Pelikula.WINUI.Forms.Film
 
             Text = "Dodaj film";
 
+            txtSadrzaj.ScrollBars = ScrollBars.Vertical;
+
             if (_details)
             {
                 Text = "Detalji o filmu";
@@ -55,7 +57,9 @@ namespace Pelikula.WINUI.Forms.Film
                 txtGodinaSnimanja.Enabled = false;
                 txtVideoLink.Enabled = false;
                 txtImdbLink.Enabled = false;
-                txtSadrzaj.Enabled = false;
+
+                txtSadrzaj.ReadOnly = true;
+                txtSadrzaj.BackColor = SystemColors.Control;
 
                 cbReditelj.Enabled = false;
                 cbZanr.Enabled = false;
@@ -94,7 +98,8 @@ namespace Pelikula.WINUI.Forms.Film
 
             if (_id.HasValue)
             {
-                Text = "Uredi film";
+                if (!_details)
+                    Text = "Uredi film";
 
                 PayloadResponse<FilmResponse> response = await _service.GetById<PayloadResponse<FilmResponse>>(_id.Value);
                 _initial = response.Payload;

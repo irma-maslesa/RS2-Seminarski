@@ -35,7 +35,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.err = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnDodajKorisnika = new System.Windows.Forms.Button();
-            this.btnFilmInfo = new System.Windows.Forms.Button();
+            this.btnProjekcijaInfo = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cbTermin = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -76,7 +76,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnDodajKorisnika);
-            this.groupBox2.Controls.Add(this.btnFilmInfo);
+            this.groupBox2.Controls.Add(this.btnProjekcijaInfo);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.cbTermin);
             this.groupBox2.Controls.Add(this.label1);
@@ -100,14 +100,15 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.btnDodajKorisnika.UseVisualStyleBackColor = true;
             this.btnDodajKorisnika.Click += new System.EventHandler(this.BtnDodajKorisnika_Click);
             // 
-            // btnFilmInfo
+            // btnProjekcijaInfo
             // 
-            this.btnFilmInfo.Location = new System.Drawing.Point(452, 26);
-            this.btnFilmInfo.Name = "btnFilmInfo";
-            this.btnFilmInfo.Size = new System.Drawing.Size(23, 23);
-            this.btnFilmInfo.TabIndex = 28;
-            this.btnFilmInfo.Text = "i";
-            this.btnFilmInfo.UseVisualStyleBackColor = true;
+            this.btnProjekcijaInfo.Location = new System.Drawing.Point(452, 26);
+            this.btnProjekcijaInfo.Name = "btnProjekcijaInfo";
+            this.btnProjekcijaInfo.Size = new System.Drawing.Size(23, 23);
+            this.btnProjekcijaInfo.TabIndex = 28;
+            this.btnProjekcijaInfo.Text = "i";
+            this.btnProjekcijaInfo.UseVisualStyleBackColor = true;
+            this.btnProjekcijaInfo.Click += new System.EventHandler(this.BtnProjekcijaInfo_Click);
             // 
             // label3
             // 
@@ -210,7 +211,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         private System.Windows.Forms.ComboBox cbTermin;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbKorisnik;
-        private System.Windows.Forms.Button btnFilmInfo;
+        private System.Windows.Forms.Button btnProjekcijaInfo;
         private System.Windows.Forms.FlowLayoutPanel flpSjedista;
         private System.Windows.Forms.Button btnDodajKorisnika;
     }

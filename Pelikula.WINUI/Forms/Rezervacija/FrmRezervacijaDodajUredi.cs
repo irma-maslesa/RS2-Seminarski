@@ -5,6 +5,7 @@ using Pelikula.API.Model.Projekcija;
 using Pelikula.API.Model.Rezervacija;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.WINUI.Forms.Korisnik;
+using Pelikula.WINUI.Forms.Projekcija;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -344,6 +345,12 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 korisnikList = (await _korisnikService.GetKlijentiForTermin(data.Id, true)).Payload.OrderBy(o => o.Naziv).ToList();
                 cbKorisnik.DataSource = korisnikList;
             }
+        }
+
+        private void BtnProjekcijaInfo_Click(object sender, EventArgs e)
+        {
+            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((LoV)cbProjekcija.SelectedItem).Id, true);
+            frm.ShowDialog();
         }
     }
 }

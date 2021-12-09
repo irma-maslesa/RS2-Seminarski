@@ -17,6 +17,7 @@ namespace Pelikula.WINUI.Forms.Projekcija
         private readonly ApiService _salaService = new ApiService("Sala");
 
         private readonly int? _id;
+        private readonly bool _details;
 
         private ProjekcijaResponse _initial = new ProjekcijaResponse();
         private readonly ProjekcijaUpsertRequest _request = new ProjekcijaUpsertRequest();
@@ -24,9 +25,10 @@ namespace Pelikula.WINUI.Forms.Projekcija
         List<LoV> filmList = new List<LoV>();
         List<LoV> salaList = new List<LoV>();
 
-        public FrmProjekcijaDodajUredi(int? id = null)
+        public FrmProjekcijaDodajUredi(int? id = null, bool details = false)
         {
             _id = id;
+            _details = details;
 
             InitializeComponent();
         }
@@ -43,6 +45,49 @@ namespace Pelikula.WINUI.Forms.Projekcija
 
             Text = "Dodaj projekciju";
 
+            if (_details)
+            {
+                Text = "Detalji o projekciji";
+                btnOcisti.Visible = false;
+                btnSpremi.Visible = false;
+
+                cbFilm.Enabled = false;
+                cbSala.Enabled = false;
+                txtCijena.Enabled = false;
+                dtpVrijediOd.Enabled = false;
+                dtpVrijediDo.Enabled = false;
+
+                cbTermin1.Enabled = false;
+                dtpTermin1.Enabled = false;
+                cbTermin1.Visible = false;
+                dtpTermin1.Visible = false;
+
+                cbTermin2.Enabled = false;
+                dtpTermin2.Enabled = false;
+                cbTermin2.Visible = false;
+                dtpTermin2.Visible = false;
+
+                cbTermin3.Enabled = false;
+                dtpTermin3.Enabled = false;
+                cbTermin3.Visible = false;
+                dtpTermin3.Visible = false;
+
+                cbTermin4.Enabled = false;
+                dtpTermin4.Enabled = false;
+                cbTermin4.Visible = false;
+                dtpTermin4.Visible = false;
+
+                cbTermin5.Enabled = false;
+                dtpTermin5.Enabled = false;
+                cbTermin5.Visible = false;
+                dtpTermin5.Visible = false;
+
+                cbTermin6.Enabled = false;
+                dtpTermin6.Enabled = false;
+                cbTermin6.Visible = false;
+                dtpTermin6.Visible = false;
+            }
+
             filmList = (await _filmService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
             cbFilm.DataSource = filmList;
             cbFilm.DisplayMember = "Naziv";
@@ -55,9 +100,12 @@ namespace Pelikula.WINUI.Forms.Projekcija
 
             if (_id.HasValue)
             {
-                DisableControls();
+                if (!_details)
+                {
+                    DisableControls();
 
-                Text = "Uredi projekciju";
+                    Text = "Uredi projekciju";
+                }
 
                 PayloadResponse<ProjekcijaResponse> response = await _service.GetById<PayloadResponse<ProjekcijaResponse>>(_id.Value);
                 _initial = response.Payload;
@@ -117,38 +165,62 @@ namespace Pelikula.WINUI.Forms.Projekcija
                 {
                     case 1:
                         cbTermin1.Checked = true;
-                        EnableTerminiCb(true, true, false, false, false, false);
-                        EnableDp(true, false, false, false, false, false);
+                        if (!_details)
+                        {
+                            EnableTerminiCb(true, true, false, false, false, false);
+                            EnableDp(true, false, false, false, false, false);
+                        }
+                        dtpTermin1.Visible = true;
                         dtpTermin1.Value = DateTime.Now.Date + t;
                         break;
                     case 2:
                         cbTermin2.Checked = true;
-                        EnableTerminiCb(true, true, true, false, false, false);
-                        EnableDp(true, true, false, false, false, false);
+                        if (!_details)
+                        {
+                            EnableTerminiCb(true, true, true, false, false, false);
+                            EnableDp(true, true, false, false, false, false);
+                        }
+                        dtpTermin2.Visible = true;
                         dtpTermin2.Value = DateTime.Now.Date + t;
                         break;
                     case 3:
                         cbTermin3.Checked = true;
-                        EnableTerminiCb(true, true, true, true, false, false);
-                        EnableDp(true, true, true, false, false, false);
+                        if (!_details)
+                        {
+                            EnableTerminiCb(true, true, true, true, false, false);
+                            EnableDp(true, true, true, false, false, false);
+                        }
+                        dtpTermin3.Visible = true;
                         dtpTermin3.Value = DateTime.Now.Date + t;
                         break;
                     case 4:
                         cbTermin4.Checked = true;
-                        EnableTerminiCb(true, true, true, true, true, false);
-                        EnableDp(true, true, true, true, false, false);
+                        if (!_details)
+                        {
+                            EnableTerminiCb(true, true, true, true, true, false);
+                            EnableDp(true, true, true, true, false, false);
+                        }
+                        dtpTermin4.Visible = true;
                         dtpTermin4.Value = DateTime.Now.Date + t;
                         break;
                     case 5:
                         cbTermin5.Checked = true;
-                        EnableTerminiCb(true, true, true, true, true, true);
-                        EnableDp(true, true, true, true, true, false);
+                        if (!_details)
+                        {
+                            EnableTerminiCb(true, true, true, true, true, true);
+                            EnableDp(true, true, true, true, true, false);
+                        }
+                        dtpTermin5.Visible = true;
                         dtpTermin5.Value = DateTime.Now.Date + t;
                         break;
                     case 6:
                         cbTermin6.Checked = true;
-                        EnableTerminiCb(true, true, true, true, true, true);
-                        EnableDp(true, true, true, true, true, true);
+                        if (!_details)
+                        {
+                            EnableTerminiCb(true, true, true, true, true, true);
+                            EnableDp(true, true, true, true, true, true);
+                        }
+                        dtpTermin6.Visible = true;
                         dtpTermin6.Value = DateTime.Now.Date + t;
                         break;
                     default:
