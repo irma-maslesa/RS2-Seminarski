@@ -32,13 +32,6 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvRezervacije = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Termin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BrojSjedista = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cijena = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Korisnik = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DatumProdaje = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DatumOtakzivanja = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cbProjekcija = new System.Windows.Forms.ComboBox();
@@ -54,6 +47,13 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.btnUredi = new System.Windows.Forms.Button();
             this.btnDodaj = new System.Windows.Forms.Button();
             this.err = new System.Windows.Forms.ErrorProvider(this.components);
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Termin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BrojSjedista = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cijena = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Korisnik = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DatumProdaje = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DatumOtakzivanja = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRezervacije)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -94,59 +94,6 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.dgvRezervacije.Size = new System.Drawing.Size(1174, 422);
             this.dgvRezervacije.TabIndex = 0;
             this.dgvRezervacije.SelectionChanged += new System.EventHandler(this.DgvRezervacije_SelectionChanged);
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            // 
-            // Termin
-            // 
-            this.Termin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Termin.DataPropertyName = "ProjekcijaTermin";
-            this.Termin.HeaderText = "Termin";
-            this.Termin.Name = "Termin";
-            this.Termin.ReadOnly = true;
-            this.Termin.Width = 64;
-            // 
-            // BrojSjedista
-            // 
-            this.BrojSjedista.DataPropertyName = "BrojSjedista";
-            this.BrojSjedista.HeaderText = "Broj sjedišta";
-            this.BrojSjedista.Name = "BrojSjedista";
-            this.BrojSjedista.ReadOnly = true;
-            // 
-            // Cijena
-            // 
-            this.Cijena.DataPropertyName = "Cijena";
-            this.Cijena.HeaderText = "Cijena";
-            this.Cijena.Name = "Cijena";
-            this.Cijena.ReadOnly = true;
-            // 
-            // Korisnik
-            // 
-            this.Korisnik.DataPropertyName = "Korisnik";
-            this.Korisnik.HeaderText = "Korisnik";
-            this.Korisnik.Name = "Korisnik";
-            this.Korisnik.ReadOnly = true;
-            // 
-            // DatumProdaje
-            // 
-            this.DatumProdaje.DataPropertyName = "DatumProdano";
-            this.DatumProdaje.HeaderText = "Datum prodaje";
-            this.DatumProdaje.Name = "DatumProdaje";
-            this.DatumProdaje.ReadOnly = true;
-            this.DatumProdaje.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.DatumProdaje.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // DatumOtakzivanja
-            // 
-            this.DatumOtakzivanja.DataPropertyName = "DatumOtkazano";
-            this.DatumOtakzivanja.HeaderText = "Datum otkazivanja";
-            this.DatumOtakzivanja.Name = "DatumOtakzivanja";
-            this.DatumOtakzivanja.ReadOnly = true;
             // 
             // groupBox4
             // 
@@ -296,6 +243,60 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             // 
             this.err.ContainerControl = this;
             // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            // 
+            // Termin
+            // 
+            this.Termin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Termin.DataPropertyName = "ProjekcijaTermin";
+            this.Termin.HeaderText = "Termin";
+            this.Termin.Name = "Termin";
+            this.Termin.ReadOnly = true;
+            this.Termin.Width = 64;
+            // 
+            // BrojSjedista
+            // 
+            this.BrojSjedista.DataPropertyName = "BrojSjedista";
+            this.BrojSjedista.HeaderText = "Broj sjedišta";
+            this.BrojSjedista.Name = "BrojSjedista";
+            this.BrojSjedista.ReadOnly = true;
+            // 
+            // Cijena
+            // 
+            this.Cijena.DataPropertyName = "Cijena";
+            this.Cijena.HeaderText = "Cijena";
+            this.Cijena.Name = "Cijena";
+            this.Cijena.ReadOnly = true;
+            // 
+            // Korisnik
+            // 
+            this.Korisnik.DataPropertyName = "Korisnik";
+            this.Korisnik.HeaderText = "Korisnik";
+            this.Korisnik.Name = "Korisnik";
+            this.Korisnik.ReadOnly = true;
+            // 
+            // DatumProdaje
+            // 
+            this.DatumProdaje.DataPropertyName = "DatumProdano";
+            this.DatumProdaje.HeaderText = "Datum prodaje";
+            this.DatumProdaje.Name = "DatumProdaje";
+            this.DatumProdaje.ReadOnly = true;
+            this.DatumProdaje.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.DatumProdaje.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // DatumOtakzivanja
+            // 
+            this.DatumOtakzivanja.DataPropertyName = "DatumOtkazano";
+            this.DatumOtakzivanja.HeaderText = "Datum otkazivanja";
+            this.DatumOtakzivanja.Name = "DatumOtakzivanja";
+            this.DatumOtakzivanja.ReadOnly = true;
+            // 
             // FrmRezervacija
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -335,6 +336,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         private System.Windows.Forms.ComboBox cbStatus;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cbProjekcija;
+        private System.Windows.Forms.ErrorProvider err;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Termin;
         private System.Windows.Forms.DataGridViewTextBoxColumn BrojSjedista;
@@ -342,6 +344,5 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         private System.Windows.Forms.DataGridViewTextBoxColumn Korisnik;
         private System.Windows.Forms.DataGridViewTextBoxColumn DatumProdaje;
         private System.Windows.Forms.DataGridViewTextBoxColumn DatumOtakzivanja;
-        private System.Windows.Forms.ErrorProvider err;
     }
 }

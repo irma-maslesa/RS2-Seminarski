@@ -208,6 +208,7 @@ namespace Pelikula.WINUI.Forms.Projekcija
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;
+            this.Id.Visible = false;
             // 
             // Naziv
             // 

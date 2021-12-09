@@ -152,6 +152,7 @@ namespace Pelikula.WINUI
             this.prodajaToolStripMenuItem.Name = "prodajaToolStripMenuItem";
             this.prodajaToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.prodajaToolStripMenuItem.Text = "Prodaja";
+            this.prodajaToolStripMenuItem.Click += new System.EventHandler(this.ProdajaToolStripMenuItem_Click);
             // 
             // izvjestajiToolStripMenuItem
             // 

@@ -62,7 +62,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             dgvArtikli.DataSource = obj.Payload;
 
             dgvArtikli.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvArtikli.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //dgvArtikli.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvArtikli.ClearSelection();
 
@@ -91,17 +91,17 @@ namespace Pelikula.WINUI.Forms.Artikal
 
             if (adding)
             {
-                dgvArtikli.CurrentCell = dgvArtikli.Rows[dgvArtikli.RowCount - 1].Cells[0];
+                dgvArtikli.CurrentCell = dgvArtikli.Rows[dgvArtikli.RowCount - 1].Cells[1];
                 dgvArtikli.Rows[dgvArtikli.RowCount - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvArtikli.RowCount)
             {
-                dgvArtikli.CurrentCell = dgvArtikli.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvArtikli.CurrentCell = dgvArtikli.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgvArtikli.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
             {
-                dgvArtikli.CurrentCell = dgvArtikli.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvArtikli.CurrentCell = dgvArtikli.Rows[_selectedRowIndex.Value].Cells[1];
                 dgvArtikli.Rows[_selectedRowIndex.Value].Selected = true;
             }
         }

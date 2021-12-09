@@ -7,6 +7,7 @@ using Pelikula.WINUI.Forms.FilmskaLicnost;
 using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
 using Pelikula.WINUI.Forms.Obavijest;
+using Pelikula.WINUI.Forms.Prodaja;
 using Pelikula.WINUI.Forms.Projekcija;
 using Pelikula.WINUI.Forms.Rezervacija;
 using Pelikula.WINUI.Forms.Sala;
@@ -218,6 +219,12 @@ namespace Pelikula.WINUI
         private void RezervacijeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmRezervacija frm = new FrmRezervacija();
+            OpenForm(frm);
+        }
+
+        private void ProdajaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmProdaja frm = new FrmProdaja();
             OpenForm(frm);
         }
     }

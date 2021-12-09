@@ -53,7 +53,7 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             dgvFilmskeLicnosti.DataSource = obj.Payload;
 
             dgvFilmskeLicnosti.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvFilmskeLicnosti.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvFilmskeLicnosti.Columns[0].Visible = false;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvFilmskeLicnosti.ClearSelection();
 
@@ -82,17 +82,17 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
 
             if (adding)
             {
-                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[dgvFilmskeLicnosti.RowCount - 1].Cells[0];
+                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[dgvFilmskeLicnosti.RowCount - 1].Cells[1];
                 dgvFilmskeLicnosti.Rows[dgvFilmskeLicnosti.RowCount - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvFilmskeLicnosti.RowCount)
             {
-                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
             {
-                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value].Cells[1];
                 dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value].Selected = true;
             }
         }

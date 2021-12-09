@@ -66,7 +66,6 @@ namespace Pelikula.WINUI.Forms.Anketa
             dgvAnkete.DataSource = obj.Payload;
 
             dgvAnkete.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvAnkete.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvAnkete.ClearSelection();
 
@@ -95,17 +94,17 @@ namespace Pelikula.WINUI.Forms.Anketa
 
             if (adding)
             {
-                dgvAnkete.CurrentCell = dgvAnkete.Rows[dgvAnkete.RowCount - 1].Cells[0];
+                dgvAnkete.CurrentCell = dgvAnkete.Rows[dgvAnkete.RowCount - 1].Cells[1];
                 dgvAnkete.Rows[dgvAnkete.RowCount - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvAnkete.RowCount)
             {
-                dgvAnkete.CurrentCell = dgvAnkete.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvAnkete.CurrentCell = dgvAnkete.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgvAnkete.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
             {
-                dgvAnkete.CurrentCell = dgvAnkete.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvAnkete.CurrentCell = dgvAnkete.Rows[_selectedRowIndex.Value].Cells[1];
                 dgvAnkete.Rows[_selectedRowIndex.Value].Selected = true;
             }
         }

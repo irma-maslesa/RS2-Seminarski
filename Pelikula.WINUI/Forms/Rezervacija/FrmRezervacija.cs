@@ -76,7 +76,6 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             dgvRezervacije.DataSource = obj.Payload;
 
             dgvRezervacije.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvRezervacije.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvRezervacije.ClearSelection();
 
@@ -107,17 +106,17 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
             if (adding)
             {
-                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[dgvRezervacije.RowCount - 1].Cells[0];
+                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[dgvRezervacije.RowCount - 1].Cells[1];
                 dgvRezervacije.Rows[dgvRezervacije.RowCount - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvRezervacije.RowCount)
             {
-                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgvRezervacije.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
             {
-                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[_selectedRowIndex.Value].Cells[1];
                 dgvRezervacije.Rows[_selectedRowIndex.Value].Selected = true;
             }
 

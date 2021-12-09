@@ -53,7 +53,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
 
             dgvJediniceMjere.DataSource = obj.Payload;
             dgvJediniceMjere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvJediniceMjere.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvJediniceMjere.Columns[0].Visible = false;
             if (string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
                 dgvJediniceMjere.ClearSelection();
 
@@ -82,17 +82,17 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
 
             if (adding)
             {
-                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[dgvJediniceMjere.RowCount - 1].Cells[0];
+                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[dgvJediniceMjere.RowCount - 1].Cells[1];
                 dgvJediniceMjere.Rows[dgvJediniceMjere.RowCount - 1].Selected = true;
             }
             else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvJediniceMjere.RowCount)
             {
-                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgvJediniceMjere.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
             {
-                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[_selectedRowIndex.Value].Cells[1];
                 dgvJediniceMjere.Rows[_selectedRowIndex.Value].Selected = true;
             }
         }

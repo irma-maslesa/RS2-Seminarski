@@ -61,7 +61,6 @@ namespace Pelikula.WINUI.Forms.Obavijest
             dgvObavijesti.DataSource = obj.Payload;
 
             dgvObavijesti.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvObavijesti.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvObavijesti.ClearSelection();
 
@@ -90,17 +89,17 @@ namespace Pelikula.WINUI.Forms.Obavijest
 
             if (adding)
             {
-                dgvObavijesti.CurrentCell = dgvObavijesti.Rows[dgvObavijesti.RowCount - 1].Cells[0];
+                dgvObavijesti.CurrentCell = dgvObavijesti.Rows[dgvObavijesti.RowCount - 1].Cells[1];
                 dgvObavijesti.Rows[dgvObavijesti.RowCount - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvObavijesti.RowCount)
             {
-                dgvObavijesti.CurrentCell = dgvObavijesti.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvObavijesti.CurrentCell = dgvObavijesti.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgvObavijesti.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
             {
-                dgvObavijesti.CurrentCell = dgvObavijesti.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvObavijesti.CurrentCell = dgvObavijesti.Rows[_selectedRowIndex.Value].Cells[1];
                 dgvObavijesti.Rows[_selectedRowIndex.Value].Selected = true;
             }
         }

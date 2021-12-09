@@ -76,7 +76,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
             dgvKorisnici.DataSource = obj.Payload;
 
             dgvKorisnici.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvKorisnici.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvKorisnici.ClearSelection();
 
@@ -105,17 +104,17 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
             if (adding)
             {
-                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[dgvKorisnici.RowCount - 1].Cells[0];
+                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[dgvKorisnici.RowCount - 1].Cells[1];
                 dgvKorisnici.Rows[dgvKorisnici.RowCount - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvKorisnici.RowCount)
             {
-                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgvKorisnici.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
             {
-                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[_selectedRowIndex.Value].Cells[1];
                 dgvKorisnici.Rows[_selectedRowIndex.Value].Selected = true;
             }
         }

@@ -63,7 +63,6 @@ namespace Pelikula.WINUI.Forms.Film
             dgvFilmovi.DataSource = obj.Payload;
 
             dgvFilmovi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvFilmovi.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvFilmovi.ClearSelection();
 
@@ -92,17 +91,17 @@ namespace Pelikula.WINUI.Forms.Film
 
             if (adding)
             {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[dgvFilmovi.RowCount - 1].Cells[0];
+                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[dgvFilmovi.RowCount - 1].Cells[1];
                 dgvFilmovi.Rows[dgvFilmovi.RowCount - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvFilmovi.RowCount)
             {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[_selectedRowIndex.Value - 1].Cells[0];
+                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgvFilmovi.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
             else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
             {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[_selectedRowIndex.Value].Cells[0];
+                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[_selectedRowIndex.Value].Cells[1];
                 dgvFilmovi.Rows[_selectedRowIndex.Value].Selected = true;
             }
         }
