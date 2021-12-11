@@ -6,8 +6,7 @@ namespace API.Controllers
     public class TipKorisnikaController :
         CrudController<TipKorisnikaResponse, TipKorisnikaUpsertRequest, TipKorisnikaUpsertRequest>
     {
-        public TipKorisnikaController(ITipKorisnikaService service) : base(service)
-        {
+        public TipKorisnikaController(ITipKorisnikaService service) : base(service) {
         }
     }
 }

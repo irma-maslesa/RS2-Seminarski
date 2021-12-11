@@ -1,11 +1,11 @@
 ﻿using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.TipKorisnika;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.TipKorisnika
 {
@@ -13,23 +13,19 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
     {
         private readonly ApiService _service = new ApiService("TipKorisnika");
 
-        public FrmTipKorisnika()
-        {
+        public FrmTipKorisnika() {
             InitializeComponent();
         }
 
-        private async void FrmTipKorisnika_Load(object sender, EventArgs e)
-        {
+        private async void FrmTipKorisnika_Load(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex;
@@ -53,16 +49,18 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
 
             EnableChildren();
 
-            if (dgvTipoviKorisnika.RowCount == 0)
-            {
+            if (dgvTipoviKorisnika.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
+            }
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
             FormHelper.SelectAndShowDgvRow(dgvTipoviKorisnika, adding, _currentIndex, _selectedRowIndex, filters);
         }
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaziv.Enabled = true;
             btnPretrazi.Enabled = true;
             btnDodaj.Enabled = true;
@@ -71,8 +69,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             dgvTipoviKorisnika.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaziv.Enabled = false;
             btnPretrazi.Enabled = false;
             btnDodaj.Enabled = false;
@@ -81,10 +78,8 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             dgvTipoviKorisnika.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -92,10 +87,8 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -103,12 +96,10 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             TipKorisnikaResponse tipKorisnika = (TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati tip korisnika {tipKorisnika.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati tip korisnika {tipKorisnika.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(tipKorisnika.Id);
                 await GetGridData();
             }

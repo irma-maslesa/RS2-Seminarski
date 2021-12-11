@@ -6,8 +6,7 @@ namespace Pelikula.CORE.Validation
 {
     public class TipKorisnikaValidatorImpl : BaseValidatorImpl<TipKorisnika>, ITipKorisnikaValidator
     {
-        public TipKorisnikaValidatorImpl(AppDbContext context) : base(context)
-        {
+        public TipKorisnikaValidatorImpl(AppDbContext context) : base(context) {
         }
     }
 }

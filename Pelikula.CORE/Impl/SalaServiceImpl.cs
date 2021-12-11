@@ -20,20 +20,17 @@ namespace Pelikula.CORE.Impl
     {
         protected IProjekcijaValidator ProjekcijaValidator { get; set; }
 
-        public SalaServiceImpl(AppDbContext context, IMapper mapper, ISalaValidator validator, IProjekcijaValidator projekcijaValidator) : base(context, mapper, validator)
-        {
+        public SalaServiceImpl(AppDbContext context, IMapper mapper, ISalaValidator validator, IProjekcijaValidator projekcijaValidator) : base(context, mapper, validator) {
             ProjekcijaValidator = projekcijaValidator;
         }
 
-        public override PagedPayloadResponse<SalaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<SalaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Sala> entityList = Context.Set<Sala>().Include(e => e.Sjediste).ToList();
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Sala>.FilteredData(filter, entityList) : entityList;
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Sala>.SortData(sorting, entityList) : entityList;
 
-            foreach (var entity in entityList)
-            {
+            foreach (var entity in entityList) {
                 entity.Sjediste = entity.Sjediste.OrderBy(e => e.Red).ThenBy(e => e.Broj).ToList();
             }
 
@@ -44,8 +41,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<SalaResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<SalaResponse> GetById(int id)
-        {
+        public override PayloadResponse<SalaResponse> GetById(int id) {
             Validator.ValidateEntityExists(id);
 
             Sala entity = Context.Set<Sala>().Include(e => e.Sjediste).FirstOrDefault(e => e.Id == id);
@@ -56,8 +52,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<SalaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<SalaResponse> Insert(SalaUpsertRequest request)
-        {
+        public override PayloadResponse<SalaResponse> Insert(SalaUpsertRequest request) {
             Sala entity = Mapper.Map<SalaUpsertRequest, Sala>(request);
 
             entity.BrojSjedista = entity.BrojSjedistaDuzina * entity.BrojSjedistaSirina;
@@ -70,12 +65,9 @@ namespace Pelikula.CORE.Impl
 
             var sjedista = new List<Sjediste>();
 
-            for (int i = 0; i < entity.BrojSjedistaDuzina; i++)
-            {
-                for (int j = 1; j <= entity.BrojSjedistaSirina; j++)
-                {
-                    Sjediste sjediste = new Sjediste
-                    {
+            for (int i = 0; i < entity.BrojSjedistaDuzina; i++) {
+                for (int j = 1; j <= entity.BrojSjedistaSirina; j++) {
+                    Sjediste sjediste = new Sjediste {
                         Broj = j,
                         Red = red.ToString(),
                         SalaId = entity.Id
@@ -97,8 +89,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<SalaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<SalaResponse> Update(int id, SalaUpsertRequest request)
-        {
+        public override PayloadResponse<SalaResponse> Update(int id, SalaUpsertRequest request) {
             Validator.ValidateEntityExists(id);
 
             Sala entity = Context.Set<Sala>().Include(e => e.Sjediste).FirstOrDefault(e => e.Id == id);
@@ -114,8 +105,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<SalaResponse>(HttpStatusCode.OK, response);
         }
 
-        public ListPayloadResponse<LoV> GetZauzetaSjedista(int projekcijaTerminId)
-        {
+        public ListPayloadResponse<LoV> GetZauzetaSjedista(int projekcijaTerminId) {
             ProjekcijaValidator.ValidateTerminExists(projekcijaTerminId);
 
             var zauzetaSjedistaIds = Context.SjedisteRezervacija
@@ -130,13 +120,12 @@ namespace Pelikula.CORE.Impl
             return new ListPayloadResponse<LoV>(HttpStatusCode.OK, response);
         }
 
-        public ListPayloadResponse<LoV> GetSjedista(int projekcijaId)
-        {
+        public ListPayloadResponse<LoV> GetSjedista(int projekcijaId) {
             ProjekcijaValidator.ValidateEntityExists(projekcijaId);
 
             var salaId = Context.Projekcija.FirstOrDefault(e => e.Id == projekcijaId).SalaId;
             var sjedistaEntites = Context.Sjediste
-                .Where(e => e.SalaId == salaId )
+                .Where(e => e.SalaId == salaId)
                 .OrderByDescending(e => e.Red)
                 .ThenByDescending(e => e.Broj)
                 .ToList();

@@ -6,8 +6,7 @@ namespace API.Controllers
     public class ObavijestController :
         CrudController<ObavijestResponse, ObavijestUpsertRequest, ObavijestUpsertRequest>
     {
-        public ObavijestController(IObavijestService service) : base(service)
-        {
+        public ObavijestController(IObavijestService service) : base(service) {
         }
     }
 }

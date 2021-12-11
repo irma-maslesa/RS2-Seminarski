@@ -16,13 +16,11 @@ namespace Pelikula.CORE.Impl
 
         protected new readonly IJedinicaMjereValidator Validator;
 
-        public JedinicaMjereServiceImpl(AppDbContext context, IMapper mapper, IJedinicaMjereValidator validator) : base(context, mapper, validator)
-        {
+        public JedinicaMjereServiceImpl(AppDbContext context, IMapper mapper, IJedinicaMjereValidator validator) : base(context, mapper, validator) {
             Validator = validator;
         }
 
-        public override PayloadResponse<JedinicaMjereResponse> Insert(JedinicaMjereUpsertRequest request)
-        {
+        public override PayloadResponse<JedinicaMjereResponse> Insert(JedinicaMjereUpsertRequest request) {
             Validator.ValidateUpsertRequest(request);
 
             JedinicaMjere entity = Mapper.Map<JedinicaMjereUpsertRequest, JedinicaMjere>(request);
@@ -35,8 +33,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<JedinicaMjereResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<JedinicaMjereResponse> Update(int id, JedinicaMjereUpsertRequest request)
-        {
+        public override PayloadResponse<JedinicaMjereResponse> Update(int id, JedinicaMjereUpsertRequest request) {
             Validator.ValidateEntityExists(id);
             Validator.ValidateUpsertRequest(request, id);
 

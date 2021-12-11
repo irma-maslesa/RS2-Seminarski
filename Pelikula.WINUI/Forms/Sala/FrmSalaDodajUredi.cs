@@ -11,23 +11,20 @@ namespace Pelikula.WINUI.Forms.Sala
         private readonly int? _id;
         private SalaResponse _initial = new SalaResponse();
 
-        public FrmSalaDodajUredi(int? id = null)
-        {
+        public FrmSalaDodajUredi(int? id = null) {
             _id = id;
 
             InitializeComponent();
         }
 
-        private async void FrmSalaDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmSalaDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
 
             Text = "Dodaj salu";
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 DisableChildren();
 
                 Text = "Uredi salu";
@@ -41,15 +38,13 @@ namespace Pelikula.WINUI.Forms.Sala
             }
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaziv.Enabled = true;
             btnOcisti.Enabled = true;
             btnSpremi.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaziv.Enabled = false;
             nudBrojSjedistaRed.Enabled = false;
             nudBrojRedova.Enabled = false;
@@ -57,20 +52,17 @@ namespace Pelikula.WINUI.Forms.Sala
             btnSpremi.Enabled = false;
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             txtNaziv.Text = _initial.Naziv;
 
             nudBrojSjedistaRed.Value = _initial.BrojSjedistaSirina;
             nudBrojRedova.Value = _initial.BrojSjedistaDuzina;
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
             int errCount = 0;
 
-            if (string.IsNullOrWhiteSpace(txtNaziv.Text))
-            {
+            if (string.IsNullOrWhiteSpace(txtNaziv.Text)) {
                 errNaziv.SetError(txtNaziv, "Obavezno polje!");
                 errCount++;
             }
@@ -80,24 +72,20 @@ namespace Pelikula.WINUI.Forms.Sala
 
             SalaUpsertRequest request = new SalaUpsertRequest() { Naziv = txtNaziv.Text, BrojSjedistaSirina = (int)nudBrojSjedistaRed.Value, BrojSjedistaDuzina = (int)nudBrojRedova.Value };
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 var response = await _service.Update<PayloadResponse<SalaResponse>>(_id.Value, request);
 
-                if (response != null)
-                {
+                if (response != null) {
                     MessageBox.Show($"Sala {txtNaziv.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     DialogResult = DialogResult.OK;
                     Close();
                 }
             }
-            else
-            {
+            else {
                 PayloadResponse<SalaResponse> response = await _service.Insert<PayloadResponse<SalaResponse>>(request);
 
-                if (response != null)
-                {
+                if (response != null) {
                     MessageBox.Show($"Sala {response.Payload.Naziv} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     DialogResult = DialogResult.OK;
@@ -110,8 +98,7 @@ namespace Pelikula.WINUI.Forms.Sala
             Close();
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
         }
     }

@@ -2,11 +2,11 @@
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Prodaja;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Prodaja
 {
@@ -15,15 +15,13 @@ namespace Pelikula.WINUI.Forms.Prodaja
         private readonly ApiService _service = new ApiService("Prodaja");
         private readonly KorisnikResponse _prijavljeniKorisnik;
 
-        public FrmProdaja()
-        {
+        public FrmProdaja() {
             InitializeComponent();
             _prijavljeniKorisnik = Properties.Settings.Default.PrijavljeniKorisnik;
             dgvProdaje.AutoGenerateColumns = false;
         }
 
-        private async void FrmProdaja_Load(object sender, EventArgs e)
-        {
+        private async void FrmProdaja_Load(object sender, EventArgs e) {
             DisableChildren();
 
             await GetGridData();
@@ -31,8 +29,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
             EnableChildren();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             int _currentIndex = dgvProdaje.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvProdaje.CurrentRow?.Index;
 
@@ -56,34 +53,32 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
             Cursor = Cursors.Default;
 
-            if (dgvProdaje.RowCount == 0)
-            {
+            if (dgvProdaje.RowCount == 0) {
                 btnObrisi.Enabled = false;
+            }
+            else {
+                btnObrisi.Enabled = true;
             }
 
             FormHelper.SelectAndShowDgvRow(dgvProdaje, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             btnDodaj.Enabled = true;
             btnObrisi.Enabled = true;
 
             dgvProdaje.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             btnDodaj.Enabled = false;
             btnObrisi.Enabled = false;
 
             dgvProdaje.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmProdajaDodajUredi frm = new FrmProdajaDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmProdajaDodajUredi frm = new FrmProdajaDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -91,19 +86,16 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 await GetGridData(adding: true);
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             ProdajaResponse data = (ProdajaResponse)dgvProdaje.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati prodaju {data.BrojRacuna}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati prodaju {data.BrojRacuna}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
                 await GetGridData();
             }
         }
 
-        private async void TxtBrojRacuna_TextChanged(object sender, EventArgs e)
-        {
+        private async void TxtBrojRacuna_TextChanged(object sender, EventArgs e) {
             await GetGridData();
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Pelikula.API.Model.Artikal
 {
-    public  class ArtikalResponse
+    public class ArtikalResponse
     {
 
         public int Id { get; set; }

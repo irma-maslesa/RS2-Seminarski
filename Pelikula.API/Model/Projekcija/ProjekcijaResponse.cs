@@ -15,8 +15,7 @@ namespace Pelikula.API.Model.Projekcija
         public LoV Sala { get; set; }
         public ICollection<LoV> Termini { get; set; }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"{Film?.Naziv} - {Sala?.Naziv} ({VrijediOd:dd/MM/yyyy} - {VrijediDo:dd/MM/yyyy})";
         }
     }

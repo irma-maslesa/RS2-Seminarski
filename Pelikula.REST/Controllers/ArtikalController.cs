@@ -6,8 +6,7 @@ namespace API.Controllers
     public class ArtikalController :
         CrudController<ArtikalResponse, ArtikalUpsertRequest, ArtikalUpsertRequest>
     {
-        public ArtikalController(IArtikalService service) : base(service)
-        {
+        public ArtikalController(IArtikalService service) : base(service) {
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Pelikula.API;
-using Pelikula.API.Model;
+﻿using Pelikula.API.Model;
 using Pelikula.API.Model.Artikal;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Artikal
 {
@@ -25,15 +24,13 @@ namespace Pelikula.WINUI.Forms.Artikal
 
         IEnumerable<LoV> jedinicaMjereList = new List<LoV>();
 
-        public FrmArtikalDodajUredi(int? id = null)
-        {
+        public FrmArtikalDodajUredi(int? id = null) {
             _id = id;
 
             InitializeComponent();
         }
 
-        private async void FrmArtikalDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmArtikalDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -45,8 +42,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             cbJedinicaMjere.DisplayMember = "Naziv";
             cbJedinicaMjere.ValueMember = "Id";
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 Text = "Uredi artikal";
 
                 PayloadResponse<ArtikalResponse> response = await _service.GetById<PayloadResponse<ArtikalResponse>>(_id.Value);
@@ -56,8 +52,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             }
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             txtNaziv.Text = _initial.Naziv;
             txtCijena.Text = _initial.Cijena.ToString("0000.00");
 
@@ -70,40 +65,33 @@ namespace Pelikula.WINUI.Forms.Artikal
 
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren())
-            {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
+            if (ValidateChildren()) {
                 _request.Naziv = txtNaziv.Text;
                 _request.Cijena = decimal.Parse(txtCijena.Text);
                 _request.JedinicaMjereId = ((LoV)cbJedinicaMjere.SelectedItem).Id;
 
-                if (_request.Slika == null && _request.SlikaThumb == null)
-                {
+                if (_request.Slika == null && _request.SlikaThumb == null) {
                     _request.Slika = _initial.Slika;
                     _request.SlikaThumb = _initial.SlikaThumb;
                 }
 
 
-                if (_id.HasValue)
-                {
+                if (_id.HasValue) {
 
                     var response = await _service.Update<PayloadResponse<ArtikalResponse>>(_id.Value, _request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Artikal {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                 }
-                else
-                {
+                else {
                     PayloadResponse<ArtikalResponse> response = await _service.Insert<PayloadResponse<ArtikalResponse>>(_request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Artikal {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
@@ -113,27 +101,23 @@ namespace Pelikula.WINUI.Forms.Artikal
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
         }
 
-        private void PictureBox1_Click(object sender, EventArgs e)
-        {
+        private void PictureBox1_Click(object sender, EventArgs e) {
             if (txtCijena.PasswordChar == '*')
                 txtCijena.PasswordChar = new char();
             else
                 txtCijena.PasswordChar = '*';
         }
 
-        private void BtnDodajSliku_Click(object sender, EventArgs e)
-        {
+        private void BtnDodajSliku_Click(object sender, EventArgs e) {
             ofdSlika.ShowDialog();
 
             var slikaData = SaveImageHelper.PrepareSaveImage(ofdSlika.FileName);
 
-            if (slikaData != null)
-            {
+            if (slikaData != null) {
                 _request.Slika = slikaData.OriginalImageBytes;
                 _request.SlikaThumb = slikaData.CroppedImageBytes;
                 pbSlika.Image = (Bitmap)((new ImageConverter()).ConvertFrom(slikaData.CroppedImageBytes));
@@ -143,50 +127,39 @@ namespace Pelikula.WINUI.Forms.Artikal
 
 
         //VALIDACIJA
-        private void TxtNaziv_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtNaziv.Text.Trim()))
-            {
+        private void TxtNaziv_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtNaziv.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtNaziv, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtNaziv, null);
             }
         }
 
 
-        private void CbJedinicaMjere_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbJedinicaMjere.SelectedItem == null)
-            {
+        private void CbJedinicaMjere_Validating(object sender, CancelEventArgs e) {
+            if (cbJedinicaMjere.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbJedinicaMjere, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbJedinicaMjere, null);
             }
         }
 
-        private void TxtCijena_Validating(object sender, CancelEventArgs e)
-        {
+        private void TxtCijena_Validating(object sender, CancelEventArgs e) {
             var cijenaText = txtCijena.Text.Trim().Replace(",", "");
-            if (string.IsNullOrEmpty(cijenaText))
-            {
+            if (string.IsNullOrEmpty(cijenaText)) {
                 e.Cancel = true;
                 err.SetError(txtCijena, "Obavezno polje!");
             }
-            else
-            {
-                try
-                {
+            else {
+                try {
                     decimal.Parse(txtCijena.Text);
                     err.SetError(txtCijena, null);
                 }
-                catch
-                {
+                catch {
                     e.Cancel = true;
                     err.SetError(txtCijena, "Neispravan format!");
                 }

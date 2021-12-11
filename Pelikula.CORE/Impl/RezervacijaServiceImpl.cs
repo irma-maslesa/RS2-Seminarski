@@ -24,16 +24,14 @@ namespace Pelikula.CORE.Impl
         protected IKorisnikValidator KorisnikValidator { get; set; }
         protected ISalaValidator SalaValidator { get; set; }
 
-        public RezervacijaServiceImpl(AppDbContext context, IMapper mapper, IRezervacijaValidator validator, IProjekcijaValidator projekcijaValidator, IKorisnikValidator korisnikValidator, ISalaValidator salaValidator) : base(context, mapper, validator)
-        {
+        public RezervacijaServiceImpl(AppDbContext context, IMapper mapper, IRezervacijaValidator validator, IProjekcijaValidator projekcijaValidator, IKorisnikValidator korisnikValidator, ISalaValidator salaValidator) : base(context, mapper, validator) {
             Validator = validator;
             ProjekcijaValidator = projekcijaValidator;
             KorisnikValidator = korisnikValidator;
             SalaValidator = salaValidator;
         }
 
-        public override PagedPayloadResponse<RezervacijaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<RezervacijaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Rezervacija> entityList = Context.Set<Rezervacija>()
                 .Include(e => e.Korisnik)
                 .Include(e => e.ProjekcijaTermin).ThenInclude(e => e.Projekcija).ThenInclude(e => e.Film)
@@ -50,8 +48,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<RezervacijaResponse> GetById(int id)
-        {
+        public override PayloadResponse<RezervacijaResponse> GetById(int id) {
             Validator.ValidateEntityExists(id);
 
             Rezervacija entity = Context.Set<Rezervacija>()
@@ -66,8 +63,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Rezervacija> entityList = Context.Set<Rezervacija>()
                 .Include(e => e.Korisnik)
                 .Include(e => e.ProjekcijaTermin).ThenInclude(e => e.Projekcija).ThenInclude(e => e.Film)
@@ -83,8 +79,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<LoV>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<RezervacijaResponse> Insert(RezervacijaUpsertRequest request)
-        {
+        public override PayloadResponse<RezervacijaResponse> Insert(RezervacijaUpsertRequest request) {
             ProjekcijaValidator.ValidateTerminExists(request.ProjekcijaTerminId);
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
             Validator.ValidateKorisnikTermin(null, request.KorisnikId, request.ProjekcijaTerminId);
@@ -102,12 +97,9 @@ namespace Pelikula.CORE.Impl
 
             Context.SaveChanges();
 
-            if (request.SjedistaIds != null)
-            {
-                foreach (var id in request.SjedistaIds)
-                {
-                    SjedisteRezervacija sjedisteRezervacijaEntity = new SjedisteRezervacija
-                    {
+            if (request.SjedistaIds != null) {
+                foreach (var id in request.SjedistaIds) {
+                    SjedisteRezervacija sjedisteRezervacijaEntity = new SjedisteRezervacija {
                         SjedisteId = id,
                         RezervacijaId = entity.Id
                     };
@@ -122,8 +114,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<RezervacijaResponse> Update(int id, RezervacijaUpsertRequest request)
-        {
+        public override PayloadResponse<RezervacijaResponse> Update(int id, RezervacijaUpsertRequest request) {
             Validator.ValidateEntityExists(id);
             ProjekcijaValidator.ValidateTerminExists(request.ProjekcijaTerminId);
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
@@ -145,15 +136,11 @@ namespace Pelikula.CORE.Impl
             Context.Set<Rezervacija>().Update(entity);
             Context.SaveChanges();
 
-            if (request.SjedistaIds != null)
-            {
-                foreach (var sjedisteId in request.SjedistaIds)
-                {
+            if (request.SjedistaIds != null) {
+                foreach (var sjedisteId in request.SjedistaIds) {
                     SjedisteRezervacija sjedisteRezervacijaEntity = Context.SjedisteRezervacija.FirstOrDefault(e => e.RezervacijaId == entity.Id && e.SjedisteId == sjedisteId);
-                    if (sjedisteRezervacijaEntity == null)
-                    {
-                        sjedisteRezervacijaEntity = new SjedisteRezervacija
-                        {
+                    if (sjedisteRezervacijaEntity == null) {
+                        sjedisteRezervacijaEntity = new SjedisteRezervacija {
                             SjedisteId = sjedisteId,
                             RezervacijaId = entity.Id
                         };
@@ -170,8 +157,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, response);
         }
 
-        public PayloadResponse<RezervacijaResponse> GetByProjekcijaKorisnik(int projekcijaId, int korisnikId)
-        {
+        public PayloadResponse<RezervacijaResponse> GetByProjekcijaKorisnik(int projekcijaId, int korisnikId) {
             ProjekcijaValidator.ValidateEntityExists(projekcijaId);
             KorisnikValidator.ValidateEntityExists(korisnikId);
 
@@ -187,8 +173,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, response);
         }
 
-        public PayloadResponse<RezervacijaResponse> Otkazi(int id)
-        {
+        public PayloadResponse<RezervacijaResponse> Otkazi(int id) {
             Validator.ValidateEntityExists(id);
             Validator.ValidateEntityOtkazano(id);
             Validator.ValidateEntityProdano(id);
@@ -204,8 +189,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, response);
         }
 
-        public PagedPayloadResponse<RezervacijaSimpleResponse> GetSimple(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting)
-        {
+        public PagedPayloadResponse<RezervacijaSimpleResponse> GetSimple(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
             IEnumerable<Rezervacija> entityList = Context.Set<Rezervacija>()
                .Include(e => e.Korisnik)
                .Include(e => e.ProjekcijaTermin).ThenInclude(e => e.Projekcija).ThenInclude(e => e.Film)

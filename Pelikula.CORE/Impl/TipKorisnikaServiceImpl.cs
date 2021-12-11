@@ -11,8 +11,7 @@ namespace Pelikula.CORE.Impl
         CrudServiceImpl<TipKorisnikaResponse, TipKorisnika, TipKorisnikaUpsertRequest, TipKorisnikaUpsertRequest>,
         ITipKorisnikaService
     {
-        public TipKorisnikaServiceImpl(AppDbContext context, IMapper mapper, ITipKorisnikaValidator validator) : base(context, mapper, validator)
-        {
+        public TipKorisnikaServiceImpl(AppDbContext context, IMapper mapper, ITipKorisnikaValidator validator) : base(context, mapper, validator) {
         }
     }
 }

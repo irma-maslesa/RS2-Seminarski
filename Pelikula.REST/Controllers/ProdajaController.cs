@@ -18,46 +18,37 @@ namespace API.Controllers
     {
         protected new readonly IProdajaService Service;
 
-        public ProdajaController(IProdajaService service) : base(service)
-        {
+        public ProdajaController(IProdajaService service) : base(service) {
             Service = service;
         }
 
         [HttpGet]
-        public override PagedPayloadResponse<ProdajaResponse> Get([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting)
-        {
+        public override PagedPayloadResponse<ProdajaResponse> Get([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
             IEnumerable<FilterUtility.FilterParams> filterParams = new List<FilterUtility.FilterParams>();
             IEnumerable<SortingUtility.SortingParams> sortingParams = new List<SortingUtility.SortingParams>();
 
-            try
-            {
+            try {
                 paginationParams = pagination != null ? JsonConvert.DeserializeObject<PaginationUtility.PaginationParams>(pagination) : null;
             }
-            catch (System.Exception)
-            {
+            catch (System.Exception) {
                 stringBuilder.Append("Paginacija - Neispravan JSON format. ");
             }
-            try
-            {
+            try {
                 filterParams = filter != null && filter.Any() ? JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>(filter) : null;
             }
-            catch (System.Exception)
-            {
+            catch (System.Exception) {
                 stringBuilder.Append("Filter - Neispravan JSON format. ");
             }
-            try
-            {
+            try {
                 sortingParams = sorting != null && sorting.Any() ? JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>(sorting) : null;
             }
-            catch (System.Exception)
-            {
+            catch (System.Exception) {
                 stringBuilder.Append("Sorting - Neispravan JSON format. ");
             }
 
-            if (stringBuilder.ToString().Any())
-            {
+            if (stringBuilder.ToString().Any()) {
                 throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
             }
 
@@ -66,40 +57,32 @@ namespace API.Controllers
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("lov")]
-        public override PagedPayloadResponse<LoV> GetLoVs([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting)
-        {
+        public override PagedPayloadResponse<LoV> GetLoVs([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
             IEnumerable<FilterUtility.FilterParams> filterParams = new List<FilterUtility.FilterParams>();
             IEnumerable<SortingUtility.SortingParams> sortingParams = new List<SortingUtility.SortingParams>();
 
-            try
-            {
+            try {
                 paginationParams = pagination != null ? JsonConvert.DeserializeObject<PaginationUtility.PaginationParams>(pagination) : null;
             }
-            catch (System.Exception)
-            {
+            catch (System.Exception) {
                 stringBuilder.Append("Paginacija - Neispravan JSON format. ");
             }
-            try
-            {
+            try {
                 filterParams = filter != null && filter.Any() ? JsonConvert.DeserializeObject<IEnumerable<FilterUtility.FilterParams>>(filter) : null;
             }
-            catch (System.Exception)
-            {
+            catch (System.Exception) {
                 stringBuilder.Append("Filter - Neispravan JSON format. ");
             }
-            try
-            {
+            try {
                 sortingParams = sorting != null && sorting.Any() ? JsonConvert.DeserializeObject<IEnumerable<SortingUtility.SortingParams>>(sorting) : null;
             }
-            catch (System.Exception)
-            {
+            catch (System.Exception) {
                 stringBuilder.Append("Sorting - Neispravan JSON format. ");
             }
 
-            if (stringBuilder.ToString().Any())
-            {
+            if (stringBuilder.ToString().Any()) {
                 throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
             }
 
@@ -107,15 +90,13 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public override PayloadResponse<ProdajaResponse> GetById(int id)
-        {
+        public override PayloadResponse<ProdajaResponse> GetById(int id) {
             return Service.GetById(id);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
-        public override PayloadResponse<ProdajaResponse> Update(int id, object dtoObject)
-        {
+        public override PayloadResponse<ProdajaResponse> Update(int id, object dtoObject) {
             return Service.Update(id, dtoObject);
         }
 

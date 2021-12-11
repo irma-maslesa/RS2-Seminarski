@@ -11,15 +11,13 @@ namespace Pelikula.WINUI.Forms.Zanr
         private readonly int? _id;
         private ZanrResponse _initial = new ZanrResponse();
 
-        public FrmZanrDodajUredi(int? id = null)
-        {
+        public FrmZanrDodajUredi(int? id = null) {
             _id = id;
 
             InitializeComponent();
         }
 
-        private async void FrmZanrDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmZanrDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -31,8 +29,7 @@ namespace Pelikula.WINUI.Forms.Zanr
 
             Text = "Dodaj žanr";
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 DisableChildren();
 
                 Text = "Uredi žanr";
@@ -46,56 +43,47 @@ namespace Pelikula.WINUI.Forms.Zanr
             }
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaziv.Enabled = true;
             txtOpis.Enabled = true;
             btnOcisti.Enabled = true;
             btnSpremi.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaziv.Enabled = false;
             txtOpis.Enabled = false;
             btnOcisti.Enabled = false;
             btnSpremi.Enabled = false;
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             txtNaziv.Text = _initial.Naziv;
             txtOpis.Text = _initial.Opis;
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtNaziv.Text))
-            {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
+            if (string.IsNullOrWhiteSpace(txtNaziv.Text)) {
                 errNaziv.SetError(txtNaziv, "Obavezno polje!");
                 return;
             }
 
             ZanrUpsertRequest request = new ZanrUpsertRequest() { Naziv = txtNaziv.Text, Opis = string.IsNullOrWhiteSpace(txtOpis.Text) ? null : txtOpis.Text };
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 var response = await _service.Update<PayloadResponse<ZanrResponse>>(_id.Value, request);
 
-                if (response != null)
-                {
+                if (response != null) {
                     MessageBox.Show($"Žanr {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     DialogResult = DialogResult.OK;
                     Close();
                 }
             }
-            else
-            {
+            else {
                 PayloadResponse<ZanrResponse> response = await _service.Insert<PayloadResponse<ZanrResponse>>(request);
 
-                if (response != null)
-                {
+                if (response != null) {
                     MessageBox.Show($"Žanr {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     DialogResult = DialogResult.OK;
@@ -104,8 +92,7 @@ namespace Pelikula.WINUI.Forms.Zanr
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
         }
     }

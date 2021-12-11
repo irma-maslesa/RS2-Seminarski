@@ -2,13 +2,13 @@
 using Pelikula.API.Model.Film;
 using Pelikula.API.Model.Helper;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Film
 {
@@ -28,16 +28,14 @@ namespace Pelikula.WINUI.Forms.Film
         IEnumerable<LoV> rediteljList = new List<LoV>();
         IEnumerable<LoV> glumacList = new List<LoV>();
 
-        public FrmFilmDodajUredi(int? id = null, bool details = false)
-        {
+        public FrmFilmDodajUredi(int? id = null, bool details = false) {
             _id = id;
             _details = details;
 
             InitializeComponent();
         }
 
-        private async void FrmFilmDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmFilmDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -46,8 +44,7 @@ namespace Pelikula.WINUI.Forms.Film
 
             txtSadrzaj.ScrollBars = ScrollBars.Vertical;
 
-            if (_details)
-            {
+            if (_details) {
                 Text = "Detalji o filmu";
                 btnDodajPlakat.Visible = false;
                 btnOcisti.Visible = false;
@@ -73,8 +70,7 @@ namespace Pelikula.WINUI.Forms.Film
             cbZanr.DisplayMember = "Naziv";
             cbZanr.ValueMember = "Id";
 
-            var rediteljFilter = new FilterUtility.FilterParams()
-            {
+            var rediteljFilter = new FilterUtility.FilterParams() {
                 ColumnName = "IsReziser",
                 FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
                 FilterValue = true.ToString()
@@ -85,8 +81,7 @@ namespace Pelikula.WINUI.Forms.Film
             cbReditelj.DisplayMember = "Naziv";
             cbReditelj.ValueMember = "Id";
 
-            var glumacFilter = new FilterUtility.FilterParams()
-            {
+            var glumacFilter = new FilterUtility.FilterParams() {
                 ColumnName = "IsGlumac",
                 FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
                 FilterValue = true.ToString()
@@ -97,8 +92,7 @@ namespace Pelikula.WINUI.Forms.Film
             clbGlumci.DisplayMember = "Naziv";
             clbGlumci.ValueMember = "Id";
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 if (!_details)
                     Text = "Uredi film";
 
@@ -111,8 +105,7 @@ namespace Pelikula.WINUI.Forms.Film
 
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             txtNaslov.Text = _initial.Naslov;
             txtTrajanje.Text = _initial.Trajanje.ToString();
             txtGodinaSnimanja.Text = _initial.GodinaSnimanja.ToString();
@@ -139,10 +132,8 @@ namespace Pelikula.WINUI.Forms.Film
             izabraniGlumci.ForEach(e => clbGlumci.SetItemChecked(clbGlumci.Items.IndexOf(e), true));
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren())
-            {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
+            if (ValidateChildren()) {
                 _request.Naslov = txtNaslov.Text;
                 _request.Trajanje = int.Parse(txtTrajanje.Text);
                 _request.GodinaSnimanja = int.Parse(txtGodinaSnimanja.Text);
@@ -150,8 +141,7 @@ namespace Pelikula.WINUI.Forms.Film
                 _request.ImdbLink = txtImdbLink.Text;
                 _request.Sadrzaj = txtSadrzaj.Text;
 
-                if (_request.Plakat == null && _request.PlakatThumb == null)
-                {
+                if (_request.Plakat == null && _request.PlakatThumb == null) {
                     _request.Plakat = _initial.Plakat;
                     _request.PlakatThumb = _initial.PlakatThumb;
                 }
@@ -160,25 +150,21 @@ namespace Pelikula.WINUI.Forms.Film
                 _request.RediteljId = ((LoV)cbReditelj.SelectedItem).Id;
                 _request.FilmGlumacIds = (clbGlumci.CheckedItems.Cast<LoV>()).Select(o => o.Id).ToList();
 
-                if (_id.HasValue)
-                {
+                if (_id.HasValue) {
 
                     var response = await _service.Update<PayloadResponse<FilmResponse>>(_id.Value, _request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Film {txtNaslov.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                 }
-                else
-                {
+                else {
                     PayloadResponse<FilmResponse> response = await _service.Insert<PayloadResponse<FilmResponse>>(_request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Film {response.Payload.Naslov} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
@@ -188,19 +174,16 @@ namespace Pelikula.WINUI.Forms.Film
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
         }
 
-        private void BtnDodajPlakat_Click(object sender, EventArgs e)
-        {
+        private void BtnDodajPlakat_Click(object sender, EventArgs e) {
             ofdPlakat.ShowDialog();
 
             var slikaData = SaveImageHelper.PrepareSaveImage(ofdPlakat.FileName);
 
-            if (slikaData != null)
-            {
+            if (slikaData != null) {
                 _request.Plakat = slikaData.OriginalImageBytes;
                 _request.PlakatThumb = slikaData.CroppedImageBytes;
                 pbPlakat.Image = (Bitmap)((new ImageConverter()).ConvertFrom(slikaData.CroppedImageBytes));
@@ -209,119 +192,92 @@ namespace Pelikula.WINUI.Forms.Film
         }
 
         //VALIDACIJA
-        private void TxtNaslov_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtNaslov.Text.Trim()))
-            {
+        private void TxtNaslov_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtNaslov.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtNaslov, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtNaslov, null);
             }
         }
 
-        private void TxtTrajanje_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtTrajanje.Text.Trim()))
-            {
+        private void TxtTrajanje_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtTrajanje.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtTrajanje, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtTrajanje, null);
             }
         }
 
-        private void TxtGodinaSnimanja_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtGodinaSnimanja.Text.Trim()))
-            {
+        private void TxtGodinaSnimanja_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtGodinaSnimanja.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtGodinaSnimanja, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtGodinaSnimanja, null);
             }
         }
 
-        private void TxtImdbLink_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtImdbLink.Text.Trim()))
-            {
+        private void TxtImdbLink_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtImdbLink.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtImdbLink, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtImdbLink, null);
             }
         }
 
-        private void TxtVideoLink_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtVideoLink.Text.Trim()))
-            {
+        private void TxtVideoLink_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtVideoLink.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtVideoLink, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtVideoLink, null);
             }
         }
 
-        private void CbReditelj_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbReditelj.SelectedItem == null)
-            {
+        private void CbReditelj_Validating(object sender, CancelEventArgs e) {
+            if (cbReditelj.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbReditelj, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbReditelj, null);
             }
         }
 
-        private void CbZanr_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbZanr.SelectedItem == null)
-            {
+        private void CbZanr_Validating(object sender, CancelEventArgs e) {
+            if (cbZanr.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbZanr, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbZanr, null);
             }
         }
 
-        private void TxtSadrzaj_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtSadrzaj.Text.Trim()))
-            {
+        private void TxtSadrzaj_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtSadrzaj.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtSadrzaj, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtSadrzaj, null);
             }
         }
 
-        private void ClbGlumci_Validating(object sender, CancelEventArgs e)
-        {
-            if (clbGlumci.CheckedItems.Count <= 0)
-            {
+        private void ClbGlumci_Validating(object sender, CancelEventArgs e) {
+            if (clbGlumci.CheckedItems.Count <= 0) {
                 e.Cancel = true;
                 err.SetError(clbGlumci, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(clbGlumci, null);
             }
         }

@@ -16,12 +16,10 @@ namespace Pelikula.CORE.Impl
         where UpdateDTO : class
     {
 
-        public CrudServiceImpl(AppDbContext context, IMapper mapper, IBaseValidator<Entity> validator) : base(context, mapper, validator)
-        {
+        public CrudServiceImpl(AppDbContext context, IMapper mapper, IBaseValidator<Entity> validator) : base(context, mapper, validator) {
         }
 
-        public virtual PayloadResponse<ResponseDTO> Insert(InsertDTO request)
-        {
+        public virtual PayloadResponse<ResponseDTO> Insert(InsertDTO request) {
             Entity entity = Mapper.Map<InsertDTO, Entity>(request);
             entity = Context.Set<Entity>().Add(entity).Entity;
 
@@ -32,13 +30,12 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<ResponseDTO>(HttpStatusCode.OK, response);
         }
 
-        public virtual PayloadResponse<ResponseDTO> Update(int id, UpdateDTO request)
-        {
+        public virtual PayloadResponse<ResponseDTO> Update(int id, UpdateDTO request) {
 
             Validator.ValidateEntityExists(id);
 
             Entity entity = Context.Set<Entity>().Find(id);
-            
+
             entity = Mapper.Map(request, entity);
 
             Context.Set<Entity>().Update(entity);
@@ -50,8 +47,7 @@ namespace Pelikula.CORE.Impl
 
         }
 
-        public virtual PayloadResponse<string> Delete(int id)
-        {
+        public virtual PayloadResponse<string> Delete(int id) {
 
             Validator.ValidateEntityExists(id);
 

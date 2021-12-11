@@ -15,14 +15,12 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
         private readonly ApiService _service = new ApiService("Korisnik");
 
-        public FrmPrijava()
-        {
+        public FrmPrijava() {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
         }
 
-        private async void BtnPrijava_Click(object sender, EventArgs e)
-        {
+        private async void BtnPrijava_Click(object sender, EventArgs e) {
             txtKorisnickoIme.Enabled = false;
             txtLozinka.Enabled = false;
             btnPrijava.Enabled = false;
@@ -36,11 +34,9 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
             PagedPayloadResponse<KorisnikResponse> obj = await _service.Get<PagedPayloadResponse<KorisnikResponse>>(null, filters, null);
 
-            if (obj.Payload.Any())
-            {
+            if (obj.Payload.Any()) {
                 var korisnik = obj.Payload.First();
-                if (PasswordHelper.GenerateHash(korisnik.LozinkaSalt, txtLozinka.Text) == korisnik.LozinkaHash)
-                {
+                if (PasswordHelper.GenerateHash(korisnik.LozinkaSalt, txtLozinka.Text) == korisnik.LozinkaHash) {
                     korisnik.Lozinka = txtLozinka.Text;
                     Properties.Settings.Default.PrijavljeniKorisnik = korisnik;
 
@@ -48,16 +44,14 @@ namespace Pelikula.WINUI.Forms.Korisnik
                     Close();
                 }
 
-                else
-                {
+                else {
                     MessageBox.Show("Neispravno korisčko ime ili lozinka.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtLozinka.Text = string.Empty;
                     txtLozinka.PasswordChar = '*';
 
                 }
             }
-            else
-            {
+            else {
                 MessageBox.Show("Neispravno korisčko ime ili lozinka.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtLozinka.Text = string.Empty;
                 txtLozinka.PasswordChar = '*';
@@ -71,8 +65,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             Cursor = Cursors.Default;
         }
 
-        private void PbLozinka_Click(object sender, EventArgs e)
-        {
+        private void PbLozinka_Click(object sender, EventArgs e) {
             if (txtLozinka.PasswordChar == '*')
                 txtLozinka.PasswordChar = new char();
             else

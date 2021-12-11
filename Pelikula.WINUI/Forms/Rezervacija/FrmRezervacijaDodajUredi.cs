@@ -1,5 +1,4 @@
-﻿using Pelikula.API;
-using Pelikula.API.Model;
+﻿using Pelikula.API.Model;
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Projekcija;
 using Pelikula.API.Model.Rezervacija;
@@ -11,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -36,15 +34,13 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         IEnumerable<LoV> sjedistaList = new List<LoV>();
         IEnumerable<LoV> zauzetaSjedistaList = new List<LoV>();
 
-        public FrmRezervacijaDodajUredi(int? id = null)
-        {
+        public FrmRezervacijaDodajUredi(int? id = null) {
             _id = id;
 
             InitializeComponent();
         }
 
-        private async void FrmRezervacijaDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmRezervacijaDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -65,8 +61,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             cbTermin.Enabled = false;
             cbKorisnik.Enabled = false;
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 cbProjekcija.Enabled = false;
 
                 btnDodajKorisnika.Enabled = false;
@@ -80,61 +75,50 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             }
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             cbProjekcija.SelectedItem = projekcijaList.FirstOrDefault(e => e.Id == _initial.ProjekcijaTermin?.Projekcija?.Id);
 
             var rezervisanaSjedistaIds = _initial.Sjedista.Select(e => e.Sjediste.Id).ToList();
             _request.SjedistaIds = rezervisanaSjedistaIds;
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
-            if (_request.SjedistaIds == null || _request.SjedistaIds.Count == 0)
-            {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
+            if (_request.SjedistaIds == null || _request.SjedistaIds.Count == 0) {
                 err.SetError(btnOdaberiSjedista, "Obavezno odabrati bar jedno sjediste!");
                 return;
             }
-            else
-            {
+            else {
                 err.SetError(btnOdaberiSjedista, null);
             }
 
-            if (cbKorisnik.SelectedItem == null)
-            {
+            if (cbKorisnik.SelectedItem == null) {
                 err.SetError(cbKorisnik, "Obavezno polje!");
                 return;
             }
-            else
-            {
+            else {
                 err.SetError(cbKorisnik, null);
             }
 
-            if (ValidateChildren())
-            {
+            if (ValidateChildren()) {
                 _request.ProjekcijaTerminId = ((LoV)cbTermin.SelectedItem).Id;
                 _request.KorisnikId = ((LoV)cbKorisnik.SelectedItem).Id;
                 _request.BrojSjedista = _request.SjedistaIds.Count;
                 _request.Datum = DateTime.Now;
 
-                if (_id.HasValue)
-                {
+                if (_id.HasValue) {
                     var response = await _service.Update<PayloadResponse<RezervacijaResponse>>(_id.Value, _request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Rezervacija {response.Payload.ProjekcijaTermin.Projekcija} - {response.Payload.Korisnik} - {response.Payload.BrojSjedista} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                 }
-                else
-                {
+                else {
                     PayloadResponse<RezervacijaResponse> response = await _service.Insert<PayloadResponse<RezervacijaResponse>>(_request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Rezervacija {response.Payload.ProjekcijaTermin.Projekcija} - {response.Payload.Korisnik} - {response.Payload.BrojSjedista} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
@@ -144,16 +128,14 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             if (_request.SjedistaIds != null)
                 _request.SjedistaIds.Clear();
 
             SetValues();
         }
 
-        private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e) {
             var data = (LoV)cbProjekcija.SelectedItem;
             var salaId = (await _projekcijaService.GetById<PayloadResponse<ProjekcijaResponse>>(data.Id)).Payload.Sala.Id;
 
@@ -172,27 +154,22 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             if (cbTermin.SelectedItem == null)
                 cbTermin.SelectedItem = terminList.FirstOrDefault();
 
-            if (_salaId != salaId)
-            {
+            if (_salaId != salaId) {
                 _salaId = salaId;
                 sjedistaList = (await _salaService.GetSjedista(data.Id)).Payload;
             }
 
         }
 
-        private async void CbTermin_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbTermin_SelectedValueChanged(object sender, EventArgs e) {
             var data = (LoV)cbTermin.SelectedItem;
 
-            if (data != null)
-            {
-                if (!_id.HasValue)
-                {
+            if (data != null) {
+                if (!_id.HasValue) {
                     cbKorisnik.Enabled = true;
                     korisnikList = (await _korisnikService.GetKlijentiForTermin(data.Id, true)).Payload.OrderBy(o => o.Naziv).ToList();
                 }
-                else
-                {
+                else {
                     cbKorisnik.Enabled = false;
                     korisnikList = (await _korisnikService.GetKlijentiForTermin(data.Id, false)).Payload.OrderBy(o => o.Naziv).ToList();
                 }
@@ -209,20 +186,16 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 cbKorisnik.SelectedItem = korisnikList.FirstOrDefault();
         }
 
-        private void BtnOdaberiSjedista_Click(object sender, EventArgs e)
-        {
-            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _request.SjedistaIds?.ToList())
-            {
+        private void BtnOdaberiSjedista_Click(object sender, EventArgs e) {
+            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _request.SjedistaIds?.ToList()) {
                 StartPosition = FormStartPosition.CenterScreen
             };
 
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
+            if (frm.ShowDialog() == DialogResult.OK) {
                 var odabrano = frm.OdabranaSjedista;
                 _request.SjedistaIds = odabrano;
 
-                if (_request.SjedistaIds != null && _request.SjedistaIds.Count > 0)
-                {
+                if (_request.SjedistaIds != null && _request.SjedistaIds.Count > 0) {
                     err.SetError(btnOdaberiSjedista, null);
                 }
             }
@@ -230,49 +203,39 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
         //VALIDACIJA
 
-        private void CbProjekcija_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbProjekcija.SelectedItem == null)
-            {
+        private void CbProjekcija_Validating(object sender, CancelEventArgs e) {
+            if (cbProjekcija.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbProjekcija, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbProjekcija, null);
             }
         }
 
-        private void CbTermin_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbTermin.SelectedItem == null)
-            {
+        private void CbTermin_Validating(object sender, CancelEventArgs e) {
+            if (cbTermin.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbTermin, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbTermin, null);
             }
         }
 
-        private async void BtnDodajKorisnika_Click(object sender, EventArgs e)
-        {
-            FrmKorisnikDodajUredi frm = new FrmKorisnikDodajUredi
-            {
+        private async void BtnDodajKorisnika_Click(object sender, EventArgs e) {
+            FrmKorisnikDodajUredi frm = new FrmKorisnikDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
+            if (frm.ShowDialog() == DialogResult.OK) {
                 var data = (LoV)cbTermin.SelectedItem;
                 korisnikList = (await _korisnikService.GetKlijentiForTermin(data.Id, true)).Payload.OrderBy(o => o.Naziv).ToList();
                 cbKorisnik.DataSource = korisnikList;
             }
         }
 
-        private void BtnProjekcijaInfo_Click(object sender, EventArgs e)
-        {
+        private void BtnProjekcijaInfo_Click(object sender, EventArgs e) {
             FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((LoV)cbProjekcija.SelectedItem).Id, true);
             frm.ShowDialog();
         }

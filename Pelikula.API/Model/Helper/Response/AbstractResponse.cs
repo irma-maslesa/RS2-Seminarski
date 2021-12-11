@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 
 namespace Pelikula.CORE.Helper.Response
 {
@@ -10,14 +7,12 @@ namespace Pelikula.CORE.Helper.Response
         public int ResponseCode { get; set; }
         public string ResponseDetail { get; set; }
 
-        protected AbstractResponse(HttpStatusCode responseCode)
-        {
+        protected AbstractResponse(HttpStatusCode responseCode) {
             ResponseCode = (int)responseCode;
             ResponseDetail = responseCode.ToString();
         }
 
-        public bool IsSuccessfull()
-        {
+        public bool IsSuccessfull() {
             return ResponseCode.ToString().Substring(0, 1) == "2";
         }
     }

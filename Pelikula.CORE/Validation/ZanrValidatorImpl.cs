@@ -6,8 +6,7 @@ namespace Pelikula.CORE.Validation
 {
     public class ZanrValidatorImpl : BaseValidatorImpl<Zanr>, IZanrValidator
     {
-        public ZanrValidatorImpl(AppDbContext context) : base(context)
-        {
+        public ZanrValidatorImpl(AppDbContext context) : base(context) {
         }
     }
 }

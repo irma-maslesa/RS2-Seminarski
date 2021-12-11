@@ -6,8 +6,7 @@ namespace Pelikula.CORE.Validation
 {
     public class ObavijestValidatorImpl : BaseValidatorImpl<Obavijest>, IObavijestValidator
     {
-        public ObavijestValidatorImpl(AppDbContext context) : base(context)
-        {
+        public ObavijestValidatorImpl(AppDbContext context) : base(context) {
         }
     }
 }

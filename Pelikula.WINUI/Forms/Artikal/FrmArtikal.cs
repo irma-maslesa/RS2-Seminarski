@@ -1,14 +1,14 @@
 ﻿using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Artikal;
+using Pelikula.API.Model.Helper;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Artikal
 {
@@ -19,13 +19,11 @@ namespace Pelikula.WINUI.Forms.Artikal
 
         List<LoV> jedinicaMjereList = new List<LoV>();
 
-        public FrmArtikal()
-        {
+        public FrmArtikal() {
             InitializeComponent();
             dgvArtikli.AutoGenerateColumns = false;
         }
-        private async void FrmArtikal_Load(object sender, EventArgs e)
-        {
+        private async void FrmArtikal_Load(object sender, EventArgs e) {
             DisableChildren();
 
             jedinicaMjereList = (await _jedinicaMjereService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
@@ -39,13 +37,11 @@ namespace Pelikula.WINUI.Forms.Artikal
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvArtikli.FirstDisplayedScrollingRowIndex;
@@ -71,17 +67,19 @@ namespace Pelikula.WINUI.Forms.Artikal
 
             EnableChildren();
 
-            if (dgvArtikli.RowCount == 0)
-            {
+            if (dgvArtikli.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
+            }
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
             FormHelper.SelectAndShowDgvRow(dgvArtikli, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txNaziv.Enabled = true;
             txtSifra.Enabled = true;
 
@@ -95,8 +93,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             dgvArtikli.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txNaziv.Enabled = false;
             txtSifra.Enabled = false;
 
@@ -110,10 +107,8 @@ namespace Pelikula.WINUI.Forms.Artikal
             dgvArtikli.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmArtikalDodajUredi frm = new FrmArtikalDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmArtikalDodajUredi frm = new FrmArtikalDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -121,10 +116,8 @@ namespace Pelikula.WINUI.Forms.Artikal
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmArtikalDodajUredi frm = new FrmArtikalDodajUredi(((ArtikalResponse)dgvArtikli.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmArtikalDodajUredi frm = new FrmArtikalDodajUredi(((ArtikalResponse)dgvArtikli.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -132,19 +125,16 @@ namespace Pelikula.WINUI.Forms.Artikal
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             ArtikalResponse data = (ArtikalResponse)dgvArtikli.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati artikal {data.Naziv} ({data.Sifra})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati artikal {data.Naziv} ({data.Sifra})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
                 await GetGridData();
             }
         }
 
-        private async void CbJedinicaMjere_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbJedinicaMjere_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
     }

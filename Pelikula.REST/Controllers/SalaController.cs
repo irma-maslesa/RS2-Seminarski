@@ -11,20 +11,17 @@ namespace API.Controllers
     {
         protected new readonly ISalaService Service;
 
-        public SalaController(ISalaService service) : base(service)
-        {
+        public SalaController(ISalaService service) : base(service) {
             Service = service;
         }
 
         [HttpGet("{projekcijaTerminId}/zauzeta-sjedista")]
-        public ListPayloadResponse<LoV> GetZauzetaSjedista(int projekcijaTerminId)
-        {
+        public ListPayloadResponse<LoV> GetZauzetaSjedista(int projekcijaTerminId) {
             return Service.GetZauzetaSjedista(projekcijaTerminId);
         }
 
         [HttpGet("{projekcijaId}/sjedista")]
-        public ListPayloadResponse<LoV> GetSjedista(int projekcijaId)
-        {
+        public ListPayloadResponse<LoV> GetSjedista(int projekcijaId) {
             return Service.GetSjedista(projekcijaId);
         }
     }

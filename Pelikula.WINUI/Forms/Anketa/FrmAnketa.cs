@@ -1,14 +1,14 @@
 ﻿using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Anketa;
+using Pelikula.API.Model.Helper;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Anketa
 {
@@ -19,13 +19,11 @@ namespace Pelikula.WINUI.Forms.Anketa
 
         List<LoV> korisnikList = new List<LoV>();
 
-        public FrmAnketa()
-        {
+        public FrmAnketa() {
             InitializeComponent();
             dgvAnkete.AutoGenerateColumns = false;
         }
-        private async void FrmAnketa_Load(object sender, EventArgs e)
-        {
+        private async void FrmAnketa_Load(object sender, EventArgs e) {
             DisableChildren();
 
             korisnikList = (await _korisnikService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
@@ -44,13 +42,11 @@ namespace Pelikula.WINUI.Forms.Anketa
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvAnkete.FirstDisplayedScrollingRowIndex;
@@ -75,22 +71,25 @@ namespace Pelikula.WINUI.Forms.Anketa
 
             EnableChildren();
 
-            if (dgvAnkete.RowCount == 0)
-            {
+            if (dgvAnkete.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
+                btnZakljucaj.Enabled = false;
+            }
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
+                btnZakljucaj.Enabled = true;
             }
 
             FormHelper.SelectAndShowDgvRow(dgvAnkete, adding, _currentIndex, _selectedRowIndex, filters);
             DgvAnkete_SelectionChanged(null, null);
         }
 
-        private void CreateCbAktivnoFilter(List<FilterUtility.FilterParams> filters)
-        {
+        private void CreateCbAktivnoFilter(List<FilterUtility.FilterParams> filters) {
             var selectedItem = cbAktivno.SelectedItem?.ToString();
 
-            switch (selectedItem)
-            {
+            switch (selectedItem) {
                 case "Ne":
                     filters.Add(new FilterUtility.FilterParams("ZakljucenoDatum", null, FilterUtility.FilterOptions.isnotequalto.ToString()));
                     break;
@@ -103,8 +102,7 @@ namespace Pelikula.WINUI.Forms.Anketa
 
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txNaslov.Enabled = true;
 
             cbKorisnik.Enabled = true;
@@ -119,8 +117,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             dgvAnkete.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txNaslov.Enabled = false;
 
             cbKorisnik.Enabled = false;
@@ -136,10 +133,8 @@ namespace Pelikula.WINUI.Forms.Anketa
             dgvAnkete.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmAnketaDodajUredi frm = new FrmAnketaDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmAnketaDodajUredi frm = new FrmAnketaDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -147,10 +142,8 @@ namespace Pelikula.WINUI.Forms.Anketa
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmAnketaDodajUredi frm = new FrmAnketaDodajUredi(((AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmAnketaDodajUredi frm = new FrmAnketaDodajUredi(((AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -158,49 +151,40 @@ namespace Pelikula.WINUI.Forms.Anketa
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             AnketaResponse data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati anketu {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati anketu {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
                 await GetGridData();
             }
         }
 
-        private async void CbKorisnik_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbKorisnik_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private void BtnPrikazi_Click(object sender, EventArgs e)
-        {
-            var frm = new FrmAnketaRezultati(((AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem).Id)
-            {
+        private void BtnPrikazi_Click(object sender, EventArgs e) {
+            var frm = new FrmAnketaRezultati(((AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
             frm.ShowDialog();
         }
 
-        private async void BtnZakljucaj_Click(object sender, EventArgs e)
-        {
+        private async void BtnZakljucaj_Click(object sender, EventArgs e) {
             var data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite zaključati anketu {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite zaključati anketu {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.ZatvoriAnketu(data.Id);
                 await GetGridData();
             }
         }
 
-        private async void CbAktivno_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbAktivno_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private void DgvAnkete_SelectionChanged(object sender, EventArgs e)
-        {
+        private void DgvAnkete_SelectionChanged(object sender, EventArgs e) {
             AnketaResponse data = null;
 
             if (dgvAnkete.CurrentRow != null)

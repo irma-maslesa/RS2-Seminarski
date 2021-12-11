@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Pelikula.API.Api;
+using Pelikula.API.Model;
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Prodaja;
+using Pelikula.API.Model.Rezervacija;
 using Pelikula.API.Validation;
+using Pelikula.CORE.Filter;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;
 using Pelikula.DAO.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Pelikula.CORE.Filter;
-using Pelikula.API.Model.Rezervacija;
-using System;
-using Pelikula.API.Model;
 
 namespace Pelikula.CORE.Impl
 {
@@ -25,15 +25,13 @@ namespace Pelikula.CORE.Impl
         protected IRezervacijaValidator RezervacijaValidator { get; set; }
         protected IArtikalValidator ArtikalValidator { get; set; }
 
-        public ProdajaServiceImpl(AppDbContext context, IMapper mapper, IProdajaValidator validator, IKorisnikValidator korisnikValidator, IRezervacijaValidator rezervacijaValidator, IArtikalValidator artikalValidator) : base(context, mapper, validator)
-        {
+        public ProdajaServiceImpl(AppDbContext context, IMapper mapper, IProdajaValidator validator, IKorisnikValidator korisnikValidator, IRezervacijaValidator rezervacijaValidator, IArtikalValidator artikalValidator) : base(context, mapper, validator) {
             KorisnikValidator = korisnikValidator;
             RezervacijaValidator = rezervacijaValidator;
             ArtikalValidator = artikalValidator;
         }
 
-        public override PagedPayloadResponse<ProdajaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<ProdajaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Prodaja> entityList = Context.Set<Prodaja>()
                 .Include(e => e.Korisnik)
                 .Include(e => e.ProdajaArtikal)
@@ -63,8 +61,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<ProdajaResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<ProdajaResponse> GetById(int id)
-        {
+        public override PayloadResponse<ProdajaResponse> GetById(int id) {
             Validator.ValidateEntityExists(id);
 
             Prodaja entity = Context.Set<Prodaja>()
@@ -92,19 +89,17 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<ProdajaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<ProdajaResponse> Insert(ProdajaInsertRequest request)
-        {
+        public override PayloadResponse<ProdajaResponse> Insert(ProdajaInsertRequest request) {
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
             KorisnikValidator.ValidateTipKorisnika(request.KorisnikId, KorisnikTip.Radnik);
-            if (request.RezervacijaId.HasValue)
-            {
+            if (request.RezervacijaId.HasValue) {
                 RezervacijaValidator.ValidateEntityExists(request.RezervacijaId.Value);
                 RezervacijaValidator.ValidateEntityProdano(request.RezervacijaId.Value);
                 RezervacijaValidator.ValidateEntityOtkazano(request.RezervacijaId.Value);
             }
             if (request.ProdajaArtikal != null)
                 ArtikalValidator.ValidateEntitiesExists(request.ProdajaArtikal.Select(e => e.ArtikalId).ToList());
-            
+
             if (!request.Datum.HasValue)
                 request.Datum = DateTime.Now;
 
@@ -115,8 +110,7 @@ namespace Pelikula.CORE.Impl
 
             Context.SaveChanges();
 
-            if (request.RezervacijaId.HasValue)
-            {
+            if (request.RezervacijaId.HasValue) {
                 Rezervacija rezervacija = Context.Rezervacija.Find(request.RezervacijaId.Value);
                 rezervacija.DatumProdano = entity.Datum;
 
@@ -124,10 +118,8 @@ namespace Pelikula.CORE.Impl
                 Context.SaveChanges();
             }
 
-            if (request.ProdajaArtikal != null)
-            {
-                foreach (var prodajaArtikal in request.ProdajaArtikal)
-                {
+            if (request.ProdajaArtikal != null) {
+                foreach (var prodajaArtikal in request.ProdajaArtikal) {
                     ProdajaArtikal prodajaArtikalEntity = Mapper.Map<ProdajaArtikal>(prodajaArtikal);
                     prodajaArtikalEntity.ProdajaId = entity.Id;
 
@@ -143,8 +135,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<ProdajaResponse>(HttpStatusCode.OK, response);
         }
 
-        private string GenerateBrojRacuna(DateTime datum)
-        {
+        private string GenerateBrojRacuna(DateTime datum) {
             var guid = Guid.NewGuid().ToString();
 
             var godina = datum.Year.ToString();
@@ -162,13 +153,11 @@ namespace Pelikula.CORE.Impl
                 return brojRacuna;
         }
 
-        public override PayloadResponse<ProdajaResponse> Update(int id, object request)
-        {
+        public override PayloadResponse<ProdajaResponse> Update(int id, object request) {
             throw new UserException("Update prodaje nije moguć!", HttpStatusCode.NotFound);
         }
 
-        private decimal GetUkupnaCijena(ICollection<ProdajaArtikalResponse> prodajaArtikli, RezervacijaResponse rezervacija)
-        {
+        private decimal GetUkupnaCijena(ICollection<ProdajaArtikalResponse> prodajaArtikli, RezervacijaResponse rezervacija) {
             decimal ukupnaCijena = 0;
 
             foreach (var prodajaArtikal in prodajaArtikli)

@@ -6,8 +6,7 @@ namespace Pelikula.CORE.Validation
 {
     public class ProdajaValidatorImpl : BaseValidatorImpl<Prodaja>, IProdajaValidator
     {
-        public ProdajaValidatorImpl(AppDbContext context) : base(context)
-        {
+        public ProdajaValidatorImpl(AppDbContext context) : base(context) {
         }
     }
 }

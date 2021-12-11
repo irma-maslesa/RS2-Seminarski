@@ -11,8 +11,7 @@ namespace Pelikula.CORE.Impl
         CrudServiceImpl<FilmskaLicnostResponse, FilmskaLicnost, FilmskaLicnostUpsertRequest, FilmskaLicnostUpsertRequest>,
         IFilmskaLicnostService
     {
-        public FilmskaLicnostServiceImpl(AppDbContext context, IMapper mapper, IFilmskaLicnostValidator validator) : base(context, mapper, validator)
-        {
+        public FilmskaLicnostServiceImpl(AppDbContext context, IMapper mapper, IFilmskaLicnostValidator validator) : base(context, mapper, validator) {
         }
     }
 }

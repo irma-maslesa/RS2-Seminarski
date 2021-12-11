@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 
 namespace Pelikula.CORE.Helper.Response
 {
     public class PayloadResponse<T> : AbstractResponse
-        where T: class 
+        where T : class
     {
         public T Payload { get; set; }
 
-        public PayloadResponse(): this(HttpStatusCode.InternalServerError, null)
-        {
+        public PayloadResponse() : this(HttpStatusCode.InternalServerError, null) {
         }
 
-        public PayloadResponse(HttpStatusCode statusCode, T payload) : base(statusCode)
-        {
+        public PayloadResponse(HttpStatusCode statusCode, T payload) : base(statusCode) {
             Payload = payload;
         }
     }

@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Pelikula.API.Api;
-using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Anketa;
+using Pelikula.API.Model.Helper;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;
 using Pelikula.DAO.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System;
 
 namespace Pelikula.CORE.Impl
 {
@@ -21,14 +21,12 @@ namespace Pelikula.CORE.Impl
         protected IKorisnikValidator KorisnikValidator { get; set; }
         protected new IAnketaValidator Validator { get; set; }
 
-        public AnketaServiceImpl(AppDbContext context, IMapper mapper, IAnketaValidator validator, IKorisnikValidator korisnikValidator) : base(context, mapper, validator)
-        {
+        public AnketaServiceImpl(AppDbContext context, IMapper mapper, IAnketaValidator validator, IKorisnikValidator korisnikValidator) : base(context, mapper, validator) {
             KorisnikValidator = korisnikValidator;
             Validator = validator;
         }
 
-        public override PagedPayloadResponse<AnketaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<AnketaResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Anketa> entityList = Context.Set<Anketa>().Include(e => e.Korisnik).Include(e => e.AnketaOdgovor).ToList();
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Anketa>.FilteredData(filter, entityList) : entityList;
@@ -40,8 +38,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<AnketaResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<AnketaResponse> GetById(int id)
-        {
+        public override PayloadResponse<AnketaResponse> GetById(int id) {
             Validator.ValidateEntityExists(id);
 
             Anketa entity = Context.Set<Anketa>().Include(e => e.Korisnik).Include(e => e.AnketaOdgovor).FirstOrDefault(e => e.Id == id);
@@ -51,8 +48,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<AnketaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<AnketaResponse> Insert(AnketaInsertRequest request)
-        {
+        public override PayloadResponse<AnketaResponse> Insert(AnketaInsertRequest request) {
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
             Validator.ValidateOdgovori(request.Odgovori);
 
@@ -60,10 +56,8 @@ namespace Pelikula.CORE.Impl
             entity = Context.Set<Anketa>().Add(entity).Entity;
             Context.SaveChanges();
 
-            if (request.Odgovori != null)
-            {
-                foreach (var odgovor in request.Odgovori)
-                {
+            if (request.Odgovori != null) {
+                foreach (var odgovor in request.Odgovori) {
                     odgovor.AnketaId = entity.Id;
                     Context.AnketaOdgovor.Add(Mapper.Map<AnketaOdgovorInsertRequest, AnketaOdgovor>(odgovor));
                 }
@@ -77,8 +71,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<AnketaResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<AnketaResponse> Update(int id, AnketaUpdateRequest request)
-        {
+        public override PayloadResponse<AnketaResponse> Update(int id, AnketaUpdateRequest request) {
             Validator.ValidateEntityExists(id);
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
             Validator.ValidateOdgovori(request.Odgovori);
@@ -90,19 +83,15 @@ namespace Pelikula.CORE.Impl
             Context.Set<Anketa>().Update(entity);
             Context.SaveChanges();
 
-            if (request.Odgovori != null)
-            {
-                foreach (var odgovor in request.Odgovori)
-                {
+            if (request.Odgovori != null) {
+                foreach (var odgovor in request.Odgovori) {
                     AnketaOdgovor odgovorEntity = Context.AnketaOdgovor.Find(odgovor.Id);
 
-                    if (odgovorEntity != null)
-                    {
+                    if (odgovorEntity != null) {
                         odgovorEntity = Mapper.Map(odgovor, odgovorEntity);
                         Context.AnketaOdgovor.Update(odgovorEntity);
                     }
-                    else
-                    {
+                    else {
                         odgovor.AnketaId = entity.Id;
                         Context.AnketaOdgovor.Add(Mapper.Map<AnketaOdgovorUpdateRequest, AnketaOdgovor>(odgovor));
 
@@ -117,8 +106,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<AnketaResponse>(HttpStatusCode.OK, response);
         }
 
-        public PayloadResponse<AnketaExtendedResponse> InsertKorisnikOdgovor(AnketaOdgovorKorisnikInsertRequest request)
-        {
+        public PayloadResponse<AnketaExtendedResponse> InsertKorisnikOdgovor(AnketaOdgovorKorisnikInsertRequest request) {
             Validator.ValidateOdgovorExists(request.AnketaOdgovorId);
             Validator.ValidateKorisnikOdgovorDoesNotExists(request.KorisnikId, request.AnketaOdgovorId);
 
@@ -140,8 +128,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<AnketaExtendedResponse>(HttpStatusCode.OK, anketaExtendedReponse);
         }
 
-        private AnketaExtendedResponse GetAnketaExtendedResponse(AnketaResponse anketa, int korisnikId)
-        {
+        private AnketaExtendedResponse GetAnketaExtendedResponse(AnketaResponse anketa, int korisnikId) {
             var anketaEx = new AnketaExtendedResponse(anketa);
 
             var korisnikOdgovor = Context.AnketaOdgovorKorisnik
@@ -149,16 +136,14 @@ namespace Pelikula.CORE.Impl
                 .Where(x => x.AnketaOdgovor.AnketaId == anketaEx.Id && x.KorisnikId == korisnikId)
                 .FirstOrDefault();
 
-            if (korisnikOdgovor != null)
-            {
+            if (korisnikOdgovor != null) {
                 anketaEx.KorisnikAnketaOdgovor = Mapper.Map<AnketaOdgovor, AnketaOdgovorResponse>(korisnikOdgovor.AnketaOdgovor);
             }
 
             return anketaEx;
         }
 
-        public PayloadResponse<AnketaResponse> Close(int id)
-        {
+        public PayloadResponse<AnketaResponse> Close(int id) {
             Validator.ValidateEntityExists(id);
             Validator.ValidateAnketaIsNotClosed(id);
 
@@ -173,12 +158,10 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<AnketaResponse>(HttpStatusCode.OK, response);
         }
 
-        public PagedPayloadResponse<AnketaResponse> GetActive(int? korisnikId, PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting)
-        {
+        public PagedPayloadResponse<AnketaResponse> GetActive(int? korisnikId, PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
             IEnumerable<Anketa> entityList;
 
-            if (korisnikId.HasValue)
-            {
+            if (korisnikId.HasValue) {
                 List<int> anketaIds = Context.AnketaOdgovorKorisnik.
                    Where(e => e.KorisnikId == korisnikId.Value)
                    .Include(e => e.AnketaOdgovor)
@@ -193,8 +176,7 @@ namespace Pelikula.CORE.Impl
                 .ToList();
             }
 
-            else
-            {
+            else {
                 entityList = Context.Set<Anketa>()
                 .Include(e => e.Korisnik)
                 .Include(e => e.AnketaOdgovor)
@@ -211,8 +193,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<AnketaResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public PagedPayloadResponse<AnketaExtendedResponse> GetForUser(int korisnikId, PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting)
-        {
+        public PagedPayloadResponse<AnketaExtendedResponse> GetForUser(int korisnikId, PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
             IEnumerable<Anketa> entityList = Context.Set<Anketa>()
                 .Include(e => e.Korisnik)
                 .Include(e => e.AnketaOdgovor)

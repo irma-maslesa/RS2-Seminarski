@@ -19,13 +19,11 @@ namespace Pelikula.CORE.Impl
     {
         protected IKorisnikValidator KorisnikValidator { get; set; }
 
-        public ObavijestServiceImpl(AppDbContext context, IMapper mapper, IObavijestValidator validator, IKorisnikValidator korisnikValidator) : base(context, mapper, validator)
-        {
+        public ObavijestServiceImpl(AppDbContext context, IMapper mapper, IObavijestValidator validator, IKorisnikValidator korisnikValidator) : base(context, mapper, validator) {
             KorisnikValidator = korisnikValidator;
         }
 
-        public override PagedPayloadResponse<ObavijestResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<ObavijestResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Obavijest> entityList = Context.Set<Obavijest>().Include(e => e.Korisnik).ToList();
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Obavijest>.FilteredData(filter, entityList) : entityList;
@@ -37,8 +35,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<ObavijestResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<ObavijestResponse> GetById(int id)
-        {
+        public override PayloadResponse<ObavijestResponse> GetById(int id) {
             Validator.ValidateEntityExists(id);
 
             Obavijest entity = Context.Set<Obavijest>().Include(e => e.Korisnik).FirstOrDefault(e => e.Id == id);
@@ -48,8 +45,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<ObavijestResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<ObavijestResponse> Insert(ObavijestUpsertRequest request)
-        {
+        public override PayloadResponse<ObavijestResponse> Insert(ObavijestUpsertRequest request) {
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
 
             Obavijest entity = Mapper.Map<ObavijestUpsertRequest, Obavijest>(request);
@@ -62,8 +58,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<ObavijestResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<ObavijestResponse> Update(int id, ObavijestUpsertRequest request)
-        {
+        public override PayloadResponse<ObavijestResponse> Update(int id, ObavijestUpsertRequest request) {
             Validator.ValidateEntityExists(id);
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
 

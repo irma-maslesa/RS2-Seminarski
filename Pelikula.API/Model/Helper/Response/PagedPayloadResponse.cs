@@ -1,8 +1,6 @@
 ﻿using Pelikula.API.Model.Helper;
-using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace Pelikula.CORE.Helper.Response
 {
@@ -16,8 +14,7 @@ namespace Pelikula.CORE.Helper.Response
         public int NumberOfPages { get; set; }
         public int NumberOfRecords { get; set; }
 
-        public PagedPayloadResponse() : base(HttpStatusCode.InternalServerError)
-        {
+        public PagedPayloadResponse() : base(HttpStatusCode.InternalServerError) {
             Payload = new List<T>();
             RecordsPerPage = -1;
             Page = -1;
@@ -26,8 +23,7 @@ namespace Pelikula.CORE.Helper.Response
         }
 
         public PagedPayloadResponse(HttpStatusCode statusCode, int recordsPerPage, int page,
-            int numberOfPages, int numberOfRecords, IEnumerable<T> payload) : base(statusCode)
-        {
+            int numberOfPages, int numberOfRecords, IEnumerable<T> payload) : base(statusCode) {
             Payload = payload;
             RecordsPerPage = recordsPerPage;
             Page = page;
@@ -37,8 +33,7 @@ namespace Pelikula.CORE.Helper.Response
 
         public PagedPayloadResponse(HttpStatusCode statusCode, PaginationUtility.PagedData<T> pagedData) :
             this(statusCode, pagedData.RecordsPerPage, pagedData.Page, pagedData.NumberOfPages,
-                pagedData.NumberOfRecords, pagedData.Records)
-        {
+                pagedData.NumberOfRecords, pagedData.Records) {
         }
     }
 }

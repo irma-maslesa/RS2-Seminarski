@@ -1,7 +1,7 @@
-﻿using Pelikula.DAO;
-using Pelikula.API.Validation;
-using System.Net;
+﻿using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
+using Pelikula.DAO;
+using System.Net;
 
 namespace Pelikula.CORE.Validation
 {
@@ -10,13 +10,11 @@ namespace Pelikula.CORE.Validation
     {
         public AppDbContext Context { get; set; }
 
-        public BaseValidatorImpl(AppDbContext context)
-        {
+        public BaseValidatorImpl(AppDbContext context) {
             Context = context;
         }
 
-        public virtual void ValidateEntityExists(int id)
-        {
+        public virtual void ValidateEntityExists(int id) {
             Entity entity = Context.Set<Entity>().Find(id);
 
             if (entity == null)

@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -42,15 +41,13 @@ namespace Pelikula.WINUI.Forms.Prodaja
         IEnumerable<LoV> sjedistaList = new List<LoV>();
         IEnumerable<LoV> zauzetaSjedistaList = new List<LoV>();
 
-        public FrmProdajaDodajUredi()
-        {
+        public FrmProdajaDodajUredi() {
             InitializeComponent();
             dgvArtikli.AutoGenerateColumns = false;
             _prijavljeniKorisnik = Properties.Settings.Default.PrijavljeniKorisnik;
         }
 
-        private async void FrmProdajaDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmProdajaDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -86,8 +83,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
             btnOdaberiSjedista.Enabled = false;
         }
 
-        private async Task GetGridData()
-        {
+        private async Task GetGridData() {
             Cursor = Cursors.WaitCursor;
 
             PagedPayloadResponse<ArtikalResponse> obj = await _artikalService.Get<PagedPayloadResponse<ArtikalResponse>>(null, null, null);
@@ -100,26 +96,27 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
+            cbTipProdaje.SelectedIndex = 0;
+
             cbProjekcija.SelectedItem = projekcijaList.FirstOrDefault();
+            cbRezervacija.SelectedItem = rezervacijaList.FirstOrDefault();
+            cbTermin.SelectedItem = terminList.FirstOrDefault();
+            cbKorisnik.SelectedItem = korisnikList.FirstOrDefault();
+
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
             var tipProdaje = cbTipProdaje.SelectedItem.ToString();
             _request = new ProdajaInsertRequest();
 
-            switch (tipProdaje)
-            {
+            switch (tipProdaje) {
                 case TipProdaje.SA_REZERVACIJOM:
-                    if (cbRezervacija.SelectedItem == null)
-                    {
+                    if (cbRezervacija.SelectedItem == null) {
                         err.SetError(cbRezervacija, "Obavezno polje!");
                         return;
                     }
-                    else
-                    {
+                    else {
                         err.SetError(cbRezervacija, null);
                     }
                     _request.RezervacijaId = ((RezervacijaSimpleResponse)cbRezervacija.SelectedItem).Id;
@@ -128,6 +125,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
                     await KreirajRezervaciju();
                     if (!_request.RezervacijaId.HasValue)
                         return;
+
                     break;
                 default:
                     break;
@@ -136,20 +134,17 @@ namespace Pelikula.WINUI.Forms.Prodaja
             _request.KorisnikId = _prijavljeniKorisnik.Id;
             _request.ProdajaArtikal = GetArtikle();
 
-            if(tipProdaje == TipProdaje.PRODAJA_ARTIKLA && (_request.ProdajaArtikal == null || _request.ProdajaArtikal.Count == 0))
-            {
+            if (tipProdaje == TipProdaje.PRODAJA_ARTIKLA && (_request.ProdajaArtikal == null || _request.ProdajaArtikal.Count == 0)) {
                 err.SetError(gbArtikli, "Obavezno polje!");
                 return;
             }
-            else
-            {
+            else {
                 err.SetError(gbArtikli, null);
             }
 
             PayloadResponse<ProdajaResponse> response = await _service.Insert<PayloadResponse<ProdajaResponse>>(_request);
 
-            if (response != null)
-            {
+            if (response != null) {
                 MessageBox.Show($"Prodaja {response.Payload.BrojRacuna} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 DialogResult = DialogResult.OK;
@@ -157,24 +152,20 @@ namespace Pelikula.WINUI.Forms.Prodaja
             }
         }
 
-        private ICollection<ProdajaArtikalInsertRequest> GetArtikle()
-        {
+        private ICollection<ProdajaArtikalInsertRequest> GetArtikle() {
             var artikli = new List<ProdajaArtikalInsertRequest>();
 
-            foreach (DataGridViewRow red in dgvArtikli.Rows)
-            {
+            foreach (DataGridViewRow red in dgvArtikli.Rows) {
                 bool odabrano = false;
 
                 if (red.Cells["Izaberi"].Value != null)
                     odabrano = bool.Parse(red.Cells["Izaberi"].Value.ToString());
 
-                if (odabrano && red.Cells["Kolicina"].Value != null && int.Parse(red.Cells["Kolicina"].Value.ToString()) > 0)
-                {
+                if (odabrano && red.Cells["Kolicina"].Value != null && int.Parse(red.Cells["Kolicina"].Value.ToString()) > 0) {
                     int id = int.Parse(red.Cells["Id"].Value.ToString());
                     int kolicina = int.Parse(red.Cells["Kolicina"].Value.ToString());
 
-                    artikli.Add(new ProdajaArtikalInsertRequest
-                    {
+                    artikli.Add(new ProdajaArtikalInsertRequest {
                         ArtikalId = id,
                         Kolicina = kolicina
                     });
@@ -184,30 +175,24 @@ namespace Pelikula.WINUI.Forms.Prodaja
             return artikli;
         }
 
-        private async Task KreirajRezervaciju()
-        {
-            if (_rezervacijaRequest.SjedistaIds == null || _rezervacijaRequest.SjedistaIds.Count == 0)
-            {
+        private async Task KreirajRezervaciju() {
+            if (_rezervacijaRequest.SjedistaIds == null || _rezervacijaRequest.SjedistaIds.Count == 0) {
                 err.SetError(btnOdaberiSjedista, "Obavezno odabrati bar jedno sjedište!");
                 return;
             }
-            else
-            {
+            else {
                 err.SetError(btnOdaberiSjedista, null);
             }
 
-            if (cbKorisnik.SelectedItem == null)
-            {
+            if (cbKorisnik.SelectedItem == null) {
                 err.SetError(cbKorisnik, "Obavezno polje!");
                 return;
             }
-            else
-            {
+            else {
                 err.SetError(cbKorisnik, null);
             }
 
-            if (ValidateChildren())
-            {
+            if (ValidateChildren()) {
                 _rezervacijaRequest.ProjekcijaTerminId = ((LoV)cbTermin.SelectedItem).Id;
                 _rezervacijaRequest.KorisnikId = ((LoV)cbKorisnik.SelectedItem).Id;
                 _rezervacijaRequest.BrojSjedista = _rezervacijaRequest.SjedistaIds.Count;
@@ -215,27 +200,44 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
                 PayloadResponse<RezervacijaResponse> response = await _rezervacijaService.Insert<PayloadResponse<RezervacijaResponse>>(_rezervacijaRequest);
 
-                if (response != null)
-                {
+                if (response != null) {
                     _request.RezervacijaId = response.Payload.Id;
                     _request.Datum = response.Payload.Datum;
+                    UpdateProjekcijaCijena(response.Payload.Cijena);
+                    UpdateUkupnaCijena();
                 }
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
+            RemoveArtikli();
             if (_rezervacijaRequest.SjedistaIds != null)
                 _rezervacijaRequest.SjedistaIds.Clear();
 
             SetValues();
         }
 
-        private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private void RemoveArtikli() {
+            foreach (DataGridViewRow red in dgvArtikli.Rows) {
+                bool odabrano = false;
+
+                if (red.Cells["Izaberi"].Value != null)
+                    odabrano = bool.Parse(red.Cells["Izaberi"].Value.ToString());
+
+                if (odabrano) {
+                    red.Cells["Izaberi"].Value = false;
+                    red.Cells["Kolicina"].ReadOnly = true;
+                    red.Cells["Kolicina"].Value = null;
+                }
+            }
+
+            txtCijenaArtikli.Text = 0.ToString("0.00");
+            UpdateUkupnaCijena();
+        }
+
+        private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e) {
             var data = (LoV)cbProjekcija.SelectedItem;
-            if (data != null)
-            {
+            if (data != null) {
                 var salaId = (await _projekcijaService.GetById<PayloadResponse<ProjekcijaResponse>>(data.Id)).Payload.Sala.Id;
 
                 terminList = (await _projekcijaService.GetAktivniTermini(data.Id)).Payload.OrderBy(o => o.Naziv).ToList();
@@ -246,8 +248,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 cbTermin.DisplayMember = "Naziv";
                 cbTermin.ValueMember = "Id";
 
-                if (terminList.FirstOrDefault() == null)
-                {
+                if (terminList.FirstOrDefault() == null) {
                     cbTermin.Enabled = false;
                     cbKorisnik.Enabled = false;
                     btnDodajKorisnika.Enabled = false;
@@ -257,28 +258,24 @@ namespace Pelikula.WINUI.Forms.Prodaja
                     MessageBox.Show("Nema dostupnih termina za odabranu projekciju!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                else
-                {
+                else {
                     cbTermin.Enabled = true;
                     dgvArtikli.Enabled = true;
                     btnSpremi.Enabled = true;
                 }
 
 
-                if (_salaId != salaId)
-                {
+                if (_salaId != salaId) {
                     _salaId = salaId;
                     sjedistaList = (await _salaService.GetSjedista(data.Id)).Payload;
                 }
             }
         }
 
-        private async void CbTermin_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbTermin_SelectedValueChanged(object sender, EventArgs e) {
             var data = (LoV)cbTermin.SelectedItem;
 
-            if (data != null)
-            {
+            if (data != null) {
                 cbKorisnik.Enabled = true;
                 korisnikList = (await _korisnikService.GetKlijentiForTermin(data.Id, true)).Payload.OrderBy(o => o.Naziv).ToList();
 
@@ -296,50 +293,40 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         }
 
-        private void BtnOdaberiSjedista_Click(object sender, EventArgs e)
-        {
-            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _rezervacijaRequest.SjedistaIds?.ToList())
-            {
+        private void BtnOdaberiSjedista_Click(object sender, EventArgs e) {
+            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _rezervacijaRequest.SjedistaIds?.ToList()) {
                 StartPosition = FormStartPosition.CenterScreen
             };
 
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
+            if (frm.ShowDialog() == DialogResult.OK) {
                 var odabrano = frm.OdabranaSjedista;
                 _rezervacijaRequest.SjedistaIds = odabrano;
 
-                if (_rezervacijaRequest.SjedistaIds != null && _rezervacijaRequest.SjedistaIds.Count > 0)
-                {
+                if (_rezervacijaRequest.SjedistaIds != null && _rezervacijaRequest.SjedistaIds.Count > 0) {
                     err.SetError(btnOdaberiSjedista, null);
                 }
             }
         }
 
-        private async void BtnDodajKorisnika_Click(object sender, EventArgs e)
-        {
-            FrmKorisnikDodajUredi frm = new FrmKorisnikDodajUredi
-            {
+        private async void BtnDodajKorisnika_Click(object sender, EventArgs e) {
+            FrmKorisnikDodajUredi frm = new FrmKorisnikDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
+            if (frm.ShowDialog() == DialogResult.OK) {
                 var data = (LoV)cbTermin.SelectedItem;
                 korisnikList = (await _korisnikService.GetKlijentiForTermin(data.Id, true)).Payload.OrderBy(o => o.Naziv).ToList();
                 cbKorisnik.DataSource = korisnikList;
             }
         }
 
-        private void BtnProjekcijaInfo_Click(object sender, EventArgs e)
-        {
+        private void BtnProjekcijaInfo_Click(object sender, EventArgs e) {
             FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((LoV)cbProjekcija.SelectedItem).Id, true);
             frm.ShowDialog();
         }
 
-        private void DgvArtikli_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dgvArtikli.Columns[e.ColumnIndex].Name.Equals("Izaberi"))
-            {
+        private void DgvArtikli_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
+            if (dgvArtikli.Columns[e.ColumnIndex].Name.Equals("Izaberi")) {
                 UpdateArtikliKolicina();
                 if (dgvArtikli.Rows[e.RowIndex].Cells["Izaberi"].Value != null && bool.Parse(dgvArtikli.Rows[e.RowIndex].Cells["Izaberi"].Value.ToString()))
                     dgvArtikli.CurrentCell = dgvArtikli.Rows[e.RowIndex].Cells["Kolicina"];
@@ -349,12 +336,10 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 UpdateArtikliCijena();
         }
 
-        private void UpdateArtikliCijena()
-        {
+        private void UpdateArtikliCijena() {
             decimal artikliCijena = 0;
 
-            foreach (DataGridViewRow red in dgvArtikli.Rows)
-            {
+            foreach (DataGridViewRow red in dgvArtikli.Rows) {
                 decimal cijena = 0;
                 int kolicina = 0;
 
@@ -371,62 +356,54 @@ namespace Pelikula.WINUI.Forms.Prodaja
             UpdateUkupnaCijena();
         }
 
-        private void UpdateUkupnaCijena()
-        {
+        private void UpdateUkupnaCijena() {
             decimal artikliCijena = decimal.Parse(txtCijenaArtikli.Text);
             decimal projekcijaCijena = decimal.Parse(txtCijenaProjekcija.Text);
 
             txtCijenaUkupno.Text = (artikliCijena + projekcijaCijena).ToString("0.00");
         }
 
-        private void UpdateProjekcijaCijena(decimal? cijena)
-        {
+        private void UpdateProjekcijaCijena(decimal? cijena) {
             if (cijena.HasValue)
                 txtCijenaProjekcija.Text = cijena.Value.ToString("0.00");
         }
 
-        private void UpdateArtikliKolicina()
-        {
-            foreach (DataGridViewRow red in dgvArtikli.Rows)
-            {
+        private void UpdateArtikliKolicina() {
+            foreach (DataGridViewRow red in dgvArtikli.Rows) {
                 bool odabrano = false;
 
                 if (red.Cells["Izaberi"].Value != null)
                     odabrano = bool.Parse(red.Cells["Izaberi"].Value.ToString());
 
-                if (odabrano)
-                {
+                if (odabrano) {
                     red.Cells["Kolicina"].ReadOnly = false;
                     if (red.Cells["Kolicina"].Value == null)
                         red.Cells["Kolicina"].Value = 1;
                 }
-                else
-                {
+                else {
                     red.Cells["Kolicina"].Value = null;
                     red.Cells["Kolicina"].ReadOnly = true;
                 }
             }
         }
 
-        private void DgvArtikli_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+        private void DgvArtikli_CellContentClick(object sender, DataGridViewCellEventArgs e) {
             dgvArtikli.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
-        private void CbRezervacija_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private void CbRezervacija_SelectedValueChanged(object sender, EventArgs e) {
             var rezervacija = (RezervacijaSimpleResponse)cbRezervacija.SelectedItem;
 
-            if (rezervacija != null)
+            if (rezervacija != null) {
                 UpdateProjekcijaCijena(rezervacija.Cijena);
+                UpdateUkupnaCijena();
+            }
         }
 
-        private async void CbTipProdaje_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private async void CbTipProdaje_SelectedIndexChanged(object sender, EventArgs e) {
             var data = cbTipProdaje.SelectedItem?.ToString();
 
-            switch (data)
-            {
+            switch (data) {
                 case TipProdaje.SA_REZERVACIJOM:
                     err.Clear();
 
@@ -437,15 +414,13 @@ namespace Pelikula.WINUI.Forms.Prodaja
                     txtCijenaProjekcija.Visible = true;
                     lblCijenaProjekcija.Visible = true;
 
-                    if (rezervacijaList.FirstOrDefault() == null)
-                    {
+                    if (rezervacijaList.FirstOrDefault() == null) {
                         cbRezervacija.Enabled = false;
                         dgvArtikli.Enabled = false;
                         btnSpremi.Enabled = false;
                         MessageBox.Show("Nema kreiranih rezervacija!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else
-                    {
+                    else {
                         cbRezervacija.Enabled = true;
                         dgvArtikli.Enabled = true;
                         btnSpremi.Enabled = true;
@@ -455,6 +430,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 case TipProdaje.SA_PROJEKCIJOM:
                     err.Clear();
 
+                    txtCijenaProjekcija.Text = 0.ToString("0.00");
                     gbRezervacija.Visible = false;
                     gbInformacije.Visible = true;
                     btnOdaberiSjedista.Visible = true;
@@ -473,16 +449,14 @@ namespace Pelikula.WINUI.Forms.Prodaja
                     cbTermin.Enabled = false;
                     cbKorisnik.Enabled = false;
 
-                    if (projekcijaList.FirstOrDefault() == null)
-                    {
+                    if (projekcijaList.FirstOrDefault() == null) {
                         cbProjekcija.Enabled = false;
                         dgvArtikli.Enabled = false;
                         btnSpremi.Enabled = false;
 
                         MessageBox.Show("Nema dostupnih projekcija!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else
-                    {
+                    else {
                         cbProjekcija.Enabled = true;
                         dgvArtikli.Enabled = true;
                         btnSpremi.Enabled = true;
@@ -515,28 +489,22 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         //VALIDACIJA
 
-        private void CbProjekcija_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbProjekcija.SelectedItem == null)
-            {
+        private void CbProjekcija_Validating(object sender, CancelEventArgs e) {
+            if (cbProjekcija.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbProjekcija, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbProjekcija, null);
             }
         }
 
-        private void CbTermin_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbTermin.SelectedItem == null)
-            {
+        private void CbTermin_Validating(object sender, CancelEventArgs e) {
+            if (cbTermin.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbTermin, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbTermin, null);
             }
         }

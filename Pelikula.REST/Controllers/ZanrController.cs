@@ -6,8 +6,7 @@ namespace API.Controllers
     public class ZanrController :
         CrudController<ZanrResponse, ZanrUpsertRequest, ZanrUpsertRequest>
     {
-        public ZanrController(IZanrService service) : base(service)
-        {
+        public ZanrController(IZanrService service) : base(service) {
         }
     }
 }

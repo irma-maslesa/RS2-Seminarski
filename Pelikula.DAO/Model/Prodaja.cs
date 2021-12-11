@@ -9,8 +9,7 @@ namespace Pelikula.DAO.Model
 {
     public partial class Prodaja
     {
-        public Prodaja()
-        {
+        public Prodaja() {
             ProdajaArtikal = new HashSet<ProdajaArtikal>();
         }
 

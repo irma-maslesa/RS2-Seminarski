@@ -1,11 +1,11 @@
 ﻿using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Zanr;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Zanr
 {
@@ -13,22 +13,18 @@ namespace Pelikula.WINUI.Forms.Zanr
     {
         private readonly ApiService _ZanrService = new ApiService("Zanr");
 
-        public FrmZanr()
-        {
+        public FrmZanr() {
             InitializeComponent();
         }
-        private async void FrmZanr_Load(object sender, EventArgs e)
-        {
+        private async void FrmZanr_Load(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvZanrovi.FirstDisplayedScrollingRowIndex;
@@ -51,16 +47,18 @@ namespace Pelikula.WINUI.Forms.Zanr
 
             EnableChildren();
 
-            if (dgvZanrovi.RowCount == 0)
-            {
+            if (dgvZanrovi.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
+            }
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
             FormHelper.SelectAndShowDgvRow(dgvZanrovi, adding, _currentIndex, _selectedRowIndex, filters);
         }
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaziv.Enabled = true;
             btnPretrazi.Enabled = true;
             btnDodaj.Enabled = true;
@@ -69,8 +67,7 @@ namespace Pelikula.WINUI.Forms.Zanr
             dgvZanrovi.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaziv.Enabled = false;
             btnPretrazi.Enabled = false;
             btnDodaj.Enabled = false;
@@ -79,10 +76,8 @@ namespace Pelikula.WINUI.Forms.Zanr
             dgvZanrovi.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmZanrDodajUredi frm = new FrmZanrDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmZanrDodajUredi frm = new FrmZanrDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -90,10 +85,8 @@ namespace Pelikula.WINUI.Forms.Zanr
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmZanrDodajUredi frm = new FrmZanrDodajUredi(((ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmZanrDodajUredi frm = new FrmZanrDodajUredi(((ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -101,12 +94,10 @@ namespace Pelikula.WINUI.Forms.Zanr
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             ZanrResponse Zanr = (ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati žanr {Zanr.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati žanr {Zanr.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _ZanrService.Delete(Zanr.Id);
                 await GetGridData();
             }

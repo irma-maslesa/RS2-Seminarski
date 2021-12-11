@@ -20,8 +20,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
 {
     public class PelikulaProfile : Profile
     {
-        public PelikulaProfile()
-        {
+        public PelikulaProfile() {
             AllowNullCollections = true;
 
             CreateMap<Zanr, ZanrResponse>().ReverseMap();

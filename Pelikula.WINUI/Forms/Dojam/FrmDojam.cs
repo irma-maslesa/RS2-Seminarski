@@ -1,14 +1,14 @@
 ﻿using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Dojam;
+using Pelikula.API.Model.Helper;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Dojam
 {
@@ -21,13 +21,11 @@ namespace Pelikula.WINUI.Forms.Dojam
         List<LoV> korisnikList = new List<LoV>();
         List<LoV> projekcijaList = new List<LoV>();
 
-        public FrmDojam()
-        {
+        public FrmDojam() {
             InitializeComponent();
             dgvDojmovi.AutoGenerateColumns = false;
         }
-        private async void FrmDojam_Load(object sender, EventArgs e)
-        {
+        private async void FrmDojam_Load(object sender, EventArgs e) {
             DisableChildren();
 
             korisnikList = (await _korisnikService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
@@ -49,13 +47,11 @@ namespace Pelikula.WINUI.Forms.Dojam
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvDojmovi.FirstDisplayedScrollingRowIndex;
@@ -83,29 +79,25 @@ namespace Pelikula.WINUI.Forms.Dojam
             FormHelper.SelectAndShowDgvRow(dgvDojmovi, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             cbKorisnik.Enabled = true;
             cbProjekcija.Enabled = true;
 
             dgvDojmovi.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             cbKorisnik.Enabled = false;
             cbProjekcija.Enabled = false;
 
             dgvDojmovi.Enabled = false;
         }
 
-        private async void CbKorisnik_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbKorisnik_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
     }

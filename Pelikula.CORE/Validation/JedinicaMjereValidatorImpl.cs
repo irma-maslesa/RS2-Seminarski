@@ -11,12 +11,10 @@ namespace Pelikula.CORE.Validation
 {
     public class JedinicaMjereValidatorImpl : BaseValidatorImpl<JedinicaMjere>, IJedinicaMjereValidator
     {
-        public JedinicaMjereValidatorImpl(AppDbContext context) : base(context)
-        {
+        public JedinicaMjereValidatorImpl(AppDbContext context) : base(context) {
         }
 
-        public void ValidateUpsertRequest(JedinicaMjereUpsertRequest request, int? id = null)
-        {
+        public void ValidateUpsertRequest(JedinicaMjereUpsertRequest request, int? id = null) {
             StringBuilder sb = new StringBuilder();
 
             if (request.Naziv == null)
@@ -27,15 +25,13 @@ namespace Pelikula.CORE.Validation
             if (sb.Length > 0)
                 throw new UserException(sb.ToString(), HttpStatusCode.BadRequest);
 
-            if (id.HasValue)
-            {
+            if (id.HasValue) {
                 if (Context.JedinicaMjere.Any(e => (e.KratkiNaziv.ToLower().Equals(request.KratkiNaziv.ToLower()) ||
                                                         e.Naziv.ToLower().Equals(request.Naziv.ToLower())) &&
                                                         e.Id != id.Value))
                     throw new UserException($"Jedinica mjere već postoji!", HttpStatusCode.BadRequest);
             }
-            else
-            {
+            else {
                 if (Context.JedinicaMjere.Any(e => (e.KratkiNaziv.ToLower().Equals(request.KratkiNaziv.ToLower()) ||
                                                         e.Naziv.ToLower().Equals(request.Naziv.ToLower()))))
                     throw new UserException($"Jedinica mjere već postoji!", HttpStatusCode.BadRequest);

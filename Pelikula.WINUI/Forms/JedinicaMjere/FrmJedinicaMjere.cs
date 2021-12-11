@@ -1,11 +1,11 @@
 ﻿using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.JedinicaMjere
 {
@@ -13,22 +13,18 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
     {
         private readonly ApiService _service = new ApiService("JedinicaMjere");
 
-        public FrmJedinicaMjere()
-        {
+        public FrmJedinicaMjere() {
             InitializeComponent();
         }
-        private async void FrmJedinicaMjere_Load(object sender, EventArgs e)
-        {
+        private async void FrmJedinicaMjere_Load(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvJediniceMjere.FirstDisplayedScrollingRowIndex;
@@ -51,16 +47,18 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
 
             EnableChildren();
 
-            if (dgvJediniceMjere.RowCount == 0)
-            {
+            if (dgvJediniceMjere.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
+            }
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
             FormHelper.SelectAndShowDgvRow(dgvJediniceMjere, adding, _currentIndex, _selectedRowIndex, filters);
         }
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaziv.Enabled = true;
             btnPretrazi.Enabled = true;
             btnDodaj.Enabled = true;
@@ -69,8 +67,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
             dgvJediniceMjere.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaziv.Enabled = false;
             btnPretrazi.Enabled = false;
             btnDodaj.Enabled = false;
@@ -79,10 +76,8 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
             dgvJediniceMjere.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmJedinicaMjereDodajUredi frm = new FrmJedinicaMjereDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmJedinicaMjereDodajUredi frm = new FrmJedinicaMjereDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -90,10 +85,8 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmJedinicaMjereDodajUredi frm = new FrmJedinicaMjereDodajUredi(((JedinicaMjereResponse)dgvJediniceMjere.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmJedinicaMjereDodajUredi frm = new FrmJedinicaMjereDodajUredi(((JedinicaMjereResponse)dgvJediniceMjere.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -101,12 +94,10 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             JedinicaMjereResponse data = (JedinicaMjereResponse)dgvJediniceMjere.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati jedinicu mjere {data.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati jedinicu mjere {data.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
                 await GetGridData();
             }

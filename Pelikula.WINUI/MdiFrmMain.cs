@@ -25,19 +25,16 @@ namespace Pelikula.WINUI
     {
         private readonly KorisnikTip? prijavljeniKorisnikTip = null;
 
-        public MdiFrmMain()
-        {
+        public MdiFrmMain() {
             InitializeComponent();
             Size = new Size() { Width = 1300, Height = 700 };
             StartPosition = FormStartPosition.CenterScreen;
 
             var korisnik = Properties.Settings.Default.PrijavljeniKorisnik;
-            if (korisnik != null)
-            {
+            if (korisnik != null) {
                 string tip = korisnik.TipKorisnika.Naziv;
 
-                switch (tip)
-                {
+                switch (tip) {
                     case "Administrator":
                         prijavljeniKorisnikTip = KorisnikTip.Administrator;
                         break;
@@ -54,16 +51,14 @@ namespace Pelikula.WINUI
 
                 tssKorisnik.Text = $"Korisnik: {korisnik.Ime} {korisnik.Prezime} ({korisnik.KorisnickoIme})";
             }
-            else
-            {
+            else {
                 MessageBox.Show("Prijava na sistem nije uspjela, pojavila se greška!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
         }
 
 
-        private void MdiFrmMain_Load(object sender, EventArgs e)
-        {
+        private void MdiFrmMain_Load(object sender, EventArgs e) {
             korisniciToolStripMenuItem.Visible = false;
             tipoviKorisnikaToolStripMenuItem.Visible = false;
             saleToolStripMenuItem.Visible = false;
@@ -81,10 +76,8 @@ namespace Pelikula.WINUI
             anketeToolStripMenuItem.Visible = false;
             odjavaToolStripMenuItem.Visible = true;
 
-            if (prijavljeniKorisnikTip.HasValue)
-            {
-                switch (prijavljeniKorisnikTip.Value)
-                {
+            if (prijavljeniKorisnikTip.HasValue) {
+                switch (prijavljeniKorisnikTip.Value) {
                     case KorisnikTip.Administrator:
                         korisniciToolStripMenuItem.Visible = true;
                         tipoviKorisnikaToolStripMenuItem.Visible = true;
@@ -119,12 +112,9 @@ namespace Pelikula.WINUI
 
         }
 
-        private void OpenForm(Form frm)
-        {
-            if (!MdiChildren.Select(f => f.Name).Contains(frm.Name))
-            {
-                foreach (Form childForm in MdiChildren)
-                {
+        private void OpenForm(Form frm) {
+            if (!MdiChildren.Select(f => f.Name).Contains(frm.Name)) {
+                foreach (Form childForm in MdiChildren) {
                     childForm.Close();
                 }
 
@@ -139,91 +129,76 @@ namespace Pelikula.WINUI
             }
         }
 
-        private void ZanroviToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void ZanroviToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmZanr frm = new FrmZanr();
             OpenForm(frm);
         }
 
-        private void TipoviKorisnikaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void TipoviKorisnikaToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmTipKorisnika frm = new FrmTipKorisnika();
             OpenForm(frm);
         }
 
-        private void KorisniciToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void KorisniciToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmKorisnik frm = new FrmKorisnik();
             OpenForm(frm);
         }
 
-        private void OdjavaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void OdjavaToolStripMenuItem_Click(object sender, EventArgs e) {
             if (MessageBox.Show("Jeste li sigurni da se želite odjaviti?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 Application.Restart();
         }
-        private void JediniceMjereToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void JediniceMjereToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmJedinicaMjere frm = new FrmJedinicaMjere();
             OpenForm(frm);
         }
 
-        private void ArtikliToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void ArtikliToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmArtikal frm = new FrmArtikal();
             OpenForm(frm);
         }
 
-        private void ObavijestiToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void ObavijestiToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmObavijest frm = new FrmObavijest();
             OpenForm(frm);
         }
 
-        private void AnketeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void AnketeToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmAnketa frm = new FrmAnketa();
             OpenForm(frm);
         }
 
-        private void SaleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void SaleToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmSala frm = new FrmSala();
             OpenForm(frm);
         }
 
-        private void FilmskeLicnostiToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void FilmskeLicnostiToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmFilmskaLicnost frm = new FrmFilmskaLicnost();
             OpenForm(frm);
         }
 
-        private void FilmoviToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void FilmoviToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmFilm frm = new FrmFilm();
             OpenForm(frm);
         }
 
-        private void ProjekcijeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void ProjekcijeToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmProjekcija frm = new FrmProjekcija();
             OpenForm(frm);
         }
 
-        private void DojmoviToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void DojmoviToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmDojam frm = new FrmDojam();
             OpenForm(frm);
         }
 
-        private void RezervacijeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void RezervacijeToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmRezervacija frm = new FrmRezervacija();
             OpenForm(frm);
         }
 
-        private void ProdajaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void ProdajaToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmProdaja frm = new FrmProdaja();
             OpenForm(frm);
         }

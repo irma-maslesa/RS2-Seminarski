@@ -10,16 +10,14 @@ namespace Pelikula.WINUI
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
-        {
+        static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             FrmPrijava frm = new FrmPrijava();
             frm.ShowDialog();
 
-            if(frm.DialogResult == DialogResult.OK)
-            {
+            if (frm.DialogResult == DialogResult.OK) {
                 Application.Run(new MdiFrmMain());
             }
         }

@@ -1,46 +1,42 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Pelikula.API.Api;
-using Pelikula.DAO;
-using Pelikula.CORE.Impl;
-using System;
-using Pelikula.CORE.Validation;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
-using Microsoft.AspNetCore.Authentication;
+using Pelikula.CORE.Impl;
+using Pelikula.CORE.Validation;
+using Pelikula.DAO;
 using Pelikula.REST.Security;
-using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Pelikula.REST
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
+        public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) {
             services.AddControllers();
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddSwaggerGen(c =>
-            {
+            services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "KinoCentar API", Version = "v1" });
 
-                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
-                {
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme {
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     Scheme = "basic",
@@ -66,8 +62,7 @@ namespace Pelikula.REST
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddControllers(x =>
-            {
+            services.AddControllers(x => {
                 x.Filters.Add<ExceptionFilterAttribute>();
             });
 
@@ -118,16 +113,13 @@ namespace Pelikula.REST
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
+            app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("./v1/swagger.json", "Pelikula API");
             });
             app.UseHttpsRedirection();
@@ -137,8 +129,7 @@ namespace Pelikula.REST
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
         }
