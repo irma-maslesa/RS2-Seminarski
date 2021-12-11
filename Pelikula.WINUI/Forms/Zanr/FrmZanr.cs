@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Zanr
 {
@@ -34,18 +35,7 @@ namespace Pelikula.WINUI.Forms.Zanr
             int? _selectedRowIndex = dgvZanrovi.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-
-            if (!string.IsNullOrEmpty(txtNaziv.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "Naziv",
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txtNaziv.Text
-                };
-
-                filters.Add(filter);
-            }
+            FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
 
             Cursor = Cursors.WaitCursor;
 
@@ -67,34 +57,7 @@ namespace Pelikula.WINUI.Forms.Zanr
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvZanrovi.FirstDisplayedScrollingRowIndex = dgvZanrovi.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvZanrovi.RowCount)
-            {
-                dgvZanrovi.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvZanrovi.RowCount > 0)
-            {
-                dgvZanrovi.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvZanrovi.CurrentCell = dgvZanrovi.Rows[dgvZanrovi.RowCount - 1].Cells[1];
-                dgvZanrovi.Rows[dgvZanrovi.RowCount - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvZanrovi.RowCount)
-            {
-                dgvZanrovi.CurrentCell = dgvZanrovi.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvZanrovi.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
-            {
-                dgvZanrovi.CurrentCell = dgvZanrovi.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvZanrovi.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvZanrovi, adding, _currentIndex, _selectedRowIndex, filters);
         }
         private void EnableChildren()
         {

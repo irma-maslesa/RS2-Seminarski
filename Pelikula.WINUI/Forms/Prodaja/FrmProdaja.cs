@@ -1,14 +1,12 @@
-﻿using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
+﻿using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Prodaja;
 using Pelikula.CORE.Helper.Response;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Prodaja
 {
@@ -38,20 +36,13 @@ namespace Pelikula.WINUI.Forms.Prodaja
             int _currentIndex = dgvProdaje.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvProdaje.CurrentRow?.Index;
 
-            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-            CreateKorisnikFilter(filters);
+            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>
+            {
+                new FilterUtility.FilterParams("KorisnikId", _prijavljeniKorisnik?.Id.ToString(), FilterUtility.FilterOptions.isequalto.ToString())
+            };
 
             if (txtBrojRacuna.TextLength > 2)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams()
-                {
-                    ColumnName = "BrojRacuna",
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txtBrojRacuna.Text
-                };
-
-                filters.Add(filter);
-            }
+                FormHelper.CreateFilters(filters, txtBrojRacuna, "BrojRacuna");
 
             Cursor = Cursors.WaitCursor;
 
@@ -70,46 +61,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvProdaje.FirstDisplayedScrollingRowIndex = dgvProdaje.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvProdaje.RowCount)
-            {
-                dgvProdaje.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvProdaje.RowCount > 0)
-            {
-                dgvProdaje.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvProdaje.CurrentCell = dgvProdaje.Rows[dgvProdaje.RowCount - 1].Cells[1];
-                dgvProdaje.Rows[dgvProdaje.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvProdaje.RowCount)
-            {
-                dgvProdaje.CurrentCell = dgvProdaje.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvProdaje.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvProdaje.CurrentCell = dgvProdaje.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvProdaje.Rows[_selectedRowIndex.Value].Selected = true;
-            }
-        }
-
-        private void CreateKorisnikFilter(List<FilterUtility.FilterParams> filters)
-        {
-            FilterUtility.FilterParams filter = new FilterUtility.FilterParams()
-            {
-                ColumnName = "KorisnikId",
-                FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
-                FilterValue = _prijavljeniKorisnik?.Id.ToString()
-            };
-
-            filters.Add(filter);
+            FormHelper.SelectAndShowDgvRow(dgvProdaje, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
         private void EnableChildren()

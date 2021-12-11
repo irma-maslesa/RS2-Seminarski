@@ -30,15 +30,6 @@ namespace Pelikula.WINUI.Forms.Prodaja
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.GroupBox gbArtikli;
-            this.txtCijenaArtikli = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.dgvArtikli = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Izaberi = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cijena = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Kolicina = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnOcisti = new System.Windows.Forms.Button();
             this.btnSpremi = new System.Windows.Forms.Button();
             this.err = new System.Windows.Forms.ErrorProvider(this.components);
@@ -61,100 +52,21 @@ namespace Pelikula.WINUI.Forms.Prodaja
             this.txtCijenaProjekcija = new System.Windows.Forms.TextBox();
             this.lblCijenaProjekcija = new System.Windows.Forms.Label();
             this.btnOdaberiSjedista = new System.Windows.Forms.Button();
-            gbArtikli = new System.Windows.Forms.GroupBox();
-            gbArtikli.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvArtikli)).BeginInit();
+            this.gbArtikli = new System.Windows.Forms.GroupBox();
+            this.txtCijenaArtikli = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.dgvArtikli = new System.Windows.Forms.DataGridView();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Izaberi = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cijena = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Kolicina = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.err)).BeginInit();
             this.gbInformacije.SuspendLayout();
             this.gbRezervacija.SuspendLayout();
+            this.gbArtikli.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvArtikli)).BeginInit();
             this.SuspendLayout();
-            // 
-            // gbArtikli
-            // 
-            gbArtikli.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            gbArtikli.Controls.Add(this.txtCijenaArtikli);
-            gbArtikli.Controls.Add(this.label7);
-            gbArtikli.Controls.Add(this.dgvArtikli);
-            gbArtikli.Cursor = System.Windows.Forms.Cursors.Default;
-            gbArtikli.Location = new System.Drawing.Point(497, 12);
-            gbArtikli.Name = "gbArtikli";
-            gbArtikli.Size = new System.Drawing.Size(455, 266);
-            gbArtikli.TabIndex = 14;
-            gbArtikli.TabStop = false;
-            gbArtikli.Text = "Artikli";
-            // 
-            // txtCijenaArtikli
-            // 
-            this.txtCijenaArtikli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCijenaArtikli.Location = new System.Drawing.Point(374, 231);
-            this.txtCijenaArtikli.Margin = new System.Windows.Forms.Padding(2);
-            this.txtCijenaArtikli.Name = "txtCijenaArtikli";
-            this.txtCijenaArtikli.ReadOnly = true;
-            this.txtCijenaArtikli.Size = new System.Drawing.Size(76, 20);
-            this.txtCijenaArtikli.TabIndex = 70;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label7.Location = new System.Drawing.Point(294, 234);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(76, 13);
-            this.label7.TabIndex = 69;
-            this.label7.Text = "Cijena (KM):";
-            // 
-            // dgvArtikli
-            // 
-            this.dgvArtikli.AllowUserToAddRows = false;
-            this.dgvArtikli.AllowUserToDeleteRows = false;
-            this.dgvArtikli.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvArtikli.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvArtikli.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.Izaberi,
-            this.dataGridViewTextBoxColumn2,
-            this.Cijena,
-            this.Kolicina});
-            this.dgvArtikli.Location = new System.Drawing.Point(0, 20);
-            this.dgvArtikli.Name = "dgvArtikli";
-            this.dgvArtikli.Size = new System.Drawing.Size(455, 201);
-            this.dgvArtikli.TabIndex = 15;
-            this.dgvArtikli.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvArtikli_CellContentClick);
-            this.dgvArtikli.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvArtikli_CellValueChanged);
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.Visible = false;
-            // 
-            // Izaberi
-            // 
-            this.Izaberi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Izaberi.HeaderText = "";
-            this.Izaberi.Name = "Izaberi";
-            this.Izaberi.Width = 5;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "Naziv";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Naziv";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // Cijena
-            // 
-            this.Cijena.DataPropertyName = "Cijena";
-            this.Cijena.HeaderText = "Cijena";
-            this.Cijena.Name = "Cijena";
-            // 
-            // Kolicina
-            // 
-            this.Kolicina.HeaderText = "Količina";
-            this.Kolicina.Name = "Kolicina";
-            this.Kolicina.ReadOnly = true;
             // 
             // btnOcisti
             // 
@@ -373,11 +285,99 @@ namespace Pelikula.WINUI.Forms.Prodaja
             this.btnOdaberiSjedista.UseVisualStyleBackColor = true;
             this.btnOdaberiSjedista.Click += new System.EventHandler(this.BtnOdaberiSjedista_Click);
             // 
+            // gbArtikli
+            // 
+            this.gbArtikli.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.gbArtikli.Controls.Add(this.txtCijenaArtikli);
+            this.gbArtikli.Controls.Add(this.label7);
+            this.gbArtikli.Controls.Add(this.dgvArtikli);
+            this.gbArtikli.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gbArtikli.Location = new System.Drawing.Point(497, 12);
+            this.gbArtikli.Name = "gbArtikli";
+            this.gbArtikli.Size = new System.Drawing.Size(455, 266);
+            this.gbArtikli.TabIndex = 84;
+            this.gbArtikli.TabStop = false;
+            this.gbArtikli.Text = "Artikli";
+            // 
+            // txtCijenaArtikli
+            // 
+            this.txtCijenaArtikli.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCijenaArtikli.Location = new System.Drawing.Point(374, 231);
+            this.txtCijenaArtikli.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCijenaArtikli.Name = "txtCijenaArtikli";
+            this.txtCijenaArtikli.ReadOnly = true;
+            this.txtCijenaArtikli.Size = new System.Drawing.Size(76, 20);
+            this.txtCijenaArtikli.TabIndex = 70;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label7.Location = new System.Drawing.Point(294, 234);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(76, 13);
+            this.label7.TabIndex = 69;
+            this.label7.Text = "Cijena (KM):";
+            // 
+            // dgvArtikli
+            // 
+            this.dgvArtikli.AllowUserToAddRows = false;
+            this.dgvArtikli.AllowUserToDeleteRows = false;
+            this.dgvArtikli.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvArtikli.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvArtikli.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Id,
+            this.Izaberi,
+            this.dataGridViewTextBoxColumn2,
+            this.Cijena,
+            this.Kolicina});
+            this.dgvArtikli.Location = new System.Drawing.Point(0, 20);
+            this.dgvArtikli.Name = "dgvArtikli";
+            this.dgvArtikli.Size = new System.Drawing.Size(455, 201);
+            this.dgvArtikli.TabIndex = 15;
+            this.dgvArtikli.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvArtikli_CellContentClick);
+            this.dgvArtikli.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvArtikli_CellValueChanged);
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.Visible = false;
+            // 
+            // Izaberi
+            // 
+            this.Izaberi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Izaberi.HeaderText = "";
+            this.Izaberi.Name = "Izaberi";
+            this.Izaberi.Width = 5;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Naziv";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Naziv";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // Cijena
+            // 
+            this.Cijena.DataPropertyName = "Cijena";
+            this.Cijena.HeaderText = "Cijena";
+            this.Cijena.Name = "Cijena";
+            // 
+            // Kolicina
+            // 
+            this.Kolicina.HeaderText = "Količina";
+            this.Kolicina.Name = "Kolicina";
+            this.Kolicina.ReadOnly = true;
+            // 
             // FrmProdajaDodajUredi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(964, 383);
+            this.Controls.Add(this.gbArtikli);
             this.Controls.Add(this.btnOdaberiSjedista);
             this.Controls.Add(this.gbRezervacija);
             this.Controls.Add(this.gbInformacije);
@@ -387,7 +387,6 @@ namespace Pelikula.WINUI.Forms.Prodaja
             this.Controls.Add(this.lblCijenaProjekcija);
             this.Controls.Add(this.txtCijenaUkupno);
             this.Controls.Add(this.label5);
-            this.Controls.Add(gbArtikli);
             this.Controls.Add(this.btnOcisti);
             this.Controls.Add(this.btnSpremi);
             this.MaximumSize = new System.Drawing.Size(980, 422);
@@ -395,14 +394,14 @@ namespace Pelikula.WINUI.Forms.Prodaja
             this.Name = "FrmProdajaDodajUredi";
             this.Text = "Dodaj korisnika";
             this.Load += new System.EventHandler(this.FrmProdajaDodajUredi_Load);
-            gbArtikli.ResumeLayout(false);
-            gbArtikli.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvArtikli)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.err)).EndInit();
             this.gbInformacije.ResumeLayout(false);
             this.gbInformacije.PerformLayout();
             this.gbRezervacija.ResumeLayout(false);
             this.gbRezervacija.PerformLayout();
+            this.gbArtikli.ResumeLayout(false);
+            this.gbArtikli.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvArtikli)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -414,8 +413,6 @@ namespace Pelikula.WINUI.Forms.Prodaja
         private System.Windows.Forms.ErrorProvider err;
         private System.Windows.Forms.TextBox txtCijenaUkupno;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtCijenaArtikli;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox gbInformacije;
         private System.Windows.Forms.GroupBox gbRezervacija;
         private System.Windows.Forms.ComboBox cbRezervacija;
@@ -433,11 +430,14 @@ namespace Pelikula.WINUI.Forms.Prodaja
         private System.Windows.Forms.TextBox txtCijenaProjekcija;
         private System.Windows.Forms.Label lblCijenaProjekcija;
         private System.Windows.Forms.Button btnOdaberiSjedista;
+        private System.Windows.Forms.TextBox txtCijenaArtikli;
+        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView dgvArtikli;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Izaberi;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cijena;
         private System.Windows.Forms.DataGridViewTextBoxColumn Kolicina;
+        private System.Windows.Forms.GroupBox gbArtikli;
     }
 }

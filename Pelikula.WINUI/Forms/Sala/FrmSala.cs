@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Sala
 {
@@ -34,18 +35,7 @@ namespace Pelikula.WINUI.Forms.Sala
             int? _selectedRowIndex = dgvSala.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-
-            if (!string.IsNullOrEmpty(txtNaziv.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "Naziv",
-                    FilterOption = FilterUtility.FilterOptions.contains.ToString(),
-                    FilterValue = txtNaziv.Text
-                };
-
-                filters.Add(filter);
-            }
+            FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
 
             CreateBrojSjedistaFilter(filters, txtMinMjesta, FilterUtility.FilterOptions.isgreaterthanorequalto);
             CreateBrojSjedistaFilter(filters, txtMaxMjesta, FilterUtility.FilterOptions.islessthanorequalto);
@@ -57,6 +47,7 @@ namespace Pelikula.WINUI.Forms.Sala
             dgvSala.DataSource = obj.Payload;
             dgvSala.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSala.Columns[0].Visible = false;
+
             if (string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
                 dgvSala.ClearSelection();
 
@@ -70,49 +61,14 @@ namespace Pelikula.WINUI.Forms.Sala
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvSala.FirstDisplayedScrollingRowIndex = dgvSala.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvSala.RowCount)
-            {
-                dgvSala.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvSala.RowCount > 0)
-            {
-                dgvSala.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvSala.CurrentCell = dgvSala.Rows[dgvSala.RowCount - 1].Cells[1];
-                dgvSala.Rows[dgvSala.RowCount - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvSala.RowCount)
-            {
-                dgvSala.CurrentCell = dgvSala.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvSala.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
-            {
-                dgvSala.CurrentCell = dgvSala.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvSala.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvSala, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
         private void CreateBrojSjedistaFilter(List<FilterUtility.FilterParams> filters, MaskedTextBox txt, FilterUtility.FilterOptions option)
         {
             if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "BrojSjedista",
-                    FilterOption = option.ToString(),
-                    FilterValue = int.Parse(txt.Text).ToString()
-                };
+                filters.Add(new FilterUtility.FilterParams("BrojSjedista", int.Parse(txt.Text).ToString(), option.ToString()));
 
-                filters.Add(filter);
-            }
         }
 
         private void EnableChildren()

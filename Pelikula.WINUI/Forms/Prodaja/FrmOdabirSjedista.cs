@@ -1,14 +1,6 @@
-﻿using Pelikula.API;
-using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
-using Pelikula.API.Model.Projekcija;
-using Pelikula.API.Model.Rezervacija;
-using Pelikula.CORE.Helper.Response;
-using Pelikula.WINUI.Forms.Korisnik;
-using Pelikula.WINUI.Forms.Projekcija;
+﻿using Pelikula.API.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;

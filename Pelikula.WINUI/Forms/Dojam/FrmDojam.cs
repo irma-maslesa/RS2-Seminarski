@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Dojam
 {
@@ -62,8 +63,8 @@ namespace Pelikula.WINUI.Forms.Dojam
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
-            CreateCbFilters(filters, cbProjekcija, "ProjekcijaId");
-            CreateCbFilters(filters, cbKorisnik, "KorisnikId");
+            FormHelper.CreateCbFilters(filters, cbProjekcija, "ProjekcijaId");
+            FormHelper.CreateCbFilters(filters, cbKorisnik, "KorisnikId");
 
             Cursor = Cursors.WaitCursor;
 
@@ -79,52 +80,8 @@ namespace Pelikula.WINUI.Forms.Dojam
 
             EnableChildren();
 
-            if (adding)
-            {
-                dgvDojmovi.FirstDisplayedScrollingRowIndex = dgvDojmovi.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvDojmovi.RowCount)
-            {
-                dgvDojmovi.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvDojmovi.RowCount > 0)
-            {
-                dgvDojmovi.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvDojmovi.CurrentCell = dgvDojmovi.Rows[dgvDojmovi.RowCount - 1].Cells[1];
-                dgvDojmovi.Rows[dgvDojmovi.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvDojmovi.RowCount)
-            {
-                dgvDojmovi.CurrentCell = dgvDojmovi.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvDojmovi.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvDojmovi.CurrentCell = dgvDojmovi.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvDojmovi.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvDojmovi, adding, _currentIndex, _selectedRowIndex, filters);
         }
-
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
-        }
-
 
         private void EnableChildren()
         {

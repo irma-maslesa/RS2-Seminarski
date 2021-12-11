@@ -60,22 +60,11 @@ namespace Pelikula.WINUI.Forms.Prodaja
             txtCijenaProjekcija.Text = 0.ToString("0.00");
             txtCijenaUkupno.Text = 0.ToString("0.00");
 
-            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-            var filter1 = new FilterUtility.FilterParams
+            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>
             {
-                ColumnName = "DatumProdano",
-                FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
-                FilterValue = null
+                new FilterUtility.FilterParams("DatumProdano", null, FilterUtility.FilterOptions.isequalto.ToString()),
+                new FilterUtility.FilterParams("DatumOtkazano", null, FilterUtility.FilterOptions.isequalto.ToString())
             };
-            filters.Add(filter1);
-
-            var filter2 = new FilterUtility.FilterParams
-            {
-                ColumnName = "DatumOtkazano",
-                FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
-                FilterValue = null
-            };
-            filters.Add(filter2);
 
             rezervacijaList = (await _rezervacijaService.GetSimple(null, filters, null)).Payload.OrderBy(o => o.Naziv).ToList();
             cbRezervacija.DataSource = rezervacijaList;
@@ -109,25 +98,6 @@ namespace Pelikula.WINUI.Forms.Prodaja
             dgvArtikli.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             Cursor = Cursors.Default;
 
-        }
-
-        private static void CreateFilter(List<FilterUtility.FilterParams> filters)
-        {
-            var filter1 = new FilterUtility.FilterParams
-            {
-                ColumnName = "VrijediOd",
-                FilterOption = FilterUtility.FilterOptions.islessthanorequalto.ToString(),
-                FilterValue = DateTime.Now.ToString()
-            };
-            filters.Add(filter1);
-
-            var filter2 = new FilterUtility.FilterParams
-            {
-                ColumnName = "VrijediDo",
-                FilterOption = FilterUtility.FilterOptions.isgreaterthanorequalto.ToString(),
-                FilterValue = DateTime.Now.ToString()
-            };
-            filters.Add(filter2);
         }
 
         private void SetValues()
@@ -166,6 +136,16 @@ namespace Pelikula.WINUI.Forms.Prodaja
             _request.KorisnikId = _prijavljeniKorisnik.Id;
             _request.ProdajaArtikal = GetArtikle();
 
+            if(tipProdaje == TipProdaje.PRODAJA_ARTIKLA && (_request.ProdajaArtikal == null || _request.ProdajaArtikal.Count == 0))
+            {
+                err.SetError(gbArtikli, "Obavezno polje!");
+                return;
+            }
+            else
+            {
+                err.SetError(gbArtikli, null);
+            }
+
             PayloadResponse<ProdajaResponse> response = await _service.Insert<PayloadResponse<ProdajaResponse>>(_request);
 
             if (response != null)
@@ -201,10 +181,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 }
             }
 
-            if (artikli.Count > 0)
-                return artikli;
-            else
-                return null;
+            return artikli;
         }
 
         private async Task KreirajRezervaciju()
@@ -268,7 +245,25 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 cbTermin.DataSource = terminList;
                 cbTermin.DisplayMember = "Naziv";
                 cbTermin.ValueMember = "Id";
-                cbTermin.SelectedItem = terminList.FirstOrDefault();
+
+                if (terminList.FirstOrDefault() == null)
+                {
+                    cbTermin.Enabled = false;
+                    cbKorisnik.Enabled = false;
+                    btnDodajKorisnika.Enabled = false;
+                    dgvArtikli.Enabled = false;
+                    btnSpremi.Enabled = false;
+
+                    MessageBox.Show("Nema dostupnih termina za odabranu projekciju!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else
+                {
+                    cbTermin.Enabled = true;
+                    dgvArtikli.Enabled = true;
+                    btnSpremi.Enabled = true;
+                }
+
 
                 if (_salaId != salaId)
                 {
@@ -383,7 +378,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
             txtCijenaUkupno.Text = (artikliCijena + projekcijaCijena).ToString("0.00");
         }
-        
+
         private void UpdateProjekcijaCijena(decimal? cijena)
         {
             if (cijena.HasValue)
@@ -433,6 +428,8 @@ namespace Pelikula.WINUI.Forms.Prodaja
             switch (data)
             {
                 case TipProdaje.SA_REZERVACIJOM:
+                    err.Clear();
+
                     gbRezervacija.Visible = true;
                     gbInformacije.Visible = false;
                     btnOdaberiSjedista.Visible = false;
@@ -445,6 +442,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
                         cbRezervacija.Enabled = false;
                         dgvArtikli.Enabled = false;
                         btnSpremi.Enabled = false;
+                        MessageBox.Show("Nema kreiranih rezervacija!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
@@ -455,21 +453,40 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
                     break;
                 case TipProdaje.SA_PROJEKCIJOM:
+                    err.Clear();
+
                     gbRezervacija.Visible = false;
                     gbInformacije.Visible = true;
                     btnOdaberiSjedista.Visible = true;
 
-                    var filters = new List<FilterUtility.FilterParams>();
-                    CreateFilter(filters);
+                    var filters = new List<FilterUtility.FilterParams>
+                    {
+                        new FilterUtility.FilterParams("VrijediOd", DateTime.Now.ToString(), FilterUtility.FilterOptions.islessthanorequalto.ToString()),
+                        new FilterUtility.FilterParams("VrijediDo", DateTime.Now.ToString(), FilterUtility.FilterOptions.isgreaterthanorequalto.ToString())
+                    };
 
                     projekcijaList = (await _projekcijaService.GetLoVs<PagedPayloadResponse<LoV>>(null, filters, null)).Payload.OrderBy(o => o.Naziv).ToList();
                     cbProjekcija.DataSource = projekcijaList;
                     cbProjekcija.DisplayMember = "Naziv";
                     cbProjekcija.ValueMember = "Id";
-                    cbProjekcija.SelectedItem = projekcijaList.First();
 
                     cbTermin.Enabled = false;
                     cbKorisnik.Enabled = false;
+
+                    if (projekcijaList.FirstOrDefault() == null)
+                    {
+                        cbProjekcija.Enabled = false;
+                        dgvArtikli.Enabled = false;
+                        btnSpremi.Enabled = false;
+
+                        MessageBox.Show("Nema dostupnih projekcija!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        cbProjekcija.Enabled = true;
+                        dgvArtikli.Enabled = true;
+                        btnSpremi.Enabled = true;
+                    }
 
                     txtCijenaProjekcija.Visible = true;
                     lblCijenaProjekcija.Visible = true;
@@ -478,6 +495,8 @@ namespace Pelikula.WINUI.Forms.Prodaja
                     btnSpremi.Enabled = true;
                     break;
                 case TipProdaje.PRODAJA_ARTIKLA:
+                    err.Clear();
+
                     gbRezervacija.Visible = false;
                     gbInformacije.Visible = false;
                     btnOdaberiSjedista.Visible = false;

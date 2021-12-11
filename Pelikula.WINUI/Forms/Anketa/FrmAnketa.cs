@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Anketa
 {
@@ -56,8 +57,8 @@ namespace Pelikula.WINUI.Forms.Anketa
             int? _selectedRowIndex = dgvAnkete.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-            CreateFilters(filters, txNaslov, "Naslov");
-            CreateCbFilters(filters, cbKorisnik, "KorisnikId");
+            FormHelper.CreateFilters(filters, txNaslov, "Naslov");
+            FormHelper.CreateCbFilters(filters, cbKorisnik, "KorisnikId");
             CreateCbAktivnoFilter(filters);
             Cursor = Cursors.WaitCursor;
 
@@ -66,6 +67,7 @@ namespace Pelikula.WINUI.Forms.Anketa
             dgvAnkete.DataSource = obj.Payload;
 
             dgvAnkete.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvAnkete.ClearSelection();
 
@@ -79,86 +81,21 @@ namespace Pelikula.WINUI.Forms.Anketa
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvAnkete.FirstDisplayedScrollingRowIndex = dgvAnkete.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvAnkete.RowCount)
-            {
-                dgvAnkete.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvAnkete.RowCount > 0)
-            {
-                dgvAnkete.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvAnkete.CurrentCell = dgvAnkete.Rows[dgvAnkete.RowCount - 1].Cells[1];
-                dgvAnkete.Rows[dgvAnkete.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvAnkete.RowCount)
-            {
-                dgvAnkete.CurrentCell = dgvAnkete.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvAnkete.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvAnkete.CurrentCell = dgvAnkete.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvAnkete.Rows[_selectedRowIndex.Value].Selected = true;
-            }
-        }
-
-        private void CreateFilters(List<FilterUtility.FilterParams> filters, TextBox txt, string columnName)
-        {
-            if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txt.Text
-                };
-
-                filters.Add(filter);
-            }
-        }
-
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
+            FormHelper.SelectAndShowDgvRow(dgvAnkete, adding, _currentIndex, _selectedRowIndex, filters);
+            DgvAnkete_SelectionChanged(null, null);
         }
 
         private void CreateCbAktivnoFilter(List<FilterUtility.FilterParams> filters)
         {
             var selectedItem = cbAktivno.SelectedItem?.ToString();
 
-            var filter = new FilterUtility.FilterParams();
-
             switch (selectedItem)
             {
                 case "Ne":
-                    filter.ColumnName = "ZakljucenoDatum";
-                    filter.FilterOption = FilterUtility.FilterOptions.isnotequalto.ToString();
-                    filter.FilterValue = null;
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("ZakljucenoDatum", null, FilterUtility.FilterOptions.isnotequalto.ToString()));
                     break;
                 case "Da":
-                    filter.ColumnName = "ZakljucenoDatum";
-                    filter.FilterOption = FilterUtility.FilterOptions.isequalto.ToString();
-                    filter.FilterValue = null;
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("ZakljucenoDatum", null, FilterUtility.FilterOptions.isequalto.ToString()));
                     break;
                 default:
                     break;

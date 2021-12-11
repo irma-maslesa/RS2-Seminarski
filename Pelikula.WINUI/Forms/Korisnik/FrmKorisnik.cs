@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Korisnik
 {
@@ -63,11 +64,11 @@ namespace Pelikula.WINUI.Forms.Korisnik
             int? _selectedRowIndex = dgvKorisnici.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-            CreateFilters(filters, txtIme, "Ime");
-            CreateFilters(filters, txtPrezime, "Prezime");
-            CreateFilters(filters, txtKorisnickoIme, "KorisnickoIme");
-            CreateFilters(filters, txtEmail, "Email");
-            CreateCbFilters(filters, cbTipKorisnika, "TipKorisnikaId");
+            FormHelper.CreateFilters(filters, txtIme, "Ime");
+            FormHelper.CreateFilters(filters, txtPrezime, "Prezime");
+            FormHelper.CreateFilters(filters, txtKorisnickoIme, "KorisnickoIme");
+            FormHelper.CreateFilters(filters, txtEmail, "Email");
+            FormHelper.CreateCbFilters(filters, cbTipKorisnika, "TipKorisnikaId");
 
             Cursor = Cursors.WaitCursor;
 
@@ -89,65 +90,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvKorisnici.FirstDisplayedScrollingRowIndex = dgvKorisnici.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvKorisnici.RowCount)
-            {
-                dgvKorisnici.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvKorisnici.RowCount > 0)
-            {
-                dgvKorisnici.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[dgvKorisnici.RowCount - 1].Cells[1];
-                dgvKorisnici.Rows[dgvKorisnici.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvKorisnici.RowCount)
-            {
-                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvKorisnici.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvKorisnici.CurrentCell = dgvKorisnici.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvKorisnici.Rows[_selectedRowIndex.Value].Selected = true;
-            }
-        }
-
-        private void CreateFilters(List<FilterUtility.FilterParams> filters, TextBox txt, string columnName)
-        {
-            if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txt.Text
-                };
-
-                filters.Add(filter);
-            }
-        }
-
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
+            FormHelper.SelectAndShowDgvRow(dgvKorisnici, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
         private void EnableChildren()

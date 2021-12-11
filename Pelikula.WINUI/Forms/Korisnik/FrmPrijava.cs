@@ -4,12 +4,7 @@ using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pelikula.WINUI.Forms.Korisnik
@@ -34,16 +29,10 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
             Cursor = Cursors.WaitCursor;
 
-            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-
-            FilterUtility.FilterParams filter = new FilterUtility.FilterParams
+            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>
             {
-                ColumnName = "KorisnickoIme",
-                FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
-                FilterValue = txtKorisnickoIme.Text
+                new FilterUtility.FilterParams("KorisnickoIme", txtKorisnickoIme.Text, FilterUtility.FilterOptions.isequalto.ToString())
             };
-
-            filters.Add(filter);
 
             PagedPayloadResponse<KorisnikResponse> obj = await _service.Get<PagedPayloadResponse<KorisnikResponse>>(null, filters, null);
 

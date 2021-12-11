@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Rezervacija
 {
@@ -65,9 +66,9 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
             if (cbTermin.Enabled)
-                CreateCbFilters(filters, cbTermin, "ProjekcijaTerminId");
+                FormHelper.CreateCbFilters(filters, cbTermin, "ProjekcijaTerminId");
 
-            CreateCbFilters(filters, cbKorisnik, "KorisnikId");
+            FormHelper.CreateCbFilters(filters, cbKorisnik, "KorisnikId");
             CreateCbStatusFilter(filters);
 
             Cursor = Cursors.WaitCursor;
@@ -91,53 +92,8 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 btnOtkazi.Enabled = false;
             }
 
-
-            if (adding)
-            {
-                dgvRezervacije.FirstDisplayedScrollingRowIndex = dgvRezervacije.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvRezervacije.RowCount)
-            {
-                dgvRezervacije.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvRezervacije.RowCount > 0)
-            {
-                dgvRezervacije.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[dgvRezervacije.RowCount - 1].Cells[1];
-                dgvRezervacije.Rows[dgvRezervacije.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvRezervacije.RowCount)
-            {
-                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvRezervacije.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvRezervacije.CurrentCell = dgvRezervacije.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvRezervacije.Rows[_selectedRowIndex.Value].Selected = true;
-            }
-
+            FormHelper.SelectAndShowDgvRow(dgvRezervacije, adding, _currentIndex, _selectedRowIndex, filters);
             DgvRezervacije_SelectionChanged(null, null);
-        }
-
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
         }
 
         private void CreateCbStatusFilter(List<FilterUtility.FilterParams> filters)
@@ -147,47 +103,18 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             switch (selectedItem)
             {
                 case "Na čekanju":
-                    var filter1 = new FilterUtility.FilterParams
-                    {
-                        ColumnName = "DatumProdano",
-                        FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
-                        FilterValue = null
-                    };
-                    filters.Add(filter1);
-
-                    var filter2 = new FilterUtility.FilterParams
-                    {
-                        ColumnName = "DatumOtkazano",
-                        FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
-                        FilterValue = null
-                    };
-                    filters.Add(filter2);
-
+                    filters.Add(new FilterUtility.FilterParams("DatumProdano", null, FilterUtility.FilterOptions.isequalto.ToString()));
+                    filters.Add(new FilterUtility.FilterParams("DatumOtkazano", null, FilterUtility.FilterOptions.isequalto.ToString()));
                     break;
                 case "Prodane":
-
-                    var filter3 = new FilterUtility.FilterParams
-                    {
-                        ColumnName = "DatumProdano",
-                        FilterOption = FilterUtility.FilterOptions.isnotequalto.ToString(),
-                        FilterValue = null
-                    };
-                    filters.Add(filter3);
+                    filters.Add(new FilterUtility.FilterParams("DatumProdano", null, FilterUtility.FilterOptions.isnotequalto.ToString()));
                     break;
                 case "Otkazane":
-
-                    var filter4 = new FilterUtility.FilterParams
-                    {
-                        ColumnName = "DatumOtkazano",
-                        FilterOption = FilterUtility.FilterOptions.isnotequalto.ToString(),
-                        FilterValue = null
-                    };
-                    filters.Add(filter4);
+                    filters.Add(new FilterUtility.FilterParams("DatumOtkazano", null, FilterUtility.FilterOptions.isnotequalto.ToString()));
                     break;
                 default:
                     break;
             }
-
         }
 
         private void EnableChildren()

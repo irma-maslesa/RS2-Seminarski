@@ -87,8 +87,6 @@ namespace Pelikula.WINUI.Forms.Anketa
         {
             if (ValidateChildren())
             {
-
-
                 if (_id.HasValue)
                 {
                     _updateRequest.Naslov = txtNaslov.Text;

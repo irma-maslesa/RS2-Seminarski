@@ -16,7 +16,7 @@ namespace Pelikula.WINUI.Forms.Obavijest
         private readonly int? _id;
 
         private ObavijestResponse _initial = new ObavijestResponse();
-        private ObavijestUpsertRequest _request = new ObavijestUpsertRequest();
+        private readonly ObavijestUpsertRequest _request = new ObavijestUpsertRequest();
 
         public FrmObavijestDodajUredi(int? id = null)
         {
@@ -102,7 +102,7 @@ namespace Pelikula.WINUI.Forms.Obavijest
         }
 
         //VALIDACIJA
-        private void txtNaslov_Validating(object sender, CancelEventArgs e)
+        private void TxtNaslov_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtNaslov.Text.Trim()))
             {
@@ -115,7 +115,7 @@ namespace Pelikula.WINUI.Forms.Obavijest
             }
         }
 
-        private void txtTekst_Validating(object sender, CancelEventArgs e)
+        private void TxtTekst_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrEmpty(txtTekst.Text.Trim()))
             {

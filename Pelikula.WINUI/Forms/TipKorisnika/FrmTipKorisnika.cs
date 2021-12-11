@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.TipKorisnika
 {
@@ -35,18 +36,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             int? _selectedRowIndex = dgvTipoviKorisnika.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-
-            if (!string.IsNullOrEmpty(txtNaziv.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "Naziv",
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txtNaziv.Text
-                };
-
-                filters.Add(filter);
-            }
+            FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
 
             Cursor = Cursors.WaitCursor;
 
@@ -55,6 +45,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             dgvTipoviKorisnika.DataSource = obj.Payload;
             dgvTipoviKorisnika.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvTipoviKorisnika.Columns[0].Visible = false;
+
             if (string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
                 dgvTipoviKorisnika.ClearSelection();
 
@@ -68,34 +59,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex = dgvTipoviKorisnika.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvTipoviKorisnika.RowCount)
-            {
-                dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvTipoviKorisnika.RowCount > 0)
-            {
-                dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvTipoviKorisnika.CurrentCell = dgvTipoviKorisnika.Rows[dgvTipoviKorisnika.RowCount - 1].Cells[1];
-                dgvTipoviKorisnika.Rows[dgvTipoviKorisnika.RowCount - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvTipoviKorisnika.RowCount)
-            {
-                dgvTipoviKorisnika.CurrentCell = dgvTipoviKorisnika.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvTipoviKorisnika.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
-            {
-                dgvTipoviKorisnika.CurrentCell = dgvTipoviKorisnika.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvTipoviKorisnika.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvTipoviKorisnika, adding, _currentIndex, _selectedRowIndex, filters);
         }
         private void EnableChildren()
         {

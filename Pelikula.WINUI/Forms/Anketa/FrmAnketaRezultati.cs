@@ -11,11 +11,11 @@ namespace Pelikula.WINUI.Forms.Anketa
 {
     public partial class FrmAnketaRezultati : Form
     {
-
         private readonly ApiService _service = new ApiService("Anketa");
 
+        private readonly int _id;
+
         private Chart pieChart;
-        private int _id;
         private AnketaResponse anketa;
 
         public FrmAnketaRezultati(int id)

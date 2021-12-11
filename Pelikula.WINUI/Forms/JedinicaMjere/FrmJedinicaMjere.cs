@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.JedinicaMjere
 {
@@ -34,18 +35,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
             int? _selectedRowIndex = dgvJediniceMjere.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-
-            if (!string.IsNullOrEmpty(txtNaziv.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "Naziv",
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txtNaziv.Text
-                };
-
-                filters.Add(filter);
-            }
+            FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
 
             Cursor = Cursors.WaitCursor;
 
@@ -67,34 +57,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvJediniceMjere.FirstDisplayedScrollingRowIndex = dgvJediniceMjere.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvJediniceMjere.RowCount)
-            {
-                dgvJediniceMjere.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvJediniceMjere.RowCount > 0)
-            {
-                dgvJediniceMjere.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[dgvJediniceMjere.RowCount - 1].Cells[1];
-                dgvJediniceMjere.Rows[dgvJediniceMjere.RowCount - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvJediniceMjere.RowCount)
-            {
-                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvJediniceMjere.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
-            {
-                dgvJediniceMjere.CurrentCell = dgvJediniceMjere.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvJediniceMjere.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvJediniceMjere, adding, _currentIndex, _selectedRowIndex, filters);
         }
         private void EnableChildren()
         {

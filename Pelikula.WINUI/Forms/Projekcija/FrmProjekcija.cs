@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Projekcija
 {
@@ -67,8 +68,8 @@ namespace Pelikula.WINUI.Forms.Projekcija
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
-            CreateCbFilters(filters, cbSala, "SalaId");
-            CreateCbFilters(filters, cbFilm, "FilmId");
+            FormHelper.CreateCbFilters(filters, cbSala, "SalaId");
+            FormHelper.CreateCbFilters(filters, cbFilm, "FilmId");
             CreateCbAktivnoFilter(filters);
 
             Cursor = Cursors.WaitCursor;
@@ -91,88 +92,29 @@ namespace Pelikula.WINUI.Forms.Projekcija
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvProjekcije.FirstDisplayedScrollingRowIndex = dgvProjekcije.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvProjekcije.RowCount)
-            {
-                dgvProjekcije.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvProjekcije.RowCount > 0)
-            {
-                dgvProjekcije.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvProjekcije.CurrentCell = dgvProjekcije.Rows[dgvProjekcije.RowCount - 1].Cells[1];
-                dgvProjekcije.Rows[dgvProjekcije.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvProjekcije.RowCount)
-            {
-                dgvProjekcije.CurrentCell = dgvProjekcije.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvProjekcije.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvProjekcije.CurrentCell = dgvProjekcije.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvProjekcije.Rows[_selectedRowIndex.Value].Selected = true;
-            }
-        }
-
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
+            FormHelper.SelectAndShowDgvRow(dgvProjekcije, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
         private void CreateCbAktivnoFilter(List<FilterUtility.FilterParams> filters)
         {
             var selectedItem = cbAktivno.SelectedItem?.ToString();
-
-            var filter = new FilterUtility.FilterParams();
             var datum = DateTime.Now;
 
             switch (selectedItem)
             {
                 case "Trenutne":
-                    filter.ColumnName = "VrijediOd";
-                    filter.FilterOption = FilterUtility.FilterOptions.islessthanorequalto.ToString();
-                    filter.FilterValue = datum.ToString();
-                    filters.Add(filter);
-
-                    filter.ColumnName = "VrijediDo";
-                    filter.FilterOption = FilterUtility.FilterOptions.isgreaterthanorequalto.ToString();
-                    filter.FilterValue = datum.ToString();
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("VrijediOd", datum.ToString(), FilterUtility.FilterOptions.islessthanorequalto.ToString()));
+                    filters.Add(new FilterUtility.FilterParams("VrijediDo", datum.ToString(), FilterUtility.FilterOptions.isgreaterthanorequalto.ToString()));
                     break;
                 case "Prethodne":
-                    filter.ColumnName = "VrijediDo";
-                    filter.FilterOption = FilterUtility.FilterOptions.islessthan.ToString();
-                    filter.FilterValue = datum.ToString();
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("VrijediDo", datum.ToString(), FilterUtility.FilterOptions.islessthan.ToString()));
                     break;
                 case "Najavljene":
-                    filter.ColumnName = "VrijediOd";
-                    filter.FilterOption = FilterUtility.FilterOptions.isgreaterthan.ToString();
-                    filter.FilterValue = datum.ToString();
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("VrijediOd", datum.ToString(), FilterUtility.FilterOptions.isgreaterthan.ToString()));
                     break;
                 default:
                     break;
             }
-
         }
 
         private void EnableChildren()

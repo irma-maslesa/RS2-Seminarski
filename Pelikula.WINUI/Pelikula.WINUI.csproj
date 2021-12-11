@@ -58,7 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormHelper.cs" />
+    <Compile Include="Helpers\FormHelper.cs" />
     <Compile Include="Forms\Anketa\FrmAnketa.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,14 +227,14 @@
     <Compile Include="Forms\JedinicaMjere\FrmJedinicaMjereDodajUredi.Designer.cs">
       <DependentUpon>FrmJedinicaMjereDodajUredi.cs</DependentUpon>
     </Compile>
-    <Compile Include="SaveImageHelper.cs" />
+    <Compile Include="Helpers\SaveImageHelper.cs" />
     <Compile Include="MdiFrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MdiFrmMain.Designer.cs">
       <DependentUpon>MdiFrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="SaveImageModel.cs" />
+    <Compile Include="Helpers\SaveImageModel.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

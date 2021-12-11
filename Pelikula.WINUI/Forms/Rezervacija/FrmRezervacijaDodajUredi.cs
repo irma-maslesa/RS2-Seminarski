@@ -51,8 +51,11 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
             Text = "Dodaj rezervaciju";
 
-            var filters = new List<FilterUtility.FilterParams>();
-            CreateFilter(filters);
+            var filters = new List<FilterUtility.FilterParams>
+            {
+                new FilterUtility.FilterParams("VrijediOd", DateTime.Now.ToString(), FilterUtility.FilterOptions.islessthanorequalto.ToString()),
+                new FilterUtility.FilterParams("VrijediDo", DateTime.Now.ToString(), FilterUtility.FilterOptions.isgreaterthanorequalto.ToString())
+            };
 
             projekcijaList = (await _projekcijaService.GetLoVs<PagedPayloadResponse<LoV>>(null, filters, null)).Payload.OrderBy(o => o.Naziv).ToList();
             cbProjekcija.DataSource = projekcijaList;
@@ -75,26 +78,6 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
                 SetValues();
             }
-        }
-
-        private static void CreateFilter(List<FilterUtility.FilterParams> filters)
-        {
-            var filter1 = new FilterUtility.FilterParams
-            {
-                ColumnName = "VrijediOd",
-                FilterOption = FilterUtility.FilterOptions.islessthanorequalto.ToString(),
-                FilterValue = DateTime.Now.ToString()
-            };
-            filters.Add(filter1);
-
-
-            var filter2 = new FilterUtility.FilterParams
-            {
-                ColumnName = "VrijediDo",
-                FilterOption = FilterUtility.FilterOptions.isgreaterthanorequalto.ToString(),
-                FilterValue = DateTime.Now.ToString()
-            };
-            filters.Add(filter2);
         }
 
         private void SetValues()
@@ -189,7 +172,6 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             if (cbTermin.SelectedItem == null)
                 cbTermin.SelectedItem = terminList.FirstOrDefault();
 
-
             if (_salaId != salaId)
             {
                 _salaId = salaId;
@@ -225,7 +207,6 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
             if (cbKorisnik.SelectedItem == null)
                 cbKorisnik.SelectedItem = korisnikList.FirstOrDefault();
-
         }
 
         private void BtnOdaberiSjedista_Click(object sender, EventArgs e)

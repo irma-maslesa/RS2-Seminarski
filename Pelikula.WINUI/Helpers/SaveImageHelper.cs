@@ -3,13 +3,13 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Pelikula.WINUI
+namespace Pelikula.WINUI.Helpers
 {
-    public class SaveImageHelper
+    public static class SaveImageHelper
     {
         public static SaveImageModel PrepareSaveImage(string imgPath)
         {
-            SaveImageModel saveImage = null;
+            SaveImageModel saveImage;
 
             try
             {
@@ -20,10 +20,11 @@ namespace Pelikula.WINUI
 
                 if (File.Exists(imgPath))
                 {
-                    saveImage = new SaveImageModel();
-
-                    saveImage.OriginalImageBytes = File.ReadAllBytes(imgPath);
-                    saveImage.OriginalImage = Image.FromFile(imgPath);
+                    saveImage = new SaveImageModel
+                    {
+                        OriginalImageBytes = File.ReadAllBytes(imgPath),
+                        OriginalImage = Image.FromFile(imgPath)
+                    };
 
                     if (saveImage.OriginalImage.Width > Properties.Settings.Default.ResizedImageWidth)
                     {

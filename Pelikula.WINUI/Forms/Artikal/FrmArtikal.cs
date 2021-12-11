@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Pelikula.WINUI.Helpers;
 
 namespace Pelikula.WINUI.Forms.Artikal
 {
@@ -51,9 +52,9 @@ namespace Pelikula.WINUI.Forms.Artikal
             int? _selectedRowIndex = dgvArtikli.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-            CreateFilters(filters, txNaziv, "Naziv");
-            CreateFilters(filters, txtSifra, "Sifra");
-            CreateCbFilters(filters, cbJedinicaMjere, "JedinicaMjereId");
+            FormHelper.CreateFilters(filters, txNaziv, "Naziv");
+            FormHelper.CreateFilters(filters, txtSifra, "Sifra");
+            FormHelper.CreateCbFilters(filters, cbJedinicaMjere, "JedinicaMjereId");
 
             Cursor = Cursors.WaitCursor;
 
@@ -62,7 +63,7 @@ namespace Pelikula.WINUI.Forms.Artikal
             dgvArtikli.DataSource = obj.Payload;
 
             dgvArtikli.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            //dgvArtikli.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvArtikli.ClearSelection();
 
@@ -76,65 +77,7 @@ namespace Pelikula.WINUI.Forms.Artikal
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvArtikli.FirstDisplayedScrollingRowIndex = dgvArtikli.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvArtikli.RowCount)
-            {
-                dgvArtikli.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvArtikli.RowCount > 0)
-            {
-                dgvArtikli.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvArtikli.CurrentCell = dgvArtikli.Rows[dgvArtikli.RowCount - 1].Cells[1];
-                dgvArtikli.Rows[dgvArtikli.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvArtikli.RowCount)
-            {
-                dgvArtikli.CurrentCell = dgvArtikli.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvArtikli.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvArtikli.CurrentCell = dgvArtikli.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvArtikli.Rows[_selectedRowIndex.Value].Selected = true;
-            }
-        }
-
-        private void CreateFilters(List<FilterUtility.FilterParams> filters, TextBox txt, string columnName)
-        {
-            if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txt.Text
-                };
-
-                filters.Add(filter);
-            }
-        }
-
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
+            FormHelper.SelectAndShowDgvRow(dgvArtikli, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
         private void EnableChildren()
