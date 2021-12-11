@@ -1,6 +1,7 @@
 ﻿using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.TipKorisnika;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,41 +13,26 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
     {
         private readonly ApiService _service = new ApiService("TipKorisnika");
 
-        public FrmTipKorisnika()
-        {
+        public FrmTipKorisnika() {
             InitializeComponent();
         }
 
-        private async void FrmTipKorisnika_Load(object sender, EventArgs e)
-        {
+        private async void FrmTipKorisnika_Load(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvTipoviKorisnika.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-
-            if (!string.IsNullOrEmpty(txtNaziv.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "Naziv",
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txtNaziv.Text
-                };
-
-                filters.Add(filter);
-            }
+            FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
 
             Cursor = Cursors.WaitCursor;
 
@@ -54,7 +40,8 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
 
             dgvTipoviKorisnika.DataSource = obj.Payload;
             dgvTipoviKorisnika.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvTipoviKorisnika.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTipoviKorisnika.Columns[0].Visible = false;
+
             if (string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
                 dgvTipoviKorisnika.ClearSelection();
 
@@ -62,43 +49,18 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
 
             EnableChildren();
 
-            if (dgvTipoviKorisnika.RowCount == 0)
-            {
+            if (dgvTipoviKorisnika.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            if (adding)
-            {
-                dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex = dgvTipoviKorisnika.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvTipoviKorisnika.RowCount)
-            {
-                dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvTipoviKorisnika.RowCount > 0)
-            {
-                dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex = 0;
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
-            if (adding)
-            {
-                dgvTipoviKorisnika.CurrentCell = dgvTipoviKorisnika.Rows[dgvTipoviKorisnika.RowCount - 1].Cells[0];
-                dgvTipoviKorisnika.Rows[dgvTipoviKorisnika.RowCount - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvTipoviKorisnika.RowCount)
-            {
-                dgvTipoviKorisnika.CurrentCell = dgvTipoviKorisnika.Rows[_selectedRowIndex.Value - 1].Cells[0];
-                dgvTipoviKorisnika.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
-            {
-                dgvTipoviKorisnika.CurrentCell = dgvTipoviKorisnika.Rows[_selectedRowIndex.Value].Cells[0];
-                dgvTipoviKorisnika.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvTipoviKorisnika, adding, _currentIndex, _selectedRowIndex, filters);
         }
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaziv.Enabled = true;
             btnPretrazi.Enabled = true;
             btnDodaj.Enabled = true;
@@ -107,8 +69,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             dgvTipoviKorisnika.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaziv.Enabled = false;
             btnPretrazi.Enabled = false;
             btnDodaj.Enabled = false;
@@ -117,30 +78,28 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             dgvTipoviKorisnika.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi();
-            frm.StartPosition = FormStartPosition.CenterParent;
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
             if (frm.ShowDialog() == DialogResult.OK)
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem).Id);
-            frm.StartPosition = FormStartPosition.CenterParent;
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem).Id) {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
             if (frm.ShowDialog() == DialogResult.OK)
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             TipKorisnikaResponse tipKorisnika = (TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati tip korisnika {tipKorisnika.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati tip korisnika {tipKorisnika.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(tipKorisnika.Id);
                 await GetGridData();
             }

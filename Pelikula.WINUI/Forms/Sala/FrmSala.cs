@@ -1,6 +1,7 @@
 ﻿using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Sala;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,40 +13,25 @@ namespace Pelikula.WINUI.Forms.Sala
     {
         private readonly ApiService _service = new ApiService("Sala");
 
-        public FrmSala()
-        {
+        public FrmSala() {
             InitializeComponent();
         }
-        private async void FrmSala_Load(object sender, EventArgs e)
-        {
+        private async void FrmSala_Load(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvSala.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvSala.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-
-            if (!string.IsNullOrEmpty(txtNaziv.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "Naziv",
-                    FilterOption = FilterUtility.FilterOptions.contains.ToString(),
-                    FilterValue = txtNaziv.Text
-                };
-
-                filters.Add(filter);
-            }
+            FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
 
             CreateBrojSjedistaFilter(filters, txtMinMjesta, FilterUtility.FilterOptions.isgreaterthanorequalto);
             CreateBrojSjedistaFilter(filters, txtMaxMjesta, FilterUtility.FilterOptions.islessthanorequalto);
@@ -56,7 +42,8 @@ namespace Pelikula.WINUI.Forms.Sala
 
             dgvSala.DataSource = obj.Payload;
             dgvSala.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvSala.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvSala.Columns[0].Visible = false;
+
             if (string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
                 dgvSala.ClearSelection();
 
@@ -64,59 +51,25 @@ namespace Pelikula.WINUI.Forms.Sala
 
             EnableChildren();
 
-            if (dgvSala.RowCount == 0)
-            {
+            if (dgvSala.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            if (adding)
-            {
-                dgvSala.FirstDisplayedScrollingRowIndex = dgvSala.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvSala.RowCount)
-            {
-                dgvSala.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvSala.RowCount > 0)
-            {
-                dgvSala.FirstDisplayedScrollingRowIndex = 0;
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
-            if (adding)
-            {
-                dgvSala.CurrentCell = dgvSala.Rows[dgvSala.RowCount - 1].Cells[0];
-                dgvSala.Rows[dgvSala.RowCount - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvSala.RowCount)
-            {
-                dgvSala.CurrentCell = dgvSala.Rows[_selectedRowIndex.Value - 1].Cells[0];
-                dgvSala.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
-            {
-                dgvSala.CurrentCell = dgvSala.Rows[_selectedRowIndex.Value].Cells[0];
-                dgvSala.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvSala, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
-        private void CreateBrojSjedistaFilter(List<FilterUtility.FilterParams> filters, MaskedTextBox txt, FilterUtility.FilterOptions option)
-        {
+        private void CreateBrojSjedistaFilter(List<FilterUtility.FilterParams> filters, MaskedTextBox txt, FilterUtility.FilterOptions option) {
             if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "BrojSjedista",
-                    FilterOption = option.ToString(),
-                    FilterValue = int.Parse(txt.Text).ToString()
-                };
+                filters.Add(new FilterUtility.FilterParams("BrojSjedista", int.Parse(txt.Text).ToString(), option.ToString()));
 
-                filters.Add(filter);
-            }
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaziv.Enabled = true;
             txtMinMjesta.Enabled = true;
             txtMaxMjesta.Enabled = true;
@@ -127,8 +80,7 @@ namespace Pelikula.WINUI.Forms.Sala
             dgvSala.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaziv.Enabled = false;
             txtMinMjesta.Enabled = false;
             txtMaxMjesta.Enabled = false;
@@ -139,10 +91,8 @@ namespace Pelikula.WINUI.Forms.Sala
             dgvSala.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmSalaDodajUredi frm = new FrmSalaDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmSalaDodajUredi frm = new FrmSalaDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -150,10 +100,8 @@ namespace Pelikula.WINUI.Forms.Sala
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmSalaDodajUredi frm = new FrmSalaDodajUredi(((SalaResponse)dgvSala.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmSalaDodajUredi frm = new FrmSalaDodajUredi(((SalaResponse)dgvSala.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -161,12 +109,10 @@ namespace Pelikula.WINUI.Forms.Sala
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             SalaResponse data = (SalaResponse)dgvSala.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati salu {data.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati salu {data.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
                 await GetGridData();
             }

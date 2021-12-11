@@ -18,23 +18,20 @@ namespace Pelikula.WINUI.Forms.Anketa
         private readonly AnketaInsertRequest _insertRequest = new AnketaInsertRequest();
         private readonly AnketaUpdateRequest _updateRequest = new AnketaUpdateRequest();
 
-        public FrmAnketaDodajUredi(int? id = null)
-        {
+        public FrmAnketaDodajUredi(int? id = null) {
             _id = id;
 
             InitializeComponent();
         }
 
-        private async void FrmAnketaDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmAnketaDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
 
             Text = "Dodaj anketu";
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 Text = "Uredi anketu";
 
                 PayloadResponse<AnketaResponse> response = await _service.GetById<PayloadResponse<AnketaResponse>>(_id.Value);
@@ -44,38 +41,31 @@ namespace Pelikula.WINUI.Forms.Anketa
             }
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             txtNaslov.Text = _initial.Naslov;
 
-            foreach (var odgovor in _initial.Odgovori)
-            {
-                if (odgovor.RedniBroj == 1)
-                {
+            foreach (var odgovor in _initial.Odgovori) {
+                if (odgovor.RedniBroj == 1) {
                     cbOdgovor1.Checked = true;
                     cbOdgovor1.Enabled = false;
                     txtOdgovor1.Text = odgovor.Odgovor;
                 }
-                if (odgovor.RedniBroj == 2)
-                {
+                if (odgovor.RedniBroj == 2) {
                     cbOdgovor2.Checked = true;
                     cbOdgovor2.Enabled = false;
                     txtOdgovor2.Text = odgovor.Odgovor;
                 }
-                if (odgovor.RedniBroj == 3)
-                {
+                if (odgovor.RedniBroj == 3) {
                     cbOdgovor3.Checked = true;
                     cbOdgovor3.Enabled = false;
                     txtOdgovor3.Text = odgovor.Odgovor;
                 }
-                if (odgovor.RedniBroj == 4)
-                {
+                if (odgovor.RedniBroj == 4) {
                     cbOdgovor4.Checked = true;
                     cbOdgovor4.Enabled = false;
                     txtOdgovor4.Text = odgovor.Odgovor;
                 }
-                if (odgovor.RedniBroj == 5)
-                {
+                if (odgovor.RedniBroj == 5) {
                     cbOdgovor5.Checked = true;
                     cbOdgovor5.Enabled = false;
                     txtOdgovor5.Text = odgovor.Odgovor;
@@ -83,24 +73,17 @@ namespace Pelikula.WINUI.Forms.Anketa
             }
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren())
-            {
-
-
-                if (_id.HasValue)
-                {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
+            if (ValidateChildren()) {
+                if (_id.HasValue) {
                     _updateRequest.Naslov = txtNaslov.Text;
                     _updateRequest.Datum = DateTime.Now;
                     _updateRequest.KorisnikId = _initial.Korisnik.Id;
 
                     _updateRequest.Odgovori = new List<AnketaOdgovorUpdateRequest>();
 
-                    foreach (var odgovor in _initial.Odgovori)
-                    {
-                        var updateOdg = new AnketaOdgovorUpdateRequest
-                        {
+                    foreach (var odgovor in _initial.Odgovori) {
+                        var updateOdg = new AnketaOdgovorUpdateRequest {
                             AnketaId = _id.Value,
                             Id = odgovor.Id,
                             Odgovor = odgovor.Odgovor,
@@ -110,70 +93,54 @@ namespace Pelikula.WINUI.Forms.Anketa
                         _updateRequest.Odgovori.Add(updateOdg);
                     }
 
-                    if (cbOdgovor1.Checked)
-                    {
+                    if (cbOdgovor1.Checked) {
                         var odgovor1 = _updateRequest.Odgovori.FirstOrDefault(x => x.RedniBroj == 1);
-                        if (odgovor1 != null)
-                        {
+                        if (odgovor1 != null) {
                             odgovor1.Odgovor = txtOdgovor1.Text;
                         }
-                        else
-                        {
+                        else {
                             _updateRequest.Odgovori.Add(new AnketaOdgovorUpdateRequest { AnketaId = _id.Value, Odgovor = txtOdgovor1.Text, RedniBroj = 1 });
                         }
                     }
-                    if (cbOdgovor2.Checked)
-                    {
+                    if (cbOdgovor2.Checked) {
                         var odgovor2 = _updateRequest.Odgovori.FirstOrDefault(x => x.RedniBroj == 2);
-                        if (odgovor2 != null)
-                        {
+                        if (odgovor2 != null) {
                             odgovor2.Odgovor = txtOdgovor2.Text;
                         }
-                        else
-                        {
+                        else {
                             _updateRequest.Odgovori.Add(new AnketaOdgovorUpdateRequest { AnketaId = _id.Value, Odgovor = txtOdgovor2.Text, RedniBroj = 2 });
                         }
                     }
-                    if (cbOdgovor3.Checked)
-                    {
+                    if (cbOdgovor3.Checked) {
                         var odgovor3 = _updateRequest.Odgovori.FirstOrDefault(x => x.RedniBroj == 3);
-                        if (odgovor3 != null)
-                        {
+                        if (odgovor3 != null) {
                             odgovor3.Odgovor = txtOdgovor3.Text;
                         }
-                        else
-                        {
+                        else {
                             _updateRequest.Odgovori.Add(new AnketaOdgovorUpdateRequest { AnketaId = _id.Value, Odgovor = txtOdgovor3.Text, RedniBroj = 3 });
                         }
                     }
-                    if (cbOdgovor4.Checked)
-                    {
+                    if (cbOdgovor4.Checked) {
                         var odgovor4 = _updateRequest.Odgovori.FirstOrDefault(x => x.RedniBroj == 4);
-                        if (odgovor4 != null)
-                        {
+                        if (odgovor4 != null) {
                             odgovor4.Odgovor = txtOdgovor4.Text;
                         }
-                        else
-                        {
+                        else {
                             _updateRequest.Odgovori.Add(new AnketaOdgovorUpdateRequest { AnketaId = _id.Value, Odgovor = txtOdgovor4.Text, RedniBroj = 4 });
                         }
                     }
-                    if (cbOdgovor5.Checked)
-                    {
+                    if (cbOdgovor5.Checked) {
                         var odgovor5 = _updateRequest.Odgovori.FirstOrDefault(x => x.RedniBroj == 5);
-                        if (odgovor5 != null)
-                        {
+                        if (odgovor5 != null) {
                             odgovor5.Odgovor = txtOdgovor5.Text;
                         }
-                        else
-                        {
+                        else {
                             _updateRequest.Odgovori.Add(new AnketaOdgovorUpdateRequest { AnketaId = _id.Value, Odgovor = txtOdgovor4.Text, RedniBroj = 5 });
                         }
                     }
 
                     var response = await _service.Update<PayloadResponse<AnketaResponse>>(_id.Value, _updateRequest);
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Anketa {txtNaslov.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
@@ -181,31 +148,25 @@ namespace Pelikula.WINUI.Forms.Anketa
                         Close();
                     }
                 }
-                else
-                {
+                else {
                     _insertRequest.Naslov = txtNaslov.Text;
                     _insertRequest.Datum = DateTime.Now;
                     _insertRequest.KorisnikId = Properties.Settings.Default.PrijavljeniKorisnik.Id;
 
                     var odgovori = new List<AnketaOdgovorInsertRequest>();
-                    if (cbOdgovor1.Checked)
-                    {
+                    if (cbOdgovor1.Checked) {
                         odgovori.Add(new AnketaOdgovorInsertRequest { Odgovor = txtOdgovor1.Text, RedniBroj = 1 });
                     }
-                    if (cbOdgovor2.Checked)
-                    {
+                    if (cbOdgovor2.Checked) {
                         odgovori.Add(new AnketaOdgovorInsertRequest { Odgovor = txtOdgovor2.Text, RedniBroj = 2 });
                     }
-                    if (cbOdgovor3.Checked)
-                    {
+                    if (cbOdgovor3.Checked) {
                         odgovori.Add(new AnketaOdgovorInsertRequest { Odgovor = txtOdgovor3.Text, RedniBroj = 3 });
                     }
-                    if (cbOdgovor4.Checked)
-                    {
+                    if (cbOdgovor4.Checked) {
                         odgovori.Add(new AnketaOdgovorInsertRequest { Odgovor = txtOdgovor4.Text, RedniBroj = 4 });
                     }
-                    if (cbOdgovor5.Checked)
-                    {
+                    if (cbOdgovor5.Checked) {
                         odgovori.Add(new AnketaOdgovorInsertRequest { Odgovor = txtOdgovor5.Text, RedniBroj = 5 });
                     }
 
@@ -213,8 +174,7 @@ namespace Pelikula.WINUI.Forms.Anketa
 
                     PayloadResponse<AnketaResponse> response = await _service.Insert<PayloadResponse<AnketaResponse>>(_insertRequest);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Anketa {response.Payload.Naslov} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
@@ -224,85 +184,66 @@ namespace Pelikula.WINUI.Forms.Anketa
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
         }
 
         //VALIDACIJA
-        private void TxtNaslov_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtNaslov.Text.Trim()))
-            {
+        private void TxtNaslov_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtNaslov.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtNaslov, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtNaslov, null);
             }
         }
 
-        private void CbOdgovor1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbOdgovor1.Checked)
-            {
+        private void CbOdgovor1_CheckedChanged(object sender, EventArgs e) {
+            if (cbOdgovor1.Checked) {
                 txtOdgovor1.ReadOnly = false;
             }
-            else
-            {
+            else {
                 txtOdgovor1.Text = string.Empty;
                 txtOdgovor1.ReadOnly = true;
             }
         }
 
-        private void CbOdgovor2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbOdgovor2.Checked)
-            {
+        private void CbOdgovor2_CheckedChanged(object sender, EventArgs e) {
+            if (cbOdgovor2.Checked) {
                 txtOdgovor2.ReadOnly = false;
             }
-            else
-            {
+            else {
                 txtOdgovor2.Text = string.Empty;
                 txtOdgovor2.ReadOnly = true;
             }
         }
 
-        private void CbOdgovor3_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbOdgovor3.Checked)
-            {
+        private void CbOdgovor3_CheckedChanged(object sender, EventArgs e) {
+            if (cbOdgovor3.Checked) {
                 txtOdgovor3.ReadOnly = false;
             }
-            else
-            {
+            else {
                 txtOdgovor3.Text = string.Empty;
                 txtOdgovor3.ReadOnly = true;
             }
         }
 
-        private void CbOdgovor4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbOdgovor4.Checked)
-            {
+        private void CbOdgovor4_CheckedChanged(object sender, EventArgs e) {
+            if (cbOdgovor4.Checked) {
                 txtOdgovor4.ReadOnly = false;
             }
-            else
-            {
+            else {
                 txtOdgovor4.Text = string.Empty;
                 txtOdgovor4.ReadOnly = true;
             }
         }
 
-        private void CbOdgovor5_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbOdgovor5.Checked)
-            {
+        private void CbOdgovor5_CheckedChanged(object sender, EventArgs e) {
+            if (cbOdgovor5.Checked) {
                 txtOdgovor5.ReadOnly = false;
             }
-            else
-            {
+            else {
                 txtOdgovor5.Text = string.Empty;
                 txtOdgovor5.ReadOnly = true;
             }

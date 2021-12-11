@@ -1,5 +1,4 @@
-﻿using Pelikula.API.Model.Korisnik;
-using System;
+﻿using System;
 
 namespace Pelikula.API.Model.Obavijest
 {

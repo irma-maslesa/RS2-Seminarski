@@ -24,60 +24,48 @@ namespace Pelikula.API.Model.Helper
 
         public static class Sorting<T>
         {
-            public static IEnumerable<T> GroupingData(IEnumerable<T> data, IEnumerable<string> groupingColumns)
-            {
+            public static IEnumerable<T> GroupingData(IEnumerable<T> data, IEnumerable<string> groupingColumns) {
                 IOrderedEnumerable<T> groupedData = null;
 
-                foreach (string grpCol in groupingColumns.Where(x => !String.IsNullOrEmpty(x)))
-                {
+                foreach (string grpCol in groupingColumns.Where(x => !String.IsNullOrEmpty(x))) {
                     var colName = typeof(T).GetProperty(grpCol, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
-                    if (colName != null)
-                    {
+                    if (colName != null) {
                         groupedData = groupedData == null ? data.OrderBy(x => colName.GetValue(x, null))
                                                         : groupedData.ThenBy(x => colName.GetValue(x, null));
                     }
-                    else
-                    {
+                    else {
                         throw new UserException($"Atribut {colName} ne postoji!", HttpStatusCode.BadRequest);
                     }
                 }
 
                 return groupedData ?? data;
             }
-            public static IEnumerable<T> SortData(IEnumerable<SortingParams> sortingParams, IEnumerable<T> data)
-            {
+            public static IEnumerable<T> SortData(IEnumerable<SortingParams> sortingParams, IEnumerable<T> data) {
                 ValidateSortingParams(sortingParams);
                 IOrderedEnumerable<T> sortedData = null;
-                foreach (var sortingParam in sortingParams.Where(x => !String.IsNullOrEmpty(x.ColumnName)))
-                {
+                foreach (var sortingParam in sortingParams.Where(x => !String.IsNullOrEmpty(x.ColumnName))) {
                     SortOrders sortOrder;
-                    try
-                    {
+                    try {
                         sortOrder = (SortOrders)Enum.Parse(typeof(SortOrders), sortingParam.SortOrder.ToUpper());
                     }
-                    catch (Exception)
-                    {
+                    catch (Exception) {
                         throw new UserException($"Redoslijed {sortingParam.SortOrder} nije moguć!", HttpStatusCode.BadRequest);
                     }
 
                     var colName = typeof(T).GetProperty(sortingParam.ColumnName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
-                    if (colName != null)
-                    {
-                        if (sortedData == null)
-                        {
+                    if (colName != null) {
+                        if (sortedData == null) {
                             sortedData = sortOrder == SortOrders.ASC
                                 ? data.OrderBy(x => colName.GetValue(x, null))
                                 : data.OrderByDescending(x => colName.GetValue(x, null));
                         }
-                        else
-                        {
+                        else {
                             sortedData = sortOrder == SortOrders.ASC
                                 ? sortedData.ThenBy(x => colName.GetValue(x, null))
                                 : sortedData.ThenByDescending(x => colName.GetValue(x, null));
                         }
                     }
-                    else
-                    {
+                    else {
                         throw new UserException($"Atribut {colName} ne postoji!", HttpStatusCode.BadRequest);
                     }
                 }
@@ -85,21 +73,17 @@ namespace Pelikula.API.Model.Helper
             }
         }
 
-        private static void ValidateSortingParams(IEnumerable<SortingParams> sortingParams)
-        {
+        private static void ValidateSortingParams(IEnumerable<SortingParams> sortingParams) {
             StringBuilder stringBuilder = new StringBuilder();
 
-            foreach (var sortingParam in sortingParams)
-            {
+            foreach (var sortingParam in sortingParams) {
                 if (sortingParam.ColumnName.Equals(string.Empty) ||
-                    sortingParam.SortOrder.Equals(string.Empty))
-                {
+                    sortingParam.SortOrder.Equals(string.Empty)) {
                     stringBuilder.Append($"Fillter ({sortingParam.ColumnName} - {sortingParam.SortOrder}) nije ispravan! ");
                 }
             }
 
-            if (stringBuilder.ToString().Any())
-            {
+            if (stringBuilder.ToString().Any()) {
                 throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
 
             }

@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\FormHelper.cs" />
     <Compile Include="Forms\Anketa\FrmAnketa.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +106,24 @@
     </Compile>
     <Compile Include="Forms\Film\FrmFilmDodajUredi.Designer.cs">
       <DependentUpon>FrmFilmDodajUredi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Prodaja\FrmProdaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Prodaja\FrmProdaja.Designer.cs">
+      <DependentUpon>FrmProdaja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Prodaja\FrmProdajaDodajUredi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Prodaja\FrmProdajaDodajUredi.Designer.cs">
+      <DependentUpon>FrmProdajaDodajUredi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Prodaja\FrmOdabirSjedista.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Prodaja\FrmOdabirSjedista.Designer.cs">
+      <DependentUpon>FrmOdabirSjedista.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Projekcija\FrmProjekcijaDodajUredi.cs">
       <SubType>Form</SubType>
@@ -208,14 +227,14 @@
     <Compile Include="Forms\JedinicaMjere\FrmJedinicaMjereDodajUredi.Designer.cs">
       <DependentUpon>FrmJedinicaMjereDodajUredi.cs</DependentUpon>
     </Compile>
-    <Compile Include="SaveImageHelper.cs" />
+    <Compile Include="Helpers\SaveImageHelper.cs" />
     <Compile Include="MdiFrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MdiFrmMain.Designer.cs">
       <DependentUpon>MdiFrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="SaveImageModel.cs" />
+    <Compile Include="Helpers\SaveImageModel.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -254,6 +273,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Film\FrmFilmDodajUredi.resx">
       <DependentUpon>FrmFilmDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Prodaja\FrmProdaja.resx">
+      <DependentUpon>FrmProdaja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Prodaja\FrmProdajaDodajUredi.resx">
+      <DependentUpon>FrmProdajaDodajUredi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Prodaja\FrmOdabirSjedista.resx">
+      <DependentUpon>FrmOdabirSjedista.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Projekcija\FrmProjekcijaDodajUredi.resx">
       <DependentUpon>FrmProjekcijaDodajUredi.cs</DependentUpon>

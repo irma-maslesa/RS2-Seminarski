@@ -32,11 +32,6 @@ namespace Pelikula.WINUI.Forms.Obavijest
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvObavijesti = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Naziv = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sifra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Datum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.JedinicaMjere = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txNaslov = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnObrisi = new System.Windows.Forms.Button();
@@ -47,6 +42,11 @@ namespace Pelikula.WINUI.Forms.Obavijest
             this.btnPretrazi = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cbKorisnik = new System.Windows.Forms.ComboBox();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Naziv = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sifra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Datum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JedinicaMjere = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvObavijesti)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -84,44 +84,6 @@ namespace Pelikula.WINUI.Forms.Obavijest
             this.dgvObavijesti.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvObavijesti.Size = new System.Drawing.Size(1174, 499);
             this.dgvObavijesti.TabIndex = 0;
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            // 
-            // Naziv
-            // 
-            this.Naziv.DataPropertyName = "Naslov";
-            this.Naziv.HeaderText = "Naslov";
-            this.Naziv.Name = "Naziv";
-            this.Naziv.ReadOnly = true;
-            // 
-            // Sifra
-            // 
-            this.Sifra.DataPropertyName = "Tekst";
-            this.Sifra.HeaderText = "Teskt";
-            this.Sifra.Name = "Sifra";
-            this.Sifra.ReadOnly = true;
-            // 
-            // Datum
-            // 
-            this.Datum.DataPropertyName = "Datum";
-            dataGridViewCellStyle1.Format = "g";
-            dataGridViewCellStyle1.NullValue = null;
-            this.Datum.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Datum.HeaderText = "Datum";
-            this.Datum.Name = "Datum";
-            this.Datum.ReadOnly = true;
-            // 
-            // JedinicaMjere
-            // 
-            this.JedinicaMjere.DataPropertyName = "Korisnik";
-            this.JedinicaMjere.HeaderText = "Objavio";
-            this.JedinicaMjere.Name = "JedinicaMjere";
-            this.JedinicaMjere.ReadOnly = true;
             // 
             // txNaslov
             // 
@@ -224,6 +186,45 @@ namespace Pelikula.WINUI.Forms.Obavijest
             this.cbKorisnik.Size = new System.Drawing.Size(175, 21);
             this.cbKorisnik.TabIndex = 0;
             this.cbKorisnik.SelectedValueChanged += new System.EventHandler(this.CbKorisnik_SelectedValueChanged);
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            // 
+            // Naziv
+            // 
+            this.Naziv.DataPropertyName = "Naslov";
+            this.Naziv.HeaderText = "Naslov";
+            this.Naziv.Name = "Naziv";
+            this.Naziv.ReadOnly = true;
+            // 
+            // Sifra
+            // 
+            this.Sifra.DataPropertyName = "Tekst";
+            this.Sifra.HeaderText = "Teskt";
+            this.Sifra.Name = "Sifra";
+            this.Sifra.ReadOnly = true;
+            // 
+            // Datum
+            // 
+            this.Datum.DataPropertyName = "Datum";
+            dataGridViewCellStyle1.Format = "g";
+            dataGridViewCellStyle1.NullValue = null;
+            this.Datum.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Datum.HeaderText = "Datum";
+            this.Datum.Name = "Datum";
+            this.Datum.ReadOnly = true;
+            // 
+            // JedinicaMjere
+            // 
+            this.JedinicaMjere.DataPropertyName = "Korisnik";
+            this.JedinicaMjere.HeaderText = "Objavio";
+            this.JedinicaMjere.Name = "JedinicaMjere";
+            this.JedinicaMjere.ReadOnly = true;
             // 
             // FrmObavijest
             // 

@@ -5,20 +5,17 @@ using System.Net;
 
 namespace Pelikula.CORE.Filter
 {
-    public class ExceptionFilterAttribute: Microsoft.AspNetCore.Mvc.Filters.ExceptionFilterAttribute
+    public class ExceptionFilterAttribute : Microsoft.AspNetCore.Mvc.Filters.ExceptionFilterAttribute
     {
-        public override void OnException(ExceptionContext context)
-        {
-            if (context.Exception is UserException exception)
-            {
+        public override void OnException(ExceptionContext context) {
+            if (context.Exception is UserException exception) {
                 context.ModelState.AddModelError("message", exception.Message);
                 context.ModelState.AddModelError("responseCode", ((int)exception.StatusCode).ToString());
                 context.ModelState.AddModelError("responseDetail", exception.StatusCode.ToString());
 
                 context.HttpContext.Response.StatusCode = (int)exception.StatusCode;
             }
-            else
-            {
+            else {
                 context.ModelState.AddModelError("message", "Server error!");
                 context.ModelState.AddModelError("responseCode", ((int)HttpStatusCode.InternalServerError).ToString());
                 context.ModelState.AddModelError("responseDetail", HttpStatusCode.InternalServerError.ToString());

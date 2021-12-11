@@ -1,13 +1,6 @@
 ﻿using Pelikula.API.Model.TipKorisnika;
 using Pelikula.CORE.Helper.Response;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pelikula.WINUI.Forms.TipKorisnika
@@ -18,23 +11,20 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
         private readonly int? _id;
         private TipKorisnikaResponse _initial = new TipKorisnikaResponse();
 
-        public FrmTipKorisnikaDodajUredi(int? id = null)
-        {
+        public FrmTipKorisnikaDodajUredi(int? id = null) {
             _id = id;
 
             InitializeComponent();
         }
 
-        private async void FrmTipKorisnikaDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmTipKorisnikaDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
 
             Text = "Dodaj tip korisnika";
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 DisableChildren();
 
                 Text = "Uredi tip korisnika";
@@ -48,53 +38,44 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             }
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaziv.Enabled = true;
             btnOcisti.Enabled = true;
             btnSpremi.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaziv.Enabled = false;
             btnOcisti.Enabled = false;
             btnSpremi.Enabled = false;
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             txtNaziv.Text = _initial.Naziv;
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtNaziv.Text))
-            {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
+            if (string.IsNullOrWhiteSpace(txtNaziv.Text)) {
                 errNaziv.SetError(txtNaziv, "Obavezno polje!");
                 return;
             }
 
             TipKorisnikaUpsertRequest request = new TipKorisnikaUpsertRequest() { Naziv = txtNaziv.Text };
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 var response = await _service.Update<PayloadResponse<TipKorisnikaResponse>>(_id.Value, request);
 
-                if (response != null)
-                {
+                if (response != null) {
                     MessageBox.Show($"Tip korisnika {txtNaziv.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     DialogResult = DialogResult.OK;
                     Close();
                 }
             }
-            else
-            {
+            else {
                 PayloadResponse<TipKorisnikaResponse> response = await _service.Insert<PayloadResponse<TipKorisnikaResponse>>(request);
 
-                if (response != null)
-                {
+                if (response != null) {
                     MessageBox.Show($"Tip korisnika {response.Payload.Naziv} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     DialogResult = DialogResult.OK;
@@ -103,8 +84,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
         }
     }

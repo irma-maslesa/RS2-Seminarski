@@ -1,6 +1,7 @@
-﻿using Pelikula.API.Model.Helper;
-using Pelikula.API.Model.FilmskaLicnost;
+﻿using Pelikula.API.Model.FilmskaLicnost;
+using Pelikula.API.Model.Helper;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,13 +14,11 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
         private readonly ApiService _service = new ApiService("FilmskaLicnost");
 
 
-        public FrmFilmskaLicnost()
-        {
+        public FrmFilmskaLicnost() {
             InitializeComponent();
         }
 
-        private async void FrmFilmskaLicnost_Load(object sender, EventArgs e)
-        {
+        private async void FrmFilmskaLicnost_Load(object sender, EventArgs e) {
             DisableChildren();
 
             cbVrsta.Items.AddRange(new object[] { "Svi", "Glumac", "Režiser" });
@@ -30,21 +29,19 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvFilmskeLicnosti.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvFilmskeLicnosti.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-            CreateFilters(filters, txtIme, "Ime");
-            CreateFilters(filters, txtPrezime, "Prezime");
+            FormHelper.CreateFilters(filters, txtIme, "Ime");
+            FormHelper.CreateFilters(filters, txtPrezime, "Prezime");
             CreateCbVrstaFilter(filters);
             Cursor = Cursors.WaitCursor;
 
@@ -53,7 +50,7 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             dgvFilmskeLicnosti.DataSource = obj.Payload;
 
             dgvFilmskeLicnosti.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvFilmskeLicnosti.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvFilmskeLicnosti.Columns[0].Visible = false;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvFilmskeLicnosti.ClearSelection();
 
@@ -61,76 +58,27 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
 
             EnableChildren();
 
-            if (dgvFilmskeLicnosti.RowCount == 0)
-            {
+            if (dgvFilmskeLicnosti.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            if (adding)
-            {
-                dgvFilmskeLicnosti.FirstDisplayedScrollingRowIndex = dgvFilmskeLicnosti.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvFilmskeLicnosti.RowCount)
-            {
-                dgvFilmskeLicnosti.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvFilmskeLicnosti.RowCount > 0)
-            {
-                dgvFilmskeLicnosti.FirstDisplayedScrollingRowIndex = 0;
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
-            if (adding)
-            {
-                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[dgvFilmskeLicnosti.RowCount - 1].Cells[0];
-                dgvFilmskeLicnosti.Rows[dgvFilmskeLicnosti.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvFilmskeLicnosti.RowCount)
-            {
-                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value - 1].Cells[0];
-                dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvFilmskeLicnosti.CurrentCell = dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value].Cells[0];
-                dgvFilmskeLicnosti.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvFilmskeLicnosti, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
-        private void CreateFilters(List<FilterUtility.FilterParams> filters, TextBox txt, string columnName)
-        {
-            if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txt.Text
-                };
-
-                filters.Add(filter);
-            }
-        }
-
-        private void CreateCbVrstaFilter(List<FilterUtility.FilterParams> filters)
-        {
+        private void CreateCbVrstaFilter(List<FilterUtility.FilterParams> filters) {
             var selectedItem = cbVrsta.SelectedItem?.ToString();
 
-            var filter = new FilterUtility.FilterParams();
-
-            switch (selectedItem)
-            {
+            switch (selectedItem) {
                 case "Glumac":
-                    filter.ColumnName = "IsGlumac";
-                    filter.FilterOption = FilterUtility.FilterOptions.isequalto.ToString();
-                    filter.FilterValue = true.ToString();
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("IsGlumac", true.ToString(), FilterUtility.FilterOptions.isequalto.ToString()));
                     break;
                 case "Režiser":
-                    filter.ColumnName = "IsReziser";
-                    filter.FilterOption = FilterUtility.FilterOptions.isequalto.ToString();
-                    filter.FilterValue = true.ToString();
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("IsReziser", true.ToString(), FilterUtility.FilterOptions.isequalto.ToString()));
                     break;
                 default:
                     break;
@@ -138,8 +86,7 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
 
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtIme.Enabled = true;
             txtPrezime.Enabled = true;
 
@@ -153,8 +100,7 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             dgvFilmskeLicnosti.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtIme.Enabled = false;
             txtPrezime.Enabled = false;
 
@@ -168,10 +114,8 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             dgvFilmskeLicnosti.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmFilmskaLicnostDodajUredi frm = new FrmFilmskaLicnostDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmFilmskaLicnostDodajUredi frm = new FrmFilmskaLicnostDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -179,10 +123,8 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmFilmskaLicnostDodajUredi frm = new FrmFilmskaLicnostDodajUredi(((FilmskaLicnostResponse)dgvFilmskeLicnosti.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmFilmskaLicnostDodajUredi frm = new FrmFilmskaLicnostDodajUredi(((FilmskaLicnostResponse)dgvFilmskeLicnosti.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -190,19 +132,16 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             FilmskaLicnostResponse data = (FilmskaLicnostResponse)dgvFilmskeLicnosti.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati ličnost {data.Ime} {data.Prezime}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati ličnost {data.Ime} {data.Prezime}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
                 await GetGridData();
             }
         }
 
-        private async void CbVrsta_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbVrsta_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
     }

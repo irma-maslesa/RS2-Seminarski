@@ -20,8 +20,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
 {
     public class PelikulaProfile : Profile
     {
-        public PelikulaProfile()
-        {
+        public PelikulaProfile() {
             AllowNullCollections = true;
 
             CreateMap<Zanr, ZanrResponse>().ReverseMap();
@@ -158,6 +157,10 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 opts => opts.MapFrom(src => src.SjedisteRezervacija))
                 .ReverseMap();
             CreateMap<Rezervacija, LoV>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.ProjekcijaTermin.Projekcija.Film.Naslov} - {src.ProjekcijaTermin.Projekcija.Sala.Naziv} ({src.ProjekcijaTermin.Projekcija.VrijediOd:dd/MM/yyyy} - {src.ProjekcijaTermin.Projekcija.VrijediDo:dd/MM/yyyy}) - {src.Korisnik.Ime} {src.Korisnik.Prezime} ({src.Korisnik.KorisnickoIme}) - {src.BrojSjedista}"))
+                .ReverseMap();
+            CreateMap<Rezervacija, RezervacijaSimpleResponse>()
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.ProjekcijaTermin.Projekcija.Film.Naslov} - {src.ProjekcijaTermin.Projekcija.Sala.Naziv} ({src.ProjekcijaTermin.Projekcija.VrijediOd:dd/MM/yyyy} - {src.ProjekcijaTermin.Projekcija.VrijediDo:dd/MM/yyyy}) - {src.Korisnik.Ime} {src.Korisnik.Prezime} ({src.Korisnik.KorisnickoIme}) - {src.BrojSjedista}"))
                 .ReverseMap();

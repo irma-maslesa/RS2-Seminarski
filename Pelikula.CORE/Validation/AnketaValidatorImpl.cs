@@ -11,31 +11,26 @@ namespace Pelikula.CORE.Validation
 {
     public class AnketaValidatorImpl : BaseValidatorImpl<Anketa>, IAnketaValidator
     {
-        public AnketaValidatorImpl(AppDbContext context) : base(context)
-        {
+        public AnketaValidatorImpl(AppDbContext context) : base(context) {
         }
 
-        public void ValidateOdgovori(List<AnketaOdgovorInsertRequest> requests)
-        {
+        public void ValidateOdgovori(List<AnketaOdgovorInsertRequest> requests) {
             if (requests.GroupBy(e => e.Odgovor).Any(x => x.Skip(1).Any()))
                 throw new UserException($"Anketa ne smije imati iste odgovore!", HttpStatusCode.BadRequest);
         }
 
-        public void ValidateOdgovori(List<AnketaOdgovorUpdateRequest> requests)
-        {
+        public void ValidateOdgovori(List<AnketaOdgovorUpdateRequest> requests) {
             if (requests.GroupBy(e => e.Odgovor).Any(x => x.Skip(1).Any()))
                 throw new UserException($"Anketa ne smije imati iste odgovore!", HttpStatusCode.BadRequest);
         }
 
-        public void ValidateOdgovorExists(int anketaOdgovorId)
-        {
+        public void ValidateOdgovorExists(int anketaOdgovorId) {
             if (Context.AnketaOdgovor.Find(anketaOdgovorId) == null)
                 throw new UserException($"Odgovor ({anketaOdgovorId}) ne postoji!", HttpStatusCode.BadRequest);
 
         }
 
-        public void ValidateKorisnikOdgovorDoesNotExists(int korisnikId, int anketaOdgovorId)
-        {
+        public void ValidateKorisnikOdgovorDoesNotExists(int korisnikId, int anketaOdgovorId) {
             int anketaId = Context.AnketaOdgovor.Find(anketaOdgovorId).AnketaId;
             List<int> anketaOdgovorIds = Context.AnketaOdgovor.Where(e => e.AnketaId == anketaId).Select(e => e.Id).ToList();
 
@@ -44,8 +39,7 @@ namespace Pelikula.CORE.Validation
 
         }
 
-        public void ValidateAnketaIsNotClosed(int id)
-        {
+        public void ValidateAnketaIsNotClosed(int id) {
             if (Context.Anketa.Find(id)?.ZakljucenoDatum != null)
                 throw new UserException($"Anketa ({id}) je već zatvorena!", HttpStatusCode.BadRequest);
 

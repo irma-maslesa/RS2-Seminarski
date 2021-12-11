@@ -7,13 +7,11 @@ namespace Pelikula.DAO
 {
     public partial class AppDbContext : DbContext
     {
-        public AppDbContext()
-        {
+        public AppDbContext() {
         }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
-        {
+            : base(options) {
         }
         public virtual DbSet<Anketa> Anketa { get; set; }
         public virtual DbSet<AnketaOdgovor> AnketaOdgovor { get; set; }
@@ -37,11 +35,8 @@ namespace Pelikula.DAO
         public virtual DbSet<SjedisteRezervacija> SjedisteRezervacija { get; set; }
         public virtual DbSet<TipKorisnika> TipKorisnika { get; set; }
         public virtual DbSet<Zanr> Zanr { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Anketa>(entity =>
-            {
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Anketa>(entity => {
                 entity.HasIndex(e => e.KorisnikId)
                     .HasName("IX_Anketa_KorisnikId");
 
@@ -59,8 +54,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Anketa_Korisnik_KorisnikId");
             });
 
-            modelBuilder.Entity<AnketaOdgovor>(entity =>
-            {
+            modelBuilder.Entity<AnketaOdgovor>(entity => {
                 entity.HasIndex(e => e.AnketaId)
                     .HasName("IX_AnketaOdgovor_AnketaId");
 
@@ -78,8 +72,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_AnketaOdgovor_Anketa_AnketaId");
             });
 
-            modelBuilder.Entity<AnketaOdgovorKorisnik>(entity =>
-            {
+            modelBuilder.Entity<AnketaOdgovorKorisnik>(entity => {
                 entity.HasIndex(e => e.AnketaOdgovorId)
                     .HasName("IX_AnketaOdgovorKorisnikDodjela_AnketaOdgovorId");
 
@@ -104,8 +97,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_AnketaOdgovorKorisnikDodjela_Korisnik_KorisnikId");
             });
 
-            modelBuilder.Entity<Artikal>(entity =>
-            {
+            modelBuilder.Entity<Artikal>(entity => {
                 entity.HasIndex(e => e.JedinicaMjereId)
                     .HasName("IX_Artikal_JedinicaMjereId");
 
@@ -129,8 +121,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Artikal_JedinicaMjere_JedinicaMjereId");
             });
 
-            modelBuilder.Entity<Dojam>(entity =>
-            {
+            modelBuilder.Entity<Dojam>(entity => {
                 entity.HasIndex(e => e.KorisnikId)
                     .HasName("IX_Dojam_KorisnikId");
 
@@ -156,8 +147,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Dojam_Projekcija_ProjekcijaId");
             });
 
-            modelBuilder.Entity<Film>(entity =>
-            {
+            modelBuilder.Entity<Film>(entity => {
                 entity.HasIndex(e => e.RediteljId)
                     .HasName("IX_Film_RediteljId");
 
@@ -193,8 +183,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Film_Zanr_ZanrId");
             });
 
-            modelBuilder.Entity<FilmGlumac>(entity =>
-            {
+            modelBuilder.Entity<FilmGlumac>(entity => {
                 entity.HasIndex(e => e.FilmId)
                     .HasName("IX_FilmGlumacDodjela_FilmId");
 
@@ -218,8 +207,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_FilmGlumacDodjela_FilmskaLicnost_FilmskaLicnostId");
             });
 
-            modelBuilder.Entity<FilmskaLicnost>(entity =>
-            {
+            modelBuilder.Entity<FilmskaLicnost>(entity => {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Ime)
@@ -231,8 +219,7 @@ namespace Pelikula.DAO
                     .HasMaxLength(250);
             });
 
-            modelBuilder.Entity<JedinicaMjere>(entity =>
-            {
+            modelBuilder.Entity<JedinicaMjere>(entity => {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.KratkiNaziv).IsRequired();
@@ -240,8 +227,7 @@ namespace Pelikula.DAO
                 entity.Property(e => e.Naziv).IsRequired();
             });
 
-            modelBuilder.Entity<Korisnik>(entity =>
-            {
+            modelBuilder.Entity<Korisnik>(entity => {
                 entity.HasIndex(e => e.TipKorisnikaId)
                     .HasName("IX_Korisnik_TipKorisnikaId");
 
@@ -279,8 +265,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Korisnik_TipKorisnika");
             });
 
-            modelBuilder.Entity<Obavijest>(entity =>
-            {
+            modelBuilder.Entity<Obavijest>(entity => {
                 entity.HasIndex(e => e.KorisnikId)
                     .HasName("IX_Obavijest_KorisnikId");
 
@@ -302,17 +287,12 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Obavijest_Korisnik_KorisnikId");
             });
 
-            modelBuilder.Entity<Prodaja>(entity =>
-            {
+            modelBuilder.Entity<Prodaja>(entity => {
                 entity.HasIndex(e => e.KorisnikId);
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.BrojRacuna).IsRequired();
-
-                entity.Property(e => e.Popust).HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.Porez).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Prodaja)
@@ -326,8 +306,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Prodaja_Rezervacija");
             });
 
-            modelBuilder.Entity<ProdajaArtikal>(entity =>
-            {
+            modelBuilder.Entity<ProdajaArtikal>(entity => {
                 entity.HasIndex(e => e.ArtikalId)
                     .HasName("IX_ProdajaArtikalDodjela_ArtikalId");
 
@@ -351,8 +330,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_ProdajaArtikalDodjela_Prodaja_ProdajaId");
             });
 
-            modelBuilder.Entity<Projekcija>(entity =>
-            {
+            modelBuilder.Entity<Projekcija>(entity => {
                 entity.HasIndex(e => e.FilmId)
                     .HasName("IX_Projekcija_FilmId");
 
@@ -378,8 +356,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Projekcija_Sala_SalaId");
             });
 
-            modelBuilder.Entity<ProjekcijaKorisnik>(entity =>
-            {
+            modelBuilder.Entity<ProjekcijaKorisnik>(entity => {
                 entity.HasIndex(e => e.KorisnikId)
                     .HasName("IX_ProjekcijaKorisnikDodjela_KorisnikId");
 
@@ -403,8 +380,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_ProjekcijaKorisnikDodjela_Projekcija_ProjekcijaId");
             });
 
-            modelBuilder.Entity<ProjekcijaTermin>(entity =>
-            {
+            modelBuilder.Entity<ProjekcijaTermin>(entity => {
                 entity.HasIndex(e => e.ProjekcijaId)
                     .HasName("IX_ProjekcijaTermin_ProjekcijaId");
 
@@ -418,8 +394,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_ProjekcijaTermin_Projekcija_ProjekcijaId");
             });
 
-            modelBuilder.Entity<Rezervacija>(entity =>
-            {
+            modelBuilder.Entity<Rezervacija>(entity => {
                 entity.HasIndex(e => e.KorisnikId)
                     .HasName("IX_Rezervacija_KorisnikId");
 
@@ -445,8 +420,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Rezervacija_ProjekcijaTermin_ProjekcijaTerminId");
             });
 
-            modelBuilder.Entity<Sala>(entity =>
-            {
+            modelBuilder.Entity<Sala>(entity => {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Naziv)
@@ -454,8 +428,7 @@ namespace Pelikula.DAO
                     .HasMaxLength(250);
             });
 
-            modelBuilder.Entity<Sjediste>(entity =>
-            {
+            modelBuilder.Entity<Sjediste>(entity => {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Red)
@@ -470,8 +443,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_Sjediste_Sala");
             });
 
-            modelBuilder.Entity<SjedisteRezervacija>(entity =>
-            {
+            modelBuilder.Entity<SjedisteRezervacija>(entity => {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.RezervacijaId).HasColumnName("RezervacijaID");
@@ -490,8 +462,7 @@ namespace Pelikula.DAO
                     .HasConstraintName("FK_SjedisteRezervacija_Sjediste");
             });
 
-            modelBuilder.Entity<TipKorisnika>(entity =>
-            {
+            modelBuilder.Entity<TipKorisnika>(entity => {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Naziv)
@@ -499,8 +470,7 @@ namespace Pelikula.DAO
                     .HasMaxLength(250);
             });
 
-            modelBuilder.Entity<Zanr>(entity =>
-            {
+            modelBuilder.Entity<Zanr>(entity => {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Naziv)

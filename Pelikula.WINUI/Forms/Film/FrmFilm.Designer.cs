@@ -32,12 +32,6 @@ namespace Pelikula.WINUI.Forms.Film
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvFilmovi = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Naziv = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Datum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.JedinicaMjere = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sifra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GodinaSnimanja = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cbZanr = new System.Windows.Forms.ComboBox();
@@ -54,6 +48,12 @@ namespace Pelikula.WINUI.Forms.Film
             this.label5 = new System.Windows.Forms.Label();
             this.txtNaslov = new System.Windows.Forms.TextBox();
             this.btnPretrazi = new System.Windows.Forms.Button();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Naziv = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Datum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JedinicaMjere = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sifra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GodinaSnimanja = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFilmovi)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -92,51 +92,6 @@ namespace Pelikula.WINUI.Forms.Film
             this.dgvFilmovi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFilmovi.Size = new System.Drawing.Size(1174, 480);
             this.dgvFilmovi.TabIndex = 0;
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            // 
-            // Naziv
-            // 
-            this.Naziv.DataPropertyName = "Naslov";
-            this.Naziv.HeaderText = "Naslov";
-            this.Naziv.Name = "Naziv";
-            this.Naziv.ReadOnly = true;
-            // 
-            // Datum
-            // 
-            this.Datum.DataPropertyName = "Reditelj";
-            dataGridViewCellStyle1.Format = "g";
-            dataGridViewCellStyle1.NullValue = null;
-            this.Datum.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Datum.HeaderText = "Reditelj";
-            this.Datum.Name = "Datum";
-            this.Datum.ReadOnly = true;
-            // 
-            // JedinicaMjere
-            // 
-            this.JedinicaMjere.DataPropertyName = "Zanr";
-            this.JedinicaMjere.HeaderText = "Žanr";
-            this.JedinicaMjere.Name = "JedinicaMjere";
-            this.JedinicaMjere.ReadOnly = true;
-            // 
-            // Sifra
-            // 
-            this.Sifra.DataPropertyName = "Trajanje";
-            this.Sifra.HeaderText = "Trajanje";
-            this.Sifra.Name = "Sifra";
-            this.Sifra.ReadOnly = true;
-            // 
-            // GodinaSnimanja
-            // 
-            this.GodinaSnimanja.DataPropertyName = "GodinaSnimanja";
-            this.GodinaSnimanja.HeaderText = "Godina snimanja";
-            this.GodinaSnimanja.Name = "GodinaSnimanja";
-            this.GodinaSnimanja.ReadOnly = true;
             // 
             // groupBox4
             // 
@@ -299,6 +254,52 @@ namespace Pelikula.WINUI.Forms.Film
             this.btnPretrazi.Text = "Pretraži";
             this.btnPretrazi.UseVisualStyleBackColor = true;
             this.btnPretrazi.Click += new System.EventHandler(this.BtnPretrazi_Click);
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            // 
+            // Naziv
+            // 
+            this.Naziv.DataPropertyName = "Naslov";
+            this.Naziv.HeaderText = "Naslov";
+            this.Naziv.Name = "Naziv";
+            this.Naziv.ReadOnly = true;
+            // 
+            // Datum
+            // 
+            this.Datum.DataPropertyName = "Reditelj";
+            dataGridViewCellStyle1.Format = "g";
+            dataGridViewCellStyle1.NullValue = null;
+            this.Datum.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Datum.HeaderText = "Reditelj";
+            this.Datum.Name = "Datum";
+            this.Datum.ReadOnly = true;
+            // 
+            // JedinicaMjere
+            // 
+            this.JedinicaMjere.DataPropertyName = "Zanr";
+            this.JedinicaMjere.HeaderText = "Žanr";
+            this.JedinicaMjere.Name = "JedinicaMjere";
+            this.JedinicaMjere.ReadOnly = true;
+            // 
+            // Sifra
+            // 
+            this.Sifra.DataPropertyName = "Trajanje";
+            this.Sifra.HeaderText = "Trajanje";
+            this.Sifra.Name = "Sifra";
+            this.Sifra.ReadOnly = true;
+            // 
+            // GodinaSnimanja
+            // 
+            this.GodinaSnimanja.DataPropertyName = "GodinaSnimanja";
+            this.GodinaSnimanja.HeaderText = "Godina snimanja";
+            this.GodinaSnimanja.Name = "GodinaSnimanja";
+            this.GodinaSnimanja.ReadOnly = true;
             // 
             // FrmFilm
             // 

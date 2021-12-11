@@ -6,15 +6,13 @@ namespace Pelikula.API
 {
     public class PasswordHelper
     {
-        public static string GenerateSalt()
-        {
+        public static string GenerateSalt() {
             var buf = new byte[16];
             (new RNGCryptoServiceProvider()).GetBytes(buf);
             return Convert.ToBase64String(buf);
         }
 
-        public static string GenerateHash(string salt, string password)
-        {
+        public static string GenerateHash(string salt, string password) {
             byte[] src = Convert.FromBase64String(salt);
             byte[] bytes = Encoding.Unicode.GetBytes(password);
             byte[] dst = new byte[src.Length + bytes.Length];

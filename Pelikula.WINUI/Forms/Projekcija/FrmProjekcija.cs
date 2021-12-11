@@ -2,6 +2,7 @@
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Projekcija;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,13 +21,11 @@ namespace Pelikula.WINUI.Forms.Projekcija
         List<LoV> filmList = new List<LoV>();
         List<LoV> salaList = new List<LoV>();
 
-        public FrmProjekcija()
-        {
+        public FrmProjekcija() {
             InitializeComponent();
             dgvProjekcije.AutoGenerateColumns = false;
         }
-        private async void FrmProjekcija_Load(object sender, EventArgs e)
-        {
+        private async void FrmProjekcija_Load(object sender, EventArgs e) {
             DisableChildren();
 
             filmList = (await _filmService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
@@ -53,13 +52,11 @@ namespace Pelikula.WINUI.Forms.Projekcija
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvProjekcije.FirstDisplayedScrollingRowIndex;
@@ -67,8 +64,8 @@ namespace Pelikula.WINUI.Forms.Projekcija
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
-            CreateCbFilters(filters, cbSala, "SalaId");
-            CreateCbFilters(filters, cbFilm, "FilmId");
+            FormHelper.CreateCbFilters(filters, cbSala, "SalaId");
+            FormHelper.CreateCbFilters(filters, cbFilm, "FilmId");
             CreateCbAktivnoFilter(filters);
 
             Cursor = Cursors.WaitCursor;
@@ -78,7 +75,6 @@ namespace Pelikula.WINUI.Forms.Projekcija
             dgvProjekcije.DataSource = obj.Payload;
 
             dgvProjekcije.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvProjekcije.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvProjekcije.ClearSelection();
 
@@ -86,98 +82,39 @@ namespace Pelikula.WINUI.Forms.Projekcija
 
             EnableChildren();
 
-            if (dgvProjekcije.RowCount == 0)
-            {
+            if (dgvProjekcije.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            if (adding)
-            {
-                dgvProjekcije.FirstDisplayedScrollingRowIndex = dgvProjekcije.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvProjekcije.RowCount)
-            {
-                dgvProjekcije.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvProjekcije.RowCount > 0)
-            {
-                dgvProjekcije.FirstDisplayedScrollingRowIndex = 0;
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
-            if (adding)
-            {
-                dgvProjekcije.CurrentCell = dgvProjekcije.Rows[dgvProjekcije.RowCount - 1].Cells[0];
-                dgvProjekcije.Rows[dgvProjekcije.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvProjekcije.RowCount)
-            {
-                dgvProjekcije.CurrentCell = dgvProjekcije.Rows[_selectedRowIndex.Value - 1].Cells[0];
-                dgvProjekcije.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvProjekcije.CurrentCell = dgvProjekcije.Rows[_selectedRowIndex.Value].Cells[0];
-                dgvProjekcije.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvProjekcije, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
-        }
-
-        private void CreateCbAktivnoFilter(List<FilterUtility.FilterParams> filters)
-        {
+        private void CreateCbAktivnoFilter(List<FilterUtility.FilterParams> filters) {
             var selectedItem = cbAktivno.SelectedItem?.ToString();
-
-            var filter = new FilterUtility.FilterParams();
             var datum = DateTime.Now;
 
-            switch (selectedItem)
-            {
+            switch (selectedItem) {
                 case "Trenutne":
-                    filter.ColumnName = "VrijediOd";
-                    filter.FilterOption = FilterUtility.FilterOptions.islessthanorequalto.ToString();
-                    filter.FilterValue = datum.ToString();
-                    filters.Add(filter);
-
-                    filter.ColumnName = "VrijediDo";
-                    filter.FilterOption = FilterUtility.FilterOptions.isgreaterthanorequalto.ToString();
-                    filter.FilterValue = datum.ToString();
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("VrijediOd", datum.ToString(), FilterUtility.FilterOptions.islessthanorequalto.ToString()));
+                    filters.Add(new FilterUtility.FilterParams("VrijediDo", datum.ToString(), FilterUtility.FilterOptions.isgreaterthanorequalto.ToString()));
                     break;
                 case "Prethodne":
-                    filter.ColumnName = "VrijediDo";
-                    filter.FilterOption = FilterUtility.FilterOptions.islessthan.ToString();
-                    filter.FilterValue = datum.ToString();
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("VrijediDo", datum.ToString(), FilterUtility.FilterOptions.islessthan.ToString()));
                     break;
                 case "Najavljene":
-                    filter.ColumnName = "VrijediOd";
-                    filter.FilterOption = FilterUtility.FilterOptions.isgreaterthan.ToString();
-                    filter.FilterValue = datum.ToString();
-                    filters.Add(filter);
+                    filters.Add(new FilterUtility.FilterParams("VrijediOd", datum.ToString(), FilterUtility.FilterOptions.isgreaterthan.ToString()));
                     break;
                 default:
                     break;
             }
-
         }
 
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             cbFilm.Enabled = true;
             cbSala.Enabled = true;
             cbAktivno.Enabled = true;
@@ -189,8 +126,7 @@ namespace Pelikula.WINUI.Forms.Projekcija
             dgvProjekcije.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             cbFilm.Enabled = false;
             cbSala.Enabled = false;
             cbAktivno.Enabled = false;
@@ -202,10 +138,8 @@ namespace Pelikula.WINUI.Forms.Projekcija
             dgvProjekcije.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -213,10 +147,8 @@ namespace Pelikula.WINUI.Forms.Projekcija
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((ProjekcijaResponse)dgvProjekcije.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((ProjekcijaResponse)dgvProjekcije.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -224,28 +156,23 @@ namespace Pelikula.WINUI.Forms.Projekcija
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             ProjekcijaResponse data = (ProjekcijaResponse)dgvProjekcije.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati projekciju {data.Film.Naziv} - {data.Sala.Naziv} ({data.VrijediOd:dd/MM/yyyy} - {data.VrijediDo:dd/MM/yyyy})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati projekciju {data.Film.Naziv} - {data.Sala.Naziv} ({data.VrijediOd:dd/MM/yyyy} - {data.VrijediDo:dd/MM/yyyy})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
                 await GetGridData();
             }
         }
 
-        private async void CbFilm_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbFilm_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async void CbSala_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbSala_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
-        private async void CbAktivno_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbAktivno_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
     }

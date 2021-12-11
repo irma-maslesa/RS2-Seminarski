@@ -51,7 +51,7 @@ namespace Pelikula.WINUI.Forms.Obavijest
             this.txtNaslov.Name = "txtNaslov";
             this.txtNaslov.Size = new System.Drawing.Size(320, 20);
             this.txtNaslov.TabIndex = 6;
-            this.txtNaslov.Validating += new System.ComponentModel.CancelEventHandler(this.txtNaslov_Validating);
+            this.txtNaslov.Validating += new System.ComponentModel.CancelEventHandler(this.TxtNaslov_Validating);
             // 
             // txtTekst
             // 
@@ -61,7 +61,7 @@ namespace Pelikula.WINUI.Forms.Obavijest
             this.txtTekst.Name = "txtTekst";
             this.txtTekst.Size = new System.Drawing.Size(348, 20);
             this.txtTekst.TabIndex = 1;
-            this.txtTekst.Validating += new System.ComponentModel.CancelEventHandler(this.txtTekst_Validating);
+            this.txtTekst.Validating += new System.ComponentModel.CancelEventHandler(this.TxtTekst_Validating);
             // 
             // btnOcisti
             // 

@@ -10,7 +10,7 @@ namespace Pelikula.API.Api
     {
         PagedPayloadResponse<ResponseDTO> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null);
         PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null);
-        
+
         PayloadResponse<ResponseDTO> GetById(int id);
     }
 }

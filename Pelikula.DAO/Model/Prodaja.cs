@@ -9,8 +9,7 @@ namespace Pelikula.DAO.Model
 {
     public partial class Prodaja
     {
-        public Prodaja()
-        {
+        public Prodaja() {
             ProdajaArtikal = new HashSet<ProdajaArtikal>();
         }
 
@@ -18,8 +17,6 @@ namespace Pelikula.DAO.Model
         public string BrojRacuna { get; set; }
         public int KorisnikId { get; set; }
         public DateTime Datum { get; set; }
-        public decimal Popust { get; set; }
-        public decimal Porez { get; set; }
         public int? RezervacijaId { get; set; }
 
         public virtual Korisnik Korisnik { get; set; }

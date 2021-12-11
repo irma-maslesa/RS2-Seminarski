@@ -11,8 +11,7 @@ namespace Pelikula.CORE.Impl
         CrudServiceImpl<ZanrResponse, Zanr, ZanrUpsertRequest, ZanrUpsertRequest>,
         IZanrService
     {
-        public ZanrServiceImpl(AppDbContext context, IMapper mapper, IZanrValidator validator) : base(context, mapper, validator)
-        {
+        public ZanrServiceImpl(AppDbContext context, IMapper mapper, IZanrValidator validator) : base(context, mapper, validator) {
         }
     }
 }

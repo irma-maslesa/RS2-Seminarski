@@ -11,20 +11,17 @@ namespace API.Controllers
     {
         protected new readonly IKorisnikService Service;
 
-        public KorisnikController(IKorisnikService service) : base(service)
-        {
+        public KorisnikController(IKorisnikService service) : base(service) {
             Service = service;
         }
 
         [HttpPost("registracija")]
-        public virtual PayloadResponse<KorisnikResponse> Insert([FromBody] KorisnikRegistracijaRequest dtoObject)
-        {
+        public virtual PayloadResponse<KorisnikResponse> Insert([FromBody] KorisnikRegistracijaRequest dtoObject) {
             return Service.Registracija(dtoObject);
         }
 
         [HttpGet("{projekcijaTerminId}/{bezRezervacije}/klijenti")]
-        public virtual ListPayloadResponse<LoV> GetKlijentiForTermin(int projekcijaTerminId, bool bezRezervacije)
-        {
+        public virtual ListPayloadResponse<LoV> GetKlijentiForTermin(int projekcijaTerminId, bool bezRezervacije) {
             return Service.GetKlijentiForTermin(projekcijaTerminId, bezRezervacije);
         }
     }

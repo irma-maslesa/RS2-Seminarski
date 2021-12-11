@@ -10,16 +10,13 @@ namespace Pelikula.CORE.Validation
 {
     public class FilmskaLicnostValidatorImpl : BaseValidatorImpl<FilmskaLicnost>, IFilmskaLicnostValidator
     {
-        public FilmskaLicnostValidatorImpl(AppDbContext context) : base(context)
-        {
+        public FilmskaLicnostValidatorImpl(AppDbContext context) : base(context) {
         }
 
-        public void ValidateEntitiesExists(List<int> ids)
-        {
+        public void ValidateEntitiesExists(List<int> ids) {
             StringBuilder sb = new StringBuilder();
 
-            foreach (var id in ids)
-            {
+            foreach (var id in ids) {
                 FilmskaLicnost entity = Context.Set<FilmskaLicnost>().Find(id);
 
                 if (entity == null)

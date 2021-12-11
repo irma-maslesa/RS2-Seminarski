@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Pelikula.API.Api;
-using Pelikula.API.Model.Helper;
+using Pelikula.API.Model;
 using Pelikula.API.Model.Dojam;
+using Pelikula.API.Model.Helper;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;
@@ -10,7 +11,6 @@ using Pelikula.DAO.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Pelikula.API.Model;
 
 namespace Pelikula.CORE.Impl
 {
@@ -22,15 +22,13 @@ namespace Pelikula.CORE.Impl
         protected IKorisnikValidator KorisnikValidator { get; set; }
         protected IProjekcijaValidator ProjekcijaValidator { get; set; }
 
-        public DojamServiceImpl(AppDbContext context, IMapper mapper, IDojamValidator validator, IKorisnikValidator korisnikValidator, IProjekcijaValidator projekcijaValidator) : base(context, mapper, validator)
-        {
+        public DojamServiceImpl(AppDbContext context, IMapper mapper, IDojamValidator validator, IKorisnikValidator korisnikValidator, IProjekcijaValidator projekcijaValidator) : base(context, mapper, validator) {
             Validator = validator;
             KorisnikValidator = korisnikValidator;
             ProjekcijaValidator = projekcijaValidator;
         }
 
-        public override PagedPayloadResponse<DojamResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<DojamResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Dojam> entityList = Context.Set<Dojam>().Include(e => e.Korisnik)
                 .Include(e => e.Projekcija).ThenInclude(e => e.Sala)
                 .Include(e => e.Projekcija).ThenInclude(e => e.Film)
@@ -45,8 +43,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<DojamResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<DojamResponse> GetById(int id)
-        {
+        public override PayloadResponse<DojamResponse> GetById(int id) {
             Validator.ValidateEntityExists(id);
 
             Dojam entity = Context.Set<Dojam>().Include(e => e.Korisnik)
@@ -59,8 +56,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<DojamResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Dojam> entityList = Context.Set<Dojam>()
                 .Include(e => e.Korisnik)
                 .Include(e => e.Projekcija).ThenInclude(e => e.Sala)
@@ -76,8 +72,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<LoV>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<DojamResponse> Insert(DojamUpsertRequest request)
-        {
+        public override PayloadResponse<DojamResponse> Insert(DojamUpsertRequest request) {
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
             ProjekcijaValidator.ValidateEntityExists(request.ProjekcijaId);
             Validator.ValidateComboDoesNotExist(null, request.KorisnikId, request.ProjekcijaId);
@@ -92,8 +87,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<DojamResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<DojamResponse> Update(int id, DojamUpsertRequest request)
-        {
+        public override PayloadResponse<DojamResponse> Update(int id, DojamUpsertRequest request) {
             Validator.ValidateEntityExists(id);
             KorisnikValidator.ValidateEntityExists(request.KorisnikId);
             ProjekcijaValidator.ValidateEntityExists(request.ProjekcijaId);
@@ -111,8 +105,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<DojamResponse>(HttpStatusCode.OK, response);
         }
 
-        public PayloadResponse<DojamResponse> GetByProjekcijaKorisnik(int projekcijaId, int korisnikId)
-        {
+        public PayloadResponse<DojamResponse> GetByProjekcijaKorisnik(int projekcijaId, int korisnikId) {
             KorisnikValidator.ValidateEntityExists(korisnikId);
             ProjekcijaValidator.ValidateEntityExists(projekcijaId);
 

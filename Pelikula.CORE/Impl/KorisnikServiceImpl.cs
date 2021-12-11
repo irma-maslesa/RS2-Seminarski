@@ -25,15 +25,13 @@ namespace Pelikula.CORE.Impl
         protected ITipKorisnikaValidator TipKorisnikaValidator { get; set; }
         protected IProjekcijaValidator ProjekcijaValidator { get; set; }
 
-        public KorisnikServiceImpl(AppDbContext context, IMapper mapper, IKorisnikValidator validator, ITipKorisnikaValidator tipKorisnikaValidator, IProjekcijaValidator projekcijaValidator) : base(context, mapper, validator)
-        {
+        public KorisnikServiceImpl(AppDbContext context, IMapper mapper, IKorisnikValidator validator, ITipKorisnikaValidator tipKorisnikaValidator, IProjekcijaValidator projekcijaValidator) : base(context, mapper, validator) {
             Validator = validator;
             TipKorisnikaValidator = tipKorisnikaValidator;
             ProjekcijaValidator = projekcijaValidator;
         }
 
-        public override PagedPayloadResponse<KorisnikResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public override PagedPayloadResponse<KorisnikResponse> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Korisnik> KorisnikList = Context.Set<Korisnik>().Include(e => e.TipKorisnika).ToList();
 
             KorisnikList = filter != null && filter.Any() ? FilterUtility.Filter<Korisnik>.FilteredData(filter, KorisnikList) : KorisnikList;
@@ -45,8 +43,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<KorisnikResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public override PayloadResponse<KorisnikResponse> GetById(int id)
-        {
+        public override PayloadResponse<KorisnikResponse> GetById(int id) {
             Validator.ValidateEntityExists(id);
 
             Korisnik entity = Context.Set<Korisnik>().Include(e => e.TipKorisnika).Where(e => e.Id == id).SingleOrDefault();
@@ -56,8 +53,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<KorisnikResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<KorisnikResponse> Insert(KorisnikUpsertRequest request)
-        {
+        public override PayloadResponse<KorisnikResponse> Insert(KorisnikUpsertRequest request) {
             Validator.ValidateEmail(request.Email);
             Validator.ValidateKorisnickoIme(request.KorisnickoIme);
             TipKorisnikaValidator.ValidateEntityExists(request.TipKorisnikaId);
@@ -72,8 +68,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<KorisnikResponse>(HttpStatusCode.OK, response);
         }
 
-        public override PayloadResponse<KorisnikResponse> Update(int id, KorisnikUpsertRequest request)
-        {
+        public override PayloadResponse<KorisnikResponse> Update(int id, KorisnikUpsertRequest request) {
             Validator.ValidateEntityExists(id);
             Validator.ValidateEmail(request.Email, id);
             Validator.ValidateKorisnickoIme(request.KorisnickoIme, id);
@@ -92,17 +87,14 @@ namespace Pelikula.CORE.Impl
 
         }
 
-        public async Task<PayloadResponse<KorisnikResponse>> Autentifikacija(string korisnickoIme, string lozinka)
-        {
+        public async Task<PayloadResponse<KorisnikResponse>> Autentifikacija(string korisnickoIme, string lozinka) {
             var korisnik = await Context.Korisnik
                 .Include(x => x.TipKorisnika)
                 .FirstOrDefaultAsync(x => x.KorisnickoIme.ToLower().Equals(korisnickoIme.ToLower()));
 
-            if (korisnik != null)
-            {
+            if (korisnik != null) {
                 var newHash = PasswordHelper.GenerateHash(korisnik.LozinkaSalt, lozinka);
-                if (newHash == korisnik.LozinkaHash)
-                {
+                if (newHash == korisnik.LozinkaHash) {
                     return new PayloadResponse<KorisnikResponse>(HttpStatusCode.OK, Mapper.Map<Korisnik, KorisnikResponse>(korisnik));
                 }
             }
@@ -110,8 +102,7 @@ namespace Pelikula.CORE.Impl
             throw new UserException("Korisničko ime ili lozinka nisu ispravni", HttpStatusCode.BadRequest);
         }
 
-        public PayloadResponse<KorisnikResponse> Registracija(KorisnikRegistracijaRequest request)
-        {
+        public PayloadResponse<KorisnikResponse> Registracija(KorisnikRegistracijaRequest request) {
             Validator.ValidateEmail(request.Email);
             Validator.ValidateKorisnickoIme(request.KorisnickoIme);
 
@@ -129,13 +120,11 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<KorisnikResponse>(HttpStatusCode.OK, response);
         }
 
-        public ListPayloadResponse<LoV> GetKlijentiForTermin(int projekcijaTerminId, bool bezRezervacije)
-        {
+        public ListPayloadResponse<LoV> GetKlijentiForTermin(int projekcijaTerminId, bool bezRezervacije) {
             ProjekcijaValidator.ValidateTerminExists(projekcijaTerminId);
             IEnumerable<Korisnik> entityList;
 
-            if (bezRezervacije)
-            {
+            if (bezRezervacije) {
                 var korisniciSaRezervacijomIds = Context.Rezervacija
                     .Where(e => e.ProjekcijaTerminId == projekcijaTerminId)
                     .Select(e => e.KorisnikId)

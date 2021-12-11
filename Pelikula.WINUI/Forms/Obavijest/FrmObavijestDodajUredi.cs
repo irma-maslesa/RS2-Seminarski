@@ -1,9 +1,6 @@
-﻿using Pelikula.API;
-using Pelikula.API.Model;
-using Pelikula.API.Model.Obavijest;
+﻿using Pelikula.API.Model.Obavijest;
 using Pelikula.CORE.Helper.Response;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -16,17 +13,15 @@ namespace Pelikula.WINUI.Forms.Obavijest
         private readonly int? _id;
 
         private ObavijestResponse _initial = new ObavijestResponse();
-        private ObavijestUpsertRequest _request = new ObavijestUpsertRequest();
+        private readonly ObavijestUpsertRequest _request = new ObavijestUpsertRequest();
 
-        public FrmObavijestDodajUredi(int? id = null)
-        {
+        public FrmObavijestDodajUredi(int? id = null) {
             _id = id;
 
             InitializeComponent();
         }
 
-        private async void FrmObavijestDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmObavijestDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -38,8 +33,7 @@ namespace Pelikula.WINUI.Forms.Obavijest
 
             Text = "Dodaj artikal";
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 Text = "Uredi artikal";
 
                 PayloadResponse<ObavijestResponse> response = await _service.GetById<PayloadResponse<ObavijestResponse>>(_id.Value);
@@ -49,16 +43,13 @@ namespace Pelikula.WINUI.Forms.Obavijest
             }
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             txtNaslov.Text = _initial.Naslov;
             txtTekst.Text = _initial.Tekst;
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren())
-            {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
+            if (ValidateChildren()) {
                 _request.Naslov = txtNaslov.Text;
                 _request.Tekst = txtTekst.Text;
                 _request.Datum = _initial.Datum;
@@ -66,27 +57,23 @@ namespace Pelikula.WINUI.Forms.Obavijest
                 if (_initial.Korisnik != null)
                     _request.KorisnikId = _initial.Korisnik.Id;
 
-                if (_id.HasValue)
-                {
+                if (_id.HasValue) {
                     var response = await _service.Update<PayloadResponse<ObavijestResponse>>(_id.Value, _request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Obavijest {txtNaslov.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                 }
-                else
-                {
+                else {
                     _request.Datum = DateTime.Now;
                     _request.KorisnikId = Properties.Settings.Default.PrijavljeniKorisnik.Id;
 
                     PayloadResponse<ObavijestResponse> response = await _service.Insert<PayloadResponse<ObavijestResponse>>(_request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Obavijest {response.Payload.Naslov} uspješno dodana!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
@@ -96,34 +83,27 @@ namespace Pelikula.WINUI.Forms.Obavijest
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
         }
 
         //VALIDACIJA
-        private void txtNaslov_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtNaslov.Text.Trim()))
-            {
+        private void TxtNaslov_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtNaslov.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtNaslov, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtNaslov, null);
             }
         }
 
-        private void txtTekst_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtTekst.Text.Trim()))
-            {
+        private void TxtTekst_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtTekst.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtTekst, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtTekst, null);
             }
         }

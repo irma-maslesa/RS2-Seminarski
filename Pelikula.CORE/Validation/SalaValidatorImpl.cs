@@ -11,12 +11,10 @@ namespace Pelikula.CORE.Validation
 {
     public class SalaValidatorImpl : BaseValidatorImpl<Sala>, ISalaValidator
     {
-        public SalaValidatorImpl(AppDbContext context) : base(context)
-        {
+        public SalaValidatorImpl(AppDbContext context) : base(context) {
         }
 
-        public void ValidateSjedistaExist(ICollection<int> sjedistaIds)
-        {
+        public void ValidateSjedistaExist(ICollection<int> sjedistaIds) {
             StringBuilder sb = new StringBuilder();
 
             foreach (var sjedisteId in sjedistaIds)

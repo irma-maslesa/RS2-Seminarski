@@ -3,12 +3,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Pelikula.API.Api;
 using Pelikula.API.Model.Korisnik;
-using Pelikula.CORE.Filter;
-using Pelikula.DAO.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -27,21 +23,17 @@ namespace Pelikula.REST.Security
             UrlEncoder encoder,
             ISystemClock clock,
             IKorisnikService service)
-            : base(options, logger, encoder, clock)
-        {
+            : base(options, logger, encoder, clock) {
             _service = service;
         }
 
-        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
-        {
-            if (!Request.Headers.ContainsKey("Authorization"))
-            {
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync() {
+            if (!Request.Headers.ContainsKey("Authorization")) {
                 return AuthenticateResult.Fail("Missing Authorization Header");
             }
 
             KorisnikResponse korisnik;
-            try
-            {
+            try {
                 var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
@@ -51,8 +43,7 @@ namespace Pelikula.REST.Security
 
                 korisnik = response.Payload;
             }
-            catch
-            {
+            catch {
                 return AuthenticateResult.Fail("Invalid Authorization Header");
             }
 

@@ -9,20 +9,16 @@ namespace Pelikula.CORE.Validation
 {
     public class DojamValidatorImpl : BaseValidatorImpl<Dojam>, IDojamValidator
     {
-        public DojamValidatorImpl(AppDbContext context) : base(context)
-        {
+        public DojamValidatorImpl(AppDbContext context) : base(context) {
         }
 
-        public void ValidateComboDoesNotExist(int? id, int korisnikId, int projekcijaId)
-        {
-            if (id.HasValue)
-            {
+        public void ValidateComboDoesNotExist(int? id, int korisnikId, int projekcijaId) {
+            if (id.HasValue) {
                 if (Context.Dojam.Any(e => e.KorisnikId == korisnikId && e.ProjekcijaId == projekcijaId &&
                                                         e.Id != id.Value))
                     throw new UserException($"Korisnik({korisnikId}) je već ostavio dojam za projekciju({projekcijaId})!", HttpStatusCode.BadRequest);
             }
-            else
-            {
+            else {
                 if (Context.Dojam.Any(e => e.KorisnikId == korisnikId && e.ProjekcijaId == projekcijaId))
                     throw new UserException($"Korisnik({korisnikId}) je već ostavio dojam za projekciju({projekcijaId})!", HttpStatusCode.BadRequest);
 

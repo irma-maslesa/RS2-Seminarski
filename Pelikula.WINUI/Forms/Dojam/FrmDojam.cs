@@ -1,7 +1,8 @@
 ﻿using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Dojam;
+using Pelikula.API.Model.Helper;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,13 +21,11 @@ namespace Pelikula.WINUI.Forms.Dojam
         List<LoV> korisnikList = new List<LoV>();
         List<LoV> projekcijaList = new List<LoV>();
 
-        public FrmDojam()
-        {
+        public FrmDojam() {
             InitializeComponent();
             dgvDojmovi.AutoGenerateColumns = false;
         }
-        private async void FrmDojam_Load(object sender, EventArgs e)
-        {
+        private async void FrmDojam_Load(object sender, EventArgs e) {
             DisableChildren();
 
             korisnikList = (await _korisnikService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
@@ -48,13 +47,11 @@ namespace Pelikula.WINUI.Forms.Dojam
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvDojmovi.FirstDisplayedScrollingRowIndex;
@@ -62,8 +59,8 @@ namespace Pelikula.WINUI.Forms.Dojam
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
-            CreateCbFilters(filters, cbProjekcija, "ProjekcijaId");
-            CreateCbFilters(filters, cbKorisnik, "KorisnikId");
+            FormHelper.CreateCbFilters(filters, cbProjekcija, "ProjekcijaId");
+            FormHelper.CreateCbFilters(filters, cbKorisnik, "KorisnikId");
 
             Cursor = Cursors.WaitCursor;
 
@@ -72,7 +69,6 @@ namespace Pelikula.WINUI.Forms.Dojam
             dgvDojmovi.DataSource = obj.Payload;
 
             dgvDojmovi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDojmovi.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvDojmovi.ClearSelection();
 
@@ -80,76 +76,28 @@ namespace Pelikula.WINUI.Forms.Dojam
 
             EnableChildren();
 
-            if (adding)
-            {
-                dgvDojmovi.FirstDisplayedScrollingRowIndex = dgvDojmovi.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvDojmovi.RowCount)
-            {
-                dgvDojmovi.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvDojmovi.RowCount > 0)
-            {
-                dgvDojmovi.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvDojmovi.CurrentCell = dgvDojmovi.Rows[dgvDojmovi.RowCount - 1].Cells[0];
-                dgvDojmovi.Rows[dgvDojmovi.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvDojmovi.RowCount)
-            {
-                dgvDojmovi.CurrentCell = dgvDojmovi.Rows[_selectedRowIndex.Value - 1].Cells[0];
-                dgvDojmovi.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvDojmovi.CurrentCell = dgvDojmovi.Rows[_selectedRowIndex.Value].Cells[0];
-                dgvDojmovi.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvDojmovi, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
-        }
-
-
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             cbKorisnik.Enabled = true;
             cbProjekcija.Enabled = true;
 
             dgvDojmovi.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             cbKorisnik.Enabled = false;
             cbProjekcija.Enabled = false;
 
             dgvDojmovi.Enabled = false;
         }
 
-        private async void CbKorisnik_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbKorisnik_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
     }

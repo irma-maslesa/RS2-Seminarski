@@ -20,15 +20,13 @@ namespace Pelikula.CORE.Impl
         protected readonly IMapper Mapper;
         protected readonly IBaseValidator<Entity> Validator;
 
-        public ReadServiceImpl(AppDbContext context, IMapper mapper, IBaseValidator<Entity> validator)
-        {
+        public ReadServiceImpl(AppDbContext context, IMapper mapper, IBaseValidator<Entity> validator) {
             Context = context;
             Mapper = mapper;
             Validator = validator;
         }
 
-        public virtual PagedPayloadResponse<ResponseDTO> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public virtual PagedPayloadResponse<ResponseDTO> Get(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Entity> entityList = Context.Set<Entity>().ToList();
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Entity>.FilteredData(filter, entityList) : entityList;
@@ -39,8 +37,7 @@ namespace Pelikula.CORE.Impl
             PaginationUtility.PagedData<ResponseDTO> pagedResponse = PaginationUtility.Paginaion<ResponseDTO>.PaginateData(responseList, pagination);
             return new PagedPayloadResponse<ResponseDTO>(HttpStatusCode.OK, pagedResponse);
         }
-        public virtual PayloadResponse<ResponseDTO> GetById(int id)
-        {
+        public virtual PayloadResponse<ResponseDTO> GetById(int id) {
             Validator.ValidateEntityExists(id);
 
             Entity entity = Context.Set<Entity>().Find(id);
@@ -50,8 +47,7 @@ namespace Pelikula.CORE.Impl
             return new PayloadResponse<ResponseDTO>(HttpStatusCode.OK, response);
         }
 
-        public virtual PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null)
-        {
+        public virtual PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
             IEnumerable<Entity> entityList = Context.Set<Entity>().ToList();
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Entity>.FilteredData(filter, entityList) : entityList;

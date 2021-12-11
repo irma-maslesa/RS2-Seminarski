@@ -6,8 +6,7 @@ namespace API.Controllers
     public class JedinicaMjereController :
         CrudController<JedinicaMjereResponse, JedinicaMjereUpsertRequest, JedinicaMjereUpsertRequest>
     {
-        public JedinicaMjereController(IJedinicaMjereService service) : base(service)
-        {
+        public JedinicaMjereController(IJedinicaMjereService service) : base(service) {
         }
     }
 }

@@ -35,14 +35,14 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.err = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnDodajKorisnika = new System.Windows.Forms.Button();
-            this.btnFilmInfo = new System.Windows.Forms.Button();
+            this.btnProjekcijaInfo = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cbTermin = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbKorisnik = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cbProjekcija = new System.Windows.Forms.ComboBox();
-            this.flpSjedista = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnOdaberiSjedista = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.err)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +50,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             // btnOcisti
             // 
             this.btnOcisti.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOcisti.Location = new System.Drawing.Point(336, 181);
+            this.btnOcisti.Location = new System.Drawing.Point(336, 201);
             this.btnOcisti.Name = "btnOcisti";
             this.btnOcisti.Size = new System.Drawing.Size(75, 23);
             this.btnOcisti.TabIndex = 10;
@@ -61,7 +61,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             // btnSpremi
             // 
             this.btnSpremi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSpremi.Location = new System.Drawing.Point(417, 181);
+            this.btnSpremi.Location = new System.Drawing.Point(417, 201);
             this.btnSpremi.Name = "btnSpremi";
             this.btnSpremi.Size = new System.Drawing.Size(75, 23);
             this.btnSpremi.TabIndex = 7;
@@ -76,7 +76,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnDodajKorisnika);
-            this.groupBox2.Controls.Add(this.btnFilmInfo);
+            this.groupBox2.Controls.Add(this.btnProjekcijaInfo);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.cbTermin);
             this.groupBox2.Controls.Add(this.label1);
@@ -100,14 +100,15 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.btnDodajKorisnika.UseVisualStyleBackColor = true;
             this.btnDodajKorisnika.Click += new System.EventHandler(this.BtnDodajKorisnika_Click);
             // 
-            // btnFilmInfo
+            // btnProjekcijaInfo
             // 
-            this.btnFilmInfo.Location = new System.Drawing.Point(452, 26);
-            this.btnFilmInfo.Name = "btnFilmInfo";
-            this.btnFilmInfo.Size = new System.Drawing.Size(23, 23);
-            this.btnFilmInfo.TabIndex = 28;
-            this.btnFilmInfo.Text = "i";
-            this.btnFilmInfo.UseVisualStyleBackColor = true;
+            this.btnProjekcijaInfo.Location = new System.Drawing.Point(452, 26);
+            this.btnProjekcijaInfo.Name = "btnProjekcijaInfo";
+            this.btnProjekcijaInfo.Size = new System.Drawing.Size(23, 23);
+            this.btnProjekcijaInfo.TabIndex = 28;
+            this.btnProjekcijaInfo.Text = "i";
+            this.btnProjekcijaInfo.UseVisualStyleBackColor = true;
+            this.btnProjekcijaInfo.Click += new System.EventHandler(this.BtnProjekcijaInfo_Click);
             // 
             // label3
             // 
@@ -164,38 +165,34 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.cbProjekcija.SelectedValueChanged += new System.EventHandler(this.CbProjekcija_SelectedValueChanged);
             this.cbProjekcija.Validating += new System.ComponentModel.CancelEventHandler(this.CbProjekcija_Validating);
             // 
-            // flpSjedista
+            // btnOdaberiSjedista
             // 
-            this.flpSjedista.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.flpSjedista.AutoSize = true;
-            this.flpSjedista.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flpSjedista.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flpSjedista.Location = new System.Drawing.Point(202, 164);
-            this.flpSjedista.MaximumSize = new System.Drawing.Size(481, 0);
-            this.flpSjedista.MinimumSize = new System.Drawing.Size(100, 5);
-            this.flpSjedista.Name = "flpSjedista";
-            this.flpSjedista.Size = new System.Drawing.Size(100, 5);
-            this.flpSjedista.TabIndex = 13;
+            this.btnOdaberiSjedista.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOdaberiSjedista.Location = new System.Drawing.Point(12, 164);
+            this.btnOdaberiSjedista.Name = "btnOdaberiSjedista";
+            this.btnOdaberiSjedista.Size = new System.Drawing.Size(481, 23);
+            this.btnOdaberiSjedista.TabIndex = 13;
+            this.btnOdaberiSjedista.Text = "Odaberi sjedišta";
+            this.btnOdaberiSjedista.UseVisualStyleBackColor = true;
+            this.btnOdaberiSjedista.Click += new System.EventHandler(this.BtnOdaberiSjedista_Click);
             // 
             // FrmRezervacijaDodajUredi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(508, 216);
-            this.Controls.Add(this.flpSjedista);
+            this.ClientSize = new System.Drawing.Size(508, 236);
+            this.Controls.Add(this.btnOdaberiSjedista);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnOcisti);
             this.Controls.Add(this.btnSpremi);
             this.Name = "FrmRezervacijaDodajUredi";
-            this.Text = "Dodaj korisnika";
+            this.Text = "Dodaj rezervaciju";
             this.Load += new System.EventHandler(this.FrmRezervacijaDodajUredi_Load);
             ((System.ComponentModel.ISupportInitialize)(this.err)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -210,8 +207,8 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         private System.Windows.Forms.ComboBox cbTermin;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbKorisnik;
-        private System.Windows.Forms.Button btnFilmInfo;
-        private System.Windows.Forms.FlowLayoutPanel flpSjedista;
+        private System.Windows.Forms.Button btnProjekcijaInfo;
         private System.Windows.Forms.Button btnDodajKorisnika;
+        private System.Windows.Forms.Button btnOdaberiSjedista;
     }
 }

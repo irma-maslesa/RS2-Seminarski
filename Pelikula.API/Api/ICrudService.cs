@@ -1,5 +1,4 @@
-﻿using Pelikula.API.Model.Anketa;
-using Pelikula.CORE.Helper.Response;
+﻿using Pelikula.CORE.Helper.Response;
 
 namespace Pelikula.API.Api
 {

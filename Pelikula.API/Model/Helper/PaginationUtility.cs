@@ -19,8 +19,7 @@ namespace Pelikula.API.Model.Helper
             public bool HasMoreRecords { get; set; }
 
             public PagedData(IEnumerable<T> records, int recordsPerPage, int page,
-                int numberOfPages, int numberOfRecords, bool hasMoreRecords = false)
-            {
+                int numberOfPages, int numberOfRecords, bool hasMoreRecords = false) {
                 Records = records;
                 RecordsPerPage = recordsPerPage;
                 Page = page;
@@ -29,13 +28,11 @@ namespace Pelikula.API.Model.Helper
                 HasMoreRecords = hasMoreRecords;
             }
 
-            public IEnumerator<T> GetEnumerator()
-            {
+            public IEnumerator<T> GetEnumerator() {
                 return Records.GetEnumerator();
             }
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
+            IEnumerator IEnumerable.GetEnumerator() {
                 return ((IEnumerable)Records).GetEnumerator();
             }
         }
@@ -48,10 +45,8 @@ namespace Pelikula.API.Model.Helper
 
         public static class Paginaion<T> where T : class
         {
-            public static PagedData<T> PaginateData(IEnumerable<T> data, PaginationParams paginationParams = null)
-            {
-                if (paginationParams != null)
-                {
+            public static PagedData<T> PaginateData(IEnumerable<T> data, PaginationParams paginationParams = null) {
+                if (paginationParams != null) {
                     ValidatePaginationParams(paginationParams);
 
                     List<T> records = data.Skip((paginationParams.Page - 1) * paginationParams.RecordsPerPage).Take(paginationParams.RecordsPerPage).ToList();
@@ -59,17 +54,14 @@ namespace Pelikula.API.Model.Helper
                     bool hasMoreRecords = data.Count() > paginationParams.Page * paginationParams.RecordsPerPage;
                     return new PagedData<T>(records, paginationParams.RecordsPerPage, paginationParams.Page, numberOfPages, data.Count(), hasMoreRecords);
                 }
-                else
-                {
+                else {
                     return new PagedData<T>(data, data.Count(), 1, 1, data.Count());
 
                 }
             }
 
-            private static void ValidatePaginationParams(PaginationParams paginationParams)
-            {
-                if (paginationParams.Page < 1 || paginationParams.RecordsPerPage < 1)
-                {
+            private static void ValidatePaginationParams(PaginationParams paginationParams) {
+                if (paginationParams.Page < 1 || paginationParams.RecordsPerPage < 1) {
                     throw new UserException("Paginacija nije ispravna!", HttpStatusCode.BadRequest);
                 }
             }

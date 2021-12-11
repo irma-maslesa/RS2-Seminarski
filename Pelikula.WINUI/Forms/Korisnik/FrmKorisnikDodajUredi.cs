@@ -2,6 +2,7 @@
 using Pelikula.API.Model;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,16 +28,14 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
         IEnumerable<LoV> tipKorisnikaList = new List<LoV>();
 
-        public FrmKorisnikDodajUredi(int? id = null)
-        {
+        public FrmKorisnikDodajUredi(int? id = null) {
             _id = id;
             _prijavljeniKorisnik = Properties.Settings.Default.PrijavljeniKorisnik;
 
             InitializeComponent();
         }
 
-        private async void FrmKorisnikDodajUredi_Load(object sender, EventArgs e)
-        {
+        private async void FrmKorisnikDodajUredi_Load(object sender, EventArgs e) {
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -52,14 +51,12 @@ namespace Pelikula.WINUI.Forms.Korisnik
             cbTipKorisnika.DisplayMember = "Naziv";
             cbTipKorisnika.ValueMember = "Id";
 
-            if (_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
-            {
+            if (_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString())) {
                 cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(o => o.Naziv.ToLower().Equals(KorisnikTip.Klijent.ToString().ToLower()));
                 cbTipKorisnika.Enabled = false;
             }
 
-            if (_id.HasValue)
-            {
+            if (_id.HasValue) {
                 Text = "Uredi korisnika";
 
                 PayloadResponse<KorisnikResponse> response = await _service.GetById<PayloadResponse<KorisnikResponse>>(_id.Value);
@@ -69,8 +66,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void SetValues()
-        {
+        private void SetValues() {
             txtIme.Text = _initial.Ime;
             txtPrezime.Text = _initial.Prezime;
             txtEmail.Text = _initial.Email;
@@ -86,7 +82,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             else
                 pbSlika.Image = null;
 
-            if(!_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
+            if (!_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
                 cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(e => e.Id == _initial.TipKorisnika?.Id);
             else
                 cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(o => o.Naziv.ToLower().Equals(KorisnikTip.Klijent.ToString().ToLower()));
@@ -94,10 +90,8 @@ namespace Pelikula.WINUI.Forms.Korisnik
             cbSpol.SelectedIndex = _initial.Spol == "M" ? cbSpol.FindStringExact("Muški") : cbSpol.FindStringExact("Ženski");
         }
 
-        private async void BtnSpremi_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren())
-            {
+        private async void BtnSpremi_Click(object sender, EventArgs e) {
+            if (ValidateChildren()) {
                 _request.Ime = txtIme.Text;
                 _request.Prezime = txtPrezime.Text;
                 _request.Email = txtEmail.Text;
@@ -105,38 +99,32 @@ namespace Pelikula.WINUI.Forms.Korisnik
                 _request.DatumRodjenja = dtpDatumRodjenja?.Value;
                 _request.KorisnickoIme = txtKorisnickoIme.Text;
 
-                if (_request.Slika == null && _request.SlikaThumb == null)
-                {
+                if (_request.Slika == null && _request.SlikaThumb == null) {
                     _request.Slika = _initial.Slika;
                     _request.SlikaThumb = _initial.SlikaThumb;
                 }
 
-                if (!string.IsNullOrEmpty(txtLozinka.Text.Trim()))
-                {
+                if (!string.IsNullOrEmpty(txtLozinka.Text.Trim())) {
                     _request.LozinkaSalt = PasswordHelper.GenerateSalt();
                     _request.LozinkaHash = PasswordHelper.GenerateHash(_request.LozinkaSalt, txtLozinka.Text);
                 }
 
                 _request.TipKorisnikaId = ((LoV)cbTipKorisnika.SelectedItem).Id;
 
-                if (_id.HasValue)
-                {
+                if (_id.HasValue) {
                     var response = await _service.Update<PayloadResponse<KorisnikResponse>>(_id.Value, _request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Korisnik {txtIme.Text} uspješno uređen!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                 }
-                else
-                {
+                else {
                     PayloadResponse<KorisnikResponse> response = await _service.Insert<PayloadResponse<KorisnikResponse>>(_request);
 
-                    if (response != null)
-                    {
+                    if (response != null) {
                         MessageBox.Show($"Korisnik {response.Payload.Ime} uspješno dodan!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         DialogResult = DialogResult.OK;
@@ -146,27 +134,23 @@ namespace Pelikula.WINUI.Forms.Korisnik
             }
         }
 
-        private void BtnOcisti_Click(object sender, EventArgs e)
-        {
+        private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
         }
 
-        private void PictureBox1_Click(object sender, EventArgs e)
-        {
+        private void PictureBox1_Click(object sender, EventArgs e) {
             if (txtLozinka.PasswordChar == '*')
                 txtLozinka.PasswordChar = new char();
             else
                 txtLozinka.PasswordChar = '*';
         }
 
-        private void BtnDodajSliku_Click(object sender, EventArgs e)
-        {
+        private void BtnDodajSliku_Click(object sender, EventArgs e) {
             ofdSlika.ShowDialog();
 
             var slikaData = SaveImageHelper.PrepareSaveImage(ofdSlika.FileName);
 
-            if (slikaData != null)
-            {
+            if (slikaData != null) {
                 _request.Slika = slikaData.OriginalImageBytes;
                 _request.SlikaThumb = slikaData.CroppedImageBytes;
                 pbSlika.Image = (Bitmap)((new ImageConverter()).ConvertFrom(slikaData.CroppedImageBytes));
@@ -176,120 +160,93 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
 
         //VALIDACIJA
-        private void TxtIme_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtIme.Text.Trim()))
-            {
+        private void TxtIme_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtIme.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtIme, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtIme, null);
             }
         }
 
-        private void TxtPrezime_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtPrezime.Text.Trim()))
-            {
+        private void TxtPrezime_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtPrezime.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtPrezime, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(txtPrezime, null);
             }
         }
 
-        private void TxtEmail_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtEmail.Text.Trim()))
-            {
+        private void TxtEmail_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtEmail.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtEmail, "Obavezno polje!");
             }
-            else
-            {
-                try
-                {
+            else {
+                try {
                     new MailAddress(txtEmail.Text);
                     err.SetError(txtEmail, null);
                 }
-                catch (FormatException)
-                {
+                catch (FormatException) {
                     e.Cancel = true;
                     err.SetError(txtEmail, "Neispravan format!");
                 }
             }
         }
 
-        private void TxtKorisnickoIme_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtKorisnickoIme.Text.Trim()))
-            {
+        private void TxtKorisnickoIme_Validating(object sender, CancelEventArgs e) {
+            if (string.IsNullOrEmpty(txtKorisnickoIme.Text.Trim())) {
                 e.Cancel = true;
                 err.SetError(txtKorisnickoIme, "Obavezno polje!");
             }
-            else if (txtKorisnickoIme.TextLength < 3)
-            {
+            else if (txtKorisnickoIme.TextLength < 3) {
                 e.Cancel = true;
                 err.SetError(txtKorisnickoIme, "Minimalna duzina je 3!");
             }
-            else
-            {
+            else {
                 err.SetError(txtKorisnickoIme, null);
             }
         }
 
-        private void TxtLozinka_Validating(object sender, CancelEventArgs e)
-        {
-            if (!_id.HasValue)
-            {
-                if (string.IsNullOrEmpty(txtLozinka.Text.Trim()))
-                {
+        private void TxtLozinka_Validating(object sender, CancelEventArgs e) {
+            if (!_id.HasValue) {
+                if (string.IsNullOrEmpty(txtLozinka.Text.Trim())) {
                     e.Cancel = true;
                     err.SetError(txtLozinka, "Obavezno polje!");
                 }
-                else if (txtLozinka.TextLength < 6)
-                {
+                else if (txtLozinka.TextLength < 6) {
                     e.Cancel = true;
                     err.SetError(txtLozinka, "Minimalna dužina je 6!");
                 }
-                else if (!txtLozinka.Text.Any(char.IsDigit) || !txtLozinka.Text.Any(char.IsLetter))
-                {
+                else if (!txtLozinka.Text.Any(char.IsDigit) || !txtLozinka.Text.Any(char.IsLetter)) {
                     e.Cancel = true;
                     err.SetError(txtLozinka, "Mora sadržavati minimalno jedno slovo i broj!");
                 }
-                else
-                {
+                else {
                     err.SetError(txtLozinka, null);
                 }
             }
         }
 
-        private void CbTipKorisnika_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbTipKorisnika.SelectedItem == null)
-            {
+        private void CbTipKorisnika_Validating(object sender, CancelEventArgs e) {
+            if (cbTipKorisnika.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbTipKorisnika, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbTipKorisnika, null);
             }
         }
 
-        private void CbSpol_Validating(object sender, CancelEventArgs e)
-        {
-            if (cbSpol.SelectedItem == null)
-            {
+        private void CbSpol_Validating(object sender, CancelEventArgs e) {
+            if (cbSpol.SelectedItem == null) {
                 e.Cancel = true;
                 err.SetError(cbSpol, "Obavezno polje!");
             }
-            else
-            {
+            else {
                 err.SetError(cbSpol, null);
             }
         }

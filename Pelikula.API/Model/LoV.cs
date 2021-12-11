@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Pelikula.API.Model
 {
@@ -9,26 +8,21 @@ namespace Pelikula.API.Model
 
         public string Naziv { get; set; }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return Naziv;
         }
 
-        public override bool Equals(object obj)
-        {
-            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-            {
+        public override bool Equals(object obj) {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType())) {
                 return false;
             }
-            else
-            {
+            else {
                 LoV lov = (LoV)obj;
                 return (Id == lov.Id) && (Naziv == lov.Naziv);
             }
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return HashCode.Combine(Id, Naziv);
         }
     }

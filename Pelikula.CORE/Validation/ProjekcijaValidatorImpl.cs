@@ -11,12 +11,10 @@ namespace Pelikula.CORE.Validation
 {
     public class ProjekcijaValidatorImpl : BaseValidatorImpl<Projekcija>, IProjekcijaValidator
     {
-        public ProjekcijaValidatorImpl(AppDbContext context) : base(context)
-        {
+        public ProjekcijaValidatorImpl(AppDbContext context) : base(context) {
         }
 
-        public void ValidateEntityExists(int? id, ProjekcijaUpsertRequest request)
-        {
+        public void ValidateEntityExists(int? id, ProjekcijaUpsertRequest request) {
             bool postojiProjekcija = false;
 
             if (id.HasValue)
@@ -36,8 +34,7 @@ namespace Pelikula.CORE.Validation
                 throw new UserException($"Projekcija se poklapa sa već postojećom!", HttpStatusCode.BadRequest);
         }
 
-        public void ValidateTermin(List<ProjekcijaTerminUpsertRequest> requests, int trajanjeFilma)
-        {
+        public void ValidateTermin(List<ProjekcijaTerminUpsertRequest> requests, int trajanjeFilma) {
             if (requests.GroupBy(e => e.Termin.TimeOfDay).Any(x => x.Skip(1).Any()))
                 throw new UserException($"Projekcija ne smije imati iste termine!", HttpStatusCode.BadRequest);
 
@@ -48,8 +45,7 @@ namespace Pelikula.CORE.Validation
 
         }
 
-        public void ValidateTerminExists(int projekcijaTerminId)
-        {
+        public void ValidateTerminExists(int projekcijaTerminId) {
             if (!Context.ProjekcijaTermin.Any(e => e.Id == projekcijaTerminId))
                 throw new UserException($"Termin({projekcijaTerminId}) ne postoji! ", HttpStatusCode.BadRequest);
         }

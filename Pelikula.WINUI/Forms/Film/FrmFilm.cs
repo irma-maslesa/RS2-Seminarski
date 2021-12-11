@@ -1,7 +1,8 @@
 ﻿using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Film;
+using Pelikula.API.Model.Helper;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,13 +19,11 @@ namespace Pelikula.WINUI.Forms.Film
 
         List<LoV> zanrList = new List<LoV>();
 
-        public FrmFilm()
-        {
+        public FrmFilm() {
             InitializeComponent();
             dgvFilmovi.AutoGenerateColumns = false;
         }
-        private async void FrmFilm_Load(object sender, EventArgs e)
-        {
+        private async void FrmFilm_Load(object sender, EventArgs e) {
             DisableChildren();
 
             zanrList = (await _zanrService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
@@ -38,24 +37,23 @@ namespace Pelikula.WINUI.Forms.Film
             await GetGridData();
         }
 
-        private async void BtnPretrazi_Click(object sender, EventArgs e)
-        {
+        private async void BtnPretrazi_Click(object sender, EventArgs e) {
             await GetGridData();
         }
 
-        private async Task GetGridData(bool adding = false)
-        {
+        private async Task GetGridData(bool adding = false) {
             DisableChildren();
 
             int _currentIndex = dgvFilmovi.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = dgvFilmovi.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-            CreateFilters(filters, txtNaslov, "Naslov");
-            CreateCbFilters(filters, cbZanr, "ZanrId");
+            FormHelper.CreateFilters(filters, txtNaslov, "Naslov");
+            FormHelper.CreateCbFilters(filters, cbZanr, "ZanrId");
 
             CreateTrajanjeFilter(filters, txtMinTrajanje, FilterUtility.FilterOptions.isgreaterthanorequalto);
             CreateTrajanjeFilter(filters, txtMaxTrajanje, FilterUtility.FilterOptions.islessthanorequalto);
+
             Cursor = Cursors.WaitCursor;
 
             PagedPayloadResponse<FilmResponse> obj = await _service.Get<PagedPayloadResponse<FilmResponse>>(null, filters, null);
@@ -63,7 +61,7 @@ namespace Pelikula.WINUI.Forms.Film
             dgvFilmovi.DataSource = obj.Payload;
 
             dgvFilmovi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvFilmovi.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvFilmovi.ClearSelection();
 
@@ -71,90 +69,25 @@ namespace Pelikula.WINUI.Forms.Film
 
             EnableChildren();
 
-            if (dgvFilmovi.RowCount == 0)
-            {
+            if (dgvFilmovi.RowCount == 0) {
                 btnUredi.Enabled = false;
                 btnObrisi.Enabled = false;
             }
-
-            if (adding)
-            {
-                dgvFilmovi.FirstDisplayedScrollingRowIndex = dgvFilmovi.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvFilmovi.RowCount)
-            {
-                dgvFilmovi.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvFilmovi.RowCount > 0)
-            {
-                dgvFilmovi.FirstDisplayedScrollingRowIndex = 0;
+            else {
+                btnUredi.Enabled = true;
+                btnObrisi.Enabled = true;
             }
 
-            if (adding)
-            {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[dgvFilmovi.RowCount - 1].Cells[0];
-                dgvFilmovi.Rows[dgvFilmovi.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvFilmovi.RowCount)
-            {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[_selectedRowIndex.Value - 1].Cells[0];
-                dgvFilmovi.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[_selectedRowIndex.Value].Cells[0];
-                dgvFilmovi.Rows[_selectedRowIndex.Value].Selected = true;
-            }
+            FormHelper.SelectAndShowDgvRow(dgvFilmovi, adding, _currentIndex, _selectedRowIndex, filters);
         }
 
-        private void CreateFilters(List<FilterUtility.FilterParams> filters, TextBox txt, string columnName)
-        {
+        private void CreateTrajanjeFilter(List<FilterUtility.FilterParams> filters, MaskedTextBox txt, FilterUtility.FilterOptions option) {
             if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txt.Text
-                };
+                filters.Add(new FilterUtility.FilterParams("Trajanje", int.Parse(txt.Text).ToString(), option.ToString()));
 
-                filters.Add(filter);
-            }
         }
 
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
-        }
-
-        private void CreateTrajanjeFilter(List<FilterUtility.FilterParams> filters, MaskedTextBox txt, FilterUtility.FilterOptions option)
-        {
-            if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "Trajanje",
-                    FilterOption = option.ToString(),
-                    FilterValue = int.Parse(txt.Text).ToString()
-                };
-
-                filters.Add(filter);
-            }
-        }
-
-        private void EnableChildren()
-        {
+        private void EnableChildren() {
             txtNaslov.Enabled = true;
             txtMinTrajanje.Enabled = true;
             txtMaxTrajanje.Enabled = true;
@@ -169,8 +102,7 @@ namespace Pelikula.WINUI.Forms.Film
             dgvFilmovi.Enabled = true;
         }
 
-        private void DisableChildren()
-        {
+        private void DisableChildren() {
             txtNaslov.Enabled = false;
             txtMinTrajanje.Enabled = false;
             txtMaxTrajanje.Enabled = false;
@@ -185,10 +117,8 @@ namespace Pelikula.WINUI.Forms.Film
             dgvFilmovi.Enabled = false;
         }
 
-        private async void BtnDodaj_Click(object sender, EventArgs e)
-        {
-            FrmFilmDodajUredi frm = new FrmFilmDodajUredi
-            {
+        private async void BtnDodaj_Click(object sender, EventArgs e) {
+            FrmFilmDodajUredi frm = new FrmFilmDodajUredi {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -196,10 +126,8 @@ namespace Pelikula.WINUI.Forms.Film
                 await GetGridData(adding: true);
         }
 
-        private async void BtnUredi_Click(object sender, EventArgs e)
-        {
-            FrmFilmDodajUredi frm = new FrmFilmDodajUredi(((FilmResponse)dgvFilmovi.CurrentRow.DataBoundItem).Id)
-            {
+        private async void BtnUredi_Click(object sender, EventArgs e) {
+            FrmFilmDodajUredi frm = new FrmFilmDodajUredi(((FilmResponse)dgvFilmovi.CurrentRow.DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -207,19 +135,16 @@ namespace Pelikula.WINUI.Forms.Film
                 await GetGridData();
         }
 
-        private async void BtnObrisi_Click(object sender, EventArgs e)
-        {
+        private async void BtnObrisi_Click(object sender, EventArgs e) {
             FilmResponse data = (FilmResponse)dgvFilmovi.CurrentRow.DataBoundItem;
 
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati film {data.Naslov}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            if (MessageBox.Show($"Jeste li sigurni da želite obrisati film {data.Naslov}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
                 await GetGridData();
             }
         }
 
-        private async void CbZanr_SelectedValueChanged(object sender, EventArgs e)
-        {
+        private async void CbZanr_SelectedValueChanged(object sender, EventArgs e) {
             await GetGridData();
         }
     }

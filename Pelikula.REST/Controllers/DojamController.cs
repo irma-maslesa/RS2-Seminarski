@@ -10,14 +10,12 @@ namespace API.Controllers
     {
         protected new readonly IDojamService Service;
 
-        public DojamController(IDojamService service) : base(service)
-        {
+        public DojamController(IDojamService service) : base(service) {
             Service = service;
         }
 
         [HttpGet("{projekcijaId}/{korisnikId}")]
-        public PayloadResponse<DojamResponse> GetByProjekcijaKorisnik(int projekcijaId, int korisnikId)
-        {
+        public PayloadResponse<DojamResponse> GetByProjekcijaKorisnik(int projekcijaId, int korisnikId) {
             return Service.GetByProjekcijaKorisnik(projekcijaId, korisnikId);
         }
     }
