@@ -37,7 +37,6 @@ namespace Pelikula.DAO
         public virtual DbSet<SjedisteRezervacija> SjedisteRezervacija { get; set; }
         public virtual DbSet<TipKorisnika> TipKorisnika { get; set; }
         public virtual DbSet<Zanr> Zanr { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Anketa>(entity =>
@@ -309,10 +308,6 @@ namespace Pelikula.DAO
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.BrojRacuna).IsRequired();
-
-                entity.Property(e => e.Popust).HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.Porez).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Prodaja)

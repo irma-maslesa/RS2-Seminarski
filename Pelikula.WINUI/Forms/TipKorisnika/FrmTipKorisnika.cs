@@ -119,8 +119,10 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
 
         private async void BtnDodaj_Click(object sender, EventArgs e)
         {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi();
-            frm.StartPosition = FormStartPosition.CenterParent;
+            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
             if (frm.ShowDialog() == DialogResult.OK)
                 await GetGridData(adding: true);
@@ -128,8 +130,10 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
 
         private async void BtnUredi_Click(object sender, EventArgs e)
         {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem).Id);
-            frm.StartPosition = FormStartPosition.CenterParent;
+            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem).Id)
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
             if (frm.ShowDialog() == DialogResult.OK)
                 await GetGridData();

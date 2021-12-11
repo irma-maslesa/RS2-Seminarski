@@ -5,6 +5,7 @@ using Pelikula.API.Model.Projekcija;
 using Pelikula.API.Model.Rezervacija;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.WINUI.Forms.Korisnik;
+using Pelikula.WINUI.Forms.Prodaja;
 using Pelikula.WINUI.Forms.Projekcija;
 using System;
 using System.Collections.Generic;
@@ -78,17 +79,22 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
         private static void CreateFilter(List<FilterUtility.FilterParams> filters)
         {
-            var filter = new FilterUtility.FilterParams();
+            var filter1 = new FilterUtility.FilterParams
+            {
+                ColumnName = "VrijediOd",
+                FilterOption = FilterUtility.FilterOptions.islessthanorequalto.ToString(),
+                FilterValue = DateTime.Now.ToString()
+            };
+            filters.Add(filter1);
 
-            filter.ColumnName = "VrijediOd";
-            filter.FilterOption = FilterUtility.FilterOptions.islessthanorequalto.ToString();
-            filter.FilterValue = DateTime.Now.ToString();
-            filters.Add(filter);
 
-            filter.ColumnName = "VrijediDo";
-            filter.FilterOption = FilterUtility.FilterOptions.isgreaterthanorequalto.ToString();
-            filter.FilterValue = DateTime.Now.ToString();
-            filters.Add(filter);
+            var filter2 = new FilterUtility.FilterParams
+            {
+                ColumnName = "VrijediDo",
+                FilterOption = FilterUtility.FilterOptions.isgreaterthanorequalto.ToString(),
+                FilterValue = DateTime.Now.ToString()
+            };
+            filters.Add(filter2);
         }
 
         private void SetValues()
@@ -103,12 +109,12 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         {
             if (_request.SjedistaIds == null || _request.SjedistaIds.Count == 0)
             {
-                err.SetError(flpSjedista, "Obavezno odabrati bar jedno sjediste!");
+                err.SetError(btnOdaberiSjedista, "Obavezno odabrati bar jedno sjediste!");
                 return;
             }
             else
             {
-                err.SetError(flpSjedista, null);
+                err.SetError(btnOdaberiSjedista, null);
             }
 
             if (cbKorisnik.SelectedItem == null)
@@ -159,11 +165,8 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         {
             if (_request.SjedistaIds != null)
                 _request.SjedistaIds.Clear();
-            var buttons = flpSjedista.Controls.OfType<Button>().Where(o => o.Name != "btnEkran").ToList();
-            buttons.ForEach(o => { o.BackColor = DefaultBackColor; o.UseVisualStyleBackColor = true; });
 
             SetValues();
-            DisableAndSelectZauzetaSjedista();
         }
 
         private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e)
@@ -191,69 +194,8 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             {
                 _salaId = salaId;
                 sjedistaList = (await _salaService.GetSjedista(data.Id)).Payload;
-                GenerateSjedistaView();
             }
 
-        }
-
-        private void GenerateSjedistaView()
-        {
-            var groupedSjedista = sjedistaList.GroupBy(e => e.Naziv.Substring(0, 1));
-            var keys = groupedSjedista.Select(e => e.Key).ToList();
-
-            flpSjedista.Controls.Clear();
-
-            foreach (var redKey in keys)
-            {
-                var red = sjedistaList.Where(e => e.Naziv.Substring(0, 1).Equals(redKey));
-                Button lastButton = null;
-                foreach (var sjediste in red)
-                {
-                    Button btn = new Button();
-
-                    btn.Name = sjediste.Id.ToString();
-                    btn.Text = sjediste.Naziv;
-                    btn.Size = new Size(35, 35);
-                    btn.Margin = new Padding(3);
-                    btn.Click += new EventHandler(Button_Click);
-
-                    lastButton = btn;
-                    flpSjedista.Controls.Add(btn);
-                }
-
-                flpSjedista.SetFlowBreak(lastButton, true);
-            }
-
-            Button ekranBtn = new Button();
-
-            ekranBtn.Name = "btnEkran";
-            ekranBtn.Text = "E     K     R     A     N";
-            ekranBtn.Enabled = false;
-            ekranBtn.Width = flpSjedista.Width - 3;
-            flpSjedista.Controls.Add(ekranBtn);
-
-            flpSjedista.Left = (Width - 12 - flpSjedista.Width) / 2;
-
-            Top = 30;
-        }
-
-        private void Button_Click(object sender, EventArgs e)
-        {
-            var btn = (Button)sender;
-            if (_request.SjedistaIds == null)
-                _request.SjedistaIds = new List<int>();
-
-            if (_request.SjedistaIds.Contains(int.Parse(btn.Name)))
-            {
-                _request.SjedistaIds.Remove(int.Parse(btn.Name));
-                btn.BackColor = DefaultBackColor;
-                btn.UseVisualStyleBackColor = true;
-            }
-            else
-            {
-                _request.SjedistaIds.Add(int.Parse(btn.Name));
-                btn.BackColor = SystemColors.ActiveCaption;
-            }
         }
 
         private async void CbTermin_SelectedValueChanged(object sender, EventArgs e)
@@ -274,7 +216,6 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 }
 
                 zauzetaSjedistaList = (await _salaService.GetZauzetaSjedista(data.Id)).Payload;
-                DisableAndSelectZauzetaSjedista();
             }
 
             cbKorisnik.DataSource = korisnikList;
@@ -287,21 +228,23 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
         }
 
-        private void DisableAndSelectZauzetaSjedista()
+        private void BtnOdaberiSjedista_Click(object sender, EventArgs e)
         {
-            var buttons = flpSjedista.Controls.OfType<Button>().Where(e => e.Name != "btnEkran").ToList();
-            buttons.ForEach(e => e.Enabled = true);
-
-            var zauzetaSjedistaIds = zauzetaSjedistaList.Select(e => e.Id).ToList();
-
-            if (_request.SjedistaIds == null || _request.SjedistaIds.Count == 0)
-                buttons.Where(e => zauzetaSjedistaIds.Contains(int.Parse(e.Name))).ToList().ForEach(e => e.Enabled = false);
-            else
+            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _request.SjedistaIds?.ToList())
             {
-                buttons.Where(e => zauzetaSjedistaIds.Contains(int.Parse(e.Name)) && !_request.SjedistaIds.Contains(int.Parse(e.Name))).ToList().ForEach(e => e.Enabled = false);
-                buttons.Where(e => _request.SjedistaIds.Contains(int.Parse(e.Name))).ToList().ForEach(e => e.BackColor = SystemColors.ActiveCaption);
-            }
+                StartPosition = FormStartPosition.CenterScreen
+            };
 
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                var odabrano = frm.OdabranaSjedista;
+                _request.SjedistaIds = odabrano;
+
+                if (_request.SjedistaIds != null && _request.SjedistaIds.Count > 0)
+                {
+                    err.SetError(btnOdaberiSjedista, null);
+                }
+            }
         }
 
         //VALIDACIJA

@@ -17,7 +17,7 @@ namespace Pelikula.API.Model.Projekcija
 
         public override string ToString()
         {
-            return $"{Film.Naziv} - {Sala.Naziv} ({VrijediOd:dd/MM/yyyy} - {VrijediDo:dd/MM/yyyy})";
+            return $"{Film?.Naziv} - {Sala?.Naziv} ({VrijediOd:dd/MM/yyyy} - {VrijediDo:dd/MM/yyyy})";
         }
     }
 }

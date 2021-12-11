@@ -18,7 +18,7 @@ namespace Pelikula.CORE.Validation
             if (id.HasValue)
             {
                 if (Context.Rezervacija.Any(e => e.KorisnikId == korisnikId && e.ProjekcijaTerminId == projekcijaTerminId && e.Id != id.Value))
-                    throw new UserException($"Korisnik(${korisnikId}) ima već kreiranu rezervaciju za termin({projekcijaTerminId})! ", HttpStatusCode.BadRequest);
+                    throw new UserException($"Korisnik({korisnikId}) ima već kreiranu rezervaciju za termin({projekcijaTerminId})! ", HttpStatusCode.BadRequest);
             }
             else
              if (Context.Rezervacija.Any(e => e.KorisnikId == korisnikId && e.ProjekcijaTerminId == projekcijaTerminId))

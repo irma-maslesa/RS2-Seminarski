@@ -51,11 +51,12 @@ namespace Pelikula.WINUI.Forms.Film
             int? _selectedRowIndex = dgvFilmovi.CurrentRow?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
-            CreateFilters(filters, txtNaslov, "Naslov");
-            CreateCbFilters(filters, cbZanr, "ZanrId");
+            FormHelper.CreateFilters(filters, txtNaslov, "Naslov");
+            FormHelper.CreateCbFilters(filters, cbZanr, "ZanrId");
 
             CreateTrajanjeFilter(filters, txtMinTrajanje, FilterUtility.FilterOptions.isgreaterthanorequalto);
             CreateTrajanjeFilter(filters, txtMaxTrajanje, FilterUtility.FilterOptions.islessthanorequalto);
+
             Cursor = Cursors.WaitCursor;
 
             PagedPayloadResponse<FilmResponse> obj = await _service.Get<PagedPayloadResponse<FilmResponse>>(null, filters, null);
@@ -63,6 +64,7 @@ namespace Pelikula.WINUI.Forms.Film
             dgvFilmovi.DataSource = obj.Payload;
 
             dgvFilmovi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
                 dgvFilmovi.ClearSelection();
 
@@ -76,80 +78,14 @@ namespace Pelikula.WINUI.Forms.Film
                 btnObrisi.Enabled = false;
             }
 
-            if (adding)
-            {
-                dgvFilmovi.FirstDisplayedScrollingRowIndex = dgvFilmovi.RowCount - 1;
-            }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgvFilmovi.RowCount)
-            {
-                dgvFilmovi.FirstDisplayedScrollingRowIndex = _currentIndex;
-            }
-            else if (!adding && _currentIndex < 0 && dgvFilmovi.RowCount > 0)
-            {
-                dgvFilmovi.FirstDisplayedScrollingRowIndex = 0;
-            }
-
-            if (adding)
-            {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[dgvFilmovi.RowCount - 1].Cells[1];
-                dgvFilmovi.Rows[dgvFilmovi.RowCount - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgvFilmovi.RowCount)
-            {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[_selectedRowIndex.Value - 1].Cells[1];
-                dgvFilmovi.Rows[_selectedRowIndex.Value - 1].Selected = true;
-            }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue)
-            {
-                dgvFilmovi.CurrentCell = dgvFilmovi.Rows[_selectedRowIndex.Value].Cells[1];
-                dgvFilmovi.Rows[_selectedRowIndex.Value].Selected = true;
-            }
-        }
-
-        private void CreateFilters(List<FilterUtility.FilterParams> filters, TextBox txt, string columnName)
-        {
-            if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = txt.Text
-                };
-
-                filters.Add(filter);
-            }
-        }
-
-        private void CreateCbFilters(List<FilterUtility.FilterParams> filters, ComboBox cb, string columnName)
-        {
-            if (cb.SelectedItem != null && ((LoV)cb.SelectedItem).Id != -1)
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = columnName,
-                    FilterOption = FilterUtility.FilterOptions.startswith.ToString(),
-                    FilterValue = ((LoV)cb.SelectedItem).Id.ToString()
-                };
-
-
-                filters.Add(filter);
-            }
-        }
+            FormHelper.SelectAndShowDgvRow(dgvFilmovi, adding, _currentIndex, _selectedRowIndex, filters);
+        }                
 
         private void CreateTrajanjeFilter(List<FilterUtility.FilterParams> filters, MaskedTextBox txt, FilterUtility.FilterOptions option)
         {
             if (!string.IsNullOrEmpty(txt.Text))
-            {
-                FilterUtility.FilterParams filter = new FilterUtility.FilterParams
-                {
-                    ColumnName = "Trajanje",
-                    FilterOption = option.ToString(),
-                    FilterValue = int.Parse(txt.Text).ToString()
-                };
+                filters.Add(new FilterUtility.FilterParams("Trajanje", int.Parse(txt.Text).ToString(), option.ToString()));
 
-                filters.Add(filter);
-            }
         }
 
         private void EnableChildren()

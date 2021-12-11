@@ -9,8 +9,6 @@ namespace Pelikula.API.Model.Prodaja
         public int Id { get; set; }
         public string BrojRacuna { get; set; }
         public DateTime Datum { get; set; }
-        public decimal Popust { get; set; }
-        public decimal Porez { get; set; }
 
         public decimal UkupnaCijena { get; set; }
 

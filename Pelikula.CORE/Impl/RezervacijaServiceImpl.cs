@@ -203,6 +203,23 @@ namespace Pelikula.CORE.Impl
 
             return new PayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, response);
         }
+
+        public PagedPayloadResponse<RezervacijaSimpleResponse> GetSimple(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting)
+        {
+            IEnumerable<Rezervacija> entityList = Context.Set<Rezervacija>()
+               .Include(e => e.Korisnik)
+               .Include(e => e.ProjekcijaTermin).ThenInclude(e => e.Projekcija).ThenInclude(e => e.Film)
+               .Include(e => e.ProjekcijaTermin).ThenInclude(e => e.Projekcija).ThenInclude(e => e.Sala)
+               .ToList();
+
+            entityList = filter != null && filter.Any() ? FilterUtility.Filter<Rezervacija>.FilteredData(filter, entityList) : entityList;
+            entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Rezervacija>.SortData(sorting, entityList) : entityList;
+
+            List<RezervacijaSimpleResponse> responseList = Mapper.Map<List<RezervacijaSimpleResponse>>(entityList);
+
+            PaginationUtility.PagedData<RezervacijaSimpleResponse> pagedResponse = PaginationUtility.Paginaion<RezervacijaSimpleResponse>.PaginateData(responseList, pagination);
+            return new PagedPayloadResponse<RezervacijaSimpleResponse>(HttpStatusCode.OK, pagedResponse);
+        }
     }
 
 }

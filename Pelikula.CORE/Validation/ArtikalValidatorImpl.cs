@@ -20,7 +20,8 @@ namespace Pelikula.CORE.Validation
         {
             StringBuilder sb = new StringBuilder();
 
-            Artikal entity = null;
+            Artikal entity;
+
             foreach (var id in ids)
             {
                 entity = Context.Artikal.Find(id);

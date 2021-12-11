@@ -114,7 +114,6 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         private void EnableChildren()
         {
-            btnPrikazi.Enabled = true;
             btnDodaj.Enabled = true;
             btnObrisi.Enabled = true;
 
@@ -123,7 +122,6 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         private void DisableChildren()
         {
-            btnPrikazi.Enabled = false;
             btnDodaj.Enabled = false;
             btnObrisi.Enabled = false;
 
@@ -132,13 +130,13 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         private async void BtnDodaj_Click(object sender, EventArgs e)
         {
-            //FrmProdajaDodajUredi frm = new FrmProdajaDodajUredi
-            //{
-            //    StartPosition = FormStartPosition.CenterParent
-            //};
+            FrmProdajaDodajUredi frm = new FrmProdajaDodajUredi
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
-            //if (frm.ShowDialog() == DialogResult.OK)
-            //    await GetGridData(adding: true);
+            if (frm.ShowDialog() == DialogResult.OK)
+                await GetGridData(adding: true);
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e)

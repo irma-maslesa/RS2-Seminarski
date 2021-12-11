@@ -32,6 +32,17 @@ namespace Pelikula.API.Model.Helper
             public string ColumnName { get; set; } = string.Empty;
             public string FilterValue { get; set; } = string.Empty;
             public string FilterOption { get; set; } = string.Empty;
+
+            public FilterParams()
+            {
+            }
+
+            public FilterParams(string columnName, string filterValue, string filterOption)
+            {
+                ColumnName = columnName;
+                FilterValue = filterValue;
+                FilterOption = filterOption;
+            }
         }
 
         public static class Filter<T>

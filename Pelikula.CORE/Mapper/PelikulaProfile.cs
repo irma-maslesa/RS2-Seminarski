@@ -161,6 +161,10 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.ProjekcijaTermin.Projekcija.Film.Naslov} - {src.ProjekcijaTermin.Projekcija.Sala.Naziv} ({src.ProjekcijaTermin.Projekcija.VrijediOd:dd/MM/yyyy} - {src.ProjekcijaTermin.Projekcija.VrijediDo:dd/MM/yyyy}) - {src.Korisnik.Ime} {src.Korisnik.Prezime} ({src.Korisnik.KorisnickoIme}) - {src.BrojSjedista}"))
                 .ReverseMap();
+            CreateMap<Rezervacija, RezervacijaSimpleResponse>()
+                .ForMember(dest => dest.Naziv,
+                opts => opts.MapFrom(src => $"{src.ProjekcijaTermin.Projekcija.Film.Naslov} - {src.ProjekcijaTermin.Projekcija.Sala.Naziv} ({src.ProjekcijaTermin.Projekcija.VrijediOd:dd/MM/yyyy} - {src.ProjekcijaTermin.Projekcija.VrijediDo:dd/MM/yyyy}) - {src.Korisnik.Ime} {src.Korisnik.Prezime} ({src.Korisnik.KorisnickoIme}) - {src.BrojSjedista}"))
+                .ReverseMap();
             CreateMap<RezervacijaUpsertRequest, Rezervacija>()
                 .ForMember(dest => dest.SjedisteRezervacija,
                 opts => opts.Ignore())

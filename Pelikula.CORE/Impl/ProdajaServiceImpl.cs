@@ -57,7 +57,7 @@ namespace Pelikula.CORE.Impl
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Prodaja>.SortData(sorting, entityList) : entityList;
 
             List<ProdajaResponse> responseList = Mapper.Map<List<ProdajaResponse>>(entityList);
-            responseList.ForEach(e => e.UkupnaCijena = GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija, e.Porez, e.Popust));
+            responseList.ForEach(e => e.UkupnaCijena = GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
 
             PaginationUtility.PagedData<ProdajaResponse> pagedResponse = PaginationUtility.Paginaion<ProdajaResponse>.PaginateData(responseList, pagination);
             return new PagedPayloadResponse<ProdajaResponse>(HttpStatusCode.OK, pagedResponse);
@@ -87,7 +87,7 @@ namespace Pelikula.CORE.Impl
                 .FirstOrDefault(e => e.Id == id);
 
             ProdajaResponse response = Mapper.Map<ProdajaResponse>(entity);
-            response.UkupnaCijena = GetUkupnaCijena(response.ProdajaArtikal, response.Rezervacija, response.Porez, response.Popust);
+            response.UkupnaCijena = GetUkupnaCijena(response.ProdajaArtikal, response.Rezervacija);
 
             return new PayloadResponse<ProdajaResponse>(HttpStatusCode.OK, response);
         }
@@ -104,9 +104,11 @@ namespace Pelikula.CORE.Impl
             }
             if (request.ProdajaArtikal != null)
                 ArtikalValidator.ValidateEntitiesExists(request.ProdajaArtikal.Select(e => e.ArtikalId).ToList());
+            
+            if (!request.Datum.HasValue)
+                request.Datum = DateTime.Now;
 
             Prodaja entity = Mapper.Map<ProdajaInsertRequest, Prodaja>(request);
-            entity.Datum = DateTime.Now;
             entity.BrojRacuna = GenerateBrojRacuna(entity.Datum);
 
             entity = Context.Prodaja.Add(entity).Entity;
@@ -136,7 +138,7 @@ namespace Pelikula.CORE.Impl
             Context.SaveChanges();
 
             ProdajaResponse response = Mapper.Map<Prodaja, ProdajaResponse>(entity);
-            response.UkupnaCijena = GetUkupnaCijena(response.ProdajaArtikal, response.Rezervacija, response.Porez, response.Popust);
+            response.UkupnaCijena = GetUkupnaCijena(response.ProdajaArtikal, response.Rezervacija);
 
             return new PayloadResponse<ProdajaResponse>(HttpStatusCode.OK, response);
         }
@@ -165,7 +167,7 @@ namespace Pelikula.CORE.Impl
             throw new UserException("Update prodaje nije moguć!", HttpStatusCode.NotFound);
         }
 
-        private decimal GetUkupnaCijena(ICollection<ProdajaArtikalResponse> prodajaArtikli, RezervacijaResponse rezervacija, decimal porez, decimal popust)
+        private decimal GetUkupnaCijena(ICollection<ProdajaArtikalResponse> prodajaArtikli, RezervacijaResponse rezervacija)
         {
             decimal ukupnaCijena = 0;
 
@@ -174,9 +176,6 @@ namespace Pelikula.CORE.Impl
 
             if (rezervacija != null)
                 ukupnaCijena += rezervacija.Cijena;
-
-            ukupnaCijena *= 1 + porez;
-            ukupnaCijena *= 1 - popust;
 
             return Math.Round(ukupnaCijena, 2);
         }

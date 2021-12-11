@@ -66,6 +66,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
             if (cbTermin.Enabled)
                 CreateCbFilters(filters, cbTermin, "ProjekcijaTerminId");
+
             CreateCbFilters(filters, cbKorisnik, "KorisnikId");
             CreateCbStatusFilter(filters);
 
@@ -143,33 +144,45 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         {
             var selectedItem = cbStatus.SelectedItem?.ToString();
 
-            var filter = new FilterUtility.FilterParams();
-
             switch (selectedItem)
             {
                 case "Na čekanju":
-                    filter.ColumnName = "DatumProdano";
-                    filter.FilterOption = FilterUtility.FilterOptions.isequalto.ToString();
-                    filter.FilterValue = null;
-                    filters.Add(filter);
+                    var filter1 = new FilterUtility.FilterParams
+                    {
+                        ColumnName = "DatumProdano",
+                        FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
+                        FilterValue = null
+                    };
+                    filters.Add(filter1);
 
-                    filter.ColumnName = "DatumOtkazano";
-                    filter.FilterOption = FilterUtility.FilterOptions.isequalto.ToString();
-                    filter.FilterValue = null;
-                    filters.Add(filter);
+                    var filter2 = new FilterUtility.FilterParams
+                    {
+                        ColumnName = "DatumOtkazano",
+                        FilterOption = FilterUtility.FilterOptions.isequalto.ToString(),
+                        FilterValue = null
+                    };
+                    filters.Add(filter2);
 
                     break;
                 case "Prodane":
-                    filter.ColumnName = "DatumProdano";
-                    filter.FilterOption = FilterUtility.FilterOptions.isnotequalto.ToString();
-                    filter.FilterValue = null;
-                    filters.Add(filter);
+
+                    var filter3 = new FilterUtility.FilterParams
+                    {
+                        ColumnName = "DatumProdano",
+                        FilterOption = FilterUtility.FilterOptions.isnotequalto.ToString(),
+                        FilterValue = null
+                    };
+                    filters.Add(filter3);
                     break;
                 case "Otkazane":
-                    filter.ColumnName = "DatumOtkazano";
-                    filter.FilterOption = FilterUtility.FilterOptions.isnotequalto.ToString();
-                    filter.FilterValue = null;
-                    filters.Add(filter);
+
+                    var filter4 = new FilterUtility.FilterParams
+                    {
+                        ColumnName = "DatumOtkazano",
+                        FilterOption = FilterUtility.FilterOptions.isnotequalto.ToString(),
+                        FilterValue = null
+                    };
+                    filters.Add(filter4);
                     break;
                 default:
                     break;
