@@ -2,6 +2,7 @@
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
+using Pelikula.DAO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

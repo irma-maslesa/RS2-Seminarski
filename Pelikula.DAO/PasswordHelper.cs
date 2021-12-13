@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Pelikula.API
+namespace Pelikula.DAO
 {
-    public class PasswordHelper
+    public static class PasswordHelper
     {
         public static string GenerateSalt() {
             var buf = new byte[16];

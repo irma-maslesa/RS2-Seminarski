@@ -270,7 +270,8 @@ namespace Pelikula.CORE.Impl
         public ListPayloadResponse<LoV> GetTermine(int projekcijaId) {
             Validator.ValidateEntityExists(projekcijaId);
 
-            List<ProjekcijaTermin> entityList = Context.Set<ProjekcijaTermin>().Where(e => e.ProjekcijaId == projekcijaId).ToList();
+            var datum = DateTime.Now;
+            List<ProjekcijaTermin> entityList = Context.Set<ProjekcijaTermin>().Where(e => e.ProjekcijaId == projekcijaId && e.Termin >= datum.AddMinutes(5)).ToList();
 
             List<LoV> response = Mapper.Map<List<LoV>>(entityList);
 

@@ -479,6 +479,11 @@ namespace Pelikula.DAO
 
                 entity.Property(e => e.Opis).HasMaxLength(2000);
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
+
 }

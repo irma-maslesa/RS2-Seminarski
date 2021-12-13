@@ -373,6 +373,10 @@
       <Project>{e1fcbb13-170a-4d60-b3b3-8db1a158841e}</Project>
       <Name>Pelikula.API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pelikula.DAO\Pelikula.DAO.csproj">
+      <Project>{7de9b39d-5202-448e-956e-1fbaf0bfcf6d}</Project>
+      <Name>Pelikula.DAO</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\eye2.png" />
