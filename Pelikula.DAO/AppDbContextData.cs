@@ -7,6 +7,8 @@ namespace Pelikula.DAO
 {
     public partial class AppDbContext
     {
+        private DateTime datum = DateTime.Now;
+
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder) {
             modelBuilder.Entity<TipKorisnika>()
                 .HasData
@@ -161,14 +163,14 @@ namespace Pelikula.DAO
                         KorisnikId = 1,
                         Naslov = "Dobro došli!",
                         Tekst = "Dobro došli na informacijski sistem za podršku rada kino centra!",
-                        Datum = DateTime.Now
+                        Datum = datum
                     },
                     new Obavijest {
                         Id = 2,
                         KorisnikId = 2,
                         Naslov = "Stigla je nova Pelikula aplikacija!",
                         Tekst = "Slušali smo vaše prijedloge te vam s ponosom predstavljamo novu Pelikula aplikaciju. Preuzmite novu Pelikula aplikaciju već danas! Nova aplikacija donosi nove značajke: digitalnu bonus karticu, jednostavnu i brzu kupovinu kinoulaznica te još mnogo toga.",
-                        Datum = DateTime.Now
+                        Datum = datum
                     }
                 );
 
@@ -178,13 +180,13 @@ namespace Pelikula.DAO
                         Id = 1,
                         KorisnikId = 1,
                         Naslov = "Omiljeni fimski žanr?",
-                        Datum = DateTime.Now
+                        Datum = datum
                     },
                     new Anketa {
                         Id = 2,
                         KorisnikId = 2,
                         Naslov = "Omiljeni klasik?",
-                        Datum = DateTime.Now
+                        Datum = datum
                     }
                 );
 
@@ -268,25 +270,25 @@ namespace Pelikula.DAO
                         Id = 1,
                         AnketaOdgovorId = 1,
                         KorisnikId = 4,
-                        Datum = DateTime.Now
+                        Datum = datum
                     },
                     new AnketaOdgovorKorisnik {
                         Id = 2,
                         AnketaOdgovorId = 5,
                         KorisnikId = 6,
-                        Datum = DateTime.Now
+                        Datum = datum
                     },
                     new AnketaOdgovorKorisnik {
                         Id = 3,
                         AnketaOdgovorId = 7,
                         KorisnikId = 4,
-                        Datum = DateTime.Now
+                        Datum = datum
                     },
                     new AnketaOdgovorKorisnik {
                         Id = 4,
                         AnketaOdgovorId = 10,
                         KorisnikId = 6,
-                        Datum = DateTime.Now
+                        Datum = datum
                     }
                 );
 
@@ -1059,18 +1061,18 @@ namespace Pelikula.DAO
                         FilmId = 1,
                         SalaId = 1,
                         Cijena = 7.5M,
-                        Datum = DateTime.Now,
-                        VrijediOd = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 0, 0, 0),
-                        VrijediDo = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(2).Month, DateTime.Now.AddDays(1).Day, 23, 59, 59),
+                        Datum = datum,
+                        VrijediOd = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 0, 0, 0),
+                        VrijediDo = new DateTime(datum.AddDays(1).Year, datum.AddDays(1).Month, datum.AddDays(1).Day, 23, 59, 59),
                     },
                     new Projekcija {
                         Id = 2,
                         FilmId = 2,
                         SalaId = 2,
                         Cijena = 5.5M,
-                        Datum = DateTime.Now,
-                        VrijediOd = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 0, 0, 0),
-                        VrijediDo = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(2).Month, DateTime.Now.AddDays(1).Day, 23, 59, 59),
+                        Datum = datum,
+                        VrijediOd = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 0, 0, 0),
+                        VrijediDo = new DateTime(datum.AddDays(1).Year, datum.AddDays(1).Month, datum.AddDays(1).Day, 23, 59, 59),
                     }
                 );
 
@@ -1079,42 +1081,42 @@ namespace Pelikula.DAO
                     new ProjekcijaTermin {
                         Id = 1,
                         ProjekcijaId = 1,
-                        Termin = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 13, 30, 0)
+                        Termin = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 13, 30, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 2,
                         ProjekcijaId = 1,
-                        Termin = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 18, 40, 0)
+                        Termin = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 18, 40, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 3,
                         ProjekcijaId = 1,
-                        Termin = new DateTime(DateTime.Now.AddDays(2).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 13, 30, 0)
+                        Termin = new DateTime(datum.AddDays(1).Year, datum.AddDays(1).Month, datum.AddDays(1).Day, 13, 30, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 4,
                         ProjekcijaId = 1,
-                        Termin = new DateTime(DateTime.Now.AddDays(2).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 18, 40, 0)
+                        Termin = new DateTime(datum.AddDays(1).Year, datum.AddDays(1).Month, datum.AddDays(1).Day, 18, 40, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 5,
                         ProjekcijaId = 2,
-                        Termin = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 13, 30, 0)
+                        Termin = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 13, 30, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 6,
                         ProjekcijaId = 2,
-                        Termin = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 18, 40, 0)
+                        Termin = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 18, 40, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 7,
                         ProjekcijaId = 2,
-                        Termin = new DateTime(DateTime.Now.AddDays(2).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 13, 30, 0)
+                        Termin = new DateTime(datum.AddDays(1).Year, datum.AddDays(1).Month, datum.AddDays(1).Day, 13, 30, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 8,
                         ProjekcijaId = 2,
-                        Termin = new DateTime(DateTime.Now.AddDays(2).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 18, 40, 0)
+                        Termin = new DateTime(datum.AddDays(1).Year, datum.AddDays(1).Month, datum.AddDays(1).Day, 18, 40, 0)
                     }
                 );
 
@@ -1126,7 +1128,7 @@ namespace Pelikula.DAO
                         KorisnikId = 4,
                         Ocjena = 5,
                         Tekst = "Odličan film, potpuno sam zadovoljan uslugama kina.",
-                        Datum = DateTime.Now
+                        Datum = datum
                     },
                     new Dojam {
                         Id = 2,
@@ -1134,14 +1136,14 @@ namespace Pelikula.DAO
                         KorisnikId = 6,
                         Ocjena = 4,
                         Tekst = "Kokice su bile preslane.",
-                        Datum = DateTime.Now
+                        Datum = datum
                     },
                     new Dojam {
                         Id = 3,
                         ProjekcijaId = 2,
                         KorisnikId = 6,
                         Ocjena = 5,
-                        Datum = DateTime.Now
+                        Datum = datum
                     }
                 );
 
@@ -1152,9 +1154,9 @@ namespace Pelikula.DAO
                         KorisnikId = 4,
                         BrojSjedista = 2,
                         Cijena = 15M,
-                        Datum = DateTime.Now.AddDays(1),
-                        DatumProdano = DateTime.Now.AddDays(1),
-                        DatumProjekcije = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 13, 30, 0),
+                        Datum = datum.AddDays(1),
+                        DatumProdano = datum.AddDays(1),
+                        DatumProjekcije = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 13, 30, 0),
                         ProjekcijaTerminId = 1
                     },
                     new Rezervacija {
@@ -1162,9 +1164,9 @@ namespace Pelikula.DAO
                         KorisnikId = 6,
                         BrojSjedista = 1,
                         Cijena = 5.5M,
-                        Datum = DateTime.Now.AddDays(1),
-                        DatumProjekcije = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day, 13, 30, 0),
-                        ProjekcijaTerminId = 3
+                        Datum = datum.AddDays(1),
+                        DatumProjekcije = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 13, 30, 0),
+                        ProjekcijaTerminId = 5
                     }
                 );
 
@@ -1193,7 +1195,7 @@ namespace Pelikula.DAO
                         Id = 1,
                         BrojRacuna = "1234abc-def56",
                         KorisnikId = 3,
-                        Datum = DateTime.Now,
+                        Datum = datum,
                         RezervacijaId = 1
                     }
                 );

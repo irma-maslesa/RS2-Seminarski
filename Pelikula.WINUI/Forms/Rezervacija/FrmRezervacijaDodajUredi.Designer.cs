@@ -145,6 +145,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             this.cbKorisnik.Name = "cbKorisnik";
             this.cbKorisnik.Size = new System.Drawing.Size(381, 21);
             this.cbKorisnik.TabIndex = 22;
+            this.cbKorisnik.SelectedIndexChanged += new System.EventHandler(this.CbKorisnik_SelectedIndexChanged);
             // 
             // label8
             // 

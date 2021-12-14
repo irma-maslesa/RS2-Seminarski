@@ -268,6 +268,9 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 if (_salaId != salaId) {
                     _salaId = salaId;
                     sjedistaList = (await _salaService.GetSjedista(data.Id)).Payload;
+
+                    if (_rezervacijaRequest.SjedistaIds != null)
+                        _rezervacijaRequest.SjedistaIds.Clear();
                 }
             }
         }
@@ -287,10 +290,6 @@ namespace Pelikula.WINUI.Forms.Prodaja
             cbKorisnik.DisplayMember = "Naziv";
             cbKorisnik.ValueMember = "Id";
             cbKorisnik.SelectedItem = korisnikList.FirstOrDefault();
-
-            if (cbKorisnik.SelectedItem == null)
-                cbKorisnik.SelectedItem = korisnikList.FirstOrDefault();
-
         }
 
         private void BtnOdaberiSjedista_Click(object sender, EventArgs e) {
@@ -434,6 +433,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
                     gbRezervacija.Visible = false;
                     gbInformacije.Visible = true;
                     btnOdaberiSjedista.Visible = true;
+                    btnOdaberiSjedista.Enabled = false;
 
                     var filters = new List<FilterUtility.FilterParams>
                     {
@@ -451,6 +451,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
                     if (projekcijaList.FirstOrDefault() == null) {
                         cbProjekcija.Enabled = false;
+                        btnDodajKorisnika.Enabled = false;
                         dgvArtikli.Enabled = false;
                         btnSpremi.Enabled = false;
 
@@ -508,6 +509,15 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 err.SetError(cbTermin, null);
             }
         }
+
+        private void CbKorisnik_SelectedIndexChanged(object sender, EventArgs e) {
+            var data = (LoV)cbKorisnik.SelectedItem;
+
+            if (data != null) {
+                btnOdaberiSjedista.Enabled = true;
+            }
+        }
+
     }
 
     static class TipProdaje

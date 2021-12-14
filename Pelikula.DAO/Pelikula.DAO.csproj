@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20211124091249_CreatedEntites.Designer.cs" />
     <Compile Remove="Migrations\20211124105552_AddedEntites.cs" />
     <Compile Remove="Migrations\20211124105552_AddedEntites.Designer.cs" />
+    <Compile Remove="Migrations\20211213145043_Data.cs" />
+    <Compile Remove="Migrations\20211213145043_Data.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

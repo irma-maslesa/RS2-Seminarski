@@ -36,9 +36,8 @@ namespace Pelikula.WINUI.Forms.Prodaja
         }
 
         private void SetValues() {
-            OdabranaSjedista = _rezervisanaSjedista?.Select(e => e).ToList();
+            OdabranaSjedista = new List<int>(_rezervisanaSjedista);
             DisableAndSelectZauzetaSjedista();
-
         }
 
         private void BtnSpremi_Click(object sender, EventArgs e) {
@@ -59,7 +58,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 OdabranaSjedista.Clear();
 
             var buttons = flpSjedista.Controls.OfType<Button>().Where(o => o.Name != "btnEkran").ToList();
-            buttons.ForEach(o => { o.BackColor = DefaultBackColor; o.UseVisualStyleBackColor = true; });
+            buttons.ForEach(o => { o.Enabled = true;  o.BackColor = DefaultBackColor; o.UseVisualStyleBackColor = true; });
 
             SetValues();
             DisableAndSelectZauzetaSjedista();
@@ -130,7 +129,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
             if (OdabranaSjedista == null || OdabranaSjedista.Count == 0)
                 buttons.Where(e => zauzetaSjedistaIds.Contains(int.Parse(e.Name))).ToList().ForEach(e => e.Enabled = false);
             else {
-                buttons.Where(e => zauzetaSjedistaIds.Contains(int.Parse(e.Name)) && !OdabranaSjedista.Contains(int.Parse(e.Name))).ToList().ForEach(e => e.Enabled = false);
+                buttons.Where(e => zauzetaSjedistaIds.Contains(int.Parse(e.Name)) && !OdabranaSjedista.Contains(int.Parse(e.Name)) && !_rezervisanaSjedista.Contains(int.Parse(e.Name))).ToList().ForEach(e => e.Enabled = false);
                 buttons.Where(e => OdabranaSjedista.Contains(int.Parse(e.Name))).ToList().ForEach(e => e.BackColor = SystemColors.ActiveCaption);
             }
 

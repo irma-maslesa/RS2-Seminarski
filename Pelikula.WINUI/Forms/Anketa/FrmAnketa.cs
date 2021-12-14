@@ -190,10 +190,14 @@ namespace Pelikula.WINUI.Forms.Anketa
             if (dgvAnkete.CurrentRow != null)
                 data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
 
-            if (data != null && data.ZakljucenoDatum != null)
+            if (data != null && data.ZakljucenoDatum != null) {
+                btnUredi.Enabled = false;
                 btnZakljucaj.Enabled = false;
-            else
+            }
+            else {
+                btnUredi.Enabled = true;
                 btnZakljucaj.Enabled = true;
+            }
         }
     }
 }

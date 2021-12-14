@@ -53,13 +53,19 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 new FilterUtility.FilterParams("VrijediDo", DateTime.Now.ToString(), FilterUtility.FilterOptions.isgreaterthanorequalto.ToString())
             };
 
-            projekcijaList = (await _projekcijaService.GetLoVs<PagedPayloadResponse<LoV>>(null, filters, null)).Payload.OrderBy(o => o.Naziv).ToList();
+            if (!_id.HasValue)
+                projekcijaList = (await _projekcijaService.GetLoVs<PagedPayloadResponse<LoV>>(null, filters, null)).Payload.OrderBy(o => o.Naziv).ToList();
+            else
+                projekcijaList = (await _projekcijaService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
+
+
             cbProjekcija.DataSource = projekcijaList;
             cbProjekcija.DisplayMember = "Naziv";
             cbProjekcija.ValueMember = "Id";
 
             cbTermin.Enabled = false;
             cbKorisnik.Enabled = false;
+            btnOdaberiSjedista.Enabled = false;
 
             if (_id.HasValue) {
                 cbProjekcija.Enabled = false;
@@ -137,28 +143,34 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
         private async void CbProjekcija_SelectedValueChanged(object sender, EventArgs e) {
             var data = (LoV)cbProjekcija.SelectedItem;
-            var salaId = (await _projekcijaService.GetById<PayloadResponse<ProjekcijaResponse>>(data.Id)).Payload.Sala.Id;
 
-            terminList = (await _projekcijaService.GetAktivniTermini(data.Id)).Payload.OrderBy(o => o.Naziv).ToList();
+            if (data != null) {
+                var salaId = (await _projekcijaService.GetById<PayloadResponse<ProjekcijaResponse>>(data.Id)).Payload.Sala.Id;
 
-            if (!_id.HasValue)
-                cbTermin.Enabled = true;
-            else
-                cbTermin.Enabled = false;
+                terminList = (await _projekcijaService.GetAktivniTermini(data.Id)).Payload.OrderBy(o => o.Naziv).ToList();
 
-            cbTermin.DataSource = terminList;
-            cbTermin.DisplayMember = "Naziv";
-            cbTermin.ValueMember = "Id";
-            cbTermin.SelectedItem = terminList.FirstOrDefault(o => o.Id == _initial.ProjekcijaTermin?.Id);
+                if (!_id.HasValue)
+                    cbTermin.Enabled = true;
+                else
+                    cbTermin.Enabled = false;
 
-            if (cbTermin.SelectedItem == null)
-                cbTermin.SelectedItem = terminList.FirstOrDefault();
+                cbTermin.DataSource = terminList;
+                cbTermin.DisplayMember = "Naziv";
+                cbTermin.ValueMember = "Id";
+                cbTermin.SelectedItem = terminList.FirstOrDefault(o => o.Id == _initial.ProjekcijaTermin?.Id);
 
-            if (_salaId != salaId) {
-                _salaId = salaId;
-                sjedistaList = (await _salaService.GetSjedista(data.Id)).Payload;
+                if (cbTermin.SelectedItem == null)
+                    cbTermin.SelectedItem = terminList.FirstOrDefault();
+
+                if (_salaId != salaId) {
+                    _salaId = salaId;
+                    sjedistaList = (await _salaService.GetSjedista(data.Id)).Payload;
+                    if (_request.SjedistaIds != null) {
+                        var rezervisanaSjedistaIds = _initial.Sjedista.Select(o => o.Sjediste.Id).ToList();
+                        _request.SjedistaIds = rezervisanaSjedistaIds;
+                    }
+                }
             }
-
         }
 
         private async void CbTermin_SelectedValueChanged(object sender, EventArgs e) {
@@ -182,8 +194,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             cbKorisnik.ValueMember = "Id";
             cbKorisnik.SelectedItem = korisnikList.FirstOrDefault(o => o.Id == _initial.Korisnik?.Id);
 
-            if (cbKorisnik.SelectedItem == null)
-                cbKorisnik.SelectedItem = korisnikList.FirstOrDefault();
+            btnOdaberiSjedista.Enabled = true;
         }
 
         private void BtnOdaberiSjedista_Click(object sender, EventArgs e) {
@@ -198,6 +209,31 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 if (_request.SjedistaIds != null && _request.SjedistaIds.Count > 0) {
                     err.SetError(btnOdaberiSjedista, null);
                 }
+            }
+        }
+
+        private async void BtnDodajKorisnika_Click(object sender, EventArgs e) {
+            FrmKorisnikDodajUredi frm = new FrmKorisnikDodajUredi {
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            if (frm.ShowDialog() == DialogResult.OK) {
+                var data = (LoV)cbTermin.SelectedItem;
+                korisnikList = (await _korisnikService.GetKlijentiForTermin(data.Id, true)).Payload.OrderBy(o => o.Naziv).ToList();
+                cbKorisnik.DataSource = korisnikList;
+            }
+        }
+
+        private void BtnProjekcijaInfo_Click(object sender, EventArgs e) {
+            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((LoV)cbProjekcija.SelectedItem).Id, true);
+            frm.ShowDialog();
+        }
+
+        private void CbKorisnik_SelectedIndexChanged(object sender, EventArgs e) {
+            var data = (LoV)cbKorisnik.SelectedItem;
+
+            if (data != null) {
+                btnOdaberiSjedista.Enabled = true;
             }
         }
 
@@ -223,21 +259,5 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             }
         }
 
-        private async void BtnDodajKorisnika_Click(object sender, EventArgs e) {
-            FrmKorisnikDodajUredi frm = new FrmKorisnikDodajUredi {
-                StartPosition = FormStartPosition.CenterParent
-            };
-
-            if (frm.ShowDialog() == DialogResult.OK) {
-                var data = (LoV)cbTermin.SelectedItem;
-                korisnikList = (await _korisnikService.GetKlijentiForTermin(data.Id, true)).Payload.OrderBy(o => o.Naziv).ToList();
-                cbKorisnik.DataSource = korisnikList;
-            }
-        }
-
-        private void BtnProjekcijaInfo_Click(object sender, EventArgs e) {
-            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((LoV)cbProjekcija.SelectedItem).Id, true);
-            frm.ShowDialog();
-        }
     }
 }
