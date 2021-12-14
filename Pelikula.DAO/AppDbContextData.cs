@@ -1173,7 +1173,7 @@ namespace Pelikula.DAO
             modelBuilder.Entity<SjedisteRezervacija>()
                .HasData(
                     new SjedisteRezervacija {
-                        Id=1,
+                        Id = 1,
                         SjedisteId = 20,
                         RezervacijaId = 1
                     },

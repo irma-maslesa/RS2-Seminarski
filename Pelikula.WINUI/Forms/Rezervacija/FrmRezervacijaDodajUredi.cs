@@ -34,6 +34,9 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         IEnumerable<LoV> sjedistaList = new List<LoV>();
         IEnumerable<LoV> zauzetaSjedistaList = new List<LoV>();
 
+        IEnumerable<int> _rezervisanaSjedistaIds = new List<int>();
+
+
         public FrmRezervacijaDodajUredi(int? id = null) {
             _id = id;
 
@@ -84,8 +87,8 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         private void SetValues() {
             cbProjekcija.SelectedItem = projekcijaList.FirstOrDefault(e => e.Id == _initial.ProjekcijaTermin?.Projekcija?.Id);
 
-            var rezervisanaSjedistaIds = _initial.Sjedista.Select(e => e.Sjediste.Id).ToList();
-            _request.SjedistaIds = rezervisanaSjedistaIds;
+            _rezervisanaSjedistaIds = _initial.Sjedista.Select(e => e.Sjediste.Id).ToList();
+            _request.SjedistaIds = new List<int>(_rezervisanaSjedistaIds);
         }
 
         private async void BtnSpremi_Click(object sender, EventArgs e) {
@@ -165,10 +168,11 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 if (_salaId != salaId) {
                     _salaId = salaId;
                     sjedistaList = (await _salaService.GetSjedista(data.Id)).Payload;
-                    if (_request.SjedistaIds != null) {
-                        var rezervisanaSjedistaIds = _initial.Sjedista.Select(o => o.Sjediste.Id).ToList();
-                        _request.SjedistaIds = rezervisanaSjedistaIds;
-                    }
+                }
+
+                if (_request.SjedistaIds != null) {
+                    var rezervisanaSjedistaIds = _initial.Sjedista?.Select(o => o.Sjediste.Id).ToList();
+                    _request.SjedistaIds = rezervisanaSjedistaIds;
                 }
             }
         }
@@ -192,13 +196,20 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             cbKorisnik.DataSource = korisnikList;
             cbKorisnik.DisplayMember = "Naziv";
             cbKorisnik.ValueMember = "Id";
+            if (!_id.HasValue)
+                cbKorisnik.ResetText();
             cbKorisnik.SelectedItem = korisnikList.FirstOrDefault(o => o.Id == _initial.Korisnik?.Id);
+
+            if (_request.SjedistaIds != null) {
+                var rezervisanaSjedistaIds = _initial.Sjedista?.Select(o => o.Sjediste.Id).ToList();
+                _request.SjedistaIds = rezervisanaSjedistaIds;
+            }
 
             btnOdaberiSjedista.Enabled = true;
         }
 
         private void BtnOdaberiSjedista_Click(object sender, EventArgs e) {
-            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _request.SjedistaIds?.ToList()) {
+            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _request.SjedistaIds?.ToList(), _rezervisanaSjedistaIds.ToList()) {
                 StartPosition = FormStartPosition.CenterScreen
             };
 

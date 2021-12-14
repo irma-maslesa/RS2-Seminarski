@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace Pelikula.DAO.Migrations
 {
     public partial class DataUpdate : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.UpdateData(
                 table: "Anketa",
                 keyColumn: "ID",
@@ -190,8 +189,7 @@ namespace Pelikula.DAO.Migrations
                 value: new DateTime(2021, 12, 14, 16, 25, 44, 982, DateTimeKind.Local).AddTicks(939));
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.UpdateData(
                 table: "Anketa",
                 keyColumn: "ID",

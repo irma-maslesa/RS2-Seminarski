@@ -15,10 +15,12 @@ namespace Pelikula.WINUI.Forms.Prodaja
         private readonly IEnumerable<LoV> _sjedistaList;
         private readonly IEnumerable<LoV> _zauzetaSjedistaList;
         private readonly List<int> _rezervisanaSjedista;
+        private readonly List<int> _odabranaSjedista;
 
-        public FrmOdabirSjedista(IEnumerable<LoV> sjedistaList, IEnumerable<LoV> zauzetaSjedistaList, List<int> rezervisanaSjedista) {
+        public FrmOdabirSjedista(IEnumerable<LoV> sjedistaList, IEnumerable<LoV> zauzetaSjedistaList, List<int> odabranaSjedista, List<int> rezervisanaSjedista) {
             _sjedistaList = sjedistaList;
             _zauzetaSjedistaList = zauzetaSjedistaList;
+            _odabranaSjedista = odabranaSjedista;
             _rezervisanaSjedista = rezervisanaSjedista;
 
             InitializeComponent();
@@ -32,11 +34,15 @@ namespace Pelikula.WINUI.Forms.Prodaja
             Text = "Odberi sjedišta";
 
             GenerateSjedistaView();
-            SetValues();
+            SetValues(_odabranaSjedista);
         }
 
-        private void SetValues() {
-            OdabranaSjedista = new List<int>(_rezervisanaSjedista);
+        private void SetValues(List<int> sjedista) {
+            if (sjedista != null)
+                OdabranaSjedista = new List<int>(sjedista);
+            else
+
+                OdabranaSjedista = new List<int>();
             DisableAndSelectZauzetaSjedista();
         }
 
@@ -58,9 +64,9 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 OdabranaSjedista.Clear();
 
             var buttons = flpSjedista.Controls.OfType<Button>().Where(o => o.Name != "btnEkran").ToList();
-            buttons.ForEach(o => { o.Enabled = true;  o.BackColor = DefaultBackColor; o.UseVisualStyleBackColor = true; });
+            buttons.ForEach(o => { o.Enabled = true; o.BackColor = DefaultBackColor; o.UseVisualStyleBackColor = true; });
 
-            SetValues();
+            SetValues(_rezervisanaSjedista);
             DisableAndSelectZauzetaSjedista();
         }
 

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Pelikula.API;
 using Pelikula.API.Api;
 using Pelikula.API.Model;
 using Pelikula.API.Model.Helper;

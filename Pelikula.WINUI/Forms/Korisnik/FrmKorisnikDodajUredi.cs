@@ -1,5 +1,4 @@
-﻿using Pelikula.API;
-using Pelikula.API.Model;
+﻿using Pelikula.API.Model;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;

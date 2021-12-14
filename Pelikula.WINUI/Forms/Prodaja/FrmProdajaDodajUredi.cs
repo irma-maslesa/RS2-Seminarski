@@ -289,11 +289,16 @@ namespace Pelikula.WINUI.Forms.Prodaja
             cbKorisnik.DataSource = korisnikList;
             cbKorisnik.DisplayMember = "Naziv";
             cbKorisnik.ValueMember = "Id";
+            cbKorisnik.ResetText();
             cbKorisnik.SelectedItem = korisnikList.FirstOrDefault();
+
+
+            if (_rezervacijaRequest.SjedistaIds != null)
+                _rezervacijaRequest.SjedistaIds.Clear();
         }
 
         private void BtnOdaberiSjedista_Click(object sender, EventArgs e) {
-            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _rezervacijaRequest.SjedistaIds?.ToList()) {
+            FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _rezervacijaRequest.SjedistaIds?.ToList(), new List<int>()) {
                 StartPosition = FormStartPosition.CenterScreen
             };
 
