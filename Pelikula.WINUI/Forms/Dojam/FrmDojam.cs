@@ -55,7 +55,10 @@ namespace Pelikula.WINUI.Forms.Dojam
             DisableChildren();
 
             int _currentIndex = dgvDojmovi.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvDojmovi.CurrentRow?.Index;
+
+            int? _selectedRowIndex = null;
+            if (dgvDojmovi.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvDojmovi.SelectedRows[0].Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 

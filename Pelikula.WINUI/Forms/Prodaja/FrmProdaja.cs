@@ -31,7 +31,10 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         private async Task GetGridData(bool adding = false) {
             int _currentIndex = dgvProdaje.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvProdaje.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvProdaje.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvProdaje.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>
             {
@@ -87,7 +90,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            ProdajaResponse data = (ProdajaResponse)dgvProdaje.CurrentRow.DataBoundItem;
+            ProdajaResponse data = (ProdajaResponse)dgvProdaje.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati prodaju {data.BrojRacuna}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);

@@ -60,7 +60,10 @@ namespace Pelikula.WINUI.Forms.Projekcija
             DisableChildren();
 
             int _currentIndex = dgvProjekcije.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvProjekcije.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvProjekcije.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvProjekcije.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
@@ -148,7 +151,7 @@ namespace Pelikula.WINUI.Forms.Projekcija
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((ProjekcijaResponse)dgvProjekcije.CurrentRow.DataBoundItem).Id) {
+            FrmProjekcijaDodajUredi frm = new FrmProjekcijaDodajUredi(((ProjekcijaResponse)dgvProjekcije.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -157,7 +160,7 @@ namespace Pelikula.WINUI.Forms.Projekcija
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            ProjekcijaResponse data = (ProjekcijaResponse)dgvProjekcije.CurrentRow.DataBoundItem;
+            ProjekcijaResponse data = (ProjekcijaResponse)dgvProjekcije.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati projekciju {data.Film.Naziv} - {data.Sala.Naziv} ({data.VrijediOd:dd/MM/yyyy} - {data.VrijediDo:dd/MM/yyyy})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);

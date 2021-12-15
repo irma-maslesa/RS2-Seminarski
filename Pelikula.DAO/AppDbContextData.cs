@@ -7,7 +7,7 @@ namespace Pelikula.DAO
 {
     public partial class AppDbContext
     {
-        private DateTime datum = DateTime.Now;
+        private readonly DateTime datum = DateTime.Now;
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder) {
             modelBuilder.Entity<TipKorisnika>()

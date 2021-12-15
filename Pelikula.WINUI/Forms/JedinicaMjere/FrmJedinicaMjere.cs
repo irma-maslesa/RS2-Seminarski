@@ -28,7 +28,10 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
             DisableChildren();
 
             int _currentIndex = dgvJediniceMjere.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvJediniceMjere.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvJediniceMjere.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvJediniceMjere.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
@@ -86,7 +89,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmJedinicaMjereDodajUredi frm = new FrmJedinicaMjereDodajUredi(((JedinicaMjereResponse)dgvJediniceMjere.CurrentRow.DataBoundItem).Id) {
+            FrmJedinicaMjereDodajUredi frm = new FrmJedinicaMjereDodajUredi(((JedinicaMjereResponse)dgvJediniceMjere.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -95,7 +98,7 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            JedinicaMjereResponse data = (JedinicaMjereResponse)dgvJediniceMjere.CurrentRow.DataBoundItem;
+            JedinicaMjereResponse data = (JedinicaMjereResponse)dgvJediniceMjere.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati jedinicu mjere {data.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);

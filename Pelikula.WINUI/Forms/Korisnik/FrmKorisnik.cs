@@ -55,7 +55,10 @@ namespace Pelikula.WINUI.Forms.Korisnik
             DisableChildren();
 
             int _currentIndex = dgvKorisnici.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvKorisnici.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvKorisnici.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvKorisnici.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txtIme, "Ime");
@@ -133,7 +136,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmKorisnikDodajUredi frm = new FrmKorisnikDodajUredi(((KorisnikResponse)dgvKorisnici.CurrentRow.DataBoundItem).Id) {
+            FrmKorisnikDodajUredi frm = new FrmKorisnikDodajUredi(((KorisnikResponse)dgvKorisnici.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -142,7 +145,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            KorisnikResponse korisnik = (KorisnikResponse)dgvKorisnici.CurrentRow.DataBoundItem;
+            KorisnikResponse korisnik = (KorisnikResponse)dgvKorisnici.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati korisnika {korisnik.Ime} {korisnik.Prezime} ({korisnik.KorisnickoIme})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(korisnik.Id);

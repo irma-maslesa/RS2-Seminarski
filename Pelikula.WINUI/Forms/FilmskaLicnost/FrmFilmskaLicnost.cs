@@ -37,7 +37,10 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             DisableChildren();
 
             int _currentIndex = dgvFilmskeLicnosti.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvFilmskeLicnosti.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvFilmskeLicnosti.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvFilmskeLicnosti.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txtIme, "Ime");
@@ -124,7 +127,7 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmFilmskaLicnostDodajUredi frm = new FrmFilmskaLicnostDodajUredi(((FilmskaLicnostResponse)dgvFilmskeLicnosti.CurrentRow.DataBoundItem).Id) {
+            FrmFilmskaLicnostDodajUredi frm = new FrmFilmskaLicnostDodajUredi(((FilmskaLicnostResponse)dgvFilmskeLicnosti.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -133,7 +136,7 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            FilmskaLicnostResponse data = (FilmskaLicnostResponse)dgvFilmskeLicnosti.CurrentRow.DataBoundItem;
+            FilmskaLicnostResponse data = (FilmskaLicnostResponse)dgvFilmskeLicnosti.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati ličnost {data.Ime} {data.Prezime}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);

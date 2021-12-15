@@ -29,7 +29,10 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             DisableChildren();
 
             int _currentIndex = dgvTipoviKorisnika.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvTipoviKorisnika.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvTipoviKorisnika.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvTipoviKorisnika.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
@@ -88,7 +91,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem).Id) {
+            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -97,7 +100,7 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            TipKorisnikaResponse tipKorisnika = (TipKorisnikaResponse)dgvTipoviKorisnika.CurrentRow.DataBoundItem;
+            TipKorisnikaResponse tipKorisnika = (TipKorisnikaResponse)dgvTipoviKorisnika.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati tip korisnika {tipKorisnika.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(tipKorisnika.Id);

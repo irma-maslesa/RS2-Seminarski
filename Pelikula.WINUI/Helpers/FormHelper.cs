@@ -8,6 +8,8 @@ namespace Pelikula.WINUI.Helpers
     public static class FormHelper
     {
         public static void SelectAndShowDgvRow(DataGridView dgv, bool adding, int _currentIndex, int? _selectedRowIndex, List<FilterUtility.FilterParams> filters) {
+            dgv.MultiSelect = false;
+            
             if (adding) {
                 dgv.FirstDisplayedScrollingRowIndex = dgv.RowCount - 1;
             }
@@ -22,13 +24,17 @@ namespace Pelikula.WINUI.Helpers
                 dgv.CurrentCell = dgv.Rows[dgv.RowCount - 1].Cells[1];
                 dgv.Rows[dgv.RowCount - 1].Selected = true;
             }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgv.RowCount) {
+            else if (filters.Count == 0 && _selectedRowIndex.HasValue && _selectedRowIndex.Value >= dgv.RowCount) {
                 dgv.CurrentCell = dgv.Rows[_selectedRowIndex.Value - 1].Cells[1];
                 dgv.Rows[_selectedRowIndex.Value - 1].Selected = true;
             }
-            else if (!adding && filters.Count == 0 && _selectedRowIndex.HasValue) {
+            else if (filters.Count == 0 && _selectedRowIndex.HasValue) {
                 dgv.CurrentCell = dgv.Rows[_selectedRowIndex.Value].Cells[1];
                 dgv.Rows[_selectedRowIndex.Value].Selected = true;
+            }
+            else if(dgv.RowCount > 0){
+                dgv.CurrentCell = dgv.Rows[0].Cells[1];
+                dgv.Rows[0].Selected = true;
             }
         }
 

@@ -45,7 +45,10 @@ namespace Pelikula.WINUI.Forms.Film
             DisableChildren();
 
             int _currentIndex = dgvFilmovi.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvFilmovi.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvFilmovi.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvFilmovi.SelectedRows[0].Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txtNaslov, "Naslov");
@@ -127,7 +130,7 @@ namespace Pelikula.WINUI.Forms.Film
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmFilmDodajUredi frm = new FrmFilmDodajUredi(((FilmResponse)dgvFilmovi.CurrentRow.DataBoundItem).Id) {
+            FrmFilmDodajUredi frm = new FrmFilmDodajUredi(((FilmResponse)dgvFilmovi.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -136,7 +139,7 @@ namespace Pelikula.WINUI.Forms.Film
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            FilmResponse data = (FilmResponse)dgvFilmovi.CurrentRow.DataBoundItem;
+            FilmResponse data = (FilmResponse)dgvFilmovi.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati film {data.Naslov}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);

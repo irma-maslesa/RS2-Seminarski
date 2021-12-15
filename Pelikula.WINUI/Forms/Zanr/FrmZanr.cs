@@ -28,7 +28,10 @@ namespace Pelikula.WINUI.Forms.Zanr
             DisableChildren();
 
             int _currentIndex = dgvZanrovi.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvZanrovi.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvZanrovi.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvZanrovi.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
@@ -86,7 +89,7 @@ namespace Pelikula.WINUI.Forms.Zanr
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmZanrDodajUredi frm = new FrmZanrDodajUredi(((ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem).Id) {
+            FrmZanrDodajUredi frm = new FrmZanrDodajUredi(((ZanrResponse)dgvZanrovi.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -95,7 +98,7 @@ namespace Pelikula.WINUI.Forms.Zanr
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            ZanrResponse Zanr = (ZanrResponse)dgvZanrovi.CurrentRow.DataBoundItem;
+            ZanrResponse Zanr = (ZanrResponse)dgvZanrovi.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati žanr {Zanr.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _ZanrService.Delete(Zanr.Id);

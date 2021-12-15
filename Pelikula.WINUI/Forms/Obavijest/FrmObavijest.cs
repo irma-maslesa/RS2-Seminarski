@@ -45,7 +45,10 @@ namespace Pelikula.WINUI.Forms.Obavijest
             DisableChildren();
 
             int _currentIndex = dgvObavijesti.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvObavijesti.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvObavijesti.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvObavijesti.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txNaslov, "Naslov");
@@ -113,7 +116,7 @@ namespace Pelikula.WINUI.Forms.Obavijest
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmObavijestDodajUredi frm = new FrmObavijestDodajUredi(((ObavijestResponse)dgvObavijesti.CurrentRow.DataBoundItem).Id) {
+            FrmObavijestDodajUredi frm = new FrmObavijestDodajUredi(((ObavijestResponse)dgvObavijesti.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -122,7 +125,7 @@ namespace Pelikula.WINUI.Forms.Obavijest
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            ObavijestResponse data = (ObavijestResponse)dgvObavijesti.CurrentRow.DataBoundItem;
+            ObavijestResponse data = (ObavijestResponse)dgvObavijesti.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati obavijest {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);

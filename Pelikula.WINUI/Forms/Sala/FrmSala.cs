@@ -28,7 +28,10 @@ namespace Pelikula.WINUI.Forms.Sala
             DisableChildren();
 
             int _currentIndex = dgvSala.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvSala.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvSala.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvSala.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txtNaziv, "Naziv");
@@ -101,7 +104,7 @@ namespace Pelikula.WINUI.Forms.Sala
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmSalaDodajUredi frm = new FrmSalaDodajUredi(((SalaResponse)dgvSala.CurrentRow.DataBoundItem).Id) {
+            FrmSalaDodajUredi frm = new FrmSalaDodajUredi(((SalaResponse)dgvSala.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -110,7 +113,7 @@ namespace Pelikula.WINUI.Forms.Sala
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            SalaResponse data = (SalaResponse)dgvSala.CurrentRow.DataBoundItem;
+            SalaResponse data = (SalaResponse)dgvSala.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati salu {data.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);

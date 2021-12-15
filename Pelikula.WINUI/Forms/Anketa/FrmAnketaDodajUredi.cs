@@ -143,7 +143,6 @@ namespace Pelikula.WINUI.Forms.Anketa
                     if (response != null) {
                         MessageBox.Show($"Anketa {txtNaslov.Text} uspješno uređena!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
                         DialogResult = DialogResult.OK;
                         Close();
                     }

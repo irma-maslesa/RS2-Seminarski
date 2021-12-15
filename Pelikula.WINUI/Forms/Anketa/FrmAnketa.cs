@@ -50,7 +50,9 @@ namespace Pelikula.WINUI.Forms.Anketa
             DisableChildren();
 
             int _currentIndex = dgvAnkete.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvAnkete.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+            if (dgvAnkete.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvAnkete.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txNaslov, "Naslov");
@@ -143,7 +145,7 @@ namespace Pelikula.WINUI.Forms.Anketa
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmAnketaDodajUredi frm = new FrmAnketaDodajUredi(((AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem).Id) {
+            FrmAnketaDodajUredi frm = new FrmAnketaDodajUredi(((AnketaResponse)dgvAnkete.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -152,7 +154,7 @@ namespace Pelikula.WINUI.Forms.Anketa
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            AnketaResponse data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
+            AnketaResponse data = (AnketaResponse)dgvAnkete.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati anketu {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
@@ -165,14 +167,14 @@ namespace Pelikula.WINUI.Forms.Anketa
         }
 
         private void BtnPrikazi_Click(object sender, EventArgs e) {
-            var frm = new FrmAnketaRezultati(((AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem).Id) {
+            var frm = new FrmAnketaRezultati(((AnketaResponse)dgvAnkete.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
             frm.ShowDialog();
         }
 
         private async void BtnZakljucaj_Click(object sender, EventArgs e) {
-            var data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
+            var data = (AnketaResponse)dgvAnkete.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite zaključati anketu {data.Naslov} ({data.Datum})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.ZatvoriAnketu(data.Id);
@@ -187,8 +189,8 @@ namespace Pelikula.WINUI.Forms.Anketa
         private void DgvAnkete_SelectionChanged(object sender, EventArgs e) {
             AnketaResponse data = null;
 
-            if (dgvAnkete.CurrentRow != null)
-                data = (AnketaResponse)dgvAnkete.CurrentRow.DataBoundItem;
+            if (dgvAnkete.SelectedRows.Count > 0)
+                data = (AnketaResponse)dgvAnkete.SelectedRows[0].DataBoundItem;
 
             if (data != null && data.ZakljucenoDatum != null) {
                 btnUredi.Enabled = false;

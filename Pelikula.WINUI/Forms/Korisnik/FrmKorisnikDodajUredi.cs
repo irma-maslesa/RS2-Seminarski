@@ -109,6 +109,11 @@ namespace Pelikula.WINUI.Forms.Korisnik
                     _request.LozinkaHash = PasswordHelper.GenerateHash(_request.LozinkaSalt, txtLozinka.Text);
                 }
 
+                if (_id.HasValue && string.IsNullOrEmpty(txtLozinka.Text.Trim())) {
+                    _request.LozinkaSalt = _initial.LozinkaSalt;
+                    _request.LozinkaHash = _initial.LozinkaHash;
+                }
+
                 _request.TipKorisnikaId = ((LoV)cbTipKorisnika.SelectedItem).Id;
 
                 if (_id.HasValue) {

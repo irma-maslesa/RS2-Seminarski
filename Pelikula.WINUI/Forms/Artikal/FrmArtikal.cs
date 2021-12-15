@@ -45,7 +45,9 @@ namespace Pelikula.WINUI.Forms.Artikal
             DisableChildren();
 
             int _currentIndex = dgvArtikli.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvArtikli.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+            if(dgvArtikli.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvArtikli.SelectedRows[0].Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
             FormHelper.CreateFilters(filters, txNaziv, "Naziv");
@@ -117,7 +119,7 @@ namespace Pelikula.WINUI.Forms.Artikal
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmArtikalDodajUredi frm = new FrmArtikalDodajUredi(((ArtikalResponse)dgvArtikli.CurrentRow.DataBoundItem).Id) {
+            FrmArtikalDodajUredi frm = new FrmArtikalDodajUredi(((ArtikalResponse)dgvArtikli.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -126,7 +128,7 @@ namespace Pelikula.WINUI.Forms.Artikal
         }
 
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            ArtikalResponse data = (ArtikalResponse)dgvArtikli.CurrentRow.DataBoundItem;
+            ArtikalResponse data = (ArtikalResponse)dgvArtikli.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati artikal {data.Naziv} ({data.Sifra})?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);

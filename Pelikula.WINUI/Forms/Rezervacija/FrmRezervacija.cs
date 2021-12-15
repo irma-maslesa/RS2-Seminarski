@@ -58,7 +58,10 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             DisableChildren();
 
             int _currentIndex = dgvRezervacije.FirstDisplayedScrollingRowIndex;
-            int? _selectedRowIndex = dgvRezervacije.CurrentRow?.Index;
+            int? _selectedRowIndex = null;
+
+            if (dgvRezervacije.SelectedRows.Count > 0)
+                _selectedRowIndex = dgvRezervacije.SelectedRows[0]?.Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
@@ -172,8 +175,8 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         private void DgvRezervacije_SelectionChanged(object sender, EventArgs e) {
             RezervacijaResponse data = null;
 
-            if (dgvRezervacije.CurrentRow != null)
-                data = (RezervacijaResponse)dgvRezervacije.CurrentRow.DataBoundItem;
+            if (dgvRezervacije.SelectedRows.Count> 0)
+                data = (RezervacijaResponse)dgvRezervacije.SelectedRows[0].DataBoundItem;
 
             if (data != null && (data.DatumOtkazano != null || data.DatumProdano != null)) {
                 btnOtkazi.Enabled = false;
@@ -186,7 +189,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         }
 
         private async void BtnOtkazi_Click(object sender, EventArgs e) {
-            var data = (RezervacijaResponse)dgvRezervacije.CurrentRow.DataBoundItem;
+            var data = (RezervacijaResponse)dgvRezervacije.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite otkazati rezervaciju {data.ProjekcijaTermin.Projekcija} - {data.Korisnik} - {data.BrojSjedista}? ", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.OtkaziRezervaciju(data.Id);
@@ -204,7 +207,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         }
 
         private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmRezervacijaDodajUredi frm = new FrmRezervacijaDodajUredi(((RezervacijaResponse)dgvRezervacije.CurrentRow.DataBoundItem).Id) {
+            FrmRezervacijaDodajUredi frm = new FrmRezervacijaDodajUredi(((RezervacijaResponse)dgvRezervacije.SelectedRows[0].DataBoundItem).Id) {
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -212,7 +215,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 await GetGridData();
         }
         private async void BtnObrisi_Click(object sender, EventArgs e) {
-            RezervacijaResponse data = (RezervacijaResponse)dgvRezervacije.CurrentRow.DataBoundItem;
+            RezervacijaResponse data = (RezervacijaResponse)dgvRezervacije.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati rezervaciju {data.ProjekcijaTermin.Projekcija} - {data.Korisnik} - {data.BrojSjedista}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
                 await _service.Delete(data.Id);
