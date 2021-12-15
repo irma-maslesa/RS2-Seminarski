@@ -46,7 +46,7 @@ namespace Pelikula.WINUI.Forms.Artikal
 
             int _currentIndex = dgvArtikli.FirstDisplayedScrollingRowIndex;
             int? _selectedRowIndex = null;
-            if(dgvArtikli.SelectedRows.Count > 0)
+            if (dgvArtikli.SelectedRows.Count > 0)
                 _selectedRowIndex = dgvArtikli.SelectedRows[0].Index;
 
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();

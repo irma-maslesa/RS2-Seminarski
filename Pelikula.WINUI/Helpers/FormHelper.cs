@@ -9,7 +9,7 @@ namespace Pelikula.WINUI.Helpers
     {
         public static void SelectAndShowDgvRow(DataGridView dgv, bool adding, int _currentIndex, int? _selectedRowIndex, List<FilterUtility.FilterParams> filters) {
             dgv.MultiSelect = false;
-            
+
             if (adding) {
                 dgv.FirstDisplayedScrollingRowIndex = dgv.RowCount - 1;
             }
@@ -32,7 +32,7 @@ namespace Pelikula.WINUI.Helpers
                 dgv.CurrentCell = dgv.Rows[_selectedRowIndex.Value].Cells[1];
                 dgv.Rows[_selectedRowIndex.Value].Selected = true;
             }
-            else if(dgv.RowCount > 0){
+            else if (dgv.RowCount > 0) {
                 dgv.CurrentCell = dgv.Rows[0].Cells[1];
                 dgv.Rows[0].Selected = true;
             }

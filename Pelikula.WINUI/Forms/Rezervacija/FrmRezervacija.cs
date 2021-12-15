@@ -175,7 +175,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
         private void DgvRezervacije_SelectionChanged(object sender, EventArgs e) {
             RezervacijaResponse data = null;
 
-            if (dgvRezervacije.SelectedRows.Count> 0)
+            if (dgvRezervacije.SelectedRows.Count > 0)
                 data = (RezervacijaResponse)dgvRezervacije.SelectedRows[0].DataBoundItem;
 
             if (data != null && (data.DatumOtkazano != null || data.DatumProdano != null)) {
