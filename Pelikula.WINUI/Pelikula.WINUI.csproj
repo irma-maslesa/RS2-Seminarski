@@ -395,6 +395,8 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Pelikula.API.Model.Izvjestaj.IzvjestajProdajaPoDatumuResponse.datasource" />
+    <None Include="Properties\DataSources\Pelikula.API.Model.Izvjestaj.IzvjestajPrometUGodiniResponse.datasource" />
+    <None Include="Properties\DataSources\Pelikula.API.Model.Prodaja.ProdajaResponse.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

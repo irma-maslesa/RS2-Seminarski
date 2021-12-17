@@ -321,8 +321,8 @@ namespace Pelikula.WINUI
         public async Task<ListPayloadResponse<IzvjestajProdajaPoDatumuResponse>> GetProdajaPoDatumu(DateTime datumOd, DateTime datumDo) {
 
             var queryParams = new {
-                datumOd = datumOd,
-                datumDo = datumDo
+                datumOd,
+                datumDo
             };
 
             try {
@@ -330,6 +330,29 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(_route)
                         .SetQueryParams(queryParams)
                         .GetJsonAsync<ListPayloadResponse<IzvjestajProdajaPoDatumuResponse>>();
+            }
+            catch (FlurlHttpException ex) {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
+        public async Task<ListPayloadResponse<IzvjestajPrometUGodiniResponse>> GetPrometUGodini(int? zanrId) {
+
+            var queryParams = new {
+                zanrId,
+            };
+
+            try {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment("promet")
+                        .SetQueryParams(queryParams)
+                        .GetJsonAsync<ListPayloadResponse<IzvjestajPrometUGodiniResponse>>();
             }
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();

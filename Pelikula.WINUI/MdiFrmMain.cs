@@ -208,5 +208,10 @@ namespace Pelikula.WINUI
             FrmProdajaPoDatumu frm = new FrmProdajaPoDatumu();
             OpenForm(frm);
         }
+
+        private void PrometUPrethodnihGodinuDanaToolStripMenuItem_Click(object sender, EventArgs e) {
+            FrmPrometUGodini frm = new FrmPrometUGodini();
+            OpenForm(frm);
+        }
     }
 }

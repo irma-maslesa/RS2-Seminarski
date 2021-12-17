@@ -13,10 +13,10 @@ namespace Pelikula.WINUI.Helpers
             if (adding) {
                 dgv.FirstDisplayedScrollingRowIndex = dgv.RowCount - 1;
             }
-            else if (!adding && _currentIndex >= 0 && _currentIndex < dgv.RowCount) {
+            else if (_currentIndex >= 0 && _currentIndex < dgv.RowCount) {
                 dgv.FirstDisplayedScrollingRowIndex = _currentIndex;
             }
-            else if (!adding && _currentIndex < 0 && dgv.RowCount > 0) {
+            else if (_currentIndex < 0 && dgv.RowCount > 0) {
                 dgv.FirstDisplayedScrollingRowIndex = 0;
             }
 
