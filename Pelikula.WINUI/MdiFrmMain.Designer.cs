@@ -48,6 +48,7 @@ namespace Pelikula.WINUI
             this.odjavaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssKorisnik = new System.Windows.Forms.ToolStripStatusLabel();
+            this.prodajaUOdređenomPerioduToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -156,6 +157,8 @@ namespace Pelikula.WINUI
             // 
             // izvjestajiToolStripMenuItem
             // 
+            this.izvjestajiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.prodajaUOdređenomPerioduToolStripMenuItem});
             this.izvjestajiToolStripMenuItem.Name = "izvjestajiToolStripMenuItem";
             this.izvjestajiToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.izvjestajiToolStripMenuItem.Text = "Izvještaji";
@@ -204,6 +207,13 @@ namespace Pelikula.WINUI
             this.tssKorisnik.Size = new System.Drawing.Size(49, 17);
             this.tssKorisnik.Text = "Korisnik";
             // 
+            // prodajaUOdređenomPerioduToolStripMenuItem
+            // 
+            this.prodajaUOdređenomPerioduToolStripMenuItem.Name = "prodajaUOdređenomPerioduToolStripMenuItem";
+            this.prodajaUOdređenomPerioduToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.prodajaUOdređenomPerioduToolStripMenuItem.Text = "Prodaja u određenom periodu";
+            this.prodajaUOdređenomPerioduToolStripMenuItem.Click += new System.EventHandler(this.ProdajaUOdređenomPerioduToolStripMenuItem_Click);
+            // 
             // MdiFrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,6 +258,7 @@ namespace Pelikula.WINUI
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tssKorisnik;
         private System.Windows.Forms.ToolStripMenuItem odjavaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem prodajaUOdređenomPerioduToolStripMenuItem;
     }
 }
 

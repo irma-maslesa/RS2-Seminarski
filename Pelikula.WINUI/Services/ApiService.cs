@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Pelikula.API.Model;
 using Pelikula.API.Model.Anketa;
 using Pelikula.API.Model.Helper;
+using Pelikula.API.Model.Izvjestaj;
 using Pelikula.API.Model.Projekcija;
 using Pelikula.API.Model.Rezervacija;
 using Pelikula.CORE.Helper.Response;
@@ -316,5 +317,30 @@ namespace Pelikula.WINUI
                 return default;
             }
         }
+
+        public async Task<ListPayloadResponse<IzvjestajProdajaPoDatumuResponse>> GetProdajaPoDatumu(DateTime datumOd, DateTime datumDo) {
+
+            var queryParams = new {
+                datumOd = datumOd,
+                datumDo = datumDo
+            };
+
+            try {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .SetQueryParams(queryParams)
+                        .GetJsonAsync<ListPayloadResponse<IzvjestajProdajaPoDatumuResponse>>();
+            }
+            catch (FlurlHttpException ex) {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
+
     }
 }

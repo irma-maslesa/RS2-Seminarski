@@ -4,6 +4,7 @@ using Pelikula.WINUI.Forms.Artikal;
 using Pelikula.WINUI.Forms.Dojam;
 using Pelikula.WINUI.Forms.Film;
 using Pelikula.WINUI.Forms.FilmskaLicnost;
+using Pelikula.WINUI.Forms.Izvjestaiji;
 using Pelikula.WINUI.Forms.JedinicaMjere;
 using Pelikula.WINUI.Forms.Korisnik;
 using Pelikula.WINUI.Forms.Obavijest;
@@ -200,6 +201,11 @@ namespace Pelikula.WINUI
 
         private void ProdajaToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmProdaja frm = new FrmProdaja();
+            OpenForm(frm);
+        }
+
+        private void ProdajaUOdređenomPerioduToolStripMenuItem_Click(object sender, EventArgs e) {
+            FrmProdajaPoDatumu frm = new FrmProdajaPoDatumu();
             OpenForm(frm);
         }
     }

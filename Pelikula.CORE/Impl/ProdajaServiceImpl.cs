@@ -55,7 +55,7 @@ namespace Pelikula.CORE.Impl
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Prodaja>.SortData(sorting, entityList) : entityList;
 
             List<ProdajaResponse> responseList = Mapper.Map<List<ProdajaResponse>>(entityList);
-            responseList.ForEach(e => e.UkupnaCijena = GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
+            responseList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
 
             PaginationUtility.PagedData<ProdajaResponse> pagedResponse = PaginationUtility.Paginaion<ProdajaResponse>.PaginateData(responseList, pagination);
             return new PagedPayloadResponse<ProdajaResponse>(HttpStatusCode.OK, pagedResponse);
@@ -84,7 +84,7 @@ namespace Pelikula.CORE.Impl
                 .FirstOrDefault(e => e.Id == id);
 
             ProdajaResponse response = Mapper.Map<ProdajaResponse>(entity);
-            response.UkupnaCijena = GetUkupnaCijena(response.ProdajaArtikal, response.Rezervacija);
+            response.UkupnaCijena = response.GetUkupnaCijena(response.ProdajaArtikal, response.Rezervacija);
 
             return new PayloadResponse<ProdajaResponse>(HttpStatusCode.OK, response);
         }
@@ -130,13 +130,13 @@ namespace Pelikula.CORE.Impl
             Context.SaveChanges();
 
             ProdajaResponse response = Mapper.Map<Prodaja, ProdajaResponse>(entity);
-            response.UkupnaCijena = GetUkupnaCijena(response.ProdajaArtikal, response.Rezervacija);
+            response.UkupnaCijena = response.GetUkupnaCijena(response.ProdajaArtikal, response.Rezervacija);
 
             return new PayloadResponse<ProdajaResponse>(HttpStatusCode.OK, response);
         }
 
         private string GenerateBrojRacuna(DateTime datum) {
-            var guid = Guid.NewGuid().ToString();
+            var guid = Guid.NewGuid().ToString().Substring(0, 8);
 
             var godina = datum.Year.ToString();
             var mjesec = datum.Month.ToString();
@@ -145,7 +145,7 @@ namespace Pelikula.CORE.Impl
             var minuta = datum.Minute.ToString();
             var sekunda = datum.Second.ToString();
 
-            string brojRacuna = dan + mjesec + godina + guid + sekunda + minuta + sat;
+            string brojRacuna = dan + mjesec + godina + "-" + guid + "-" + sekunda + minuta + sat;
 
             if (Context.Prodaja.FirstOrDefault(e => e.BrojRacuna == brojRacuna) != null)
                 return GenerateBrojRacuna(datum);
@@ -157,16 +157,5 @@ namespace Pelikula.CORE.Impl
             throw new UserException("Update prodaje nije moguć!", HttpStatusCode.NotFound);
         }
 
-        private decimal GetUkupnaCijena(ICollection<ProdajaArtikalResponse> prodajaArtikli, RezervacijaResponse rezervacija) {
-            decimal ukupnaCijena = 0;
-
-            foreach (var prodajaArtikal in prodajaArtikli)
-                ukupnaCijena += (prodajaArtikal.Artikal.Cijena * prodajaArtikal.Kolicina);
-
-            if (rezervacija != null)
-                ukupnaCijena += rezervacija.Cijena;
-
-            return Math.Round(ukupnaCijena, 2);
-        }
     }
 }

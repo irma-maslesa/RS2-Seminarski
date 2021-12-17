@@ -5,6 +5,7 @@ using Pelikula.API.Model.Artikal;
 using Pelikula.API.Model.Dojam;
 using Pelikula.API.Model.Film;
 using Pelikula.API.Model.FilmskaLicnost;
+using Pelikula.API.Model.Izvjestaj;
 using Pelikula.API.Model.JedinicaMjere;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Obavijest;
@@ -177,6 +178,13 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ForMember(dest => dest.ProdajaArtikal,
                 opts => opts.Ignore())
                 .ReverseMap();
+
+            CreateMap<ProdajaResponse, IzvjestajProdajaPoDatumuResponse>()
+               .ForMember(dest => dest.Datum,
+               opts => opts.MapFrom(src => $"{src.Datum:dd/MM/yyyy, HH:mm}"))
+               .ForMember(dest => dest.Korisnik,
+               opts => opts.MapFrom(src => src.Korisnik.Naziv))
+               .ReverseMap();
         }
     }
 }
