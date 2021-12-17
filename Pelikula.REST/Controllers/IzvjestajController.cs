@@ -29,5 +29,11 @@ namespace API.Controllers
         public ListPayloadResponse<IzvjestajProdajaPoDatumuResponse> GetProdajaPoDatumu([FromQuery] DateTime datumOd, [FromQuery] DateTime datumDo) {
             return Service.GetProdajaPoDatumu(datumOd, datumDo);
         }
+
+        [HttpGet("promet")]
+        public ListPayloadResponse<IzvjestajPrometUGodiniResponse> GetPrometUGodini([FromQuery] int? zanrId) {
+            return Service.GetPrometUGodini(zanrId);
+        }
+
     }
 }

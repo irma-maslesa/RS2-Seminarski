@@ -8,6 +8,7 @@ using Pelikula.API.Model.Prodaja;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;
+using Pelikula.DAO.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,28 +22,18 @@ namespace Pelikula.CORE.Impl
         protected AppDbContext Context { get; set; }
         protected readonly IMapper Mapper;
         protected readonly IIzvjestajValidator Validator;
+        protected readonly IZanrValidator ZanrValidator;
 
-        public IzvjestajServiceImpl(AppDbContext context, IMapper mapper, IIzvjestajValidator validator) {
+        public IzvjestajServiceImpl(AppDbContext context, IMapper mapper, IIzvjestajValidator validator, IZanrValidator zanrValidator) {
             Context = context;
             Mapper = mapper;
             Validator = validator;
+            ZanrValidator = zanrValidator;
         }
-
-        //public virtual PagedPayloadResponse<LoV> GetLoVs(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter = null, IEnumerable<SortingUtility.SortingParams> sorting = null) {
-        //    IEnumerable<Entity> entityList = Context.Set<Entity>().ToList();
-
-        //    entityList = filter != null && filter.Any() ? FilterUtility.Filter<Entity>.FilteredData(filter, entityList) : entityList;
-        //    entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Entity>.SortData(sorting, entityList) : entityList;
-
-        //    List<LoV> responseList = Mapper.Map<List<LoV>>(entityList);
-
-        //    PaginationUtility.PagedData<LoV> pagedResponse = PaginationUtility.Paginaion<LoV>.PaginateData(responseList, pagination);
-        //    return new PagedPayloadResponse<LoV>(HttpStatusCode.OK, pagedResponse);
-        //}
 
         public ListPayloadResponse<IzvjestajProdajaPoDatumuResponse> GetProdajaPoDatumu(DateTime datumOd, DateTime datumDo) {
             Validator.ValidateDatume(datumOd, datumDo);
-            
+
             var entityList = Context.Prodaja
                 .Include(e => e.Korisnik)
                 .Include(e => e.ProdajaArtikal)
@@ -56,6 +47,59 @@ namespace Pelikula.CORE.Impl
 
             var responseList = Mapper.Map<List<IzvjestajProdajaPoDatumuResponse>>(dtoList);
             return new ListPayloadResponse<IzvjestajProdajaPoDatumuResponse>(HttpStatusCode.OK, responseList);
+        }
+
+        public ListPayloadResponse<IzvjestajPrometUGodiniResponse> GetPrometUGodini(int? zanrId) {
+            if (zanrId.HasValue)
+                ZanrValidator.ValidateEntityExists(zanrId.Value);
+
+            var datum = DateTime.Now;
+
+            List<Prodaja> entityList = null;
+
+            if (zanrId.HasValue)
+                entityList = Context.Prodaja
+                .Include(e => e.Korisnik)
+                .Include(e => e.ProdajaArtikal)
+                    .ThenInclude(e => e.Artikal)
+                .Include(e => e.Rezervacija)
+                    .ThenInclude(e => e.ProjekcijaTermin)
+                        .ThenInclude(e => e.Projekcija)
+                            .ThenInclude(e => e.Film)
+                .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId
+                                && e.Datum > datum.AddYears(-1) && e.Datum <= datum)
+                .ToList();
+            else
+                entityList = Context.Prodaja
+                .Include(e => e.Korisnik)
+                .Include(e => e.ProdajaArtikal)
+                    .ThenInclude(e => e.Artikal)
+                .Include(e => e.Rezervacija)
+                .Where(e => e.Datum > datum.AddYears(-1) && e.Datum <= datum)
+                .ToList();
+
+            var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList);
+            dtoList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
+
+            var groupedByMonths = dtoList.GroupBy(e => e.Datum.Month).ToList();
+
+            decimal sum = 0;
+            var responseList = new List<IzvjestajPrometUGodiniResponse>();
+
+            foreach (var month in groupedByMonths) {
+                sum = month.Sum(e => e.UkupnaCijena);
+                responseList.Add(new IzvjestajPrometUGodiniResponse {
+                    Mjesec = ((Mjesec)month.Key).ToString(),
+                    Promet = sum.ToString("0.00")
+                });
+            }
+
+            return new ListPayloadResponse<IzvjestajPrometUGodiniResponse>(HttpStatusCode.OK, responseList);
+        }
+
+        enum Mjesec
+        {
+            Januar = 1, Februar, Mart, April, Maj, Juni, Juli, August, Septembar, Oktobar, Novembar, Decembar
         }
     }
 }

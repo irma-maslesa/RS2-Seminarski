@@ -11,14 +11,14 @@ using System.Windows.Forms;
 
 namespace Pelikula.WINUI.Forms.Izvjestaiji
 {
-    public partial class FrmProdajaPoDatumu : Form
+    public partial class FrmPrometUGodini: Form
     {
         private readonly ApiService _service = new ApiService("Izvjestaj");
 
         private DateTime? _datumOd = null;
         private DateTime? _datumDo = null;
 
-        public FrmProdajaPoDatumu() {
+        public FrmPrometUGodini() {
             InitializeComponent();
         }
 
