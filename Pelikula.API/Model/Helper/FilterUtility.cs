@@ -186,7 +186,7 @@ namespace Pelikula.API.Model.Helper
                                 break;
                             }
                             else {
-                                data = data.Where(x => filterColumn.GetValue(x, null) != null && filterColumn.GetValue(x, null).ToString().ToLower() == filterValue.ToLower()).ToList();
+                                data = data.Where(x => filterColumn.GetValue(x, null) != null && filterColumn.GetValue(x, null).ToString() == filterValue).ToList();
                             }
                         }
                         break;
