@@ -25,7 +25,7 @@ namespace API.Controllers
             Service = service;
         }
 
-        [HttpGet]
+        [HttpGet("prodaja")]
         public ListPayloadResponse<IzvjestajProdajaPoDatumuResponse> GetProdajaPoDatumu([FromQuery] DateTime datumOd, [FromQuery] DateTime datumDo) {
             return Service.GetProdajaPoDatumu(datumOd, datumDo);
         }
@@ -33,6 +33,11 @@ namespace API.Controllers
         [HttpGet("promet")]
         public ListPayloadResponse<IzvjestajPrometUGodiniResponse> GetPrometUGodini([FromQuery] int? zanrId) {
             return Service.GetPrometUGodini(zanrId);
+        }
+
+        [HttpGet("odnos")]
+        public ListPayloadResponse<IzvjestajOdnosOnlineInstore> GetOdnosOnlineInstore([FromQuery] DateTime? datumOd, [FromQuery] DateTime? datumDo) {
+            return Service.GetOdnosOnlineInstore(datumOd, datumDo);
         }
 
     }

@@ -9,13 +9,14 @@ namespace Pelikula.DAO.Model
 {
     public partial class Prodaja
     {
-        public Prodaja() {
+        public Prodaja()
+        {
             ProdajaArtikal = new HashSet<ProdajaArtikal>();
         }
 
         public int Id { get; set; }
         public string BrojRacuna { get; set; }
-        public int KorisnikId { get; set; }
+        public int? KorisnikId { get; set; }
         public DateTime Datum { get; set; }
         public int? RezervacijaId { get; set; }
 

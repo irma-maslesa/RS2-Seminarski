@@ -328,6 +328,7 @@ namespace Pelikula.WINUI
             try {
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
+                        .AppendPathSegment("prodaja")
                         .SetQueryParams(queryParams)
                         .GetJsonAsync<ListPayloadResponse<IzvjestajProdajaPoDatumuResponse>>();
             }
@@ -364,6 +365,28 @@ namespace Pelikula.WINUI
             }
         }
 
+        public async Task<ListPayloadResponse<IzvjestajOdnosOnlineInstore>> GetOdnosOnlineInstore(DateTime datumOd, DateTime datumDo) {
 
+            var queryParams = new {
+                datumOd,
+                datumDo
+            };
+
+            try {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment("odnos")
+                        .SetQueryParams(queryParams)
+                        .GetJsonAsync<ListPayloadResponse<IzvjestajOdnosOnlineInstore>>();
+            }
+            catch (FlurlHttpException ex) {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
     }
 }

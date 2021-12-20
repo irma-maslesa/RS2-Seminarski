@@ -8,5 +8,8 @@ namespace Pelikula.API.Api
     {
         ListPayloadResponse<IzvjestajProdajaPoDatumuResponse> GetProdajaPoDatumu(DateTime datumOd, DateTime datumDo);
         ListPayloadResponse<IzvjestajPrometUGodiniResponse> GetPrometUGodini(int? zanrId);
+
+        ListPayloadResponse<IzvjestajOdnosOnlineInstore> GetOdnosOnlineInstore(DateTime? datumOd, DateTime? datumDo);
+
     }
 }

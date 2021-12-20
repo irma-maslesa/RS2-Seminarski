@@ -6,6 +6,6 @@ namespace Pelikula.API.Model.Izvjestaj
     {
         public string Mjesec{ get; set; }
 
-        public string Promet { get; set; }
+        public decimal Promet { get; set; }
     }
 }

@@ -90,8 +90,11 @@ namespace Pelikula.CORE.Impl
         }
 
         public override PayloadResponse<ProdajaResponse> Insert(ProdajaInsertRequest request) {
-            KorisnikValidator.ValidateEntityExists(request.KorisnikId);
-            KorisnikValidator.ValidateTipKorisnika(request.KorisnikId, KorisnikTip.Radnik);
+            if (request.KorisnikId.HasValue) {
+                KorisnikValidator.ValidateEntityExists(request.KorisnikId.Value);
+                KorisnikValidator.ValidateTipKorisnika(request.KorisnikId.Value, KorisnikTip.Radnik);
+            }
+
             if (request.RezervacijaId.HasValue) {
                 RezervacijaValidator.ValidateEntityExists(request.RezervacijaId.Value);
                 RezervacijaValidator.ValidateEntityProdano(request.RezervacijaId.Value);

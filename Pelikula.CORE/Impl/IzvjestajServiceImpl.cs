@@ -55,30 +55,24 @@ namespace Pelikula.CORE.Impl
 
             var datum = DateTime.Now;
 
-            List<Prodaja> entityList = null;
+            IQueryable<Prodaja> entityList = Context.Prodaja
+                .Include(e => e.Korisnik)
+                .Include(e => e.ProdajaArtikal)
+                    .ThenInclude(e => e.Artikal);
 
             if (zanrId.HasValue)
-                entityList = Context.Prodaja
-                .Include(e => e.Korisnik)
-                .Include(e => e.ProdajaArtikal)
-                    .ThenInclude(e => e.Artikal)
-                .Include(e => e.Rezervacija)
-                    .ThenInclude(e => e.ProjekcijaTermin)
-                        .ThenInclude(e => e.Projekcija)
-                            .ThenInclude(e => e.Film)
-                .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId
-                                && e.Datum > datum.AddYears(-1) && e.Datum <= datum)
-                .ToList();
+                entityList = entityList
+                    .Include(e => e.Rezervacija)
+                        .ThenInclude(e => e.ProjekcijaTermin)
+                            .ThenInclude(e => e.Projekcija)
+                                .ThenInclude(e => e.Film)
+                    .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId
+                                && e.Datum > datum.AddYears(-1) && e.Datum <= datum);
             else
-                entityList = Context.Prodaja
-                .Include(e => e.Korisnik)
-                .Include(e => e.ProdajaArtikal)
-                    .ThenInclude(e => e.Artikal)
-                .Include(e => e.Rezervacija)
-                .Where(e => e.Datum > datum.AddYears(-1) && e.Datum <= datum)
-                .ToList();
+                entityList = entityList.Include(e => e.Rezervacija)
+                    .Where(e => e.Datum > datum.AddYears(-1) && e.Datum <= datum);
 
-            var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList);
+            var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList.ToList());
             dtoList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
 
             var groupedByMonths = dtoList.GroupBy(e => e.Datum.Month).ToList();
@@ -90,11 +84,35 @@ namespace Pelikula.CORE.Impl
                 sum = month.Sum(e => e.UkupnaCijena);
                 responseList.Add(new IzvjestajPrometUGodiniResponse {
                     Mjesec = ((Mjesec)month.Key).ToString(),
-                    Promet = sum.ToString("0.00")
+                    Promet = Math.Round(sum, 2)
                 });
             }
 
             return new ListPayloadResponse<IzvjestajPrometUGodiniResponse>(HttpStatusCode.OK, responseList);
+        }
+
+        public ListPayloadResponse<IzvjestajOdnosOnlineInstore> GetOdnosOnlineInstore(DateTime? datumOd, DateTime? datumDo) {
+            IQueryable<Prodaja> entityList = Context.Prodaja;
+
+            if (datumOd.HasValue || datumDo.HasValue) {
+                Validator.ValidateDatume(datumOd.Value, datumDo.Value);
+
+                entityList = entityList
+                .Where(e => e.Datum >= datumOd && e.Datum <= datumDo);
+            }
+
+            var responseList = new List<IzvjestajOdnosOnlineInstore> {
+                new IzvjestajOdnosOnlineInstore {
+                    Tip = IzvjestajOdnosOnlineInstore.IzvjestajOdnosOnlineInstoreTip.ONLINE.ToString(),
+                    Count = entityList.Count(e => e.KorisnikId == null)
+                },
+                new IzvjestajOdnosOnlineInstore {
+                    Tip = IzvjestajOdnosOnlineInstore.IzvjestajOdnosOnlineInstoreTip.IN_STORE.ToString(),
+                    Count = entityList.Count(e => e.KorisnikId != null)
+                }
+            };
+
+            return new ListPayloadResponse<IzvjestajOdnosOnlineInstore>(HttpStatusCode.OK, responseList);
         }
 
         enum Mjesec

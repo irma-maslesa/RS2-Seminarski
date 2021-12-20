@@ -183,7 +183,7 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                .ForMember(dest => dest.Datum,
                opts => opts.MapFrom(src => $"{src.Datum:dd/MM/yyyy, HH:mm}"))
                .ForMember(dest => dest.Korisnik,
-               opts => opts.MapFrom(src => src.Korisnik.Naziv))
+               opts => opts.MapFrom(src => src.Korisnik != null ? src.Korisnik.Naziv : "//"))
                .ReverseMap();
         }
     }
