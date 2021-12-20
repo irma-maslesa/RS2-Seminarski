@@ -32,5 +32,10 @@ namespace API.Controllers
             return Service.GetOdnosOnlineInstore(datumOd, datumDo);
         }
 
+        [HttpGet("top-korisnici")]
+        public ListPayloadResponse<IzvjestajTopKorisnici> GetTopKorisnici([FromQuery] int? brojKorisnika, [FromQuery] int? zanrId) {
+            return Service.GetTopKorisnici(brojKorisnika, zanrId);
+        }
+
     }
 }

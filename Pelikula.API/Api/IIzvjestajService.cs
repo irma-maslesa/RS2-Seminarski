@@ -11,5 +11,8 @@ namespace Pelikula.API.Api
 
         ListPayloadResponse<IzvjestajOdnosOnlineInstore> GetOdnosOnlineInstore(DateTime? datumOd, DateTime? datumDo);
 
+        ListPayloadResponse<IzvjestajTopKorisnici> GetTopKorisnici(int? brojKorisnika, int? zanrId);
+
+
     }
 }

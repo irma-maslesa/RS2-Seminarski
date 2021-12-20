@@ -125,6 +125,49 @@ namespace Pelikula.CORE.Impl
             return new ListPayloadResponse<IzvjestajOdnosOnlineInstore>(HttpStatusCode.OK, responseList);
         }
 
+        public ListPayloadResponse<IzvjestajTopKorisnici> GetTopKorisnici(int? brojKorisnika, int? zanrId) {
+            IQueryable<Prodaja> entityList = Context.Prodaja
+                .Include(e => e.ProdajaArtikal)
+                    .ThenInclude(e => e.Artikal)
+                .Include(e => e.Rezervacija)
+                    .ThenInclude(e => e.Korisnik);
+
+            if (zanrId.HasValue) {
+                ZanrValidator.ValidateEntityExists(zanrId.Value);
+                entityList = entityList.Include(e => e.Rezervacija)
+                        .ThenInclude(e => e.ProjekcijaTermin)
+                            .ThenInclude(e => e.Projekcija)
+                                .ThenInclude(e => e.Film)
+                        .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId);
+            }
+            if (!brojKorisnika.HasValue)
+                brojKorisnika = 5;
+
+            var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList);
+            dtoList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
+
+            var groupedByKorisnici = dtoList.GroupBy(e => e.Rezervacija.Korisnik).ToList();
+            groupedByKorisnici = groupedByKorisnici.OrderByDescending(e => e.Count()).Take(brojKorisnika.Value).ToList();
+
+            var responseList = new List<IzvjestajTopKorisnici>();
+
+            foreach (var korisnik in groupedByKorisnici) {
+                responseList.Add(new IzvjestajTopKorisnici {
+                    Korisnik = korisnik.Key.ToString(),
+                    BrojKupovina = korisnik.Count(),
+                    BrojKarti = korisnik.Sum(e => e.Rezervacija.BrojSjedista),
+                    UkupnaCijena = korisnik.Sum(e => e.UkupnaCijena)
+                });
+            }
+
+            responseList = responseList.OrderByDescending(e => e.BrojKupovina)
+                .ThenByDescending(e => e.UkupnaCijena)
+                .ThenByDescending(e => e.BrojKarti)
+                .ToList();
+
+            return new ListPayloadResponse<IzvjestajTopKorisnici>(HttpStatusCode.OK, responseList);
+        }
+
         enum Mjesec
         {
             Januar = 1, Februar, Mart, April, Maj, Juni, Juli, August, Septembar, Oktobar, Novembar, Decembar
