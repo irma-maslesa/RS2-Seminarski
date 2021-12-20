@@ -24,10 +24,12 @@ jobs:
     runs-on: windows-latest
     
     env:
-      Solution_Path: ./Pelikula.WINUI/Pelikula.WINUI.csproj
-      Actions_Allow_Unsecure_Commands: true
+      Solution_Path: Pelikula.WINUI/Pelikula.WINUI.csproj
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
