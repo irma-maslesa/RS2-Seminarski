@@ -47,7 +47,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                     ReportDataSource dataSource = new ReportDataSource("dsTopKorisnici", response.Payload);
 
                     rvTopKorisnici.Reset();
-                    rvTopKorisnici.LocalReport.DataSources.Clear();
+                    rvTopKorisnici.LocalReport.DataSources.Clear(); 
                     rvTopKorisnici.LocalReport.DataSources.Add(dataSource);
 
                     ReportParameterCollection parameters = new ReportParameterCollection {
