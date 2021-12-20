@@ -25,6 +25,7 @@ jobs:
     
     env:
       Solution_Path: Pelikula.WINUI/Pelikula.WINUI.csproj
+      Actions_Allow_Unsecure_Commands: true
 
     steps:
     - name: Install .NET Core
