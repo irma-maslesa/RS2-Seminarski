@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ConnectionStrings:DefaultConnection=Server=app-sql,1433;Database=AppDb;User=sa;Password=QWElkj132!;ConnectRetryCount=0
+      - ConnectionStrings:DefaultConnection=Server=app-sql,1433;Database=IB180101;User=sa;Password=QWElkj132!;ConnectRetryCount=0
     ports:
       - 5001:80
     networks:
