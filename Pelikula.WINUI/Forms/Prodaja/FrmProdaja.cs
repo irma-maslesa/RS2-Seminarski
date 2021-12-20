@@ -5,6 +5,7 @@ using Pelikula.CORE.Helper.Response;
 using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -36,19 +37,16 @@ namespace Pelikula.WINUI.Forms.Prodaja
             if (dgvProdaje.SelectedRows.Count > 0)
                 _selectedRowIndex = dgvProdaje.SelectedRows[0]?.Index;
 
-            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>
-            {
-                new FilterUtility.FilterParams("KorisnikId", _prijavljeniKorisnik?.Id.ToString(), FilterUtility.FilterOptions.isequalto.ToString())
-            };
+            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>();
 
             if (txtBrojRacuna.TextLength > 2)
                 FormHelper.CreateFilters(filters, txtBrojRacuna, "BrojRacuna");
 
             Cursor = Cursors.WaitCursor;
 
-            PagedPayloadResponse<ProdajaResponse> obj = await _service.Get<PagedPayloadResponse<ProdajaResponse>>(null, filters, null);
+            PagedPayloadResponse<ProdajaResponse> obj = await _service.Get<PagedPayloadResponse<ProdajaResponse>>(null, null, null);
 
-            dgvProdaje.DataSource = obj.Payload;
+            dgvProdaje.DataSource = obj.Payload.Where(e => e.Korisnik == null || e.Korisnik.Id == _prijavljeniKorisnik?.Id).ToList();
 
             dgvProdaje.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)
@@ -68,7 +66,6 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         private void EnableChildren() {
             btnDodaj.Enabled = true;
-            btnObrisi.Enabled = true;
 
             dgvProdaje.Enabled = true;
         }
@@ -100,6 +97,20 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         private async void TxtBrojRacuna_TextChanged(object sender, EventArgs e) {
             await GetGridData();
+        }
+
+        private void DgvProdaje_SelectionChanged(object sender, EventArgs e) {
+            ProdajaResponse data = null;
+
+            if (dgvProdaje.SelectedRows.Count > 0)
+                data = (ProdajaResponse)dgvProdaje.SelectedRows[0].DataBoundItem;
+
+            if (data != null && data.Korisnik == null) {
+                btnObrisi.Enabled = false;
+            }
+            else {
+                btnObrisi.Enabled = true;
+            }
         }
     }
 }

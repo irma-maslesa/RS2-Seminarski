@@ -1,12 +1,11 @@
 ﻿namespace Pelikula.API.Model.Izvjestaj
 {
-    public class IzvjestajProdajaPoDatumuResponse
+    public class IzvjestajTopKorisnici
     {
-        public string BrojRacuna { get; set; }
-
         public string Korisnik { get; set; }
+        public int BrojKupovina { get; set; }
 
-        public string Datum { get; set; }
+        public int BrojKarti { get; set; }
 
         public decimal UkupnaCijena { get; set; }
     }

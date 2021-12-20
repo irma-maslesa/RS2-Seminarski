@@ -79,6 +79,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
             this.dgvProdaje.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProdaje.Size = new System.Drawing.Size(1174, 496);
             this.dgvProdaje.TabIndex = 0;
+            this.dgvProdaje.SelectionChanged += new System.EventHandler(this.DgvProdaje_SelectionChanged);
             // 
             // Id
             // 
