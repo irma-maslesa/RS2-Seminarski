@@ -27,7 +27,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            this.rvProdajaPoDatumu = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.rvPrometUGodini = new Microsoft.Reporting.WinForms.ReportViewer();
             this.err = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnPrikazi = new System.Windows.Forms.Button();
@@ -39,15 +39,15 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // rvProdajaPoDatumu
+            // rvPrometUGodini
             // 
-            this.rvProdajaPoDatumu.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rvProdajaPoDatumu.LocalReport.ReportEmbeddedResource = "Pelikula.WINUI.Forms.Izvjestaiji.Report1.rdlc";
-            this.rvProdajaPoDatumu.Location = new System.Drawing.Point(128, 70);
-            this.rvProdajaPoDatumu.Name = "rvProdajaPoDatumu";
-            this.rvProdajaPoDatumu.ServerReport.BearerToken = null;
-            this.rvProdajaPoDatumu.Size = new System.Drawing.Size(943, 518);
-            this.rvProdajaPoDatumu.TabIndex = 0;
+            this.rvPrometUGodini.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.rvPrometUGodini.LocalReport.ReportEmbeddedResource = "Pelikula.WINUI.Forms.Izvjestaiji.Report1.rdlc";
+            this.rvPrometUGodini.Location = new System.Drawing.Point(128, 70);
+            this.rvPrometUGodini.Name = "rvPrometUGodini";
+            this.rvPrometUGodini.ServerReport.BearerToken = null;
+            this.rvPrometUGodini.Size = new System.Drawing.Size(943, 518);
+            this.rvPrometUGodini.TabIndex = 0;
             // 
             // err
             // 
@@ -103,7 +103,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 600);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.rvProdajaPoDatumu);
+            this.Controls.Add(this.rvPrometUGodini);
             this.Name = "FrmPrometUGodini";
             this.Text = "FrmoProdajaPoDatumu";
             this.Load += new System.EventHandler(this.FrmPrometUGodini_Load);
@@ -117,7 +117,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
 
         #endregion
 
-        private Microsoft.Reporting.WinForms.ReportViewer rvProdajaPoDatumu;
+        private Microsoft.Reporting.WinForms.ReportViewer rvPrometUGodini;
         private System.Windows.Forms.ErrorProvider err;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.GroupBox groupBox2;

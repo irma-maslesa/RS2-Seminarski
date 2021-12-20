@@ -4,7 +4,6 @@ using Pelikula.API.Api;
 using Pelikula.API.Model;
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Prodaja;
-using Pelikula.API.Model.Rezervacija;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
 using Pelikula.CORE.Helper.Response;

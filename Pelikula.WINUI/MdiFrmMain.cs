@@ -213,5 +213,10 @@ namespace Pelikula.WINUI
             FrmPrometUGodini frm = new FrmPrometUGodini();
             OpenForm(frm);
         }
+
+        private void OdnosOnlineIInstoreProdajeToolStripMenuItem_Click(object sender, EventArgs e) {
+            FrmOdnosOnlineInstore frm = new FrmOdnosOnlineInstore();
+            OpenForm(frm);
+        }
     }
 }

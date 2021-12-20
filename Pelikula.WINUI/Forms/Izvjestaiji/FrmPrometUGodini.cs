@@ -1,15 +1,10 @@
 ﻿using Microsoft.Reporting.WinForms;
 using Pelikula.API.Model;
-using Pelikula.API.Model.Prodaja;
 using Pelikula.CORE.Helper.Response;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pelikula.WINUI.Forms.Izvjestaiji
@@ -54,9 +49,9 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                 if (response.Payload.Any()) {
                     ReportDataSource dataSource = new ReportDataSource("dsPrometUGodini", response.Payload);
 
-                    rvProdajaPoDatumu.Reset();
-                    rvProdajaPoDatumu.LocalReport.DataSources.Clear();
-                    rvProdajaPoDatumu.LocalReport.DataSources.Add(dataSource);
+                    rvPrometUGodini.Reset();
+                    rvPrometUGodini.LocalReport.DataSources.Clear();
+                    rvPrometUGodini.LocalReport.DataSources.Add(dataSource);
 
                     parameters.Add(new ReportParameter("Korisnik", $"{Properties.Settings.Default.PrijavljeniKorisnik.Ime} {Properties.Settings.Default.PrijavljeniKorisnik.Prezime} ({Properties.Settings.Default.PrijavljeniKorisnik.KorisnickoIme})"));
 
@@ -65,17 +60,17 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                     else
                         parameters.Add(new ReportParameter("Zanr", "Svi"));
 
-                    rvProdajaPoDatumu.LocalReport.ReportEmbeddedResource = "Pelikula.WINUI.Forms.Izvjestaiji.RptPrometUGodini.rdlc";
+                    rvPrometUGodini.LocalReport.ReportEmbeddedResource = "Pelikula.WINUI.Forms.Izvjestaiji.RptPrometUGodini.rdlc";
 
-                    rvProdajaPoDatumu.LocalReport.SetParameters(parameters);
+                    rvPrometUGodini.LocalReport.SetParameters(parameters);
 
-                    rvProdajaPoDatumu.RefreshReport();
+                    rvPrometUGodini.RefreshReport();
                 }
                 else {
                     MessageBox.Show("Nema podataka za prikaz!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    rvProdajaPoDatumu.Reset();
-                    rvProdajaPoDatumu.LocalReport.DataSources.Clear();
+                    rvPrometUGodini.Reset();
+                    rvPrometUGodini.LocalReport.DataSources.Clear();
                 }
 
             }

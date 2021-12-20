@@ -19,8 +19,7 @@ namespace SqlServerTypes
         /// Root path of the current application. Use Server.MapPath(".") for ASP.NET applications
         /// and AppDomain.CurrentDomain.BaseDirectory for desktop applications.
         /// </param>
-        public static void LoadNativeAssemblies(string rootApplicationPath)
-        {
+        public static void LoadNativeAssemblies(string rootApplicationPath) {
             var nativeBinaryPath = IntPtr.Size > 4
                 ? Path.Combine(rootApplicationPath, @"SqlServerTypes\x64\")
                 : Path.Combine(rootApplicationPath, @"SqlServerTypes\x86\");
@@ -29,12 +28,10 @@ namespace SqlServerTypes
             LoadNativeAssembly(nativeBinaryPath, "SqlServerSpatial140.dll");
         }
 
-        private static void LoadNativeAssembly(string nativeBinaryPath, string assemblyName)
-        {
+        private static void LoadNativeAssembly(string nativeBinaryPath, string assemblyName) {
             var path = Path.Combine(nativeBinaryPath, assemblyName);
             var ptr = LoadLibrary(path);
-            if (ptr == IntPtr.Zero)
-            {
+            if (ptr == IntPtr.Zero) {
                 throw new Exception(string.Format(
                     "Error loading {0} (ErrorCode: {1})",
                     assemblyName,

@@ -101,7 +101,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         private void DgvProdaje_SelectionChanged(object sender, EventArgs e) {
             ProdajaResponse data = null;
-            
+
             if (dgvProdaje.SelectedRows.Count > 0)
                 data = (ProdajaResponse)dgvProdaje.SelectedRows[0].DataBoundItem;
 

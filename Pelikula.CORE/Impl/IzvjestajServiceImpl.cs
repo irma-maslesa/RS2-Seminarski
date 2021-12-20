@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Pelikula.API.Api;
-using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Izvjestaj;
 using Pelikula.API.Model.Prodaja;
 using Pelikula.API.Validation;
@@ -100,15 +98,27 @@ namespace Pelikula.CORE.Impl
                 entityList = entityList
                 .Where(e => e.Datum >= datumOd && e.Datum <= datumDo);
             }
+            else {
+                var _datumOd = entityList.Min(e => e.Datum);
+                var _datumDo = entityList.Max(e => e.Datum);
+                datumOd = new DateTime(_datumOd.Year, _datumOd.Month, _datumOd.Day, 0, 0, 0);
+                datumDo = new DateTime(_datumDo.Year, _datumDo.Month, _datumDo.Day, 23, 59, 59);
+            }
+
+
 
             var responseList = new List<IzvjestajOdnosOnlineInstore> {
                 new IzvjestajOdnosOnlineInstore {
                     Tip = IzvjestajOdnosOnlineInstore.IzvjestajOdnosOnlineInstoreTip.ONLINE.ToString(),
-                    Count = entityList.Count(e => e.KorisnikId == null)
+                    Count = entityList.Count(e => e.KorisnikId == null),
+                    DatumOd = datumOd.Value,
+                    DatumDo = datumDo.Value
                 },
                 new IzvjestajOdnosOnlineInstore {
                     Tip = IzvjestajOdnosOnlineInstore.IzvjestajOdnosOnlineInstoreTip.IN_STORE.ToString(),
-                    Count = entityList.Count(e => e.KorisnikId != null)
+                    Count = entityList.Count(e => e.KorisnikId != null),
+                    DatumOd = datumOd.Value,
+                    DatumDo = datumDo.Value
                 }
             };
 

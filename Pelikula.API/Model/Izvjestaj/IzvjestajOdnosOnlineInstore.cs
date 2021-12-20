@@ -4,9 +4,12 @@ namespace Pelikula.API.Model.Izvjestaj
 {
     public class IzvjestajOdnosOnlineInstore
     {
-        public string Tip{ get; set; }
+        public string Tip { get; set; }
 
         public int Count { get; set; }
+
+        public DateTime DatumOd { get; set; }
+        public DateTime DatumDo { get; set; }
 
         public static class IzvjestajOdnosOnlineInstoreTip
         {
@@ -15,5 +18,5 @@ namespace Pelikula.API.Model.Izvjestaj
         }
     }
 
-    
+
 }

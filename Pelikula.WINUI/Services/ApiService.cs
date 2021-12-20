@@ -365,7 +365,7 @@ namespace Pelikula.WINUI
             }
         }
 
-        public async Task<ListPayloadResponse<IzvjestajOdnosOnlineInstore>> GetOdnosOnlineInstore(DateTime datumOd, DateTime datumDo) {
+        public async Task<ListPayloadResponse<IzvjestajOdnosOnlineInstore>> GetOdnosOnlineInstore(DateTime? datumOd, DateTime? datumDo) {
 
             var queryParams = new {
                 datumOd,

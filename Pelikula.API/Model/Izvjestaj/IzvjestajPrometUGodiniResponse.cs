@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Pelikula.API.Model.Izvjestaj
+﻿namespace Pelikula.API.Model.Izvjestaj
 {
     public class IzvjestajPrometUGodiniResponse
     {
-        public string Mjesec{ get; set; }
+        public string Mjesec { get; set; }
 
         public decimal Promet { get; set; }
     }
