@@ -82,6 +82,12 @@
     <Compile Include="Forms\Izvjestaiji\FrmOdnosOnlineInstore.Designer.cs">
       <DependentUpon>FrmOdnosOnlineInstore.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Izvjestaiji\FrmTopKorisnici.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Izvjestaiji\FrmTopKorisnici.Designer.cs">
+      <DependentUpon>FrmTopKorisnici.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Izvjestaiji\FrmPrometUGodini.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,6 +320,9 @@
     <EmbeddedResource Include="Forms\Izvjestaiji\FrmOdnosOnlineInstore.resx">
       <DependentUpon>FrmOdnosOnlineInstore.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Izvjestaiji\FrmTopKorisnici.resx">
+      <DependentUpon>FrmTopKorisnici.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Izvjestaiji\FrmPrometUGodini.resx">
       <DependentUpon>FrmPrometUGodini.cs</DependentUpon>
     </EmbeddedResource>
@@ -323,6 +332,7 @@
     <EmbeddedResource Include="Forms\Izvjestaiji\RptOdnosOnlineInstore.rdlc" />
     <EmbeddedResource Include="Forms\Izvjestaiji\RptPrometUGodini.rdlc" />
     <EmbeddedResource Include="Forms\Izvjestaiji\RptProdajaPoDatumu.rdlc" />
+    <EmbeddedResource Include="Forms\Izvjestaiji\RptTopKorisnici.rdlc" />
     <EmbeddedResource Include="Forms\Prodaja\FrmProdaja.resx">
       <DependentUpon>FrmProdaja.cs</DependentUpon>
     </EmbeddedResource>
@@ -407,6 +417,7 @@
     <None Include="Properties\DataSources\Pelikula.API.Model.Izvjestaj.IzvjestajOdnosOnlineInstore.datasource" />
     <None Include="Properties\DataSources\Pelikula.API.Model.Izvjestaj.IzvjestajProdajaPoDatumuResponse.datasource" />
     <None Include="Properties\DataSources\Pelikula.API.Model.Izvjestaj.IzvjestajPrometUGodiniResponse.datasource" />
+    <None Include="Properties\DataSources\Pelikula.API.Model.Izvjestaj.IzvjestajTopKorisnici.datasource" />
     <None Include="Properties\DataSources\Pelikula.API.Model.Prodaja.ProdajaResponse.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

@@ -125,7 +125,7 @@ namespace Pelikula.CORE.Impl
             return new ListPayloadResponse<IzvjestajOdnosOnlineInstore>(HttpStatusCode.OK, responseList);
         }
 
-        public ListPayloadResponse<IzvjestajTopKorisnici> GetTopKorisnici(int? brojKorisnika, int? zanrId) {
+        public ListPayloadResponse<IzvjestajTopKorisnici> GetTopKorisnici(int brojKorisnika, int? zanrId) {
             IQueryable<Prodaja> entityList = Context.Prodaja
                 .Include(e => e.ProdajaArtikal)
                     .ThenInclude(e => e.Artikal)
@@ -140,14 +140,12 @@ namespace Pelikula.CORE.Impl
                                 .ThenInclude(e => e.Film)
                         .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId);
             }
-            if (!brojKorisnika.HasValue)
-                brojKorisnika = 5;
 
             var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList);
             dtoList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
 
             var groupedByKorisnici = dtoList.GroupBy(e => e.Rezervacija.Korisnik).ToList();
-            groupedByKorisnici = groupedByKorisnici.OrderByDescending(e => e.Count()).Take(brojKorisnika.Value).ToList();
+            groupedByKorisnici = groupedByKorisnici.OrderByDescending(e => e.Count()).Take(brojKorisnika).ToList();
 
             var responseList = new List<IzvjestajTopKorisnici>();
 

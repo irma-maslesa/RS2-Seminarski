@@ -44,13 +44,14 @@ namespace Pelikula.WINUI
             this.izvjestajiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prodajaUOdređenomPerioduToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prometUPrethodnihGodinuDanaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.odnosOnlineIInstoreProdajeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.obavijestiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dojmoviToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.anketeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.odjavaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssKorisnik = new System.Windows.Forms.ToolStripStatusLabel();
-            this.odnosOnlineIInstoreProdajeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.topKorisniciPoBrojuKupovinaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -162,7 +163,8 @@ namespace Pelikula.WINUI
             this.izvjestajiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.prodajaUOdređenomPerioduToolStripMenuItem,
             this.prometUPrethodnihGodinuDanaToolStripMenuItem,
-            this.odnosOnlineIInstoreProdajeToolStripMenuItem});
+            this.odnosOnlineIInstoreProdajeToolStripMenuItem,
+            this.topKorisniciPoBrojuKupovinaToolStripMenuItem});
             this.izvjestajiToolStripMenuItem.Name = "izvjestajiToolStripMenuItem";
             this.izvjestajiToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.izvjestajiToolStripMenuItem.Text = "Izvještaji";
@@ -172,7 +174,7 @@ namespace Pelikula.WINUI
             this.prodajaUOdređenomPerioduToolStripMenuItem.Name = "prodajaUOdređenomPerioduToolStripMenuItem";
             this.prodajaUOdređenomPerioduToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.prodajaUOdređenomPerioduToolStripMenuItem.Text = "Prodaja u određenom periodu";
-            this.prodajaUOdređenomPerioduToolStripMenuItem.Click += new System.EventHandler(this.ProdajaUOdređenomPerioduToolStripMenuItem_Click);
+            this.prodajaUOdređenomPerioduToolStripMenuItem.Click += new System.EventHandler(this.ProdajaUOdredjenomPerioduToolStripMenuItem_Click);
             // 
             // prometUPrethodnihGodinuDanaToolStripMenuItem
             // 
@@ -180,6 +182,13 @@ namespace Pelikula.WINUI
             this.prometUPrethodnihGodinuDanaToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.prometUPrethodnihGodinuDanaToolStripMenuItem.Text = "Promet u prethodnih godinu dana";
             this.prometUPrethodnihGodinuDanaToolStripMenuItem.Click += new System.EventHandler(this.PrometUPrethodnihGodinuDanaToolStripMenuItem_Click);
+            // 
+            // odnosOnlineIInstoreProdajeToolStripMenuItem
+            // 
+            this.odnosOnlineIInstoreProdajeToolStripMenuItem.Name = "odnosOnlineIInstoreProdajeToolStripMenuItem";
+            this.odnosOnlineIInstoreProdajeToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.odnosOnlineIInstoreProdajeToolStripMenuItem.Text = "Odnos online i instore prodaje";
+            this.odnosOnlineIInstoreProdajeToolStripMenuItem.Click += new System.EventHandler(this.OdnosOnlineIInstoreProdajeToolStripMenuItem_Click);
             // 
             // obavijestiToolStripMenuItem
             // 
@@ -225,12 +234,12 @@ namespace Pelikula.WINUI
             this.tssKorisnik.Size = new System.Drawing.Size(49, 17);
             this.tssKorisnik.Text = "Korisnik";
             // 
-            // odnosOnlineIInstoreProdajeToolStripMenuItem
+            // topKorisniciPoBrojuKupovinaToolStripMenuItem
             // 
-            this.odnosOnlineIInstoreProdajeToolStripMenuItem.Name = "odnosOnlineIInstoreProdajeToolStripMenuItem";
-            this.odnosOnlineIInstoreProdajeToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
-            this.odnosOnlineIInstoreProdajeToolStripMenuItem.Text = "Odnos online i instore prodaje";
-            this.odnosOnlineIInstoreProdajeToolStripMenuItem.Click += new System.EventHandler(this.OdnosOnlineIInstoreProdajeToolStripMenuItem_Click);
+            this.topKorisniciPoBrojuKupovinaToolStripMenuItem.Name = "topKorisniciPoBrojuKupovinaToolStripMenuItem";
+            this.topKorisniciPoBrojuKupovinaToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.topKorisniciPoBrojuKupovinaToolStripMenuItem.Text = "Top korisnici po broju kupovina";
+            this.topKorisniciPoBrojuKupovinaToolStripMenuItem.Click += new System.EventHandler(this.TopKorisniciPoBrojuKupovinaToolStripMenuItem_Click);
             // 
             // MdiFrmMain
             // 
@@ -279,6 +288,7 @@ namespace Pelikula.WINUI
         private System.Windows.Forms.ToolStripMenuItem prodajaUOdređenomPerioduToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prometUPrethodnihGodinuDanaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem odnosOnlineIInstoreProdajeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem topKorisniciPoBrojuKupovinaToolStripMenuItem;
     }
 }
 

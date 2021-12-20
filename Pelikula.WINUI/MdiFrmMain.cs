@@ -204,7 +204,7 @@ namespace Pelikula.WINUI
             OpenForm(frm);
         }
 
-        private void ProdajaUOdređenomPerioduToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void ProdajaUOdredjenomPerioduToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmProdajaPoDatumu frm = new FrmProdajaPoDatumu();
             OpenForm(frm);
         }
@@ -216,6 +216,11 @@ namespace Pelikula.WINUI
 
         private void OdnosOnlineIInstoreProdajeToolStripMenuItem_Click(object sender, EventArgs e) {
             FrmOdnosOnlineInstore frm = new FrmOdnosOnlineInstore();
+            OpenForm(frm);
+        }
+
+        private void TopKorisniciPoBrojuKupovinaToolStripMenuItem_Click(object sender, EventArgs e) {
+            FrmTopKorisnici frm = new FrmTopKorisnici();
             OpenForm(frm);
         }
     }

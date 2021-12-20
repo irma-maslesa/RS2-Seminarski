@@ -388,5 +388,29 @@ namespace Pelikula.WINUI
                 return default;
             }
         }
+        public async Task<ListPayloadResponse<IzvjestajTopKorisnici>> GetTopKorisnici(int brojKorisnika, int? zanrId) {
+
+            var queryParams = new {
+                brojKorisnika,
+                zanrId,
+            };
+
+            try {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment("top-korisnici")
+                        .SetQueryParams(queryParams)
+                        .GetJsonAsync<ListPayloadResponse<IzvjestajTopKorisnici>>();
+            }
+            catch (FlurlHttpException ex) {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
+        }
+
     }
 }

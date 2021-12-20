@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpGet("top-korisnici")]
-        public ListPayloadResponse<IzvjestajTopKorisnici> GetTopKorisnici([FromQuery] int? brojKorisnika, [FromQuery] int? zanrId) {
+        public ListPayloadResponse<IzvjestajTopKorisnici> GetTopKorisnici([FromQuery] int brojKorisnika, [FromQuery] int? zanrId) {
             return Service.GetTopKorisnici(brojKorisnika, zanrId);
         }
 

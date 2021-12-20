@@ -129,10 +129,8 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                 dtpOd.Enabled = true;
             }
             else {
-                {
-                    dtpDo.Enabled = false;
-                    dtpOd.Enabled = false;
-                }
+                dtpDo.Enabled = false;
+                dtpOd.Enabled = false;
             }
         }
     }
