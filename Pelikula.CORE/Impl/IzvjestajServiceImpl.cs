@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Pelikula.API.Api;
-using Pelikula.API.Model;
-using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Izvjestaj;
 using Pelikula.API.Model.Prodaja;
 using Pelikula.API.Validation;
@@ -55,30 +53,24 @@ namespace Pelikula.CORE.Impl
 
             var datum = DateTime.Now;
 
-            List<Prodaja> entityList = null;
+            IQueryable<Prodaja> entityList = Context.Prodaja
+                .Include(e => e.Korisnik)
+                .Include(e => e.ProdajaArtikal)
+                    .ThenInclude(e => e.Artikal);
 
             if (zanrId.HasValue)
-                entityList = Context.Prodaja
-                .Include(e => e.Korisnik)
-                .Include(e => e.ProdajaArtikal)
-                    .ThenInclude(e => e.Artikal)
-                .Include(e => e.Rezervacija)
-                    .ThenInclude(e => e.ProjekcijaTermin)
-                        .ThenInclude(e => e.Projekcija)
-                            .ThenInclude(e => e.Film)
-                .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId
-                                && e.Datum > datum.AddYears(-1) && e.Datum <= datum)
-                .ToList();
+                entityList = entityList
+                    .Include(e => e.Rezervacija)
+                        .ThenInclude(e => e.ProjekcijaTermin)
+                            .ThenInclude(e => e.Projekcija)
+                                .ThenInclude(e => e.Film)
+                    .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId
+                                && e.Datum > datum.AddYears(-1) && e.Datum <= datum);
             else
-                entityList = Context.Prodaja
-                .Include(e => e.Korisnik)
-                .Include(e => e.ProdajaArtikal)
-                    .ThenInclude(e => e.Artikal)
-                .Include(e => e.Rezervacija)
-                .Where(e => e.Datum > datum.AddYears(-1) && e.Datum <= datum)
-                .ToList();
+                entityList = entityList.Include(e => e.Rezervacija)
+                    .Where(e => e.Datum > datum.AddYears(-1) && e.Datum <= datum);
 
-            var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList);
+            var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList.ToList());
             dtoList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
 
             var groupedByMonths = dtoList.GroupBy(e => e.Datum.Month).ToList();
@@ -90,11 +82,88 @@ namespace Pelikula.CORE.Impl
                 sum = month.Sum(e => e.UkupnaCijena);
                 responseList.Add(new IzvjestajPrometUGodiniResponse {
                     Mjesec = ((Mjesec)month.Key).ToString(),
-                    Promet = sum.ToString("0.00")
+                    Promet = Math.Round(sum, 2)
                 });
             }
 
             return new ListPayloadResponse<IzvjestajPrometUGodiniResponse>(HttpStatusCode.OK, responseList);
+        }
+
+        public ListPayloadResponse<IzvjestajOdnosOnlineInstore> GetOdnosOnlineInstore(DateTime? datumOd, DateTime? datumDo) {
+            IQueryable<Prodaja> entityList = Context.Prodaja;
+
+            if (datumOd.HasValue || datumDo.HasValue) {
+                Validator.ValidateDatume(datumOd.Value, datumDo.Value);
+
+                entityList = entityList
+                .Where(e => e.Datum >= datumOd && e.Datum <= datumDo);
+            }
+            else {
+                var _datumOd = entityList.Min(e => e.Datum);
+                var _datumDo = entityList.Max(e => e.Datum);
+                datumOd = new DateTime(_datumOd.Year, _datumOd.Month, _datumOd.Day, 0, 0, 0);
+                datumDo = new DateTime(_datumDo.Year, _datumDo.Month, _datumDo.Day, 23, 59, 59);
+            }
+
+
+
+            var responseList = new List<IzvjestajOdnosOnlineInstore> {
+                new IzvjestajOdnosOnlineInstore {
+                    Tip = IzvjestajOdnosOnlineInstore.IzvjestajOdnosOnlineInstoreTip.ONLINE.ToString(),
+                    Count = entityList.Count(e => e.KorisnikId == null),
+                    DatumOd = datumOd.Value,
+                    DatumDo = datumDo.Value
+                },
+                new IzvjestajOdnosOnlineInstore {
+                    Tip = IzvjestajOdnosOnlineInstore.IzvjestajOdnosOnlineInstoreTip.IN_STORE.ToString(),
+                    Count = entityList.Count(e => e.KorisnikId != null),
+                    DatumOd = datumOd.Value,
+                    DatumDo = datumDo.Value
+                }
+            };
+
+            return new ListPayloadResponse<IzvjestajOdnosOnlineInstore>(HttpStatusCode.OK, responseList);
+        }
+
+        public ListPayloadResponse<IzvjestajTopKorisnici> GetTopKorisnici(int brojKorisnika, int? zanrId) {
+            IQueryable<Prodaja> entityList = Context.Prodaja
+                .Include(e => e.ProdajaArtikal)
+                    .ThenInclude(e => e.Artikal)
+                .Include(e => e.Rezervacija)
+                    .ThenInclude(e => e.Korisnik);
+
+            if (zanrId.HasValue) {
+                ZanrValidator.ValidateEntityExists(zanrId.Value);
+                entityList = entityList.Include(e => e.Rezervacija)
+                        .ThenInclude(e => e.ProjekcijaTermin)
+                            .ThenInclude(e => e.Projekcija)
+                                .ThenInclude(e => e.Film)
+                        .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId);
+            }
+
+            var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList);
+            dtoList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
+
+            var groupedByKorisnici = dtoList.GroupBy(e => e.Rezervacija.Korisnik).ToList();
+            groupedByKorisnici = groupedByKorisnici.OrderByDescending(e => e.Count()).Take(brojKorisnika).ToList();
+
+            var responseList = new List<IzvjestajTopKorisnici>();
+
+            foreach (var korisnik in groupedByKorisnici) {
+                responseList.Add(new IzvjestajTopKorisnici {
+                    Korisnik = korisnik.Key.ToString(),
+                    BrojKupovina = korisnik.Count(),
+                    BrojKarti = korisnik.Sum(e => e.Rezervacija.BrojSjedista),
+                    UkupnaCijena = korisnik.Sum(e => e.UkupnaCijena)
+                });
+            }
+
+            responseList = responseList.OrderByDescending(e => e.BrojKupovina)
+                .ThenByDescending(e => e.UkupnaCijena)
+                .ThenByDescending(e => e.BrojKarti)
+                .ToList();
+
+            return new ListPayloadResponse<IzvjestajTopKorisnici>(HttpStatusCode.OK, responseList);
         }
 
         enum Mjesec

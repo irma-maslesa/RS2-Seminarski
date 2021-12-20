@@ -14,8 +14,11 @@ namespace Pelikula.CORE.Validation
             Context = context;
         }
 
-        public void ValidateDatume(DateTime datumOd, DateTime datumDo) {
-            if(datumOd > datumDo)
+        public void ValidateDatume(DateTime? datumOd, DateTime? datumDo) {
+            if (!datumOd.HasValue || !datumDo.HasValue)
+                throw new UserException("Oba datuma moraju imati vrijednost! ", HttpStatusCode.BadRequest);
+
+            if (datumOd > datumDo)
                 throw new UserException("Neispravni datumi! ", HttpStatusCode.BadRequest);
         }
     }

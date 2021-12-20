@@ -1,12 +1,6 @@
 ﻿using Microsoft.Reporting.WinForms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pelikula.WINUI.Forms.Izvjestaiji
@@ -43,7 +37,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                 };
 
                 var response = await _service.GetProdajaPoDatumu(datumOd, datumDo);
-                if(response.Payload.Any()) {
+                if (response.Payload.Any()) {
                     ReportDataSource dataSource = new ReportDataSource("dsProdajaPoDatumu", response.Payload);
 
                     rvProdajaPoDatumu.Reset();
@@ -58,16 +52,18 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
 
                     rvProdajaPoDatumu.RefreshReport();
                 }
-                else 
-                    MessageBox.Show("Nema podataka za prikaz!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+                else {
+                    MessageBox.Show("Nema podataka za prikaz!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    rvProdajaPoDatumu.Reset();
+                    rvProdajaPoDatumu.LocalReport.DataSources.Clear();
+                }
+
             }
             else if (datumOd > datumDo) {
                 err.SetError(dtpOd, "Neispravna vrijednost");
                 err.SetError(dtpDo, "Neispravna vrijednost");
             }
-
-
         }
 
         private void DtpOd_ValueChanged(object sender, EventArgs e) {

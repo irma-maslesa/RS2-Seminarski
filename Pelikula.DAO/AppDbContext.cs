@@ -290,14 +290,15 @@ namespace Pelikula.DAO
             modelBuilder.Entity<Prodaja>(entity => {
                 entity.HasIndex(e => e.KorisnikId);
 
+                entity.HasIndex(e => e.RezervacijaId);
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.BrojRacuna).IsRequired();
 
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Prodaja)
-                    .HasForeignKey(d => d.KorisnikId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .HasForeignKey(d => d.KorisnikId);
 
                 entity.HasOne(d => d.Rezervacija)
                     .WithMany(p => p.Prodaja)
@@ -429,6 +430,8 @@ namespace Pelikula.DAO
             });
 
             modelBuilder.Entity<Sjediste>(entity => {
+                entity.HasIndex(e => e.SalaId);
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Red)
@@ -444,6 +447,10 @@ namespace Pelikula.DAO
             });
 
             modelBuilder.Entity<SjedisteRezervacija>(entity => {
+                entity.HasIndex(e => e.RezervacijaId);
+
+                entity.HasIndex(e => e.SjedisteId);
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.RezervacijaId).HasColumnName("RezervacijaID");

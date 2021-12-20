@@ -4,7 +4,6 @@ using Pelikula.API.Api;
 using Pelikula.API.Model;
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Prodaja;
-using Pelikula.API.Model.Rezervacija;
 using Pelikula.API.Validation;
 using Pelikula.CORE.Filter;
 using Pelikula.CORE.Helper.Response;
@@ -90,8 +89,11 @@ namespace Pelikula.CORE.Impl
         }
 
         public override PayloadResponse<ProdajaResponse> Insert(ProdajaInsertRequest request) {
-            KorisnikValidator.ValidateEntityExists(request.KorisnikId);
-            KorisnikValidator.ValidateTipKorisnika(request.KorisnikId, KorisnikTip.Radnik);
+            if (request.KorisnikId.HasValue) {
+                KorisnikValidator.ValidateEntityExists(request.KorisnikId.Value);
+                KorisnikValidator.ValidateTipKorisnika(request.KorisnikId.Value, KorisnikTip.Radnik);
+            }
+
             if (request.RezervacijaId.HasValue) {
                 RezervacijaValidator.ValidateEntityExists(request.RezervacijaId.Value);
                 RezervacijaValidator.ValidateEntityProdano(request.RezervacijaId.Value);
