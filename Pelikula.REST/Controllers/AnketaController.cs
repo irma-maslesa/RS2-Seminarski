@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Pelikula.API.Api;
 using Pelikula.API.Model.Anketa;
@@ -21,16 +22,19 @@ namespace API.Controllers
             Service = service;
         }
 
+        [Authorize]
         [HttpPost("korisnik-odgovor")]
         public PayloadResponse<AnketaExtendedResponse> InsertKorisnikOdgovor([FromBody] AnketaOdgovorKorisnikInsertRequest dtoObject) {
             return Service.InsertKorisnikOdgovor(dtoObject);
         }
 
+        [Authorize]
         [HttpPut("{id}/zatvori")]
         public PayloadResponse<AnketaResponse> Close(int id) {
             return Service.Close(id);
         }
 
+        [Authorize]
         [HttpGet("aktivne")]
         public PagedPayloadResponse<AnketaResponse> GetActive([FromQuery] int? korisnikId, [FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -64,6 +68,7 @@ namespace API.Controllers
             return Service.GetActive(korisnikId, paginationParams, filterParams, sortingParams);
         }
 
+        [Authorize]
         [HttpGet("korisnik/{id}")]
         public PagedPayloadResponse<AnketaExtendedResponse> GetForUser(int id, [FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
             StringBuilder stringBuilder = new StringBuilder();

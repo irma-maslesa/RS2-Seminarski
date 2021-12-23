@@ -287,5 +287,30 @@ namespace Pelikula.CORE.Impl
 
             return new ListPayloadResponse<LoV>(HttpStatusCode.OK, response);
         }
+
+        public PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
+            var datum = DateTime.Now.Date;
+
+            IEnumerable<Projekcija> entityList = Context.Set<Projekcija>()
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.Zanr)
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.Reditelj)
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.FilmGlumac)
+                        .ThenInclude(e => e.FilmskaLicnost)
+                .Include(e => e.Sala)
+                .Include(e => e.ProjekcijaTermin)
+                .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo >= datum)
+                .ToList();
+
+            entityList = filter != null && filter.Any() ? FilterUtility.Filter<Projekcija>.FilteredData(filter, entityList) : entityList;
+            entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Projekcija>.SortData(sorting, entityList) : entityList;
+
+            List<ProjekcijaDetailedResponse> responseList = Mapper.Map<List<ProjekcijaDetailedResponse>>(entityList);
+
+            PaginationUtility.PagedData<ProjekcijaDetailedResponse> pagedResponse = PaginationUtility.Paginaion<ProjekcijaDetailedResponse>.PaginateData(responseList, pagination);
+            return new PagedPayloadResponse<ProjekcijaDetailedResponse>(HttpStatusCode.OK, pagedResponse);
+        }
     }
 }

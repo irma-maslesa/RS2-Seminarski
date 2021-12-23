@@ -128,6 +128,10 @@ namespace FudbalskaLigaBiH.CORE.Mapper
                 .ForMember(dest => dest.Termini,
                 opts => opts.MapFrom(src => src.ProjekcijaTermin))
                 .ReverseMap();
+            CreateMap<Projekcija, ProjekcijaDetailedResponse>()
+                .ForMember(dest => dest.Termini,
+                opts => opts.MapFrom(src => src.ProjekcijaTermin))
+                .ReverseMap();
             CreateMap<Projekcija, LoV>()
                 .ForMember(dest => dest.Naziv,
                 opts => opts.MapFrom(src => $"{src.Film.Naslov} - {src.Sala.Naziv} ({src.VrijediOd:dd/MM/yyyy} - {src.VrijediDo:dd/MM/yyyy})"))

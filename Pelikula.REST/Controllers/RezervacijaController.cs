@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Pelikula.API.Api;
 using Pelikula.API.Model.Helper;
@@ -21,10 +22,13 @@ namespace API.Controllers
             Service = service;
         }
 
+        [Authorize]
         [HttpPut("{id}/otkazi")]
         public virtual PayloadResponse<RezervacijaResponse> Otkazi(int id) {
             return Service.Otkazi(id);
         }
+
+        [Authorize]
         [HttpGet("simple")]
         public virtual PagedPayloadResponse<RezervacijaSimpleResponse> GetSimple([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
             StringBuilder stringBuilder = new StringBuilder();
