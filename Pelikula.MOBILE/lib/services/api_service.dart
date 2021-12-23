@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:pelikula_mobile/model/korisnik.dart';
 
 class ApiService {
   static String? korisnickoIme;
@@ -13,6 +14,23 @@ class ApiService {
   void setParameters(String korisnickoIme, String lozinka) {
     ApiService.korisnickoIme = korisnickoIme;
     ApiService.lozinka = lozinka;
+  }
+
+  static Future<KorisnikResponse?> prijava() async {
+    String baseUrl = "http://192.168.0.15:5001/api/Korisnik/autentifikacija";
+
+    final String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));
+
+    final response = await http.get(
+      Uri.parse(baseUrl),
+      headers: {HttpHeaders.authorizationHeader: basicAuth},
+    );
+    if (response.statusCode == 200) {
+      return KorisnikResponse.fromJson(json.decode(response.body)['payload']);
+    }
+
+    return null;
   }
 
   static Future<List<dynamic>?> get(String route, dynamic object) async {

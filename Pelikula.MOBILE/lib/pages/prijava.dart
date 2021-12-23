@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pelikula_mobile/model/korisnik.dart';
+import 'package:pelikula_mobile/model/korisnik_tip.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Prijava extends StatefulWidget {
@@ -17,20 +18,19 @@ class _PrijavaState extends State<Prijava> {
   TextEditingController korisnickoImeController = TextEditingController();
   TextEditingController lozinkaController = TextEditingController();
   FocusNode focusNode = FocusNode();
-  dynamic response;
+  KorisnikResponse? response;
 
   Future<void> getData() async {
-    response = await ApiService.get("Korisnik", null);
-
-    print(response.map((i) => KorisnikResponse.fromJson(i)).toList());
+    response = await ApiService.prijava();
+    print(response);
   }
 
-  Future<void> _showDialog() async {
+  Future<void> _showDialog(String text) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: const Text('Neispravno korisničko ime ili lozinka!'),
+          content: Text(text),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
@@ -88,11 +88,17 @@ class _PrijavaState extends State<Prijava> {
           ApiService.lozinka = lozinkaController.text;
           await getData();
           if (response != null) {
-            Navigator.of(context).pushReplacementNamed("/home");
+            if (response!.tipKorisnika!.naziv != KorisnikTip.klijent) {
+              korisnickoImeController.text = '';
+              lozinkaController.text = '';
+              _showDialog('Pristup aplikaciji nije moguć!');
+            } else {
+              Navigator.of(context).pushReplacementNamed("/home");
+            }
           } else {
             lozinkaController.text = '';
             FocusScope.of(context).requestFocus(focusNode);
-            _showDialog();
+            _showDialog('Neispravno korisničko ime ili lozinka!');
           }
         },
         child: Text("Prijavi se",
