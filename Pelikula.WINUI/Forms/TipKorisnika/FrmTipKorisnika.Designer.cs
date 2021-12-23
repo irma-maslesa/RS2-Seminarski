@@ -32,16 +32,11 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvTipoviKorisnika = new System.Windows.Forms.DataGridView();
             this.txtNaziv = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnObrisi = new System.Windows.Forms.Button();
-            this.btnUredi = new System.Windows.Forms.Button();
-            this.btnDodaj = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnPretrazi = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTipoviKorisnika)).BeginInit();
-            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,56 +72,13 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             this.txtNaziv.Size = new System.Drawing.Size(345, 20);
             this.txtNaziv.TabIndex = 2;
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.groupBox3.Controls.Add(this.btnObrisi);
-            this.groupBox3.Controls.Add(this.btnUredi);
-            this.groupBox3.Controls.Add(this.btnDodaj);
-            this.groupBox3.Location = new System.Drawing.Point(633, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(555, 52);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Opcije";
-            // 
-            // btnObrisi
-            // 
-            this.btnObrisi.Location = new System.Drawing.Point(374, 19);
-            this.btnObrisi.Name = "btnObrisi";
-            this.btnObrisi.Size = new System.Drawing.Size(175, 23);
-            this.btnObrisi.TabIndex = 4;
-            this.btnObrisi.Text = "Obriši";
-            this.btnObrisi.UseVisualStyleBackColor = true;
-            this.btnObrisi.Click += new System.EventHandler(this.BtnObrisi_Click);
-            // 
-            // btnUredi
-            // 
-            this.btnUredi.Location = new System.Drawing.Point(193, 19);
-            this.btnUredi.Name = "btnUredi";
-            this.btnUredi.Size = new System.Drawing.Size(175, 23);
-            this.btnUredi.TabIndex = 3;
-            this.btnUredi.Text = "Uredi";
-            this.btnUredi.UseVisualStyleBackColor = true;
-            this.btnUredi.Click += new System.EventHandler(this.BtnUredi_Click);
-            // 
-            // btnDodaj
-            // 
-            this.btnDodaj.Location = new System.Drawing.Point(12, 19);
-            this.btnDodaj.Name = "btnDodaj";
-            this.btnDodaj.Size = new System.Drawing.Size(175, 23);
-            this.btnDodaj.TabIndex = 2;
-            this.btnDodaj.Text = "Dodaj";
-            this.btnDodaj.UseVisualStyleBackColor = true;
-            this.btnDodaj.Click += new System.EventHandler(this.BtnDodaj_Click);
-            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.txtNaziv);
             this.groupBox2.Controls.Add(this.btnPretrazi);
-            this.groupBox2.Location = new System.Drawing.Point(10, 12);
+            this.groupBox2.Location = new System.Drawing.Point(293, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(615, 51);
             this.groupBox2.TabIndex = 4;
@@ -158,7 +110,6 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 600);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Name = "FrmTipKorisnika";
             this.Text = "Pregled tipova korisnika";
@@ -166,7 +117,6 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
             this.Enter += new System.EventHandler(this.BtnPretrazi_Click);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTipoviKorisnika)).EndInit();
-            this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -178,10 +128,6 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgvTipoviKorisnika;
         private System.Windows.Forms.TextBox txtNaziv;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button btnObrisi;
-        private System.Windows.Forms.Button btnUredi;
-        private System.Windows.Forms.Button btnDodaj;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnPretrazi;

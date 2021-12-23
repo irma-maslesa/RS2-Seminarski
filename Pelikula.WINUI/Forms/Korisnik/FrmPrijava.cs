@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Pelikula.API.Model;
 
 namespace Pelikula.WINUI.Forms.Korisnik
 {
@@ -27,36 +28,28 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
             Cursor = Cursors.WaitCursor;
 
-            List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>
-            {
-                new FilterUtility.FilterParams("KorisnickoIme", txtKorisnickoIme.Text, FilterUtility.FilterOptions.isequalto.ToString())
-            };
+            PayloadResponse<KorisnikResponse> obj = await _service.Prijava(txtKorisnickoIme.Text, txtLozinka.Text);
 
-            PagedPayloadResponse<KorisnikResponse> obj = await _service.Get<PagedPayloadResponse<KorisnikResponse>>(null, filters, null);
+            if (obj != null && obj.Payload != null) {
+                var korisnik = obj.Payload;
 
-            if (obj.Payload.Any()) {
-                var korisnik = obj.Payload.First();
-                if (PasswordHelper.GenerateHash(korisnik.LozinkaSalt, txtLozinka.Text) == korisnik.LozinkaHash) {
+                if (korisnik.TipKorisnika.Naziv == KorisnikTip.Klijent.ToString()) {
+                    MessageBox.Show("Nemate pristup aplikaciji! ", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtKorisnickoIme.Text = string.Empty;
+                    txtLozinka.Text = string.Empty;
+                    txtLozinka.PasswordChar = '*';
+                }
+                else {
                     korisnik.Lozinka = txtLozinka.Text;
                     Properties.Settings.Default.PrijavljeniKorisnik = korisnik;
-
                     DialogResult = DialogResult.OK;
                     Close();
                 }
-
-                else {
-                    MessageBox.Show("Neispravno korisčko ime ili lozinka.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtLozinka.Text = string.Empty;
-                    txtLozinka.PasswordChar = '*';
-
-                }
             }
             else {
-                MessageBox.Show("Neispravno korisčko ime ili lozinka.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtLozinka.Text = string.Empty;
                 txtLozinka.PasswordChar = '*';
             }
-
 
             txtKorisnickoIme.Enabled = true;
             txtLozinka.Enabled = true;

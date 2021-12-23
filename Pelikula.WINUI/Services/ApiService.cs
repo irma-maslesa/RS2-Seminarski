@@ -5,6 +5,7 @@ using Pelikula.API.Model;
 using Pelikula.API.Model.Anketa;
 using Pelikula.API.Model.Helper;
 using Pelikula.API.Model.Izvjestaj;
+using Pelikula.API.Model.Korisnik;
 using Pelikula.API.Model.Projekcija;
 using Pelikula.API.Model.Rezervacija;
 using Pelikula.CORE.Helper.Response;
@@ -20,8 +21,25 @@ namespace Pelikula.WINUI
     {
         private readonly string _route;
 
+        private readonly KorisnikResponse _prijavljeniKorisnik;
+
         public ApiService(string route) {
             _route = route;
+            _prijavljeniKorisnik = Properties.Settings.Default.PrijavljeniKorisnik;
+        }
+
+        public async Task<PayloadResponse<KorisnikResponse>> Prijava(string korisnickoIme, string lozinka) {
+            try {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                        .AppendPathSegment(_route)
+                        .AppendPathSegment("autentifikacija")
+                        .WithBasicAuth(korisnickoIme, lozinka)
+                        .GetJsonAsync<PayloadResponse<KorisnikResponse>>();
+            }
+            catch (FlurlHttpException ex) {
+                MessageBox.Show("Neispravno korisničko ime ili lozinka! ", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return default;
+            }
         }
 
         public async Task<T> Get<T>(PaginationUtility.PaginationParams paginationParams, IEnumerable<FilterUtility.FilterParams> filterParams, IEnumerable<SortingUtility.SortingParams> sortingParams) {
@@ -34,6 +52,7 @@ namespace Pelikula.WINUI
             try {
                 return await new Uri(Properties.Settings.Default.ApiURL)
                     .AppendPathSegment(_route)
+                    .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                     .SetQueryParams(queryParams)
                     .GetJsonAsync<T>();
             }
@@ -58,6 +77,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                     .AppendPathSegment(_route)
                     .AppendPathSegment("lov")
+                    .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                     .SetQueryParams(queryParams)
                     .GetJsonAsync<T>();
             }
@@ -76,6 +96,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
                         .AppendPathSegment(id)
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .GetJsonAsync<T>();
             }
             catch (FlurlHttpException ex) {
@@ -92,6 +113,7 @@ namespace Pelikula.WINUI
             try {
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .PostJsonAsync(request)
                         .ReceiveJson<T>();
             }
@@ -110,6 +132,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
                         .AppendPathSegment(id)
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .PutJsonAsync(request)
                         .ReceiveJson<T>();
             }
@@ -128,6 +151,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
                         .AppendPathSegment(id)
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .DeleteAsync()
                         .ReceiveJson<PayloadResponse<string>>();
             }
@@ -147,6 +171,7 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(_route)
                         .AppendPathSegment(id)
                         .AppendPathSegment("zatvori")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .PutJsonAsync(null)
                         .ReceiveJson<PayloadResponse<AnketaResponse>>();
             }
@@ -171,6 +196,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                     .AppendPathSegment(_route)
                     .AppendPathSegment("aktivne")
+                    .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                     .SetQueryParams(queryParams)
                     .GetJsonAsync<PagedPayloadResponse<ProjekcijaResponse>>();
             }
@@ -190,6 +216,7 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(_route)
                         .AppendPathSegment(projekcijaId)
                         .AppendPathSegment("termini")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .GetJsonAsync<ListPayloadResponse<LoV>>();
             }
             catch (FlurlHttpException ex) {
@@ -208,6 +235,7 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(_route)
                         .AppendPathSegment(projekcijaId)
                         .AppendPathSegment("aktivni-termini")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .GetJsonAsync<ListPayloadResponse<LoV>>();
             }
             catch (FlurlHttpException ex) {
@@ -226,6 +254,7 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(_route)
                         .AppendPathSegment(id)
                         .AppendPathSegment("otkazi")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .PutJsonAsync(null)
                         .ReceiveJson<PayloadResponse<RezervacijaResponse>>();
             }
@@ -245,6 +274,7 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(_route)
                         .AppendPathSegment(projekcijaId)
                         .AppendPathSegment("sjedista")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .GetJsonAsync<ListPayloadResponse<LoV>>();
             }
             catch (FlurlHttpException ex) {
@@ -263,6 +293,7 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(_route)
                         .AppendPathSegment(projekcijaTerminId)
                         .AppendPathSegment("zauzeta-sjedista")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .GetJsonAsync<ListPayloadResponse<LoV>>();
             }
             catch (FlurlHttpException ex) {
@@ -282,6 +313,7 @@ namespace Pelikula.WINUI
                         .AppendPathSegment(projekcijaTerminId)
                         .AppendPathSegment(bezRezervacije)
                         .AppendPathSegment("klijenti")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .GetJsonAsync<ListPayloadResponse<LoV>>();
             }
             catch (FlurlHttpException ex) {
@@ -305,6 +337,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                     .AppendPathSegment(_route)
                     .AppendPathSegment("simple")
+                    .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                     .SetQueryParams(queryParams)
                     .GetJsonAsync<PagedPayloadResponse<RezervacijaSimpleResponse>>();
             }
@@ -329,6 +362,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
                         .AppendPathSegment("prodaja")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .SetQueryParams(queryParams)
                         .GetJsonAsync<ListPayloadResponse<IzvjestajProdajaPoDatumuResponse>>();
             }
@@ -352,6 +386,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
                         .AppendPathSegment("promet")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .SetQueryParams(queryParams)
                         .GetJsonAsync<ListPayloadResponse<IzvjestajPrometUGodiniResponse>>();
             }
@@ -376,6 +411,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
                         .AppendPathSegment("odnos")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .SetQueryParams(queryParams)
                         .GetJsonAsync<ListPayloadResponse<IzvjestajOdnosOnlineInstore>>();
             }
@@ -388,6 +424,7 @@ namespace Pelikula.WINUI
                 return default;
             }
         }
+        
         public async Task<ListPayloadResponse<IzvjestajTopKorisnici>> GetTopKorisnici(int brojKorisnika, int? zanrId) {
 
             var queryParams = new {
@@ -399,6 +436,7 @@ namespace Pelikula.WINUI
                 return await new Uri(Properties.Settings.Default.ApiURL)
                         .AppendPathSegment(_route)
                         .AppendPathSegment("top-korisnici")
+                        .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
                         .SetQueryParams(queryParams)
                         .GetJsonAsync<ListPayloadResponse<IzvjestajTopKorisnici>>();
             }

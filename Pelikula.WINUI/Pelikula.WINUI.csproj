@@ -266,12 +266,6 @@
     <Compile Include="Forms\TipKorisnika\FrmTipKorisnika.Designer.cs">
       <DependentUpon>FrmTipKorisnika.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\TipKorisnika\FrmTipKorisnikaDodajUredi.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\TipKorisnika\FrmTipKorisnikaDodajUredi.Designer.cs">
-      <DependentUpon>FrmTipKorisnikaDodajUredi.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\JedinicaMjere\FrmJedinicaMjere.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -398,9 +392,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TipKorisnika\FrmTipKorisnika.resx">
       <DependentUpon>FrmTipKorisnika.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TipKorisnika\FrmTipKorisnikaDodajUredi.resx">
-      <DependentUpon>FrmTipKorisnikaDodajUredi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JedinicaMjere\FrmJedinicaMjere.resx">
       <DependentUpon>FrmJedinicaMjere.cs</DependentUpon>

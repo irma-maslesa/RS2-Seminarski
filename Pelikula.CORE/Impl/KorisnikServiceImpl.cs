@@ -86,10 +86,10 @@ namespace Pelikula.CORE.Impl
 
         }
 
-        public async Task<PayloadResponse<KorisnikResponse>> Autentifikacija(string korisnickoIme, string lozinka) {
-            var korisnik = await Context.Korisnik
+        public PayloadResponse<KorisnikResponse> Autentifikacija(string korisnickoIme, string lozinka) {
+            var korisnik = Context.Korisnik
                 .Include(x => x.TipKorisnika)
-                .FirstOrDefaultAsync(x => x.KorisnickoIme.ToLower().Equals(korisnickoIme.ToLower()));
+                .FirstOrDefault(x => x.KorisnickoIme.Equals(korisnickoIme));
 
             if (korisnik != null) {
                 var newHash = PasswordHelper.GenerateHash(korisnik.LozinkaSalt, lozinka);
@@ -107,7 +107,6 @@ namespace Pelikula.CORE.Impl
 
             var tipKorisnika = Context.TipKorisnika
                 .FirstOrDefault(e => e.Naziv.ToLower() == KorisnikTip.Klijent.ToString().ToLower());
-
 
             var entity = Mapper.Map<KorisnikRegistracijaRequest, Korisnik>(request);
             entity.TipKorisnika = tipKorisnika;
@@ -142,5 +141,7 @@ namespace Pelikula.CORE.Impl
 
             return new ListPayloadResponse<LoV>(HttpStatusCode.OK, responseList);
         }
+
+
     }
 }

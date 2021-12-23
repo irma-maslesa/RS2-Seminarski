@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Pelikula.API.Api;
 using Pelikula.API.Model;
@@ -22,6 +23,7 @@ namespace API.Controllers
             Service = service;
         }
 
+        [Authorize]
         [HttpGet]
         public override PagedPayloadResponse<ProdajaResponse> Get([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -55,6 +57,7 @@ namespace API.Controllers
             return Service.Get(paginationParams, filterParams, sortingParams);
         }
 
+        [Authorize]
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("lov")]
         public override PagedPayloadResponse<LoV> GetLoVs([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
@@ -89,11 +92,13 @@ namespace API.Controllers
             return Service.GetLoVs(paginationParams, filterParams, sortingParams);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public override PayloadResponse<ProdajaResponse> GetById(int id) {
             return Service.GetById(id);
         }
 
+        [Authorize]
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
         public override PayloadResponse<ProdajaResponse> Update(int id, object dtoObject) {

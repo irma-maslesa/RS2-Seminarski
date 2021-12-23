@@ -11,6 +11,8 @@ namespace Pelikula.API.Api
     {
         PagedPayloadResponse<ProjekcijaResponse> GetActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting);
 
+        PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting);
+
         Task<ListPayloadResponse<ProjekcijaResponse>> GetPreporucene(string korisnickoIme);
 
         PayloadResponse<string> PosjetiProjekciju(int projekcijaId, int korisnikId);

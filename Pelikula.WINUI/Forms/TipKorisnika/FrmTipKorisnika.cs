@@ -52,60 +52,18 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
 
             EnableChildren();
 
-            if (dgvTipoviKorisnika.RowCount == 0) {
-                btnUredi.Enabled = false;
-                btnObrisi.Enabled = false;
-            }
-            else {
-                btnUredi.Enabled = true;
-                btnObrisi.Enabled = true;
-            }
-
             FormHelper.SelectAndShowDgvRow(dgvTipoviKorisnika, adding, _currentIndex, _selectedRowIndex, filters);
         }
         private void EnableChildren() {
             txtNaziv.Enabled = true;
             btnPretrazi.Enabled = true;
-            btnDodaj.Enabled = true;
-            btnUredi.Enabled = true;
-            btnObrisi.Enabled = true;
             dgvTipoviKorisnika.Enabled = true;
         }
 
         private void DisableChildren() {
             txtNaziv.Enabled = false;
             btnPretrazi.Enabled = false;
-            btnDodaj.Enabled = false;
-            btnUredi.Enabled = false;
-            btnObrisi.Enabled = false;
             dgvTipoviKorisnika.Enabled = false;
-        }
-
-        private async void BtnDodaj_Click(object sender, EventArgs e) {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi {
-                StartPosition = FormStartPosition.CenterParent
-            };
-
-            if (frm.ShowDialog() == DialogResult.OK)
-                await GetGridData(adding: true);
-        }
-
-        private async void BtnUredi_Click(object sender, EventArgs e) {
-            FrmTipKorisnikaDodajUredi frm = new FrmTipKorisnikaDodajUredi(((TipKorisnikaResponse)dgvTipoviKorisnika.SelectedRows[0].DataBoundItem).Id) {
-                StartPosition = FormStartPosition.CenterParent
-            };
-
-            if (frm.ShowDialog() == DialogResult.OK)
-                await GetGridData();
-        }
-
-        private async void BtnObrisi_Click(object sender, EventArgs e) {
-            TipKorisnikaResponse tipKorisnika = (TipKorisnikaResponse)dgvTipoviKorisnika.SelectedRows[0].DataBoundItem;
-
-            if (MessageBox.Show($"Jeste li sigurni da želite obrisati tip korisnika {tipKorisnika.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
-                await _service.Delete(tipKorisnika.Id);
-                await GetGridData();
-            }
         }
     }
 }

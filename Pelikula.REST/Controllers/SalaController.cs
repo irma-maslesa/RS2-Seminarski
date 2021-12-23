@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pelikula.API.Api;
 using Pelikula.API.Model;
 using Pelikula.API.Model.Sala;
@@ -15,11 +16,13 @@ namespace API.Controllers
             Service = service;
         }
 
+        [Authorize]
         [HttpGet("{projekcijaTerminId}/zauzeta-sjedista")]
         public ListPayloadResponse<LoV> GetZauzetaSjedista(int projekcijaTerminId) {
             return Service.GetZauzetaSjedista(projekcijaTerminId);
         }
 
+        [Authorize]
         [HttpGet("{projekcijaId}/sjedista")]
         public ListPayloadResponse<LoV> GetSjedista(int projekcijaId) {
             return Service.GetSjedista(projekcijaId);
