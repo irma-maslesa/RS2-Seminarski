@@ -7,13 +7,13 @@ on:
       - main
     paths:
       - .github/workflows/flutter-build.yml
-      - Pelikula.Mobile/**
+      - Pelikula.MOBILE/**
   pull_request:
     branches:
       - '*'
     paths:
       - .github/workflows/flutter-build.yml
-      - Pelikula.Mobile/**
+      - Pelikula.MOBILE/**
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
         channel: 'stable'
     - name: Build
       run: |
-        cd Pelikula.Mobile # navigate to root of flutter project
+        cd Pelikula.MOBILE # navigate to root of flutter project
         if [[ "$RUNNER_OS" == "Linux" || "$RUNNER_OS" == "Windows" ]]; then
           flutter pub get
           flutter build apk
