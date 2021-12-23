@@ -28,6 +28,18 @@ namespace Pelikula.WINUI
             _prijavljeniKorisnik = Properties.Settings.Default.PrijavljeniKorisnik;
         }
 
+        private static T HandleException<T>(Dictionary<string, string> errors) {
+            if (errors != null) {
+                errors.TryGetValue("message", out string message);
+
+                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+                MessageBox.Show("Došlo je do greške", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            return default;
+        }
+
         public async Task<PayloadResponse<KorisnikResponse>> Prijava(string korisnickoIme, string lozinka) {
             try {
                 return await new Uri(Properties.Settings.Default.ApiURL)
@@ -59,10 +71,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<T>(errors);
             }
         }
 
@@ -84,10 +93,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<T>(errors);
             }
         }
 
@@ -102,12 +108,9 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<T>(errors);
             }
-        }
+        }        
 
         public async Task<T> Insert<T>(object request) {
             try {
@@ -120,10 +123,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<T>(errors);
             }
         }
 
@@ -139,10 +139,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<T>(errors);
             }
         }
 
@@ -158,10 +155,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<PayloadResponse<string>>(errors);
             }
         }
 
@@ -178,10 +172,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<PayloadResponse<AnketaResponse>>(errors);
             }
         }
 
@@ -203,10 +194,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<PagedPayloadResponse<ProjekcijaResponse>>(errors);
             }
         }
 
@@ -222,10 +210,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<LoV>>(errors);
             }
         }
 
@@ -241,10 +226,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<LoV>>(errors);
             }
         }
 
@@ -261,10 +243,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<PayloadResponse<RezervacijaResponse>>(errors);
             }
         }
 
@@ -280,10 +259,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<LoV>>(errors);
             }
         }
 
@@ -299,10 +275,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<LoV>>(errors);
             }
         }
 
@@ -319,10 +292,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<LoV>>(errors);
             }
         }
 
@@ -344,10 +314,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<PagedPayloadResponse<RezervacijaSimpleResponse>>(errors);
             }
         }
 
@@ -369,10 +336,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<IzvjestajProdajaPoDatumuResponse>>(errors);
             }
         }
 
@@ -393,10 +357,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<IzvjestajPrometUGodiniResponse>>(errors);
             }
         }
 
@@ -418,10 +379,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<IzvjestajOdnosOnlineInstore>>(errors);
             }
         }
         
@@ -443,10 +401,7 @@ namespace Pelikula.WINUI
             catch (FlurlHttpException ex) {
                 var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
 
-                errors.TryGetValue("message", out string message);
-
-                MessageBox.Show(message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return default;
+                return HandleException<ListPayloadResponse<IzvjestajTopKorisnici>>(errors);
             }
         }
 

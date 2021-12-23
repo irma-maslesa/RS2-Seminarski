@@ -121,6 +121,8 @@ namespace Pelikula.REST
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseDeveloperExceptionPage();
+
             app.UseSwagger();
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("./v1/swagger.json", "Pelikula API");

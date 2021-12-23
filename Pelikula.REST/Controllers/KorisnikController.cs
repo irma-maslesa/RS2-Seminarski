@@ -23,6 +23,7 @@ namespace API.Controllers
         public KorisnikController(IKorisnikService service) : base(service) {
             Service = service;
         }
+
         [Authorize]
         [HttpGet("autentifikacija")]
         public virtual PayloadResponse<KorisnikResponse> Autentifikacija() {
