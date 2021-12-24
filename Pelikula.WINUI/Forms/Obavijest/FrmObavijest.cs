@@ -58,7 +58,8 @@ namespace Pelikula.WINUI.Forms.Obavijest
 
             PagedPayloadResponse<ObavijestResponse> obj = await _service.Get<PagedPayloadResponse<ObavijestResponse>>(null, filters, null);
 
-            dgvObavijesti.DataSource = obj.Payload;
+            if (obj != null)
+                dgvObavijesti.DataSource = obj.Payload;
 
             dgvObavijesti.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)

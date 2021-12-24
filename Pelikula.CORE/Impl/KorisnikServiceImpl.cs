@@ -9,10 +9,10 @@ using Pelikula.CORE.Filter;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;
 using Pelikula.DAO.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Pelikula.CORE.Impl
 {
@@ -89,7 +89,7 @@ namespace Pelikula.CORE.Impl
         public PayloadResponse<KorisnikResponse> Autentifikacija(string korisnickoIme, string lozinka) {
             var korisnik = Context.Korisnik
                 .Include(x => x.TipKorisnika)
-                .FirstOrDefault(x => x.KorisnickoIme.Equals(korisnickoIme));
+                .FirstOrDefault(x => x.KorisnickoIme == korisnickoIme);
 
             if (korisnik != null) {
                 var newHash = PasswordHelper.GenerateHash(korisnik.LozinkaSalt, lozinka);

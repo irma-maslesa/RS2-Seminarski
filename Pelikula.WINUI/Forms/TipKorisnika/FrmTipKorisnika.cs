@@ -41,7 +41,9 @@ namespace Pelikula.WINUI.Forms.TipKorisnika
 
             PagedPayloadResponse<TipKorisnikaResponse> obj = await _service.Get<PagedPayloadResponse<TipKorisnikaResponse>>(null, filters, null);
 
-            dgvTipoviKorisnika.DataSource = obj.Payload;
+            if (obj != null)
+                dgvTipoviKorisnika.DataSource = obj.Payload;
+
             dgvTipoviKorisnika.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvTipoviKorisnika.Columns[0].Visible = false;
 

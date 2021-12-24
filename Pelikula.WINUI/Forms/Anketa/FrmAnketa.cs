@@ -27,12 +27,14 @@ namespace Pelikula.WINUI.Forms.Anketa
             DisableChildren();
 
             korisnikList = (await _korisnikService.GetLoVs<PagedPayloadResponse<LoV>>(null, null, null)).Payload.OrderBy(o => o.Naziv).ToList();
+
             korisnikList.Insert(0, new LoV { Id = -1, Naziv = "Svi" });
 
             cbKorisnik.DataSource = korisnikList;
             cbKorisnik.SelectedItem = korisnikList.FirstOrDefault(o => o.Id == -1);
             cbKorisnik.DisplayMember = "Naziv";
             cbKorisnik.ValueMember = "Id";
+
 
             cbAktivno.Items.AddRange(new object[] { "Svi", "Da", "Ne" });
             cbAktivno.DisplayMember = "Naziv";
@@ -62,7 +64,8 @@ namespace Pelikula.WINUI.Forms.Anketa
 
             PagedPayloadResponse<AnketaResponse> obj = await _service.Get<PagedPayloadResponse<AnketaResponse>>(null, filters, null);
 
-            dgvAnkete.DataSource = obj.Payload;
+            if (obj != null)
+                dgvAnkete.DataSource = obj.Payload;
 
             dgvAnkete.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 

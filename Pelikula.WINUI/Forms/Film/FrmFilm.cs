@@ -61,7 +61,8 @@ namespace Pelikula.WINUI.Forms.Film
 
             PagedPayloadResponse<FilmResponse> obj = await _service.Get<PagedPayloadResponse<FilmResponse>>(null, filters, null);
 
-            dgvFilmovi.DataSource = obj.Payload;
+            if (obj != null)
+                dgvFilmovi.DataSource = obj.Payload;
 
             dgvFilmovi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 

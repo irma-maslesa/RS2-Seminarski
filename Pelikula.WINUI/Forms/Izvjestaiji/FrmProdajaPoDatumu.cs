@@ -37,7 +37,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                 };
 
                 var response = await _service.GetProdajaPoDatumu(datumOd, datumDo);
-                if (response.Payload.Any()) {
+                if (response != null && response.Payload != null && response.Payload.Any()) {
                     ReportDataSource dataSource = new ReportDataSource("dsProdajaPoDatumu", response.Payload);
 
                     rvProdajaPoDatumu.Reset();

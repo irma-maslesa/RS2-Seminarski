@@ -46,7 +46,8 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
             PagedPayloadResponse<ProdajaResponse> obj = await _service.Get<PagedPayloadResponse<ProdajaResponse>>(null, null, null);
 
-            dgvProdaje.DataSource = obj.Payload.Where(e => e.Korisnik == null || e.Korisnik.Id == _prijavljeniKorisnik?.Id).ToList();
+            if (obj != null)
+                dgvProdaje.DataSource = obj.Payload.Where(e => e.Korisnik == null || e.Korisnik.Id == _prijavljeniKorisnik?.Id).ToList();
 
             dgvProdaje.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)

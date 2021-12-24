@@ -43,7 +43,9 @@ namespace Pelikula.WINUI.Forms.Sala
 
             PagedPayloadResponse<SalaResponse> obj = await _service.Get<PagedPayloadResponse<SalaResponse>>(null, filters, null);
 
-            dgvSala.DataSource = obj.Payload;
+            if (obj != null)
+                dgvSala.DataSource = obj.Payload;
+
             dgvSala.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSala.Columns[0].Visible = false;
 

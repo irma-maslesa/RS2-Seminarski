@@ -71,7 +71,8 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
             PagedPayloadResponse<KorisnikResponse> obj = await _service.Get<PagedPayloadResponse<KorisnikResponse>>(null, filters, null);
 
-            dgvKorisnici.DataSource = obj.Payload;
+            if (obj != null)
+                dgvKorisnici.DataSource = obj.Payload;
 
             dgvKorisnici.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)

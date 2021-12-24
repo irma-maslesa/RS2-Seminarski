@@ -38,7 +38,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
 
         private async Task GetDataWithoutDates(bool showNoData = false) {
             var response = await _service.GetOdnosOnlineInstore(null, null);
-            if (response.Payload != null && response.Payload.Any() && response.Payload.Any(o => o.Count > 0)) {
+            if (response != null && response.Payload != null && response.Payload.Any() && response.Payload.Any(o => o.Count > 0)) {
                 ReportDataSource dataSource = new ReportDataSource("dsOdnosOnlineInstore", response.Payload);
 
                 rvOdnosOnlineInstore.Reset();
@@ -81,7 +81,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                     };
 
                     var response = await _service.GetOdnosOnlineInstore(datumOd, datumDo);
-                    if (response.Payload != null && response.Payload.Any() && response.Payload.Any(o => o.Count > 0)) {
+                    if (response != null && response.Payload != null && response.Payload.Any() && response.Payload.Any(o => o.Count > 0)) {
                         ReportDataSource dataSource = new ReportDataSource("dsOdnosOnlineInstore", response.Payload);
 
                         rvOdnosOnlineInstore.Reset();

@@ -97,7 +97,8 @@ namespace Pelikula.WINUI.Forms.Film
                     Text = "Uredi film";
 
                 PayloadResponse<FilmResponse> response = await _service.GetById<PayloadResponse<FilmResponse>>(_id.Value);
-                _initial = response.Payload;
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
             }

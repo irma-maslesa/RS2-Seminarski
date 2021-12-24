@@ -43,11 +43,11 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                 _zanrId = zanrId;
 
                 var response = await _service.GetTopKorisnici((int)nudBrojKorisnika.Value, _zanrId);
-                if (response.Payload.Any()) {
+                if (response != null && response.Payload != null && response.Payload.Any()) {
                     ReportDataSource dataSource = new ReportDataSource("dsTopKorisnici", response.Payload);
 
                     rvTopKorisnici.Reset();
-                    rvTopKorisnici.LocalReport.DataSources.Clear(); 
+                    rvTopKorisnici.LocalReport.DataSources.Clear();
                     rvTopKorisnici.LocalReport.DataSources.Add(dataSource);
 
                     ReportParameterCollection parameters = new ReportParameterCollection {

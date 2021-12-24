@@ -103,7 +103,9 @@ namespace Pelikula.WINUI.Forms.Projekcija
                 }
 
                 PayloadResponse<ProjekcijaResponse> response = await _service.GetById<PayloadResponse<ProjekcijaResponse>>(_id.Value);
-                _initial = response.Payload;
+
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
             }

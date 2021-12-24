@@ -37,7 +37,9 @@ namespace Pelikula.WINUI.Forms.Obavijest
                 Text = "Uredi artikal";
 
                 PayloadResponse<ObavijestResponse> response = await _service.GetById<PayloadResponse<ObavijestResponse>>(_id.Value);
-                _initial = response.Payload;
+
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
             }

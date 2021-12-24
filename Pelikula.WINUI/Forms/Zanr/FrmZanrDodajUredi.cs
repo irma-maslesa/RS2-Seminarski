@@ -35,7 +35,9 @@ namespace Pelikula.WINUI.Forms.Zanr
                 Text = "Uredi žanr";
 
                 PayloadResponse<ZanrResponse> response = await _service.GetById<PayloadResponse<ZanrResponse>>(_id.Value);
-                _initial = response.Payload;
+
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
 

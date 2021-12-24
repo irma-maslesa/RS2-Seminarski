@@ -30,7 +30,9 @@ namespace Pelikula.WINUI.Forms.Sala
                 Text = "Uredi salu";
 
                 PayloadResponse<SalaResponse> response = await _service.GetById<PayloadResponse<SalaResponse>>(_id.Value);
-                _initial = response.Payload;
+
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
 

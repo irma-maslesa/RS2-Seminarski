@@ -35,7 +35,8 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
                 Text = "Uredi filmsku ličnost";
 
                 PayloadResponse<FilmskaLicnostResponse> response = await _service.GetById<PayloadResponse<FilmskaLicnostResponse>>(_id.Value);
-                _initial = response.Payload;
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
 

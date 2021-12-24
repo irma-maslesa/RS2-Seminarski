@@ -78,7 +78,9 @@ namespace Pelikula.WINUI.Forms.Rezervacija
                 Text = "Uredi rezervaciju";
 
                 PayloadResponse<RezervacijaResponse> response = await _service.GetById<PayloadResponse<RezervacijaResponse>>(_id.Value);
-                _initial = response.Payload;
+
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
             }

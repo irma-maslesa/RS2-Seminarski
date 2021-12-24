@@ -86,10 +86,13 @@ namespace Pelikula.WINUI.Forms.Anketa
 
         private async void FrmAnketaRezultati_Load(object sender, System.EventArgs e) {
             var response = await _service.GetById<PayloadResponse<AnketaResponse>>(_id);
-            anketa = response.Payload;
-            lblNaslov.Text = anketa.Naslov;
 
-            LoadPieChart();
+            if (response != null) {
+                anketa = response.Payload;
+                lblNaslov.Text = anketa.Naslov;
+
+                LoadPieChart();
+            }
         }
     }
 }

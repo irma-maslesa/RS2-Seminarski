@@ -75,7 +75,8 @@ namespace Pelikula.WINUI.Forms.Projekcija
 
             PagedPayloadResponse<ProjekcijaResponse> obj = await _service.Get<PagedPayloadResponse<ProjekcijaResponse>>(null, filters, null);
 
-            dgvProjekcije.DataSource = obj.Payload;
+            if (obj != null)
+                dgvProjekcije.DataSource = obj.Payload;
 
             dgvProjekcije.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)

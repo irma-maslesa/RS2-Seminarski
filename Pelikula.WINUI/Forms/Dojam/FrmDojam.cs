@@ -68,8 +68,8 @@ namespace Pelikula.WINUI.Forms.Dojam
             Cursor = Cursors.WaitCursor;
 
             PagedPayloadResponse<DojamResponse> obj = await _service.Get<PagedPayloadResponse<DojamResponse>>(null, filters, null);
-
-            dgvDojmovi.DataSource = obj.Payload;
+            if (obj != null)
+                dgvDojmovi.DataSource = obj.Payload;
 
             dgvDojmovi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)

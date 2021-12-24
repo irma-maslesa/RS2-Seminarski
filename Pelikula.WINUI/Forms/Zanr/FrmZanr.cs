@@ -11,7 +11,7 @@ namespace Pelikula.WINUI.Forms.Zanr
 {
     public partial class FrmZanr : Form
     {
-        private readonly ApiService _ZanrService = new ApiService("Zanr");
+        private readonly ApiService _service = new ApiService("Zanr");
 
         public FrmZanr() {
             InitializeComponent();
@@ -38,9 +38,11 @@ namespace Pelikula.WINUI.Forms.Zanr
 
             Cursor = Cursors.WaitCursor;
 
-            PagedPayloadResponse<ZanrResponse> obj = await _ZanrService.Get<PagedPayloadResponse<ZanrResponse>>(null, filters, null);
+            PagedPayloadResponse<ZanrResponse> obj = await _service.Get<PagedPayloadResponse<ZanrResponse>>(null, filters, null);
 
-            dgvZanrovi.DataSource = obj.Payload;
+            if (obj != null)
+                dgvZanrovi.DataSource = obj.Payload;
+
             dgvZanrovi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvZanrovi.Columns[0].Visible = false;
             if (string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
@@ -101,7 +103,7 @@ namespace Pelikula.WINUI.Forms.Zanr
             ZanrResponse Zanr = (ZanrResponse)dgvZanrovi.SelectedRows[0].DataBoundItem;
 
             if (MessageBox.Show($"Jeste li sigurni da želite obrisati žanr {Zanr.Naziv}?", "Upozorenje", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
-                await _ZanrService.Delete(Zanr.Id);
+                await _service.Delete(Zanr.Id);
                 await GetGridData();
             }
         }
