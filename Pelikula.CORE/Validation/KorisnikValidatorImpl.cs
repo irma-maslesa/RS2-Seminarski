@@ -15,11 +15,11 @@ namespace Pelikula.CORE.Validation
         }
 
         public void ValidateKorisnickoIme(string korisnickoIme, int? id = null) {
-            if (id.HasValue && Context.Korisnik.Any(e => e.KorisnickoIme == korisnickoIme && e.Id != id.Value)) {
+            if (id.HasValue && Context.Korisnik.Any(e => e.KorisnickoIme.ToLower() == korisnickoIme.ToLower() && e.Id != id.Value)) {
                 throw new UserException($"Korisničko ime {korisnickoIme} je zauzeto!", HttpStatusCode.BadRequest);
 
             }
-            else if (!id.HasValue && Context.Korisnik.Any(e => e.KorisnickoIme == korisnickoIme)) {
+            else if (!id.HasValue && Context.Korisnik.Any(e => e.KorisnickoIme.ToLower() == korisnickoIme.ToLower())) {
                 throw new UserException($"Korisničko ime {korisnickoIme} je zauzeto!", HttpStatusCode.BadRequest);
             }
         }

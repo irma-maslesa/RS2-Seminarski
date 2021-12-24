@@ -98,7 +98,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
                 _request.Email = txtEmail.Text;
                 _request.Spol = cbSpol.SelectedItem?.ToString().Substring(0, 1);
                 _request.DatumRodjenja = dtpDatumRodjenja?.Value;
-                _request.KorisnickoIme = txtKorisnickoIme.Text;
+                _request.KorisnickoIme = txtKorisnickoIme.Text.ToLower();
 
                 if (_request.Slika == null && _request.SlikaThumb == null) {
                     _request.Slika = _initial.Slika;

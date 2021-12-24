@@ -29,7 +29,7 @@ namespace Pelikula.DAO
                     new Korisnik {
                         Id = 1,
                         TipKorisnikaId = 1,
-                        KorisnickoIme = "Administrator",
+                        KorisnickoIme = "administrator",
                         LozinkaSalt = _salts[0],
                         LozinkaHash = PasswordHelper.GenerateHash(_salts[0], "test"),
                         Ime = "Administrator",
@@ -41,7 +41,7 @@ namespace Pelikula.DAO
                     new Korisnik {
                         Id = 2,
                         TipKorisnikaId = 2,
-                        KorisnickoIme = "Moderator",
+                        KorisnickoIme = "moderator",
                         LozinkaSalt = _salts[1],
                         LozinkaHash = PasswordHelper.GenerateHash(_salts[1], "test"),
                         Ime = "Moderator",
@@ -53,7 +53,7 @@ namespace Pelikula.DAO
                     new Korisnik {
                         Id = 3,
                         TipKorisnikaId = 3,
-                        KorisnickoIme = "Radnik",
+                        KorisnickoIme = "radnik",
                         LozinkaSalt = _salts[2],
                         LozinkaHash = PasswordHelper.GenerateHash(_salts[2], "test"),
                         Ime = "Radnik",
@@ -65,7 +65,7 @@ namespace Pelikula.DAO
                     new Korisnik {
                         Id = 4,
                         TipKorisnikaId = 4,
-                        KorisnickoIme = "Klijent",
+                        KorisnickoIme = "klijent",
                         LozinkaSalt = _salts[3],
                         LozinkaHash = PasswordHelper.GenerateHash(_salts[3], "test"),
                         Ime = "Klijent",
@@ -77,7 +77,7 @@ namespace Pelikula.DAO
                     new Korisnik {
                         Id = 5,
                         TipKorisnikaId = 1,
-                        KorisnickoIme = "Desktop",
+                        KorisnickoIme = "desktop",
                         LozinkaSalt = _salts[4],
                         LozinkaHash = PasswordHelper.GenerateHash(_salts[4], "test"),
                         Ime = "Desktop",
@@ -89,7 +89,7 @@ namespace Pelikula.DAO
                     new Korisnik {
                         Id = 6,
                         TipKorisnikaId = 4,
-                        KorisnickoIme = "Mobile",
+                        KorisnickoIme = "mobile",
                         LozinkaSalt = _salts[5],
                         LozinkaHash = PasswordHelper.GenerateHash(_salts[5], "test"),
                         Ime = "Mobile",
