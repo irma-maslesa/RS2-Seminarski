@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pelikula_mobile/model/projekcija.dart';
@@ -78,11 +81,12 @@ class _ProjekcijeState extends State<Projekcije> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(5),
               child: projekcija.film!.plakatThumb != null &&
                       projekcija.film!.plakatThumb!.isNotEmpty
-                  ? const Image(
-                      image: AssetImage('assets/popcorn.jpg'),
+                  ? Image(
+                      image: MemoryImage(
+                          Uint8List.fromList(projekcija.film!.plakatThumb!)),
                       width: 135,
                     )
                   : const Image(
