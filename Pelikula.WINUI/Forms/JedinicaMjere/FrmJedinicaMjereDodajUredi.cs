@@ -30,7 +30,9 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
                 Text = "Uredi jedinicu mjere";
 
                 PayloadResponse<JedinicaMjereResponse> response = await _service.GetById<PayloadResponse<JedinicaMjereResponse>>(_id.Value);
-                _initial = response.Payload;
+
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
 

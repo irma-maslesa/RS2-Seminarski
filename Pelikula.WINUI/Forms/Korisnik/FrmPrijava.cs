@@ -1,12 +1,8 @@
-﻿using Pelikula.API.Model.Helper;
+﻿using Pelikula.API.Model;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
-using Pelikula.DAO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using Pelikula.API.Model;
 
 namespace Pelikula.WINUI.Forms.Korisnik
 {

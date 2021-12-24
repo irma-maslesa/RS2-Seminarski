@@ -60,7 +60,8 @@ namespace Pelikula.WINUI.Forms.Korisnik
                 Text = "Uredi korisnika";
 
                 PayloadResponse<KorisnikResponse> response = await _service.GetById<PayloadResponse<KorisnikResponse>>(_id.Value);
-                _initial = response.Payload;
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
             }

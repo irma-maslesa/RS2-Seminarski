@@ -49,8 +49,8 @@ namespace Pelikula.WINUI.Forms.FilmskaLicnost
             Cursor = Cursors.WaitCursor;
 
             PagedPayloadResponse<FilmskaLicnostResponse> obj = await _service.Get<PagedPayloadResponse<FilmskaLicnostResponse>>(null, filters, null);
-
-            dgvFilmskeLicnosti.DataSource = obj.Payload;
+            if (obj != null)
+                dgvFilmskeLicnosti.DataSource = obj.Payload;
 
             dgvFilmskeLicnosti.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFilmskeLicnosti.Columns[0].Visible = false;

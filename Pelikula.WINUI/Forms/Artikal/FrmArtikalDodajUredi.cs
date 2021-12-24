@@ -46,7 +46,8 @@ namespace Pelikula.WINUI.Forms.Artikal
                 Text = "Uredi artikal";
 
                 PayloadResponse<ArtikalResponse> response = await _service.GetById<PayloadResponse<ArtikalResponse>>(_id.Value);
-                _initial = response.Payload;
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
             }

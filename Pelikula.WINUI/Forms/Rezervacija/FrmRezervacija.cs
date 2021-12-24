@@ -75,7 +75,8 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
             PagedPayloadResponse<RezervacijaResponse> obj = await _service.Get<PagedPayloadResponse<RezervacijaResponse>>(null, filters, null);
 
-            dgvRezervacije.DataSource = obj.Payload;
+            if (obj != null)
+                dgvRezervacije.DataSource = obj.Payload;
 
             dgvRezervacije.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (filters.Count == 0 && _selectedRowIndex.HasValue)

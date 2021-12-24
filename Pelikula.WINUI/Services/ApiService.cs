@@ -49,7 +49,11 @@ namespace Pelikula.WINUI
                         .GetJsonAsync<PayloadResponse<KorisnikResponse>>();
             }
             catch (FlurlHttpException ex) {
-                MessageBox.Show("Neispravno korisničko ime ili lozinka! ", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (ex.StatusCode == 401)
+                    MessageBox.Show("Neispravno korisničko ime ili lozinka! ", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    MessageBox.Show("Došlo je do greške, pokušajte opet! ", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 return default;
             }
         }
@@ -110,7 +114,7 @@ namespace Pelikula.WINUI
 
                 return HandleException<T>(errors);
             }
-        }        
+        }
 
         public async Task<T> Insert<T>(object request) {
             try {
@@ -382,7 +386,7 @@ namespace Pelikula.WINUI
                 return HandleException<ListPayloadResponse<IzvjestajOdnosOnlineInstore>>(errors);
             }
         }
-        
+
         public async Task<ListPayloadResponse<IzvjestajTopKorisnici>> GetTopKorisnici(int brojKorisnika, int? zanrId) {
 
             var queryParams = new {

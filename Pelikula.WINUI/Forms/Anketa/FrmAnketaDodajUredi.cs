@@ -35,7 +35,8 @@ namespace Pelikula.WINUI.Forms.Anketa
                 Text = "Uredi anketu";
 
                 PayloadResponse<AnketaResponse> response = await _service.GetById<PayloadResponse<AnketaResponse>>(_id.Value);
-                _initial = response.Payload;
+                if (response != null)
+                    _initial = response.Payload;
 
                 SetValues();
             }

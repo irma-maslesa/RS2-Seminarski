@@ -58,7 +58,8 @@ namespace Pelikula.WINUI.Forms.Artikal
 
             PagedPayloadResponse<ArtikalResponse> obj = await _service.Get<PagedPayloadResponse<ArtikalResponse>>(null, filters, null);
 
-            dgvArtikli.DataSource = obj.Payload;
+            if (obj != null)
+                dgvArtikli.DataSource = obj.Payload;
 
             dgvArtikli.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 

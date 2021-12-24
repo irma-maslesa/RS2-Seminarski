@@ -46,7 +46,7 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                 };
 
                 var response = await _service.GetPrometUGodini(_zanrId);
-                if (response.Payload.Any()) {
+                if (response != null && response.Payload != null && response.Payload.Any()) {
                     ReportDataSource dataSource = new ReportDataSource("dsPrometUGodini", response.Payload);
 
                     rvPrometUGodini.Reset();

@@ -39,8 +39,9 @@ namespace Pelikula.WINUI.Forms.JedinicaMjere
             Cursor = Cursors.WaitCursor;
 
             PagedPayloadResponse<JedinicaMjereResponse> obj = await _service.Get<PagedPayloadResponse<JedinicaMjereResponse>>(null, filters, null);
+            if (obj != null)
+                dgvJediniceMjere.DataSource = obj.Payload;
 
-            dgvJediniceMjere.DataSource = obj.Payload;
             dgvJediniceMjere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvJediniceMjere.Columns[0].Visible = false;
             if (string.IsNullOrEmpty(txtNaziv.Text) && _selectedRowIndex.HasValue)
