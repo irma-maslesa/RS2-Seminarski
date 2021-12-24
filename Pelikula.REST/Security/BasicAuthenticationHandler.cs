@@ -5,6 +5,7 @@ using Pelikula.API.Api;
 using Pelikula.API.Model.Korisnik;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -40,6 +41,9 @@ namespace Pelikula.REST.Security
                 var korisnickoIme = credentials[0];
                 var lozinka = credentials[1];
                 var response = _service.Autentifikacija(korisnickoIme, lozinka);
+
+                Debug.WriteLine($"{korisnickoIme} : {lozinka}");
+                Debug.WriteLine(response);
 
                 korisnik = response.Payload;
             }

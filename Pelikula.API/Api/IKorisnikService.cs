@@ -1,7 +1,6 @@
 ﻿using Pelikula.API.Model;
 using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
-using System.Threading.Tasks;
 
 namespace Pelikula.API.Api
 {
