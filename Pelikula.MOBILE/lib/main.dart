@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/pages/Rezervacija.dart';
+import 'package:pelikula_mobile/pages/rezervacija.dart';
 import 'package:pelikula_mobile/pages/home.dart';
 import 'package:pelikula_mobile/pages/loading.dart';
 import 'package:pelikula_mobile/pages/prijava.dart';
-import 'package:pelikula_mobile/pages/prikaz.dart';
 import 'package:pelikula_mobile/pages/projekcije.dart';
 
 void main() {
