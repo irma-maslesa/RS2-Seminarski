@@ -10,4 +10,9 @@ class TipKorisnikaResponse {
       naziv: json['naziv'] as String,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "naziv": naziv,
+      };
 }

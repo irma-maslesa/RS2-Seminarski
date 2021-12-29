@@ -108,6 +108,8 @@ namespace Pelikula.CORE.Impl
                 .FirstOrDefault(e => e.Naziv.ToLower() == KorisnikTip.Klijent.ToString().ToLower());
 
             var entity = Mapper.Map<KorisnikRegistracijaRequest, Korisnik>(request);
+            entity.LozinkaSalt = PasswordHelper.GenerateSalt();
+            entity.LozinkaHash = PasswordHelper.GenerateHash(entity.LozinkaSalt, request.Lozinka);
             entity.TipKorisnika = tipKorisnika;
 
             Context.Add(entity);

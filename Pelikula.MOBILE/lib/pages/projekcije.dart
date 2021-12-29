@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pelikula_mobile/model/projekcija.dart';
+import 'package:pelikula_mobile/model/response/error_response.dart';
+import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/pages/prikaz.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 import 'package:intl/intl.dart';
@@ -27,10 +29,9 @@ class _ProjekcijeState extends State<Projekcije> {
   }
 
   Widget body() {
-    return FutureBuilder<List<ProjekcijaDetailedResponse>>(
+    return FutureBuilder<dynamic>(
       future: getProjekcije(),
-      builder: (BuildContext context,
-          AsyncSnapshot<List<ProjekcijaDetailedResponse>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: Text("Učitavanje..."),
@@ -40,24 +41,29 @@ class _ProjekcijeState extends State<Projekcije> {
           return const Center(
             child: Text("Greška pri učitavanju."),
           );
-        } else {
+        } else if (snapshot.data is PagedPayloadResponse) {
           return ListView(
-            children: snapshot.data!.map((e) => projekcijaWidget(e)).toList(),
+            children: (snapshot.data.payload
+                    .map((e) => ProjekcijaDetailedResponse.fromJson(e))
+                    .toList()
+                    .cast<ProjekcijaDetailedResponse>() as List)
+                .map((e) => projekcijaWidget(e))
+                .toList()
+                .cast<Widget>(),
+          );
+        } else {
+          return Center(
+            child: Text((snapshot.data as ErrorResponse).message as String),
           );
         }
       },
     );
   }
 
-  Future<List<ProjekcijaDetailedResponse>> getProjekcije() async {
+  Future<dynamic> getProjekcije() async {
     var response = await ApiService.get("Projekcija/aktivne/details", null);
-    print(response);
-    if (response != null) {
-      return response
-          .map((e) => ProjekcijaDetailedResponse.fromJson(e))
-          .toList();
-    }
-    return [];
+    print(response.payload);
+    return response;
   }
 
   Widget projekcijaWidget(ProjekcijaDetailedResponse projekcija) {
