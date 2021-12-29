@@ -22,6 +22,33 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<void> _showDialog(String text) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(text),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ne'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Da'),
+              onPressed: () {
+                ApiService.korisnickoIme = null;
+                ApiService.lozinka = null;
+                Navigator.of(context).pushReplacementNamed("/prijava");
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const imgLogo = Image(
@@ -31,6 +58,13 @@ class _HomeState extends State<Home> {
     const txtPelikula = Text(
       "Pelikula",
       style: TextStyle(fontFamily: 'Molle', fontSize: 40.0),
+    );
+
+    ListTile tileOdjava = ListTile(
+      title: Center(child: Text("Odjava", style: style)),
+      onTap: () async {
+        _showDialog("Jeste li sigurni da se želite odjaviti?");
+      },
     );
 
     DrawerHeader drawerHeader = DrawerHeader(
@@ -72,7 +106,7 @@ class _HomeState extends State<Home> {
             sizedBox,
             createTile("Profil", ""),
             sizedBox,
-            createTile("Odjava", ""),
+            tileOdjava
           ],
         ),
       ),

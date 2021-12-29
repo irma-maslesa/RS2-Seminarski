@@ -1,14 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pelikula.DAO.Migrations
 {
     public partial class Data : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder) {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.CreateTable(
                 name: "FilmskaLicnost",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ime = table.Column<string>(maxLength: 250, nullable: false),
@@ -16,25 +18,29 @@ namespace Pelikula.DAO.Migrations
                     IsReziser = table.Column<bool>(nullable: false),
                     IsGlumac = table.Column<bool>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_FilmskaLicnost", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "JedinicaMjere",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KratkiNaziv = table.Column<string>(nullable: false),
                     Naziv = table.Column<string>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_JedinicaMjere", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Sala",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naziv = table.Column<string>(maxLength: 250, nullable: false),
@@ -42,36 +48,42 @@ namespace Pelikula.DAO.Migrations
                     BrojSjedistaDuzina = table.Column<int>(nullable: false),
                     BrojSjedistaSirina = table.Column<int>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Sala", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "TipKorisnika",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naziv = table.Column<string>(maxLength: 250, nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_TipKorisnika", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Zanr",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naziv = table.Column<string>(maxLength: 250, nullable: false),
                     Opis = table.Column<string>(maxLength: 2000, nullable: true)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Zanr", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Artikal",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     JedinicaMjereID = table.Column<int>(nullable: false),
@@ -81,7 +93,8 @@ namespace Pelikula.DAO.Migrations
                     Slika = table.Column<byte[]>(nullable: true),
                     SlikaThumb = table.Column<byte[]>(nullable: true)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Artikal", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Artikal_JedinicaMjere_JedinicaMjereId",
@@ -93,14 +106,16 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Sjediste",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Red = table.Column<string>(maxLength: 1, nullable: false),
                     Broj = table.Column<int>(nullable: false),
                     SalaID = table.Column<int>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Sjediste", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Sjediste_Sala",
@@ -112,7 +127,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Korisnik",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TipKorisnikaID = table.Column<int>(nullable: false),
@@ -127,7 +143,8 @@ namespace Pelikula.DAO.Migrations
                     Slika = table.Column<byte[]>(nullable: true),
                     SlikaThumb = table.Column<byte[]>(nullable: true)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Korisnik", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Korisnik_TipKorisnika",
@@ -139,7 +156,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Film",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naslov = table.Column<string>(maxLength: 250, nullable: false),
@@ -153,7 +171,8 @@ namespace Pelikula.DAO.Migrations
                     RediteljID = table.Column<int>(nullable: false),
                     ZanrID = table.Column<int>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Film", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Film_FilmskaLicnost_RediteljId",
@@ -171,7 +190,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Anketa",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KorisnikID = table.Column<int>(nullable: false),
@@ -179,7 +199,8 @@ namespace Pelikula.DAO.Migrations
                     Datum = table.Column<DateTime>(nullable: false),
                     ZakljucenoDatum = table.Column<DateTime>(nullable: true)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Anketa", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Anketa_Korisnik_KorisnikId",
@@ -191,7 +212,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Obavijest",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KorisnikID = table.Column<int>(nullable: false),
@@ -199,7 +221,8 @@ namespace Pelikula.DAO.Migrations
                     Tekst = table.Column<string>(maxLength: 2000, nullable: false),
                     Datum = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Obavijest", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Obavijest_Korisnik_KorisnikId",
@@ -211,13 +234,15 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "FilmGlumac",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FilmID = table.Column<int>(nullable: false),
                     FilmskaLicnostID = table.Column<int>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_FilmGlumac", x => x.ID);
                     table.ForeignKey(
                         name: "FK_FilmGlumacDodjela_Film_FilmId",
@@ -235,7 +260,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Projekcija",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FilmID = table.Column<int>(nullable: false),
@@ -245,7 +271,8 @@ namespace Pelikula.DAO.Migrations
                     VrijediOd = table.Column<DateTime>(nullable: false),
                     VrijediDo = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Projekcija", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Projekcija_Film_FilmId",
@@ -263,7 +290,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AnketaOdgovor",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AnketaID = table.Column<int>(nullable: false),
@@ -271,7 +299,8 @@ namespace Pelikula.DAO.Migrations
                     RedniBroj = table.Column<int>(nullable: false),
                     UkupnoIzabrano = table.Column<int>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_AnketaOdgovor", x => x.ID);
                     table.ForeignKey(
                         name: "FK_AnketaOdgovor_Anketa_AnketaId",
@@ -283,7 +312,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Dojam",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjekcijaID = table.Column<int>(nullable: false),
@@ -292,7 +322,8 @@ namespace Pelikula.DAO.Migrations
                     Tekst = table.Column<string>(maxLength: 2000, nullable: true),
                     Datum = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Dojam", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Dojam_Korisnik_KorisnikId",
@@ -310,7 +341,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProjekcijaKorisnik",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjekcijaID = table.Column<int>(nullable: false),
@@ -318,7 +350,8 @@ namespace Pelikula.DAO.Migrations
                     DatumPosjete = table.Column<DateTime>(nullable: false),
                     DatumPosljednjePosjete = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_ProjekcijaKorisnik", x => x.ID);
                     table.ForeignKey(
                         name: "FK_ProjekcijaKorisnikDodjela_Korisnik_KorisnikId",
@@ -336,13 +369,15 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProjekcijaTermin",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjekcijaID = table.Column<int>(nullable: false),
                     Termin = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_ProjekcijaTermin", x => x.ID);
                     table.ForeignKey(
                         name: "FK_ProjekcijaTermin_Projekcija_ProjekcijaId",
@@ -354,14 +389,16 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AnketaOdgovorKorisnik",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AnketaOdgovorID = table.Column<int>(nullable: false),
                     KorisnikID = table.Column<int>(nullable: false),
                     Datum = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_AnketaOdgovorKorisnik", x => x.ID);
                     table.ForeignKey(
                         name: "FK_AnketaOdgovorKorisnikDodjela_AnketaOdgovor_AnketaOdgovorId",
@@ -379,7 +416,8 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Rezervacija",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KorisnikID = table.Column<int>(nullable: false),
@@ -391,7 +429,8 @@ namespace Pelikula.DAO.Migrations
                     DatumOtkazano = table.Column<DateTime>(nullable: true),
                     ProjekcijaTerminID = table.Column<int>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Rezervacija", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Rezervacija_Korisnik_KorisnikId",
@@ -409,15 +448,17 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Prodaja",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BrojRacuna = table.Column<string>(nullable: false),
-                    KorisnikId = table.Column<int>(nullable: false),
+                    KorisnikId = table.Column<int>(nullable: true),
                     Datum = table.Column<DateTime>(nullable: false),
                     RezervacijaId = table.Column<int>(nullable: true)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Prodaja", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Prodaja_Korisnik_KorisnikId",
@@ -435,13 +476,15 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SjedisteRezervacija",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SjedisteID = table.Column<int>(nullable: false),
                     RezervacijaID = table.Column<int>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_SjedisteRezervacija", x => x.ID);
                     table.ForeignKey(
                         name: "FK_SjedisteRezervacija_Rezervacija",
@@ -459,14 +502,16 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProdajaArtikal",
-                columns: table => new {
+                columns: table => new
+                {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProdajaID = table.Column<int>(nullable: false),
                     ArtikalID = table.Column<int>(nullable: false),
                     Kolicina = table.Column<int>(nullable: false)
                 },
-                constraints: table => {
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_ProdajaArtikal", x => x.ID);
                     table.ForeignKey(
                         name: "FK_ProdajaArtikalDodjela_Artikal_ArtikalId",
@@ -578,12 +623,12 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "DatumRodjenja", "Email", "Ime", "KorisnickoIme", "LozinkaHash", "LozinkaSalt", "Prezime", "Slika", "SlikaThumb", "Spol", "TipKorisnikaID" },
                 values: new object[,]
                 {
-                    { 6, new DateTime(2003, 12, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "mobile@pelikula.com", "Mobile", "Mobile", "HjVRn9pZwj2dVBWKtWL4rh0rVxM=", "gqwBnu7HNSJUraug36cAZg==", "Mobile", null, null, "Ž", 4 },
-                    { 4, new DateTime(1999, 11, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "klijent@pelikula.com", "Klijent", "Klijent", "6fxKbZyXpkwLKon0ozs4BMOGAGw=", "sWkc84DBv4WGLPoBp003DQ==", "Klijent", null, null, "Ž", 4 },
-                    { 3, new DateTime(1996, 8, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "radnik@pelikula.com", "Radnik", "Radnik", "Ua6OluYd97tniSfr/oMMbEL77co=", "ohEORm51T1tO41CbkKwpYg==", "Radnik", null, null, "M", 3 },
-                    { 2, new DateTime(1979, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "moderator@pelikula.com", "Moderator", "Moderator", "CEE+vxPo2omQzJ9h3222NCslvC8=", "7am8pbjSx+QiR3vwxz93ZQ==", "Moderator", null, null, "Ž", 2 },
-                    { 5, new DateTime(1974, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "desktop@pelikula.com", "Desktop", "Desktop", "8GL4q3NluLXIeIurzyT1eAnQJ3E=", "OgbAn+eDm7QPn5Js4EWRAA==", "Desktop", null, null, "M", 1 },
-                    { 1, new DateTime(1972, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "administrator@pelikula.com", "Administrator", "Administrator", "vqMSEqb93ZoSWChjIiKSyps9xl8=", "CLFkwUdGTaghCsk+xt+o4g==", "Administrator", null, null, "M", 1 }
+                    { 6, new DateTime(2003, 12, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "mobile@pelikula.com", "Mobile", "mobile", "uEAAtJ83GlBqaNFPh6lPoMvVnyhd4WFUBZlYWhVpTE4=", "AL+srx+Vbpe5+FFvKyPmVw==", "Mobile", null, null, "Ž", 4 },
+                    { 4, new DateTime(1999, 11, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "klijent@pelikula.com", "Klijent", "klijent", "Aw05B5zz/II5B9hSZxt/2jKXLNiwDK7Vbt7TiGlDhpE=", "BgTX5f5LT5xsIJqT6ue98w==", "Klijent", null, null, "Ž", 4 },
+                    { 3, new DateTime(1996, 8, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "radnik@pelikula.com", "Radnik", "radnik", "Nd6bPVilHV/w96qpMsIfUQyw/Z4pZ1WzJejCNm48ojs=", "fbD5V3to2iRmp7RQZZP4vg==", "Radnik", null, null, "M", 3 },
+                    { 2, new DateTime(1979, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "moderator@pelikula.com", "Moderator", "moderator", "NgdAz6fPvliB4656yBrVrG7J0GkqDPqHUqEGusU2w7E=", "FUFQiylzT8c7rq3iG0v2AA==", "Moderator", null, null, "Ž", 2 },
+                    { 5, new DateTime(1974, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "desktop@pelikula.com", "Desktop", "desktop", "LPRZXWx3/Pch2U0ss9XBMlNZPPhM0bijmhX6hqitYYw=", "uUUpEtUt1/Ugc8nVLsKyBQ==", "Desktop", null, null, "M", 1 },
+                    { 1, new DateTime(1972, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "administrator@pelikula.com", "Administrator", "administrator", "A12uqZ5C0lglHCz/EHOzPtEQLulJKDyPZP6DUAbkY2s=", "fCy+DvCksIn8qN6LWMzMHw==", "Administrator", null, null, "M", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -682,8 +727,8 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "Datum", "KorisnikID", "Naslov", "ZakljucenoDatum" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 12, 13, 16, 17, 41, 672, DateTimeKind.Local).AddTicks(3922), 1, "Omiljeni fimski žanr?", null },
-                    { 2, new DateTime(2021, 12, 13, 16, 17, 41, 672, DateTimeKind.Local).AddTicks(4751), 2, "Omiljeni klasik?", null }
+                    { 1, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 1, "Omiljeni fimski žanr?", null },
+                    { 2, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 2, "Omiljeni klasik?", null }
                 });
 
             migrationBuilder.InsertData(
@@ -704,8 +749,8 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "Datum", "KorisnikID", "Naslov", "Tekst" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 12, 13, 16, 17, 41, 668, DateTimeKind.Local).AddTicks(1998), 1, "Dobro došli!", "Dobro došli na informacijski sistem za podršku rada kino centra!" },
-                    { 2, new DateTime(2021, 12, 13, 16, 17, 41, 670, DateTimeKind.Local).AddTicks(7983), 2, "Stigla je nova Pelikula aplikacija!", "Slušali smo vaše prijedloge te vam s ponosom predstavljamo novu Pelikula aplikaciju. Preuzmite novu Pelikula aplikaciju već danas! Nova aplikacija donosi nove značajke: digitalnu bonus karticu, jednostavnu i brzu kupovinu kinoulaznica te još mnogo toga." }
+                    { 1, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 1, "Dobro došli!", "Dobro došli na informacijski sistem za podršku rada kino centra!" },
+                    { 2, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 2, "Stigla je nova Pelikula aplikacija!", "Slušali smo vaše prijedloge te vam s ponosom predstavljamo novu Pelikula aplikaciju. Preuzmite novu Pelikula aplikaciju već danas! Nova aplikacija donosi nove značajke: digitalnu bonus karticu, jednostavnu i brzu kupovinu kinoulaznica te još mnogo toga." }
                 });
 
             migrationBuilder.InsertData(
@@ -713,8 +758,8 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "Cijena", "Datum", "FilmID", "SalaID", "VrijediDo", "VrijediOd" },
                 values: new object[,]
                 {
-                    { 1, 7.5m, new DateTime(2021, 12, 13, 16, 17, 41, 677, DateTimeKind.Local).AddTicks(5219), 1, 1, new DateTime(2021, 12, 14, 23, 59, 59, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 5.5m, new DateTime(2021, 12, 13, 16, 17, 41, 677, DateTimeKind.Local).AddTicks(7499), 2, 2, new DateTime(2021, 12, 14, 23, 59, 59, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 7.5m, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 1, 1, new DateTime(2021, 12, 29, 23, 59, 59, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 5.5m, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 2, 2, new DateTime(2021, 12, 29, 23, 59, 59, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -739,9 +784,9 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "Datum", "KorisnikID", "Ocjena", "ProjekcijaID", "Tekst" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(2021, 12, 13, 16, 17, 41, 678, DateTimeKind.Local).AddTicks(5985), 6, 5, 2, null },
-                    { 1, new DateTime(2021, 12, 13, 16, 17, 41, 678, DateTimeKind.Local).AddTicks(5248), 4, 5, 1, "Odličan film, potpuno sam zadovoljan uslugama kina." },
-                    { 2, new DateTime(2021, 12, 13, 16, 17, 41, 678, DateTimeKind.Local).AddTicks(5959), 6, 4, 1, "Kokice su bile preslane." }
+                    { 3, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 6, 5, 2, null },
+                    { 1, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 4, 5, 1, "Odličan film, potpuno sam zadovoljan uslugama kina." },
+                    { 2, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 6, 4, 1, "Kokice su bile preslane." }
                 });
 
             migrationBuilder.InsertData(
@@ -749,14 +794,14 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "ProjekcijaID", "Termin" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2021, 12, 14, 13, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 1, new DateTime(2021, 12, 14, 18, 40, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 1, new DateTime(2021, 12, 14, 13, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, 1, new DateTime(2021, 12, 14, 18, 40, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, 2, new DateTime(2021, 12, 14, 13, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, 2, new DateTime(2021, 12, 14, 13, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, 2, new DateTime(2021, 12, 14, 18, 40, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, 2, new DateTime(2021, 12, 14, 18, 40, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 1, new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1, new DateTime(2021, 12, 27, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 1, new DateTime(2021, 12, 29, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 1, new DateTime(2021, 12, 29, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 2, new DateTime(2021, 12, 29, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 2, new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 2, new DateTime(2021, 12, 27, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, 2, new DateTime(2021, 12, 29, 18, 40, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -764,10 +809,10 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "AnketaOdgovorID", "Datum", "KorisnikID" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2021, 12, 13, 16, 17, 41, 673, DateTimeKind.Local).AddTicks(2770), 4 },
-                    { 2, 5, new DateTime(2021, 12, 13, 16, 17, 41, 673, DateTimeKind.Local).AddTicks(3494), 6 },
-                    { 3, 7, new DateTime(2021, 12, 13, 16, 17, 41, 673, DateTimeKind.Local).AddTicks(3520), 4 },
-                    { 4, 10, new DateTime(2021, 12, 13, 16, 17, 41, 673, DateTimeKind.Local).AddTicks(3525), 6 }
+                    { 1, 1, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 4 },
+                    { 2, 5, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 6 },
+                    { 3, 7, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 4 },
+                    { 4, 10, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 6 }
                 });
 
             migrationBuilder.InsertData(
@@ -775,14 +820,14 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "BrojSjedista", "Cijena", "Datum", "DatumOtkazano", "DatumProdano", "DatumProjekcije", "KorisnikID", "ProjekcijaTerminID" },
                 values: new object[,]
                 {
-                    { 1, 2, 15m, new DateTime(2021, 12, 14, 16, 17, 41, 679, DateTimeKind.Local).AddTicks(1046), null, new DateTime(2021, 12, 14, 16, 17, 41, 679, DateTimeKind.Local).AddTicks(1710), new DateTime(2021, 12, 14, 13, 30, 0, 0, DateTimeKind.Unspecified), 4, 1 },
-                    { 2, 1, 5.5m, new DateTime(2021, 12, 14, 16, 17, 41, 679, DateTimeKind.Local).AddTicks(3865), null, null, new DateTime(2021, 12, 14, 13, 30, 0, 0, DateTimeKind.Unspecified), 6, 3 }
+                    { 1, 2, 15m, new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), null, new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified), 4, 1 },
+                    { 2, 1, 5.5m, new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), null, null, new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified), 6, 5 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Prodaja",
                 columns: new[] { "ID", "BrojRacuna", "Datum", "KorisnikId", "RezervacijaId" },
-                values: new object[] { 1, "1234abc-def56", new DateTime(2021, 12, 13, 16, 17, 41, 680, DateTimeKind.Local).AddTicks(154), 3, 1 });
+                values: new object[] { 1, "1234abc-def56", new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 3, 1 });
 
             migrationBuilder.InsertData(
                 table: "SjedisteRezervacija",
@@ -935,7 +980,8 @@ namespace Pelikula.DAO.Migrations
                 column: "SjedisteID");
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder) {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
             migrationBuilder.DropTable(
                 name: "AnketaOdgovorKorisnik");
 

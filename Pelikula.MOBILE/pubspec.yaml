@@ -31,6 +31,8 @@ dependencies:
     sdk: flutter
   http: ^0.13.4  
   intl: ^0.17.0
+  crypt: ^4.0.0
+  email_validator: ^2.0.1
 
 
   # The following adds the Cupertino Icons font to your application.

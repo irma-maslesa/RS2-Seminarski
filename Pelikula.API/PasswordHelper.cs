@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Pelikula.API
 {
-    public class PasswordHelper
+    public static class PasswordHelper
     {
         public static string GenerateSalt() {
             var buf = new byte[16];
@@ -20,7 +20,7 @@ namespace Pelikula.API
             System.Buffer.BlockCopy(src, 0, dst, 0, src.Length);
             System.Buffer.BlockCopy(bytes, 0, dst, src.Length, bytes.Length);
 
-            HashAlgorithm algorithm = HashAlgorithm.Create("SHA1");
+            HashAlgorithm algorithm = HashAlgorithm.Create("SHA256");
             byte[] inArray = algorithm.ComputeHash(dst);
             return Convert.ToBase64String(inArray);
         }

@@ -44,6 +44,8 @@ class _PrijavaState extends State<Prijava> {
     );
   }
 
+  bool _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     const imgLogo = Image(image: AssetImage('assets/logo3.png'));
@@ -66,10 +68,19 @@ class _PrijavaState extends State<Prijava> {
     final txtLozinka = TextField(
       controller: lozinkaController,
       focusNode: focusNode,
-      obscureText: true,
+      obscureText: _isObscure,
       style: style,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          suffixIcon: IconButton(
+              icon: Icon(
+                _isObscure ? Icons.visibility : Icons.visibility_off,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isObscure = !_isObscure;
+                });
+              }),
           hintText: "Lozinka",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
@@ -108,6 +119,25 @@ class _PrijavaState extends State<Prijava> {
       ),
     );
 
+    const txtNemasRacun = Text(
+      "Nemaš račun?",
+      style: TextStyle(
+          fontFamily: 'Rajdhani', fontSize: 20.0, fontWeight: FontWeight.w300),
+    );
+
+    final txtRegistrujSe = InkWell(
+      child: const Text(
+        "Registruj se!",
+        style: TextStyle(
+            fontFamily: 'Rajdhani',
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500),
+      ),
+      onTap: () async {
+        Navigator.of(context).popAndPushNamed("/registracija");
+      },
+    );
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -125,7 +155,17 @@ class _PrijavaState extends State<Prijava> {
                 const SizedBox(height: 10.0),
                 txtLozinka,
                 const SizedBox(height: 15.0),
-                btnPrijaviSe
+                btnPrijaviSe,
+                const SizedBox(height: 15.0),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    txtNemasRacun,
+                    const SizedBox(width: 5.0),
+                    txtRegistrujSe
+                  ],
+                )
               ],
             ),
           ),
