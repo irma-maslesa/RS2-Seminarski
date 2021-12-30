@@ -103,7 +103,7 @@ class _PrijavaState extends State<Prijava> {
               lozinkaController.text = '';
               _showDialog('Pristup aplikaciji nije moguć!');
             } else {
-              Navigator.of(context).pushReplacementNamed("/home");
+              Navigator.of(context).pushReplacementNamed("/projekcije");
             }
           } else {
             lozinkaController.text = '';

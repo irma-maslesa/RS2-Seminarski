@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:pelikula_mobile/model/projekcija_detailed_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
+import 'package:pelikula_mobile/pages/drawer.dart';
 import 'package:pelikula_mobile/pages/prikaz_projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +24,7 @@ class _ProjekcijeState extends State<Projekcije> {
       appBar: AppBar(
         title: const Text("Projekcije"),
       ),
+      drawer: const MyDrawer(),
       body: body(),
     );
   }
