@@ -61,13 +61,14 @@ class KorisnikResponse {
         "prezime": prezime,
         "email": email,
         "spol": spol,
-        "datumRodjenja": datumRodjenja,
+        "datumRodjenja":
+            datumRodjenja == null ? null : datumRodjenja!.toIso8601String(),
         "slika": slika,
         "slikaThumb": slikaThumb,
         "lozinkaHash": lozinkaHash,
         "lozinkaSalt": lozinkaSalt,
         "lozinka": lozinka,
-        "tipKorisnika": tipKorisnika,
+        "tipKorisnika": tipKorisnika!.toJson(),
       };
 }
 

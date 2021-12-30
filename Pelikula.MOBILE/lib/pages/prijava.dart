@@ -13,7 +13,7 @@ class Prijava extends StatefulWidget {
 }
 
 class _PrijavaState extends State<Prijava> {
-  TextStyle style = const TextStyle(fontFamily: 'Rajdhani', fontSize: 20.0);
+  TextStyle style = const TextStyle(fontSize: 20.0);
 
   TextEditingController korisnickoImeController = TextEditingController();
   TextEditingController lozinkaController = TextEditingController();
@@ -22,7 +22,6 @@ class _PrijavaState extends State<Prijava> {
 
   Future<void> getData() async {
     response = await ApiService.prijava();
-    print(response);
   }
 
   Future<void> _showDialog(String text) async {
@@ -121,17 +120,13 @@ class _PrijavaState extends State<Prijava> {
 
     const txtNemasRacun = Text(
       "Nemaš račun?",
-      style: TextStyle(
-          fontFamily: 'Rajdhani', fontSize: 20.0, fontWeight: FontWeight.w300),
+      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
     );
 
     final txtRegistrujSe = InkWell(
       child: const Text(
         "Registruj se!",
-        style: TextStyle(
-            fontFamily: 'Rajdhani',
-            fontSize: 20.0,
-            fontWeight: FontWeight.w500),
+        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
       ),
       onTap: () async {
         Navigator.of(context).popAndPushNamed("/registracija");

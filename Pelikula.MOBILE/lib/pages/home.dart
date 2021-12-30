@@ -10,8 +10,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  TextStyle style = const TextStyle(
-      fontFamily: 'Rajdhani', fontSize: 30.0, fontWeight: FontWeight.w300);
+  TextStyle style =
+      const TextStyle(fontSize: 30.0, fontWeight: FontWeight.w300);
 
   ListTile createTile(String text, String route) {
     return ListTile(
@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
             sizedBox,
             createTile("Kupovine", ""),
             sizedBox,
-            createTile("Obavijesti", ""),
+            createTile("Obavijesti", "/obavijesti"),
             sizedBox,
             createTile("Ankete", ""),
             sizedBox,

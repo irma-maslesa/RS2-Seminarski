@@ -18,7 +18,7 @@ class Registracija extends StatefulWidget {
 }
 
 class _RegistracijaState extends State<Registracija> {
-  TextStyle style = const TextStyle(fontFamily: 'Rajdhani', fontSize: 18.0);
+  TextStyle style = const TextStyle(fontSize: 18.0);
 
   TextEditingController imeController = TextEditingController();
   TextEditingController prezimeController = TextEditingController();
@@ -37,21 +37,13 @@ class _RegistracijaState extends State<Registracija> {
     DropdownMenuItem(
         child: Text(
           "Muško",
-          style: TextStyle(
-            fontFamily: 'Rajdhani',
-            fontSize: 18.0,
-            color: Colors.grey[600],
-          ),
+          style: TextStyle(fontSize: 18.0, color: Colors.grey[600]),
         ),
         value: 'M'),
     DropdownMenuItem(
         child: Text(
           "Žensko",
-          style: TextStyle(
-            fontFamily: 'Rajdhani',
-            fontSize: 18.0,
-            color: Colors.grey[600],
-          ),
+          style: TextStyle(fontSize: 18.0, color: Colors.grey[600]),
         ),
         value: 'Ž'),
   ];
@@ -62,7 +54,6 @@ class _RegistracijaState extends State<Registracija> {
 
   Future<void> getData(KorisnikRegistracijaRequest request) async {
     response = await ApiService.registracija(json.encode(request.toJson()));
-    print(response);
   }
 
   Future<void> _showDialog(String text) async {
@@ -363,9 +354,10 @@ class _RegistracijaState extends State<Registracija> {
       validator: (value) {
         return value == null || value.isEmpty ? _obaveznoPolje : null;
       },
-      hint: Text('Spol',
-          style: TextStyle(
-              fontFamily: 'Rajdhani', fontSize: 18.0, color: Colors.grey[600])),
+      hint: Text(
+        'Spol',
+        style: TextStyle(fontSize: 18.0, color: Colors.grey[600]),
+      ),
       isExpanded: true,
       items: spolovi,
       onChanged: (newVal) {
