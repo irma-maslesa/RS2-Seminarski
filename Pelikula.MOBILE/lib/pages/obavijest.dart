@@ -10,6 +10,8 @@ import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/pages/prikaz_obavijesti.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
+import 'drawer.dart';
+
 class Obavijesti extends StatefulWidget {
   const Obavijesti({Key? key}) : super(key: key);
 
@@ -26,6 +28,7 @@ class _ObavijestiState extends State<Obavijesti> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Obavijesti")),
+      drawer: const MyDrawer(),
       body: body(),
     );
   }
