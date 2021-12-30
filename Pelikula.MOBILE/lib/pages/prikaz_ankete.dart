@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pelikula_mobile/model/obavijest_response.dart';
+import 'package:pelikula_mobile/model/anketa_response.dart';
 
-class PrikazObavijesti extends StatelessWidget {
-  final ObavijestResponse obavijest;
+class PrikazAnkete extends StatelessWidget {
+  final AnketaResponse anketa;
 
-  const PrikazObavijesti(this.obavijest, {Key? key}) : super(key: key);
+  const PrikazAnkete(this.anketa, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,24 +26,18 @@ class PrikazObavijesti extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              obavijest.naslov!,
+              anketa.naslov!,
               style: styleNaslov,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20.0),
-            Text(
-              obavijest.tekst!,
-              style: styleTekst,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 60.0),
             Text(
-              "Datum objave: ${DateFormat('dd/MM/yyyy').format(obavijest.datum!)}",
+              "Datum objave: ${DateFormat('dd/MM/yyyy').format(anketa.datum!)}",
               style: styleDatumAutor,
               textAlign: TextAlign.center,
             ),
             Text(
-              "Autor: ${obavijest.korisnik!.naziv!.split("(")[0]}",
+              "Autor: ${anketa.korisnik!.naziv!.split("(")[0]}",
               style: styleDatumAutor,
               textAlign: TextAlign.center,
             ),

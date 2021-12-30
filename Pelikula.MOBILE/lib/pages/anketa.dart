@@ -3,36 +3,33 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:pelikula_mobile/model/anketa_response.dart';
 import 'package:pelikula_mobile/model/helper/sorting_params.dart';
-import 'package:pelikula_mobile/model/obavijest_response.dart';
+import 'package:pelikula_mobile/model/anketa_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
-import 'package:pelikula_mobile/pages/prikaz_obavijesti.dart';
+import 'package:pelikula_mobile/pages/prikaz_ankete.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
-class Obavijesti extends StatefulWidget {
-  const Obavijesti({Key? key}) : super(key: key);
+class Ankete extends StatefulWidget {
+  const Ankete({Key? key}) : super(key: key);
 
   @override
-  _ObavijestiState createState() => _ObavijestiState();
+  _AnketeState createState() => _AnketeState();
 }
 
-class _ObavijestiState extends State<Obavijesti> {
-  _getTekstObavijesti(String tekst) {
-    return tekst.length > 50 ? tekst.substring(0, 50) + "..." : tekst;
-  }
-
+class _AnketeState extends State<Ankete> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Obavijesti")),
+      appBar: AppBar(title: const Text("Ankete")),
       body: body(),
     );
   }
 
   Widget body() {
     return FutureBuilder<dynamic>(
-      future: getObavijesti(),
+      future: getAnkete(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: Text("Učitavanje..."));
@@ -41,10 +38,10 @@ class _ObavijestiState extends State<Obavijesti> {
         } else if (snapshot.data is PagedPayloadResponse) {
           return ListView(
             children: (snapshot.data.payload
-                    .map((e) => ObavijestResponse.fromJson(e))
+                    .map((e) => AnketaResponse.fromJson(e))
                     .toList()
-                    .cast<ObavijestResponse>() as List)
-                .map((e) => obavijestWidget(e))
+                    .cast<AnketaResponse>() as List)
+                .map((e) => anketaWidget(e))
                 .toList()
                 .cast<Widget>(),
           );
@@ -57,47 +54,37 @@ class _ObavijestiState extends State<Obavijesti> {
     );
   }
 
-  Future<dynamic> getObavijesti() async {
+  Future<dynamic> getAnkete() async {
     List<SortingParams> sortingParams = [
       SortingParams(sortOrder: "DESC", columnName: "datum")
     ];
     String sorting = json.encode(sortingParams);
-    var response = await ApiService.get("Obavijest", {"sorting": sorting});
+    var response = await ApiService.get("Anketa/aktivne", {"sorting": sorting});
     return response;
   }
 
-  Widget obavijestWidget(ObavijestResponse obavijest) {
+  Widget anketaWidget(AnketaResponse anketa) {
     TextStyle styleNaslov = const TextStyle(
         fontSize: 30.0, fontWeight: FontWeight.w500, color: Colors.black);
-    TextStyle styleTekst = const TextStyle(
-        fontSize: 20.0, fontWeight: FontWeight.w300, color: Colors.black);
-    TextStyle styleDatumAutor = const TextStyle(
+    TextStyle styleDatum = const TextStyle(
         fontSize: 10.0, fontWeight: FontWeight.w300, color: Colors.black);
 
     return Card(
       child: TextButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PrikazObavijesti(obavijest)));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => PrikazAnkete(anketa)));
           },
           child: Column(
             children: [
               Text(
-                obavijest.naslov!,
+                anketa.naslov!,
                 style: styleNaslov,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20.0),
-              Text(
-                _getTekstObavijesti(obavijest.tekst!),
-                style: styleTekst,
-                textAlign: TextAlign.center,
-              ),
               const SizedBox(height: 10.0),
-              Text("Autor: ${obavijest.korisnik!.naziv!.split("(")[0]}",
-                  style: styleDatumAutor),
-              Text(DateFormat('dd/MM/yyyy').format(obavijest.datum!),
-                  style: styleDatumAutor)
+              Text(DateFormat('dd/MM/yyyy').format(anketa.datum!),
+                  style: styleDatum)
             ],
           )),
     );

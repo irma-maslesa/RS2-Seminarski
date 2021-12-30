@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/model/korisnik.dart';
-import 'package:pelikula_mobile/model/korisnik_tip.dart';
+import 'package:pelikula_mobile/model/korisnik_response.dart';
+import 'package:pelikula_mobile/model/helper/korisnik_tip.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Prijava extends StatefulWidget {

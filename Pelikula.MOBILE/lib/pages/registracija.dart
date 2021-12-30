@@ -4,8 +4,9 @@ import 'dart:convert';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:pelikula_mobile/model/korisnik_registracija_request.dart';
 
-import 'package:pelikula_mobile/model/korisnik.dart';
+import 'package:pelikula_mobile/model/korisnik_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/payload_response.dart';
 import 'package:pelikula_mobile/services/api_service.dart';

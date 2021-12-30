@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:crypt/crypt.dart';
 import 'package:http/http.dart' as http;
-import 'package:pelikula_mobile/model/korisnik.dart';
+import 'package:pelikula_mobile/model/korisnik_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/model/response/payload_response.dart';
@@ -40,9 +39,6 @@ class ApiService {
 
   static Future<dynamic> registracija(String body) async {
     String baseUrl = _baseRoute + "Korisnik/registracija";
-
-    final String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));
 
     final response = await http.post(
       Uri.parse(baseUrl),

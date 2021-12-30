@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/model/projekcija.dart';
+import 'package:pelikula_mobile/model/projekcija_detailed_response.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Home extends StatefulWidget {
