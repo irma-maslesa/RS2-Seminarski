@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pelikula_mobile/model/obavijest.dart';
+import 'package:pelikula_mobile/model/obavijest/obavijest_response.dart';
 
 class PrikazObavijesti extends StatelessWidget {
   final ObavijestResponse obavijest;

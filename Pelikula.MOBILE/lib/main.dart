@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/pages/obavijest.dart';
-import 'package:pelikula_mobile/pages/registracija.dart';
-import 'package:pelikula_mobile/pages/rezervacija.dart';
-import 'package:pelikula_mobile/pages/prijava.dart';
-import 'package:pelikula_mobile/pages/projekcije.dart';
+import 'package:pelikula_mobile/pages/korisnik/prijava.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,18 +21,12 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Rajdhani',
       ),
       home: const Prijava(),
-      routes: {
-        '/prijava': (context) => const Prijava(),
-        '/registracija': (context) => const Registracija(),
-        '/projekcije': (context) => const Projekcije(),
-        '/rezervacija': (context) => Rezervacija(),
+      routes: const {
         /* '/kupovina': (context) => Kupovina(),
         '/dojam': (context) => Dojam(),
         '/preporuceno': (context) => Preporuceno(),
         '/rezervacije': (context) => Rezervacije(),
         '/kupovine': (context) => Kupovine(),*/
-        '/obavijesti': (context) => const Obavijesti(),
-        //'/ankete': (context) => Ankete(),
       },
     );
   }

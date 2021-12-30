@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/model/projekcija.dart';
+import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.dart';
 
 class PrikazProjekcije extends StatelessWidget {
   final ProjekcijaDetailedResponse projekcija;

@@ -1,13 +1,13 @@
-// ignore_for_file: file_names
-
 import 'dart:convert';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-
-import 'package:pelikula_mobile/model/korisnik.dart';
+import 'package:pelikula_mobile/model/korisnik/korisnik_registracija_request.dart';
+import 'package:pelikula_mobile/model/korisnik/korisnik_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/payload_response.dart';
+import 'package:pelikula_mobile/pages/korisnik/prijava.dart';
+import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Registracija extends StatefulWidget {
@@ -224,7 +224,12 @@ class _RegistracijaState extends State<Registracija> {
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
-          Navigator.of(context).pushReplacementNamed("/prijava");
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => const Prijava(),
+            ),
+            (route) => false,
+          );
         },
         child: Text("Odustani",
             textAlign: TextAlign.center,
@@ -254,9 +259,14 @@ class _RegistracijaState extends State<Registracija> {
               _showDialog('Došlo je do greške, pokušajte opet! ');
             } else if (response is PayloadResponse) {
               var korisnik = KorisnikResponse.fromJson(response.payload);
-              ApiService.korisnickoIme = korisnik.korisnickoIme;
-              ApiService.lozinka = lozinkaController.text;
-              Navigator.of(context).pushReplacementNamed("/home");
+              ApiService.setParameters(korisnik.id!, korisnik.korisnickoIme!,
+                  lozinkaController.text);
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Projekcije(),
+                ),
+                (route) => false,
+              );
             } else {
               _showDialog((response as ErrorResponse).message as String);
             }

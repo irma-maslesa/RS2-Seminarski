@@ -2,11 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pelikula_mobile/model/projekcija.dart';
+import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
-import 'package:pelikula_mobile/pages/drawer.dart';
-import 'package:pelikula_mobile/pages/prikaz_projekcije.dart';
+import 'package:pelikula_mobile/pages/helper/drawer.dart';
+import 'package:pelikula_mobile/pages/projekcija/prikaz_projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 import 'package:intl/intl.dart';
 
