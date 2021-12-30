@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:pelikula_mobile/model/projekcija.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
-import 'package:pelikula_mobile/pages/prikaz.dart';
+import 'package:pelikula_mobile/pages/prikaz_projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 import 'package:intl/intl.dart';
 
@@ -37,7 +36,6 @@ class _ProjekcijeState extends State<Projekcije> {
             child: Text("Učitavanje..."),
           );
         } else if (snapshot.hasError) {
-          print("Greška ${snapshot.error}");
           return const Center(
             child: Text("Greška pri učitavanju."),
           );
@@ -62,27 +60,20 @@ class _ProjekcijeState extends State<Projekcije> {
 
   Future<dynamic> getProjekcije() async {
     var response = await ApiService.get("Projekcija/aktivne/details", null);
-    print(response.payload);
     return response;
   }
 
   Widget projekcijaWidget(ProjekcijaDetailedResponse projekcija) {
     TextStyle styleNaslov = const TextStyle(
-        fontFamily: 'Rajdhani',
-        fontSize: 30.0,
-        fontWeight: FontWeight.w700,
-        color: Colors.black);
+        fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black);
     TextStyle styleTekst = const TextStyle(
-        fontFamily: 'Rajdhani',
-        fontSize: 20.0,
-        fontWeight: FontWeight.w300,
-        color: Colors.black);
+        fontSize: 20.0, fontWeight: FontWeight.w300, color: Colors.black);
 
     return Card(
       child: TextButton(
         onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => Prikaz(projekcija)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PrikazProjekcije(projekcija)));
         },
         child: Row(
           children: [

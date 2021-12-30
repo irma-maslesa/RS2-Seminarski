@@ -10,4 +10,9 @@ class LoV {
       naziv: json['naziv'].toString(),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "naziv": naziv,
+      };
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pelikula_mobile/pages/obavijest.dart';
 import 'package:pelikula_mobile/pages/registracija.dart';
 import 'package:pelikula_mobile/pages/rezervacija.dart';
 import 'package:pelikula_mobile/pages/home.dart';
@@ -16,6 +17,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w700,
+        )),
+        fontFamily: 'Rajdhani',
+      ),
       home: const Prijava(),
       routes: {
         '/prijava': (context) => const Prijava(),
@@ -29,9 +38,9 @@ class MyApp extends StatelessWidget {
         '/dojam': (context) => Dojam(),
         '/preporuceno': (context) => Preporuceno(),
         '/rezervacije': (context) => Rezervacije(),
-        '/kupovine': (context) => Kupovine(),
-        '/obavijesti': (context) => Obavijesti(),
-        '/ankete': (context) => Ankete(), */
+        '/kupovine': (context) => Kupovine(),*/
+        '/obavijesti': (context) => const Obavijesti(),
+        //'/ankete': (context) => Ankete(),
       },
     );
   }
