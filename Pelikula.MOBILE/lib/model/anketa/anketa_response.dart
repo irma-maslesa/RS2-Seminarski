@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/model/anketa_odgovor_response.dart';
+import 'package:pelikula_mobile/model/anketa/anketa_odgovor_response.dart';
 import 'package:pelikula_mobile/model/lov.dart';
 
 class AnketaResponse {
@@ -25,7 +24,9 @@ class AnketaResponse {
       id: json['id'] as int,
       naslov: json['naslov'] as String,
       datum: DateTime.tryParse(json['datum']),
-      zakljucenoDatum: DateTime.tryParse(json['zakljucenoDatum']),
+      zakljucenoDatum: json['zakljucenoDatum'] != null
+          ? DateTime.tryParse(json['zakljucenoDatum'])
+          : null,
       korisnik: LoV.fromJson(json['korisnik']),
       odgovori: (json['odgovori'] as List)
           .map((i) => AnketaOdgovorResponse.fromJson(i))

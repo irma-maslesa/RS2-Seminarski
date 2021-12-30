@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/pages/obavijest.dart';
-import 'package:pelikula_mobile/pages/projekcije.dart';
+import 'package:pelikula_mobile/pages/anketa/anketa.dart';
+import 'package:pelikula_mobile/pages/korisnik/prijava.dart';
+import 'package:pelikula_mobile/pages/obavijest/obavijest.dart';
+import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -36,9 +38,15 @@ class MyDrawer extends StatelessWidget {
               TextButton(
                 child: const Text('Da'),
                 onPressed: () {
+                  ApiService.korisnikId = null;
                   ApiService.korisnickoIme = null;
                   ApiService.lozinka = null;
-                  Navigator.of(context).pushReplacementNamed("/prijava");
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Prijava(),
+                    ),
+                    (route) => false,
+                  );
                 },
               ),
             ],
@@ -102,7 +110,7 @@ class MyDrawer extends StatelessWidget {
           sizedBox,
           createTile("Obavijesti", const Obavijesti()),
           sizedBox,
-          createTile("Ankete", const Scaffold()),
+          createTile("Ankete", const Ankete()),
           sizedBox,
           createTile("Profil", const Scaffold()),
           sizedBox,

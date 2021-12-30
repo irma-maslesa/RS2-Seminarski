@@ -119,6 +119,7 @@ namespace Pelikula.CORE.Impl
                 .FirstOrDefault(e => e.Id == anketaOdgovor.AnketaId);
 
             var anketaOdgovorKorisnikEntity = Mapper.Map<AnketaOdgovorKorisnikInsertRequest, AnketaOdgovorKorisnik>(request);
+            anketaOdgovorKorisnikEntity.Datum = DateTime.Now;
             Context.AnketaOdgovorKorisnik.Add(anketaOdgovorKorisnikEntity);
             Context.SaveChanges();
 
@@ -201,15 +202,14 @@ namespace Pelikula.CORE.Impl
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Anketa>.FilteredData(filter, entityList) : entityList;
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Anketa>.SortData(sorting, entityList) : entityList;
-
-            List<AnketaResponse> anketaList = Mapper.Map<List<AnketaResponse>>(entityList);
+                        List<AnketaResponse> anketaList = Mapper.Map<List<AnketaResponse>>(entityList);
 
             List<AnketaExtendedResponse> responseList = new List<AnketaExtendedResponse>();
 
             foreach (var anketa in anketaList)
                 responseList.Add(GetAnketaExtendedResponse(anketa, korisnikId));
 
-            responseList = responseList.Where(e => e.KorisnikAnketaOdgovor != null).ToList();
+            responseList = responseList.Where(e => e.KorisnikAnketaOdgovor != null  || e.ZakljucenoDatum == null).ToList();
 
             PaginationUtility.PagedData<AnketaExtendedResponse> pagedResponse = PaginationUtility.Paginaion<AnketaExtendedResponse>.PaginateData(responseList, pagination);
             return new PagedPayloadResponse<AnketaExtendedResponse>(HttpStatusCode.OK, pagedResponse);

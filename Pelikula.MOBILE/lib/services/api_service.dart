@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:pelikula_mobile/model/korisnik_response.dart';
+import 'package:pelikula_mobile/model/korisnik/korisnik_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/model/response/payload_response.dart';
 
 class ApiService {
+  static int? korisnikId;
   static String? korisnickoIme;
   static String? lozinka;
   String ruta;
@@ -15,7 +16,9 @@ class ApiService {
 
   ApiService({required this.ruta});
 
-  void setParameters(String korisnickoIme, String lozinka) {
+  static void setParameters(
+      int korisnikId, String korisnickoIme, String lozinka) {
+    ApiService.korisnikId = korisnikId;
     ApiService.korisnickoIme = korisnickoIme;
     ApiService.lozinka = lozinka;
   }
@@ -113,11 +116,11 @@ class ApiService {
       body: body,
     );
 
-    if (response.statusCode == 201) {
-      return json.decode(response.body)['payload'];
+    if (response.statusCode == 200) {
+      return PayloadResponse.fromJson(json.decode(response.body));
     }
 
-    return null;
+    return ErrorResponse.fromJson(json.decode(response.body));
   }
 
   static Future<dynamic> put(String route, dynamic id, String body) async {

@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:ffi';
 
-import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/model/film_glumac_response.dart';
+import 'package:pelikula_mobile/model/film/film_glumac_response.dart';
 import 'package:pelikula_mobile/model/lov.dart';
 
 class FilmResponse {

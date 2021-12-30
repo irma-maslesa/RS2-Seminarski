@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:pelikula_mobile/model/helper/sorting_params.dart';
-import 'package:pelikula_mobile/model/obavijest_response.dart';
+import 'package:pelikula_mobile/model/obavijest/obavijest_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
-import 'package:pelikula_mobile/pages/prikaz_obavijesti.dart';
+import 'package:pelikula_mobile/pages/helper/drawer.dart';
+import 'package:pelikula_mobile/pages/obavijest/prikaz_obavijesti.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
-
-import 'drawer.dart';
 
 class Obavijesti extends StatefulWidget {
   const Obavijesti({Key? key}) : super(key: key);

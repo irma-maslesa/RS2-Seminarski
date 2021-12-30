@@ -1,8 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:pelikula_mobile/model/korisnik_response.dart';
+import 'package:pelikula_mobile/model/korisnik/korisnik_response.dart';
 import 'package:pelikula_mobile/model/helper/korisnik_tip.dart';
+import 'package:pelikula_mobile/pages/korisnik/registracija.dart';
+import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Prijava extends StatefulWidget {
@@ -103,7 +105,13 @@ class _PrijavaState extends State<Prijava> {
               lozinkaController.text = '';
               _showDialog('Pristup aplikaciji nije moguć!');
             } else {
-              Navigator.of(context).pushReplacementNamed("/projekcije");
+              ApiService.korisnikId = response!.id;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Projekcije(),
+                ),
+                (route) => false,
+              );
             }
           } else {
             lozinkaController.text = '';
@@ -129,7 +137,12 @@ class _PrijavaState extends State<Prijava> {
         style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
       ),
       onTap: () async {
-        Navigator.of(context).popAndPushNamed("/registracija");
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (BuildContext context) => const Registracija(),
+          ),
+          (route) => false,
+        );
       },
     );
 

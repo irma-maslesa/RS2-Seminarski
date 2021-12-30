@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'tip_korisnika_response.dart';
+import 'package:pelikula_mobile/model/korisnik/tip_korisnika_response.dart';
 
 class KorisnikResponse {
   int? id;
