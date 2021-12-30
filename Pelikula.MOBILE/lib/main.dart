@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pelikula_mobile/pages/obavijest.dart';
 import 'package:pelikula_mobile/pages/registracija.dart';
 import 'package:pelikula_mobile/pages/rezervacija.dart';
-import 'package:pelikula_mobile/pages/home.dart';
 import 'package:pelikula_mobile/pages/prijava.dart';
 import 'package:pelikula_mobile/pages/projekcije.dart';
 
@@ -29,10 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/prijava': (context) => const Prijava(),
         '/registracija': (context) => const Registracija(),
-        //'/loading': (context) => Loading(),
-        '/home': (context) => const Home(),
         '/projekcije': (context) => const Projekcije(),
-        //'/prikaz': (context) => Prikaz(),
         '/rezervacija': (context) => Rezervacija(),
         /* '/kupovina': (context) => Kupovina(),
         '/dojam': (context) => Dojam(),
