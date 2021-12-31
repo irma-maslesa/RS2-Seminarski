@@ -26,7 +26,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet("aktivne")]
-        public PagedPayloadResponse<ProjekcijaResponse> GetActive([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
+        public PagedPayloadResponse<ProjekcijaResponse> GetActive([FromQuery] string naziv, [FromQuery] int? zanrId, [FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
             IEnumerable<FilterUtility.FilterParams> filterParams = new List<FilterUtility.FilterParams>();
@@ -84,7 +84,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet("aktivne/details")]
-        public PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
+        public PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting, string naziv, int? zanrId) {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
             IEnumerable<FilterUtility.FilterParams> filterParams = new List<FilterUtility.FilterParams>();
@@ -113,7 +113,7 @@ namespace API.Controllers
                 throw new UserException(stringBuilder.ToString(), HttpStatusCode.BadRequest);
             }
 
-            return Service.GetDetailedActive(paginationParams, filterParams, sortingParams);
+            return Service.GetDetailedActive(paginationParams, filterParams, sortingParams, naziv, zanrId);
         }
 
 
