@@ -78,7 +78,7 @@ class PrikazAnkete extends StatelessWidget {
     Widget odgovorWidget(AnketaOdgovorResponse odgovor) {
       return Card(
         color: detalji && odgovor.id == anketa.korisnikAnketaOdgovor!.id
-            ? Colors.blue
+            ? const Color(0xff01A0C7)
             : Colors.white,
         child: TextButton(
           onPressed: () async {
