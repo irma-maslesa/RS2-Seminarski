@@ -10,8 +10,8 @@ namespace Pelikula.API.Api
     public interface IProjekcijaService : ICrudService<ProjekcijaResponse, ProjekcijaUpsertRequest, ProjekcijaUpsertRequest>
     {
         PagedPayloadResponse<ProjekcijaResponse> GetActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting);
-
-        PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting);
+        
+        PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting, string naziv, int? zanrId);
 
         Task<ListPayloadResponse<ProjekcijaResponse>> GetPreporucene(string korisnickoIme);
 

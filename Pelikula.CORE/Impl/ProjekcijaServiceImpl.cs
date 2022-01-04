@@ -24,11 +24,13 @@ namespace Pelikula.CORE.Impl
         protected IFilmValidator FilmValidator { get; set; }
         protected ISalaValidator SalaValidator { get; set; }
         protected IKorisnikValidator KorisnikValidator { get; set; }
+        protected IZanrValidator ZanrValidator { get; set; }
 
-        public ProjekcijaServiceImpl(AppDbContext context, IMapper mapper, IProjekcijaValidator validator, IFilmValidator filmValidator, ISalaValidator salaValidator, IKorisnikValidator korisnikValidator) : base(context, mapper, validator) {
+        public ProjekcijaServiceImpl(AppDbContext context, IMapper mapper, IProjekcijaValidator validator, IFilmValidator filmValidator, ISalaValidator salaValidator, IKorisnikValidator korisnikValidator, IZanrValidator zanrValidator) : base(context, mapper, validator) {
             SalaValidator = salaValidator;
             FilmValidator = filmValidator;
             KorisnikValidator = korisnikValidator;
+            ZanrValidator = zanrValidator;
             Validator = validator;
         }
 
@@ -288,7 +290,7 @@ namespace Pelikula.CORE.Impl
             return new ListPayloadResponse<LoV>(HttpStatusCode.OK, response);
         }
 
-        public PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
+        public PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting, string naziv, int? zanrId) {
             var datum = DateTime.Now.Date;
 
             IEnumerable<Projekcija> entityList = Context.Set<Projekcija>()
@@ -306,6 +308,13 @@ namespace Pelikula.CORE.Impl
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Projekcija>.FilteredData(filter, entityList) : entityList;
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Projekcija>.SortData(sorting, entityList) : entityList;
+
+            if (naziv != null)
+                entityList = entityList.Where(e => e.Film.Naslov.ToLower().Contains(naziv.ToLower()));
+            if (zanrId != null) {
+                ZanrValidator.ValidateEntityExists(zanrId.Value);
+                entityList = entityList.Where(e => e.Film.ZanrId == zanrId.Value);
+            }
 
             List<ProjekcijaDetailedResponse> responseList = Mapper.Map<List<ProjekcijaDetailedResponse>>(entityList);
 
