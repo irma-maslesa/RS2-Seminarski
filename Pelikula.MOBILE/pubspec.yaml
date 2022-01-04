@@ -33,6 +33,7 @@ dependencies:
   intl: ^0.17.0
   crypt: ^4.0.0
   email_validator: ^2.0.1
+  url_launcher: ^6.0.17
 
 
   # The following adds the Cupertino Icons font to your application.
