@@ -95,10 +95,10 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      return json.decode(response.body)['payload'];
+      return PayloadResponse.fromJson(json.decode(response.body));
     }
 
-    return null;
+    return ErrorResponse.fromJson(json.decode(response.body));
   }
 
   static Future<dynamic> post(String route, String body) async {
@@ -123,8 +123,8 @@ class ApiService {
     return ErrorResponse.fromJson(json.decode(response.body));
   }
 
-  static Future<dynamic> put(String route, dynamic id, String body) async {
-    String baseUrl = _baseRoute + route + "/" + id;
+  static Future<dynamic> put(String route, int id, String body) async {
+    String baseUrl = _baseRoute + route + "/" + id.toString();
 
     final String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));
@@ -138,11 +138,11 @@ class ApiService {
       body: body,
     );
 
-    if (response.statusCode == 201) {
-      return json.decode(response.body)['payload'];
+    if (response.statusCode == 200) {
+      return PayloadResponse.fromJson(json.decode(response.body));
     }
 
-    return null;
+    return ErrorResponse.fromJson(json.decode(response.body));
   }
 
   static Future<String?> delete(String route, dynamic id) async {
@@ -161,5 +161,27 @@ class ApiService {
     }
 
     return null;
+  }
+
+  static Future<dynamic> getDojam(int projekcijaId) async {
+    String baseUrl = _baseRoute +
+        "Dojam/" +
+        projekcijaId.toString() +
+        "/" +
+        korisnikId.toString();
+
+    final String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));
+
+    final response = await http.get(
+      Uri.parse(baseUrl),
+      headers: {HttpHeaders.authorizationHeader: basicAuth},
+    );
+
+    if (response.statusCode == 200) {
+      return PayloadResponse.fromJson(json.decode(response.body));
+    }
+
+    return ErrorResponse.fromJson(json.decode(response.body));
   }
 }

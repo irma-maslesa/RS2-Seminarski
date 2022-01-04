@@ -77,7 +77,7 @@ class MyDrawer extends StatelessWidget {
     );
 
     DrawerHeader drawerHeader = DrawerHeader(
-      decoration: const BoxDecoration(color: Colors.blue),
+      decoration: const BoxDecoration(color: Color(0xff01A0C7)),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),

@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.dart';
+import 'package:pelikula_mobile/pages/dojam/ocjenjivanje.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PrikazProjekcije extends StatefulWidget {
@@ -53,7 +54,10 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
     TextStyle styleTekst = const TextStyle(
         fontSize: 20.0, fontWeight: FontWeight.w300, color: Colors.black);
     TextStyle styleLink = const TextStyle(
-        fontSize: 15.0, fontWeight: FontWeight.w300, color: Colors.blue);
+      fontSize: 15.0,
+      fontWeight: FontWeight.w300,
+      color: Color(0xff01A0C7),
+    );
 
     const sizedBoxWidth = SizedBox(width: 15);
     const sizedBoxWHeight = SizedBox(height: 15);
@@ -215,7 +219,10 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
               child: MaterialButton(
                 minWidth: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Ocjenjivanje(widget.projekcija)));
+                },
                 child: Text("Ocijeni",
                     textAlign: TextAlign.center,
                     style: styleTekst.copyWith(

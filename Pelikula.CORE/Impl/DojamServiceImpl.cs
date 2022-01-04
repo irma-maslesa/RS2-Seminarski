@@ -8,6 +8,7 @@ using Pelikula.API.Validation;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;
 using Pelikula.DAO.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -78,6 +79,8 @@ namespace Pelikula.CORE.Impl
             Validator.ValidateComboDoesNotExist(null, request.KorisnikId, request.ProjekcijaId);
 
             Dojam entity = Mapper.Map<DojamUpsertRequest, Dojam>(request);
+            entity.Datum = DateTime.Now;
+
             entity = Context.Set<Dojam>().Add(entity).Entity;
 
             Context.SaveChanges();

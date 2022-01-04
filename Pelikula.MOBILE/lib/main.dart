@@ -14,11 +14,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
+            color: Color(0xff01A0C7),
             titleTextStyle: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w700,
-        )),
+              fontSize: 20.0,
+              fontWeight: FontWeight.w700,
+            )),
         fontFamily: 'Rajdhani',
+        colorScheme:
+            ThemeData().colorScheme.copyWith(primary: const Color(0xff01A0C7)),
       ),
       home: const Prijava(),
       routes: const {
