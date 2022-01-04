@@ -10,11 +10,9 @@ import 'package:pelikula_mobile/model/response/payload_response.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Ocjenjivanje extends StatefulWidget {
-  final int projekcijaId;
-  final String filmNaslov;
+  final ProjekcijaDetailedResponse projekcija;
 
-  const Ocjenjivanje(this.projekcijaId, this.filmNaslov, {Key? key})
-      : super(key: key);
+  const Ocjenjivanje(this.projekcija, {Key? key}) : super(key: key);
 
   @override
   _OcjenjivanjeState createState() => _OcjenjivanjeState();
@@ -25,7 +23,8 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
   dynamic response;
   int? dojamId;
 
-  double rating = 0;
+  double ocjena = 0;
+
   TextStyle styleNaslov = const TextStyle(
       fontSize: 50.0, fontWeight: FontWeight.w700, color: Colors.black);
   TextStyle styleTekst = const TextStyle(
@@ -40,12 +39,6 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
   Future<void> sendUpdateDojamRequest(DojamUpsertRequest request) async {
     response =
         await ApiService.put("Dojam", dojamId!, json.encode(request.toJson()));
-  }
-
-  Future<void> getData() async {
-    response = await ApiService.getDojam(widget.projekcijaId);
-
-    return response;
   }
 
   Future<void> _showDialog(String text) async {
@@ -81,10 +74,9 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
         child: MaterialButton(
           padding: const EdgeInsets.fromLTRB(40.0, 15.0, 40.0, 15.0),
           onPressed: () async {
-            request.projekcijaId = widget.projekcijaId;
+            request.projekcijaId = widget.projekcija.id;
             request.korisnikId = ApiService.korisnikId;
-            print(rating);
-            request.ocjena = rating.round();
+            request.ocjena = ocjena.round();
             request.tekst = tekstController.text.trim().isNotEmpty
                 ? tekstController.text
                 : null;
@@ -115,7 +107,7 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
 
   Widget body() {
     return FutureBuilder(
-        future: getData(),
+        future: getDojam(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: Text("Učitavanje..."));
@@ -125,24 +117,22 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
             if ((response as PayloadResponse).payload != null) {
               var dojam =
                   DojamResponse.fromJson((response as PayloadResponse).payload);
-              rating = dojam.ocjena!.toDouble();
+              ocjena = dojam.ocjena!.toDouble();
               if (dojam.tekst != null) {
                 tekstController.text = dojam.tekst!;
               }
 
               dojamId = dojam.id;
             }
+
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    widget.filmNaslov,
-                    style: styleNaslov,
-                  ),
+                  Text(widget.projekcija.film!.naslov!, style: styleNaslov),
                   const SizedBox(height: 15),
                   RatingBar(
-                      initialRating: rating,
+                      initialRating: ocjena,
                       direction: Axis.horizontal,
                       allowHalfRating: false,
                       itemCount: 5,
@@ -154,7 +144,7 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
                             color: Color(0xff01A0C7)),
                       ),
                       onRatingUpdate: (value) {
-                        rating = value;
+                        ocjena = value;
                       }),
                   const SizedBox(
                     height: 30.0,
@@ -185,5 +175,11 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
             );
           }
         });
+  }
+
+  Future<void> getDojam() async {
+    response = await ApiService.getDojam(widget.projekcija.id!);
+
+    return response;
   }
 }

@@ -221,8 +221,7 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
                 padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Ocjenjivanje(widget.projekcija.id!,
-                          widget.projekcija.film!.naslov!)));
+                      builder: (context) => Ocjenjivanje(widget.projekcija)));
                 },
                 child: Text("Ocijeni",
                     textAlign: TextAlign.center,
