@@ -10,8 +10,6 @@ namespace Pelikula.API.Model.Korisnik
         public string Email { get; set; }
         public string Spol { get; set; }
         public DateTime? DatumRodjenja { get; set; }
-        public byte[] Slika { get; set; }
-        public byte[] SlikaThumb { get; set; }
         public string LozinkaHash { get; set; }
         public string LozinkaSalt { get; set; }
 

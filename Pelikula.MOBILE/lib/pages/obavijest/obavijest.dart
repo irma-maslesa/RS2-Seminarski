@@ -50,9 +50,13 @@ class _ObavijestiState extends State<Obavijesti> {
                 .toList()
                 .cast<Widget>(),
           );
-        } else {
+        } else if (snapshot.data is ErrorResponse) {
           return Center(
             child: Text((snapshot.data as ErrorResponse).message as String),
+          );
+        } else {
+          return const Center(
+            child: Text("Došlo je do greške!"),
           );
         }
       },

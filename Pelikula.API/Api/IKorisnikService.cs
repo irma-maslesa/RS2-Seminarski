@@ -9,5 +9,7 @@ namespace Pelikula.API.Api
         PayloadResponse<KorisnikResponse> Autentifikacija(string korisnickoIme, string lozinka);
         PayloadResponse<KorisnikResponse> Registracija(KorisnikRegistracijaRequest request);
         ListPayloadResponse<LoV> GetKlijentiForTermin(int projekcijaTerminId, bool bezRezervacije);
+
+        PayloadResponse<KorisnikResponse> UrediProfil(int id, KorisnikRegistracijaRequest request);
     }
 }

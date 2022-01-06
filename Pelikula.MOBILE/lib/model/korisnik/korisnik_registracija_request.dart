@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class KorisnikRegistracijaRequest {
   String? korisnickoIme;
   String? ime;
@@ -18,13 +20,14 @@ class KorisnikRegistracijaRequest {
 
   factory KorisnikRegistracijaRequest.fromJson(Map<String, dynamic> json) {
     return KorisnikRegistracijaRequest(
-        korisnickoIme: json['korisnickoIme'] as String,
-        ime: json['ime'] as String,
-        prezime: json['prezime'] as String,
-        email: json['prezime'] as String,
-        spol: json['spol'] as String,
-        datumRodjenja: DateTime.tryParse(json['datumRodjenja']),
-        lozinka: json['lozinka'] as String);
+      korisnickoIme: json['korisnickoIme'] as String,
+      ime: json['ime'] as String,
+      prezime: json['prezime'] as String,
+      email: json['prezime'] as String,
+      spol: json['spol'] as String,
+      datumRodjenja: DateTime.tryParse(json['datumRodjenja']),
+      lozinka: json['lozinka'] as String,
+    );
   }
 
   Map<String, dynamic> toJson() => {

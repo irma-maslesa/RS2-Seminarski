@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pelikula_mobile/pages/anketa/anketa.dart';
 import 'package:pelikula_mobile/pages/korisnik/prijava.dart';
+import 'package:pelikula_mobile/pages/korisnik/uredi_profil.dart';
 import 'package:pelikula_mobile/pages/obavijest/obavijest.dart';
 import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
@@ -112,7 +113,7 @@ class MyDrawer extends StatelessWidget {
           sizedBox,
           createTile("Ankete", const Ankete()),
           sizedBox,
-          createTile("Profil", const Scaffold()),
+          createTile("Profil", const UrediProfil()),
           sizedBox,
           tileOdjava
         ],

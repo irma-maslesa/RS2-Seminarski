@@ -34,7 +34,8 @@ class ApiService {
       headers: {HttpHeaders.authorizationHeader: basicAuth},
     );
     if (response.statusCode == 200) {
-      return KorisnikResponse.fromJson(json.decode(response.body)['payload']);
+      return KorisnikResponse.fromJson(
+          PayloadResponse.fromJson(json.decode(response.body)).payload);
     }
 
     return null;
@@ -78,13 +79,15 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return PagedPayloadResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body));
+    } else {
+      return null;
     }
-
-    return ErrorResponse.fromJson(json.decode(response.body));
   }
 
-  static Future<dynamic> getById(String route, dynamic id) async {
-    String baseUrl = _baseRoute + route + "/" + id;
+  static Future<dynamic> getById(String route, int id) async {
+    String baseUrl = _baseRoute + route + "/" + id.toString();
 
     final String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));
@@ -96,9 +99,11 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return PayloadResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body));
+    } else {
+      return null;
     }
-
-    return ErrorResponse.fromJson(json.decode(response.body));
   }
 
   static Future<dynamic> post(String route, String body) async {
@@ -118,9 +123,11 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return PayloadResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body));
+    } else {
+      return null;
     }
-
-    return ErrorResponse.fromJson(json.decode(response.body));
   }
 
   static Future<dynamic> put(String route, int id, String body) async {
@@ -140,9 +147,11 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return PayloadResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body));
+    } else {
+      return null;
     }
-
-    return ErrorResponse.fromJson(json.decode(response.body));
   }
 
   static Future<String?> delete(String route, dynamic id) async {
@@ -157,10 +166,12 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      return json.decode(response.body)['payload'];
+      return PayloadResponse.fromJson(json.decode(response.body)).payload;
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body)).message;
+    } else {
+      return null;
     }
-
-    return null;
   }
 
   static Future<dynamic> getDojam(int projekcijaId) async {
@@ -180,8 +191,10 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return PayloadResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body));
+    } else {
+      return null;
     }
-
-    return ErrorResponse.fromJson(json.decode(response.body));
   }
 }

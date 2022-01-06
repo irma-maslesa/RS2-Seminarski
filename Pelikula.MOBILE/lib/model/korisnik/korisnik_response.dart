@@ -10,8 +10,6 @@ class KorisnikResponse {
   String? email;
   String? spol;
   DateTime? datumRodjenja;
-  List<int>? slika;
-  List<int>? slikaThumb;
   String? lozinkaHash;
   String? lozinkaSalt;
   String? lozinka;
@@ -26,8 +24,6 @@ class KorisnikResponse {
       this.email,
       this.spol,
       this.datumRodjenja,
-      this.slika,
-      this.slikaThumb,
       this.lozinkaHash,
       this.lozinkaSalt,
       this.lozinka,
@@ -39,15 +35,9 @@ class KorisnikResponse {
         korisnickoIme: json['korisnickoIme'] as String,
         ime: json['ime'] as String,
         prezime: json['prezime'] as String,
-        email: json['prezime'] as String,
+        email: json['email'] as String,
         spol: json['spol'] as String,
         datumRodjenja: DateTime.tryParse(json['datumRodjenja']),
-        slika: json['slika'] != null
-            ? base64.decode(json['slika'] as String)
-            : null,
-        slikaThumb: json['slikaThumb'] != null
-            ? base64.decode(json['slikaThumb'] as String)
-            : null,
         lozinkaHash: json['lozinkaHash'] as String,
         lozinkaSalt: json['lozinkaSalt'] as String,
         lozinka: json['lozinka'] != null ? json['lozinka'] as String : null,
@@ -63,8 +53,6 @@ class KorisnikResponse {
         "spol": spol,
         "datumRodjenja":
             datumRodjenja == null ? null : datumRodjenja!.toIso8601String(),
-        "slika": slika,
-        "slikaThumb": slikaThumb,
         "lozinkaHash": lozinkaHash,
         "lozinkaSalt": lozinkaSalt,
         "lozinka": lozinka,

@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
       home: const Prijava(),
       routes: const {
         /* '/kupovina': (context) => Kupovina(),
-        '/dojam': (context) => Dojam(),
         '/preporuceno': (context) => Preporuceno(),
         '/rezervacije': (context) => Rezervacije(),
         '/kupovine': (context) => Kupovine(),*/

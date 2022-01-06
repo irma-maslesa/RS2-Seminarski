@@ -107,9 +107,13 @@ class _ProjekcijeState extends State<Projekcije> {
           return const Center(
             child: Text("Nema rezultata"),
           );
-        } else {
+        } else if (snapshot.data is ErrorResponse) {
           return Center(
             child: Text((snapshot.data as ErrorResponse).message as String),
+          );
+        } else {
+          return const Center(
+            child: Text("Došlo je do greške!"),
           );
         }
       },
@@ -214,9 +218,13 @@ class _ProjekcijeState extends State<Projekcije> {
                   OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
             ),
           );
-        } else {
+        } else if (snapshot.data is ErrorResponse) {
           return Center(
             child: Text((snapshot.data as ErrorResponse).message as String),
+          );
+        } else {
+          return const Center(
+            child: Text("Došlo je do greške!"),
           );
         }
       },
