@@ -143,6 +143,24 @@ namespace Pelikula.CORE.Impl
             return new ListPayloadResponse<LoV>(HttpStatusCode.OK, responseList);
         }
 
+        public PayloadResponse<KorisnikResponse> UrediProfil(int id, KorisnikRegistracijaRequest request) {
+            Validator.ValidateEntityExists(id);
+            Validator.ValidateEmail(request.Email, id);
+            Validator.ValidateKorisnickoIme(request.KorisnickoIme, id);
 
+            Korisnik entity = Context.Set<Korisnik>().Find(id);
+            entity.LozinkaSalt = PasswordHelper.GenerateSalt();
+            entity.LozinkaHash = PasswordHelper.GenerateHash(entity.LozinkaSalt, request.Lozinka);
+
+            entity = Mapper.Map(request, entity);
+
+            Context.Set<Korisnik>().Update(entity);
+            Context.SaveChanges();
+
+            KorisnikResponse response = Mapper.Map<Korisnik, KorisnikResponse>(entity);
+
+            return new PayloadResponse<KorisnikResponse>(HttpStatusCode.OK, response);
+
+        }
     }
 }

@@ -9,7 +9,8 @@ namespace Pelikula.DAO.Model
 {
     public partial class Projekcija
     {
-        public Projekcija() {
+        public Projekcija()
+        {
             Dojam = new HashSet<Dojam>();
             ProjekcijaKorisnik = new HashSet<ProjekcijaKorisnik>();
             ProjekcijaTermin = new HashSet<ProjekcijaTermin>();

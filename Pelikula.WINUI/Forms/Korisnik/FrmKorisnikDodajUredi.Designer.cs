@@ -37,7 +37,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.btnSpremi = new System.Windows.Forms.Button();
             this.err = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dtpDatumRodjenja = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
@@ -52,15 +51,8 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.label3 = new System.Windows.Forms.Label();
             this.txtPrezime = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.pbSlika = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnDodajSliku = new System.Windows.Forms.Button();
-            this.ofdSlika = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.err)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSlika)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtIme
@@ -73,7 +65,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             // 
             // btnOcisti
             // 
-            this.btnOcisti.Location = new System.Drawing.Point(404, 283);
+            this.btnOcisti.Location = new System.Drawing.Point(202, 283);
             this.btnOcisti.Name = "btnOcisti";
             this.btnOcisti.Size = new System.Drawing.Size(75, 23);
             this.btnOcisti.TabIndex = 10;
@@ -92,7 +84,7 @@ namespace Pelikula.WINUI.Forms.Korisnik
             // 
             // btnSpremi
             // 
-            this.btnSpremi.Location = new System.Drawing.Point(485, 283);
+            this.btnSpremi.Location = new System.Drawing.Point(283, 283);
             this.btnSpremi.Name = "btnSpremi";
             this.btnSpremi.Size = new System.Drawing.Size(75, 23);
             this.btnSpremi.TabIndex = 7;
@@ -106,7 +98,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.pictureBox1);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.dtpDatumRodjenja);
             this.groupBox2.Controls.Add(this.label8);
@@ -123,24 +114,13 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.txtIme);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(214, 12);
+            this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(347, 264);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Informacije";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(305, 209);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(15, 15);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 24;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.PictureBox1_Click);
-            // 
+                        // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -262,46 +242,11 @@ namespace Pelikula.WINUI.Forms.Korisnik
             this.label2.TabIndex = 10;
             this.label2.Text = "Prezime";
             // 
-            // pbSlika
-            // 
-            this.pbSlika.Location = new System.Drawing.Point(6, 19);
-            this.pbSlika.Name = "pbSlika";
-            this.pbSlika.Size = new System.Drawing.Size(184, 245);
-            this.pbSlika.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbSlika.TabIndex = 13;
-            this.pbSlika.TabStop = false;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnDodajSliku);
-            this.groupBox1.Controls.Add(this.pbSlika);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(196, 300);
-            this.groupBox1.TabIndex = 13;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Slika";
-            // 
-            // btnDodajSliku
-            // 
-            this.btnDodajSliku.Location = new System.Drawing.Point(6, 271);
-            this.btnDodajSliku.Name = "btnDodajSliku";
-            this.btnDodajSliku.Size = new System.Drawing.Size(184, 23);
-            this.btnDodajSliku.TabIndex = 24;
-            this.btnDodajSliku.Text = "Dodaj sliku";
-            this.btnDodajSliku.UseVisualStyleBackColor = true;
-            this.btnDodajSliku.Click += new System.EventHandler(this.BtnDodajSliku_Click);
-            // 
-            // ofdSlika
-            // 
-            this.ofdSlika.FileName = "openFileDialog1";
-            // 
             // FrmKorisnikDodajUredi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(573, 323);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(378, 323);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnOcisti);
             this.Controls.Add(this.btnSpremi);
@@ -311,9 +256,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
             ((System.ComponentModel.ISupportInitialize)(this.err)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSlika)).EndInit();
-            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -325,9 +267,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSpremi;
         private System.Windows.Forms.ErrorProvider err;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnDodajSliku;
-        private System.Windows.Forms.PictureBox pbSlika;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dtpDatumRodjenja;
@@ -343,7 +282,5 @@ namespace Pelikula.WINUI.Forms.Korisnik
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPrezime;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.OpenFileDialog ofdSlika;
-        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

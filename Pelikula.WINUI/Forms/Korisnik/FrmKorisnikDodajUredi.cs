@@ -78,11 +78,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
             if (_initial.DatumRodjenja != null)
                 dtpDatumRodjenja.Value = _initial.DatumRodjenja.Value;
 
-            if (_initial.SlikaThumb != null && _initial.SlikaThumb.Length > 0)
-                pbSlika.Image = (Bitmap)((new ImageConverter()).ConvertFrom(_initial.SlikaThumb));
-            else
-                pbSlika.Image = null;
-
             if (!_prijavljeniKorisnik.TipKorisnika.Naziv.Equals(KorisnikTip.Radnik.ToString()))
                 cbTipKorisnika.SelectedItem = tipKorisnikaList.FirstOrDefault(e => e.Id == _initial.TipKorisnika?.Id);
             else
@@ -99,11 +94,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
                 _request.Spol = cbSpol.SelectedItem?.ToString().Substring(0, 1);
                 _request.DatumRodjenja = dtpDatumRodjenja?.Value;
                 _request.KorisnickoIme = txtKorisnickoIme.Text.ToLower();
-
-                if (_request.Slika == null && _request.SlikaThumb == null) {
-                    _request.Slika = _initial.Slika;
-                    _request.SlikaThumb = _initial.SlikaThumb;
-                }
 
                 if (!string.IsNullOrEmpty(txtLozinka.Text.Trim())) {
                     _request.LozinkaSalt = PasswordHelper.GenerateSalt();
@@ -142,26 +132,6 @@ namespace Pelikula.WINUI.Forms.Korisnik
 
         private void BtnOcisti_Click(object sender, EventArgs e) {
             SetValues();
-        }
-
-        private void PictureBox1_Click(object sender, EventArgs e) {
-            if (txtLozinka.PasswordChar == '*')
-                txtLozinka.PasswordChar = new char();
-            else
-                txtLozinka.PasswordChar = '*';
-        }
-
-        private void BtnDodajSliku_Click(object sender, EventArgs e) {
-            ofdSlika.ShowDialog();
-
-            var slikaData = SaveImageHelper.PrepareSaveImage(ofdSlika.FileName);
-
-            if (slikaData != null) {
-                _request.Slika = slikaData.OriginalImageBytes;
-                _request.SlikaThumb = slikaData.CroppedImageBytes;
-                pbSlika.Image = (Bitmap)((new ImageConverter()).ConvertFrom(slikaData.CroppedImageBytes));
-            }
-
         }
 
 

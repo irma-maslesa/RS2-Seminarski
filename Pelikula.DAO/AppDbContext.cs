@@ -245,9 +245,13 @@ namespace Pelikula.DAO
                     .IsRequired()
                     .HasMaxLength(250);
 
-                entity.Property(e => e.LozinkaHash).HasMaxLength(250);
+                entity.Property(e => e.LozinkaHash)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
-                entity.Property(e => e.LozinkaSalt).HasMaxLength(250);
+                entity.Property(e => e.LozinkaSalt)
+                    .IsRequired()
+                    .HasMaxLength(250);
 
                 entity.Property(e => e.Prezime)
                     .IsRequired()

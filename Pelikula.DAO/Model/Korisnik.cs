@@ -9,7 +9,8 @@ namespace Pelikula.DAO.Model
 {
     public partial class Korisnik
     {
-        public Korisnik() {
+        public Korisnik()
+        {
             Anketa = new HashSet<Anketa>();
             AnketaOdgovorKorisnik = new HashSet<AnketaOdgovorKorisnik>();
             Dojam = new HashSet<Dojam>();
@@ -29,8 +30,6 @@ namespace Pelikula.DAO.Model
         public string Email { get; set; }
         public string Spol { get; set; }
         public DateTime DatumRodjenja { get; set; }
-        public byte[] Slika { get; set; }
-        public byte[] SlikaThumb { get; set; }
 
         public virtual TipKorisnika TipKorisnika { get; set; }
         public virtual ICollection<Anketa> Anketa { get; set; }

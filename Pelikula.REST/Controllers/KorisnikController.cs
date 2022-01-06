@@ -39,6 +39,12 @@ namespace API.Controllers
         }
 
         [Authorize]
+        [HttpPut("uredi-profil/{id}")]
+        public virtual PayloadResponse<KorisnikResponse> Update(int id, [FromBody] KorisnikRegistracijaRequest dtoObject) {
+            return Service.UrediProfil(id, dtoObject);
+        }
+
+        [Authorize]
         [HttpGet("{projekcijaTerminId}/{bezRezervacije}/klijenti")]
         public virtual ListPayloadResponse<LoV> GetKlijentiForTermin(int projekcijaTerminId, bool bezRezervacije) {
             return Service.GetKlijentiForTermin(projekcijaTerminId, bezRezervacije);

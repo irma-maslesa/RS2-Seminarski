@@ -26,7 +26,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet("aktivne")]
-        public PagedPayloadResponse<ProjekcijaResponse> GetActive([FromQuery] string naziv, [FromQuery] int? zanrId, [FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
+        public PagedPayloadResponse<ProjekcijaResponse> GetActive([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting) {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
             IEnumerable<FilterUtility.FilterParams> filterParams = new List<FilterUtility.FilterParams>();

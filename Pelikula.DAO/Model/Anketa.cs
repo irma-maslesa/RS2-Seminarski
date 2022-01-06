@@ -9,7 +9,8 @@ namespace Pelikula.DAO.Model
 {
     public partial class Anketa
     {
-        public Anketa() {
+        public Anketa()
+        {
             AnketaOdgovor = new HashSet<AnketaOdgovor>();
         }
 
