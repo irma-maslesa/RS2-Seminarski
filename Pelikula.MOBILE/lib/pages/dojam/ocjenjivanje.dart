@@ -41,8 +41,9 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
         await ApiService.put("Dojam", dojamId!, json.encode(request.toJson()));
   }
 
-  Future<void> _showDialog(String text) async {
+  Future<void> _showDialog(String text, [dismissable = true]) async {
     return showDialog<void>(
+      barrierDismissible: dismissable,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -89,8 +90,8 @@ class _OcjenjivanjeState extends State<Ocjenjivanje> {
               _showDialog('Došlo je do greške, pokušajte opet! ');
             } else if (response is PayloadResponse) {
               dojamId == null
-                  ? await _showDialog('Vaša ocjena je pohranjena!')
-                  : await _showDialog('Vaša ocjena je uređena!');
+                  ? await _showDialog('Vaša ocjena je pohranjena!', false)
+                  : await _showDialog('Vaša ocjena je uređena!', false);
               Navigator.of(context).pop();
             } else {
               _showDialog((response as ErrorResponse).message as String);

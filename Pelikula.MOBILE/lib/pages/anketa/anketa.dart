@@ -113,7 +113,7 @@ class _AnketeState extends State<Ankete> {
       SortingParams(sortOrder: "DESC", columnName: "datum")
     ];
     String sorting = json.encode(sortingParams);
-    var response = await ApiService.get(
+    var response = await ApiService.getPaged(
         "Anketa/korisnik/${ApiService.korisnikId}", {"sorting": sorting});
     return response;
   }

@@ -36,9 +36,10 @@ class PrikazAnkete extends StatelessWidget {
     TextStyle styleDatum =
         const TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300);
 
-    Future<void> _showDialog(String text) async {
+    Future<void> _showDialog(String text, [dismissable = true]) async {
       return showDialog<void>(
         context: context,
+        barrierDismissible: dismissable,
         builder: (BuildContext context) {
           return AlertDialog(
             content: Text(text),
@@ -89,7 +90,7 @@ class PrikazAnkete extends StatelessWidget {
               if (response == null) {
                 _showDialog('Došlo je do greške, pokušajte opet! ');
               } else if (response is PayloadResponse) {
-                _showDialog('Vaš odgovor je pohranjen!');
+                _showDialog('Vaš odgovor je pohranjen!', false);
               } else {
                 _showDialog((response as ErrorResponse).message as String);
               }

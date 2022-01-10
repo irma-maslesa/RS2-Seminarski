@@ -6,9 +6,7 @@ namespace Pelikula.API.Model.Rezervacija
     public class RezervacijaUpsertRequest
     {
         public int BrojSjedista { get; set; }
-        public decimal Cijena { get; set; }
         public DateTime Datum { get; set; }
-        public DateTime DatumProjekcije { get; set; }
         public DateTime? DatumProdano { get; set; }
         public DateTime? DatumOtkazano { get; set; }
 

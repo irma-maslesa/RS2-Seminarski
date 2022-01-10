@@ -53,14 +53,14 @@ namespace Pelikula.DAO.Migrations
                         new
                         {
                             Id = 1,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 1,
                             Naslov = "Omiljeni fimski žanr?"
                         },
                         new
                         {
                             Id = 2,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 2,
                             Naslov = "Omiljeni klasik?"
                         });
@@ -213,28 +213,28 @@ namespace Pelikula.DAO.Migrations
                         {
                             Id = 1,
                             AnketaOdgovorId = 1,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 4
                         },
                         new
                         {
                             Id = 2,
                             AnketaOdgovorId = 5,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 6
                         },
                         new
                         {
                             Id = 3,
                             AnketaOdgovorId = 7,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 4
                         },
                         new
                         {
                             Id = 4,
                             AnketaOdgovorId = 10,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 6
                         });
                 });
@@ -352,7 +352,7 @@ namespace Pelikula.DAO.Migrations
                         new
                         {
                             Id = 1,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 4,
                             Ocjena = 5,
                             ProjekcijaId = 1,
@@ -361,7 +361,7 @@ namespace Pelikula.DAO.Migrations
                         new
                         {
                             Id = 2,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 6,
                             Ocjena = 4,
                             ProjekcijaId = 1,
@@ -370,7 +370,7 @@ namespace Pelikula.DAO.Migrations
                         new
                         {
                             Id = 3,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 6,
                             Ocjena = 5,
                             ProjekcijaId = 2
@@ -767,10 +767,12 @@ namespace Pelikula.DAO.Migrations
                         .HasMaxLength(250);
 
                     b.Property<string>("LozinkaHash")
+                        .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
                     b.Property<string>("LozinkaSalt")
+                        .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
@@ -778,12 +780,6 @@ namespace Pelikula.DAO.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
-
-                    b.Property<byte[]>("Slika")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("SlikaThumb")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Spol")
                         .IsRequired()
@@ -809,8 +805,8 @@ namespace Pelikula.DAO.Migrations
                             Email = "administrator@pelikula.com",
                             Ime = "Administrator",
                             KorisnickoIme = "administrator",
-                            LozinkaHash = "A12uqZ5C0lglHCz/EHOzPtEQLulJKDyPZP6DUAbkY2s=",
-                            LozinkaSalt = "fCy+DvCksIn8qN6LWMzMHw==",
+                            LozinkaHash = "qCJHdY3tSw972cyYUkZccvMkxfkoHICsDFGY24L2Dvs=",
+                            LozinkaSalt = "TXbzHJlXf+V49N27KVKXyQ==",
                             Prezime = "Administrator",
                             Spol = "M",
                             TipKorisnikaId = 1
@@ -822,8 +818,8 @@ namespace Pelikula.DAO.Migrations
                             Email = "moderator@pelikula.com",
                             Ime = "Moderator",
                             KorisnickoIme = "moderator",
-                            LozinkaHash = "NgdAz6fPvliB4656yBrVrG7J0GkqDPqHUqEGusU2w7E=",
-                            LozinkaSalt = "FUFQiylzT8c7rq3iG0v2AA==",
+                            LozinkaHash = "htxACYbUsOpFnCkZJ1hCHEPOY4BKT2u/MEJ9NPs7oaw=",
+                            LozinkaSalt = "bjDfJadD/FVTE3mkZ34sWw==",
                             Prezime = "Moderator",
                             Spol = "Ž",
                             TipKorisnikaId = 2
@@ -835,8 +831,8 @@ namespace Pelikula.DAO.Migrations
                             Email = "radnik@pelikula.com",
                             Ime = "Radnik",
                             KorisnickoIme = "radnik",
-                            LozinkaHash = "Nd6bPVilHV/w96qpMsIfUQyw/Z4pZ1WzJejCNm48ojs=",
-                            LozinkaSalt = "fbD5V3to2iRmp7RQZZP4vg==",
+                            LozinkaHash = "SKtMUIh//9lHg4uWhypfs0+7VhoD//9YtK4oJ9DS8tA=",
+                            LozinkaSalt = "9eAED2HBplpxapyvUtGBnA==",
                             Prezime = "Radnik",
                             Spol = "M",
                             TipKorisnikaId = 3
@@ -848,8 +844,8 @@ namespace Pelikula.DAO.Migrations
                             Email = "klijent@pelikula.com",
                             Ime = "Klijent",
                             KorisnickoIme = "klijent",
-                            LozinkaHash = "Aw05B5zz/II5B9hSZxt/2jKXLNiwDK7Vbt7TiGlDhpE=",
-                            LozinkaSalt = "BgTX5f5LT5xsIJqT6ue98w==",
+                            LozinkaHash = "+8atinHUJ7cEeSiih0ZdZsenH8m8XrqsQ4Sg7sRdcrw=",
+                            LozinkaSalt = "ZjH7deIgItqF1dz0cAYEJw==",
                             Prezime = "Klijent",
                             Spol = "Ž",
                             TipKorisnikaId = 4
@@ -861,8 +857,8 @@ namespace Pelikula.DAO.Migrations
                             Email = "desktop@pelikula.com",
                             Ime = "Desktop",
                             KorisnickoIme = "desktop",
-                            LozinkaHash = "LPRZXWx3/Pch2U0ss9XBMlNZPPhM0bijmhX6hqitYYw=",
-                            LozinkaSalt = "uUUpEtUt1/Ugc8nVLsKyBQ==",
+                            LozinkaHash = "I7PKdrcQtanGOA31SrDDGLLOguX3jIyG2lg1GO++QLE=",
+                            LozinkaSalt = "r0F5iU15WcOVhz+iupdC3w==",
                             Prezime = "Desktop",
                             Spol = "M",
                             TipKorisnikaId = 1
@@ -874,8 +870,8 @@ namespace Pelikula.DAO.Migrations
                             Email = "mobile@pelikula.com",
                             Ime = "Mobile",
                             KorisnickoIme = "mobile",
-                            LozinkaHash = "uEAAtJ83GlBqaNFPh6lPoMvVnyhd4WFUBZlYWhVpTE4=",
-                            LozinkaSalt = "AL+srx+Vbpe5+FFvKyPmVw==",
+                            LozinkaHash = "c7aZmtJVAYjmOJw+XlmZX1N71PXBgUQCPncb5NASCBU=",
+                            LozinkaSalt = "/JQ1WJR4Dt1bFGcH0sAG8A==",
                             Prezime = "Mobile",
                             Spol = "Ž",
                             TipKorisnikaId = 4
@@ -918,7 +914,7 @@ namespace Pelikula.DAO.Migrations
                         new
                         {
                             Id = 1,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 1,
                             Naslov = "Dobro došli!",
                             Tekst = "Dobro došli na informacijski sistem za podršku rada kino centra!"
@@ -926,7 +922,7 @@ namespace Pelikula.DAO.Migrations
                         new
                         {
                             Id = 2,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 2,
                             Naslov = "Stigla je nova Pelikula aplikacija!",
                             Tekst = "Slušali smo vaše prijedloge te vam s ponosom predstavljamo novu Pelikula aplikaciju. Preuzmite novu Pelikula aplikaciju već danas! Nova aplikacija donosi nove značajke: digitalnu bonus karticu, jednostavnu i brzu kupovinu kinoulaznica te još mnogo toga."
@@ -967,7 +963,7 @@ namespace Pelikula.DAO.Migrations
                         {
                             Id = 1,
                             BrojRacuna = "1234abc-def56",
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             KorisnikId = 3,
                             RezervacijaId = 1
                         });
@@ -1055,21 +1051,21 @@ namespace Pelikula.DAO.Migrations
                         {
                             Id = 1,
                             Cijena = 7.5m,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             FilmId = 1,
                             SalaId = 1,
-                            VrijediDo = new DateTime(2021, 12, 29, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            VrijediOd = new DateTime(2021, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            VrijediDo = new DateTime(2022, 1, 11, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            VrijediOd = new DateTime(2022, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             Cijena = 5.5m,
-                            Datum = new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
+                            Datum = new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
                             FilmId = 2,
                             SalaId = 2,
-                            VrijediDo = new DateTime(2021, 12, 29, 23, 59, 59, 0, DateTimeKind.Unspecified),
-                            VrijediOd = new DateTime(2021, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            VrijediDo = new DateTime(2022, 1, 8, 23, 59, 59, 0, DateTimeKind.Unspecified),
+                            VrijediOd = new DateTime(2022, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1133,49 +1129,85 @@ namespace Pelikula.DAO.Migrations
                         {
                             Id = 1,
                             ProjekcijaId = 1,
-                            Termin = new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified)
+                            Termin = new DateTime(2022, 1, 7, 13, 30, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             ProjekcijaId = 1,
-                            Termin = new DateTime(2021, 12, 27, 18, 40, 0, 0, DateTimeKind.Unspecified)
+                            Termin = new DateTime(2022, 1, 7, 18, 40, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
                             ProjekcijaId = 1,
-                            Termin = new DateTime(2021, 12, 29, 13, 30, 0, 0, DateTimeKind.Unspecified)
+                            Termin = new DateTime(2022, 1, 8, 13, 30, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
                             ProjekcijaId = 1,
-                            Termin = new DateTime(2021, 12, 29, 18, 40, 0, 0, DateTimeKind.Unspecified)
+                            Termin = new DateTime(2022, 1, 8, 18, 40, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 5,
                             ProjekcijaId = 2,
-                            Termin = new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified)
+                            Termin = new DateTime(2022, 1, 6, 13, 30, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 6,
                             ProjekcijaId = 2,
-                            Termin = new DateTime(2021, 12, 27, 18, 40, 0, 0, DateTimeKind.Unspecified)
+                            Termin = new DateTime(2022, 1, 6, 18, 40, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 7,
                             ProjekcijaId = 2,
-                            Termin = new DateTime(2021, 12, 29, 13, 30, 0, 0, DateTimeKind.Unspecified)
+                            Termin = new DateTime(2022, 1, 8, 13, 30, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 8,
                             ProjekcijaId = 2,
-                            Termin = new DateTime(2021, 12, 29, 18, 40, 0, 0, DateTimeKind.Unspecified)
+                            Termin = new DateTime(2022, 1, 8, 18, 40, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ProjekcijaId = 1,
+                            Termin = new DateTime(2022, 1, 9, 13, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ProjekcijaId = 1,
+                            Termin = new DateTime(2022, 1, 9, 18, 40, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ProjekcijaId = 1,
+                            Termin = new DateTime(2022, 1, 10, 13, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ProjekcijaId = 1,
+                            Termin = new DateTime(2022, 1, 10, 18, 40, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ProjekcijaId = 1,
+                            Termin = new DateTime(2022, 1, 11, 13, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ProjekcijaId = 1,
+                            Termin = new DateTime(2022, 1, 11, 18, 40, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1229,9 +1261,9 @@ namespace Pelikula.DAO.Migrations
                             Id = 1,
                             BrojSjedista = 2,
                             Cijena = 15m,
-                            Datum = new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
-                            DatumProdano = new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
-                            DatumProjekcije = new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified),
+                            Datum = new DateTime(2022, 1, 8, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
+                            DatumProdano = new DateTime(2022, 1, 8, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
+                            DatumProjekcije = new DateTime(2022, 1, 6, 13, 30, 0, 0, DateTimeKind.Unspecified),
                             KorisnikId = 4,
                             ProjekcijaTerminId = 1
                         },
@@ -1240,8 +1272,8 @@ namespace Pelikula.DAO.Migrations
                             Id = 2,
                             BrojSjedista = 1,
                             Cijena = 5.5m,
-                            Datum = new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024),
-                            DatumProjekcije = new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified),
+                            Datum = new DateTime(2022, 1, 8, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909),
+                            DatumProjekcije = new DateTime(2022, 1, 6, 13, 30, 0, 0, DateTimeKind.Unspecified),
                             KorisnikId = 6,
                             ProjekcijaTerminId = 5
                         });

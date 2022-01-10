@@ -88,10 +88,9 @@ namespace Pelikula.CORE.Impl
             var projekcijaTermin = Context.ProjekcijaTermin.FirstOrDefault(e => e.Id == request.ProjekcijaTerminId);
             var projekcija = Context.Projekcija.FirstOrDefault(e => e.Id == projekcijaTermin.ProjekcijaId);
 
-            request.DatumProjekcije = projekcijaTermin.Termin;
-            request.Cijena = request.BrojSjedista * projekcija.Cijena;
-
             Rezervacija entity = Mapper.Map<RezervacijaUpsertRequest, Rezervacija>(request);
+            entity.DatumProjekcije = projekcijaTermin.Termin;
+            entity.Cijena = entity.BrojSjedista * projekcija.Cijena;
 
             entity = Context.Set<Rezervacija>().Add(entity).Entity;
 
@@ -124,12 +123,13 @@ namespace Pelikula.CORE.Impl
             var projekcijaTermin = Context.ProjekcijaTermin.FirstOrDefault(e => e.Id == request.ProjekcijaTerminId);
             var projekcija = Context.Projekcija.FirstOrDefault(e => e.Id == projekcijaTermin.ProjekcijaId);
 
-            request.DatumProjekcije = projekcijaTermin.Termin;
-            request.Cijena = request.BrojSjedista * projekcija.Cijena;
-
+            
             Rezervacija entity = Context.Set<Rezervacija>().Include(e => e.SjedisteRezervacija).FirstOrDefault(e => e.Id == id);
             var sjedisteRezervacijaForDelete = entity.SjedisteRezervacija.Where(e => !request.SjedistaIds.Contains(e.SjedisteId)).ToList();
             Context.SjedisteRezervacija.RemoveRange(sjedisteRezervacijaForDelete);
+
+            entity.DatumProjekcije = projekcijaTermin.Termin;
+            entity.Cijena = entity.BrojSjedista * projekcija.Cijena;
 
             entity = Mapper.Map(request, entity);
 

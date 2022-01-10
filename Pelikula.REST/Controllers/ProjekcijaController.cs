@@ -83,6 +83,12 @@ namespace API.Controllers
         }
 
         [Authorize]
+        [HttpGet("{projekcijaId}/aktivni-termini/{korisnikId}")]
+        public ListPayloadResponse<LoV> GetAktivneTermineZaKorisnika(int projekcijaId, int korisnikId) {
+            return Service.GetAktivneTermineZaKorisnika(projekcijaId, korisnikId);
+        }
+
+        [Authorize]
         [HttpGet("aktivne/details")]
         public PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting, string naziv, int? zanrId) {
             StringBuilder stringBuilder = new StringBuilder();

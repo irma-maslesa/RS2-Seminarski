@@ -19,5 +19,6 @@ namespace Pelikula.API.Api
 
         ListPayloadResponse<LoV> GetTermine(int projekcijaId);
         ListPayloadResponse<LoV> GetAktivneTermine(int projekcijaId);
+        ListPayloadResponse<LoV> GetAktivneTermineZaKorisnika(int projekcijaId, int korisnikId);
     }
 }
