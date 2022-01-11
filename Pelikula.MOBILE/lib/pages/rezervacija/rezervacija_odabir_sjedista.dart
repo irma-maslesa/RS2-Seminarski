@@ -3,7 +3,6 @@ import 'dart:core';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pelikula_mobile/model/lov.dart';
 import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
@@ -211,9 +210,9 @@ class _RezervacijaOdabirSjedistaState extends State<RezervacijaOdabirSjedista> {
   Future<dynamic> getSjedista(odabraniTermin) async {
     widgetList = [];
     dynamic response =
-        await ApiService.get("Sala/${widget.projekcija.id}/sjedista", null);
+        await ApiService.get("Sala/${widget.projekcija.id}/sjedista");
     dynamic responseZauzeta = await ApiService.get(
-        "Sala/${widget.request.projekcijaTerminId}/zauzeta-sjedista", null);
+        "Sala/${widget.request.projekcijaTerminId}/zauzeta-sjedista");
 
     if (responseZauzeta is ListPayloadResponse) {
       zauzetaSjedista = responseZauzeta.payload
@@ -221,8 +220,6 @@ class _RezervacijaOdabirSjedistaState extends State<RezervacijaOdabirSjedista> {
           .toList()
           .cast<LoV>()
           .toList();
-
-      print(zauzetaSjedista);
     }
 
     if (response is ListPayloadResponse) {

@@ -87,13 +87,8 @@ class ApiService {
     }
   }
 
-  static Future<dynamic> get(String route, dynamic object) async {
-    String queryString = Uri(queryParameters: object).query;
+  static Future<dynamic> get(String route) async {
     String baseUrl = _baseRoute + route;
-
-    if (object != null) {
-      baseUrl = baseUrl + '?' + queryString;
-    }
 
     final String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));

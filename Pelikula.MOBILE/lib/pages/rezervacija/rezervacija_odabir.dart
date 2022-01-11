@@ -176,8 +176,7 @@ class _RezervacijaOdabirState extends State<RezervacijaOdabir> {
 
   Future<dynamic> getAktivniTermini(odabraniTermin) async {
     dynamic response = await ApiService.get(
-        "Projekcija/${widget.projekcija.id}/aktivni-termini/${ApiService.korisnikId}",
-        null);
+        "Projekcija/${widget.projekcija.id}/aktivni-termini/${ApiService.korisnikId}");
 
     if (response is ListPayloadResponse) {
       termini = (response.payload

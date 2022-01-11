@@ -86,7 +86,7 @@ class _UrediProfilState extends State<UrediProfil> {
 
     Future<void> _showDialog(String text, [dismissable = true]) async {
       return showDialog<void>(
-        barrierDismissible: false,
+        barrierDismissible: dismissable,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
