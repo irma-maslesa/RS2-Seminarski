@@ -1,18 +1,16 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 import 'package:pelikula_mobile/model/lov.dart';
-import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/pages/helper/drawer.dart';
-import 'package:pelikula_mobile/pages/projekcija/prikaz_projekcije.dart';
+import 'package:pelikula_mobile/pages/projekcija/lista_projekcija.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Projekcije extends StatefulWidget {
-  const Projekcije({Key? key}) : super(key: key);
+  final bool aktivno;
+
+  const Projekcije(this.aktivno, {Key? key}) : super(key: key);
 
   @override
   _ProjekcijeState createState() => _ProjekcijeState();
@@ -53,7 +51,7 @@ class _ProjekcijeState extends State<Projekcije> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Projekcije"),
+        title: widget.aktivno ? const Text("Projekcije") : const Text("Najave"),
       ),
       drawer: const MyDrawer(),
       body: Column(children: [
@@ -80,19 +78,13 @@ class _ProjekcijeState extends State<Projekcije> {
           );
         } else if (snapshot.data is PagedPayloadResponse &&
             snapshot.data.payload.length > 0) {
-          return ListView(
-            children: (snapshot.data.payload
-                    .map((e) => ProjekcijaDetailedResponse.fromJson(e))
-                    .toList()
-                    .cast<ProjekcijaDetailedResponse>() as List)
-                .map((e) => projekcijaWidget(e))
-                .toList()
-                .cast<Widget>(),
-          );
+          return ListaProjekcija(snapshot.data.payload, widget.aktivno);
         } else if (snapshot.data is PagedPayloadResponse &&
             snapshot.data.payload.length == 0) {
-          return const Center(
-            child: Text("Nema rezultata"),
+          return Center(
+            child: widget.aktivno
+                ? const Text("Nema projekcija")
+                : const Text("Nema najavljenih projekcija"),
           );
         } else if (snapshot.data is ErrorResponse) {
           return Center(
@@ -110,6 +102,10 @@ class _ProjekcijeState extends State<Projekcije> {
   Future<dynamic> getProjekcije(String? naziv, int? zanrId) async {
     Map<String, dynamic> params = {};
 
+    var path = widget.aktivno
+        ? "Projekcija/aktivne/details"
+        : "Projekcija/comming-soon/details";
+
     if (naziv != null && naziv.trim().isNotEmpty) {
       params["naziv"] = naziv;
     }
@@ -119,57 +115,10 @@ class _ProjekcijeState extends State<Projekcije> {
     }
 
     dynamic response = params.isEmpty
-        ? await ApiService.getPaged("Projekcija/aktivne/details", null)
-        : await ApiService.getPaged("Projekcija/aktivne/details", params);
+        ? await ApiService.getPaged(path, null)
+        : await ApiService.getPaged(path, params);
 
     return response;
-  }
-
-  Widget projekcijaWidget(ProjekcijaDetailedResponse projekcija) {
-    TextStyle styleNaslov = const TextStyle(
-        fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black);
-    TextStyle styleTekst = const TextStyle(
-        fontSize: 20.0, fontWeight: FontWeight.w300, color: Colors.black);
-
-    return Card(
-      child: TextButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PrikazProjekcije(projekcija)));
-        },
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: projekcija.film!.plakatThumb != null &&
-                      projekcija.film!.plakatThumb!.isNotEmpty
-                  ? Image(
-                      image: MemoryImage(
-                          Uint8List.fromList(projekcija.film!.plakatThumb!)),
-                      width: 135,
-                    )
-                  : const Image(
-                      image: AssetImage('assets/no-image.png'),
-                      width: 135,
-                    ),
-            ),
-            const SizedBox(
-              width: 30,
-            ),
-            Column(
-              children: [
-                Text(projekcija.film!.naslov!, style: styleNaslov),
-                Text("Cijena: ${projekcija.cijena.toString()} KM",
-                    style: styleTekst),
-                Text(
-                    "Vrijedi do: ${DateFormat('dd/MM/yyyy').format(projekcija.vrijediDo!)}",
-                    style: styleTekst)
-              ],
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   Widget ddZanr() {
