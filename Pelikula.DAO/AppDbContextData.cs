@@ -1062,8 +1062,8 @@ namespace Pelikula.DAO
                         SalaId = 1,
                         Cijena = 7.5M,
                         Datum = datum,
-                        VrijediOd = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 0, 0, 0),
-                        VrijediDo = new DateTime(datum.AddDays(1).Year, datum.AddDays(1).Month, datum.AddDays(1).Day, 23, 59, 59),
+                        VrijediOd = new DateTime(datum.AddDays(0).Year, datum.AddDays(0).Month, datum.AddDays(0).Day, 0, 0, 0),
+                        VrijediDo = new DateTime(datum.AddDays(4).Year, datum.AddDays(4).Month, datum.AddDays(4).Day, 23, 59, 59),
                     },
                     new Projekcija {
                         Id = 2,
@@ -1081,12 +1081,12 @@ namespace Pelikula.DAO
                     new ProjekcijaTermin {
                         Id = 1,
                         ProjekcijaId = 1,
-                        Termin = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 13, 30, 0)
+                        Termin = new DateTime(datum.AddDays(0).Year, datum.AddDays(0).Month, datum.AddDays(0).Day, 13, 30, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 2,
                         ProjekcijaId = 1,
-                        Termin = new DateTime(datum.AddDays(-1).Year, datum.AddDays(-1).Month, datum.AddDays(-1).Day, 18, 40, 0)
+                        Termin = new DateTime(datum.AddDays(0).Year, datum.AddDays(0).Month, datum.AddDays(0).Day, 18, 40, 0)
                     },
                     new ProjekcijaTermin {
                         Id = 3,
@@ -1117,6 +1117,36 @@ namespace Pelikula.DAO
                         Id = 8,
                         ProjekcijaId = 2,
                         Termin = new DateTime(datum.AddDays(1).Year, datum.AddDays(1).Month, datum.AddDays(1).Day, 18, 40, 0)
+                    },
+                    new ProjekcijaTermin {
+                        Id = 9,
+                        ProjekcijaId = 1,
+                        Termin = new DateTime(datum.AddDays(2).Year, datum.AddDays(2).Month, datum.AddDays(2).Day, 13, 30, 0)
+                    },
+                    new ProjekcijaTermin {
+                        Id = 10,
+                        ProjekcijaId = 1,
+                        Termin = new DateTime(datum.AddDays(2).Year, datum.AddDays(2).Month, datum.AddDays(2).Day, 18, 40, 0)
+                    },
+                    new ProjekcijaTermin {
+                        Id = 11,
+                        ProjekcijaId = 1,
+                        Termin = new DateTime(datum.AddDays(3).Year, datum.AddDays(3).Month, datum.AddDays(3).Day, 13, 30, 0)
+                    },
+                    new ProjekcijaTermin {
+                        Id = 12,
+                        ProjekcijaId = 1,
+                        Termin = new DateTime(datum.AddDays(3).Year, datum.AddDays(3).Month, datum.AddDays(3).Day, 18, 40, 0)
+                    },
+                    new ProjekcijaTermin {
+                        Id = 13,
+                        ProjekcijaId = 1,
+                        Termin = new DateTime(datum.AddDays(4).Year, datum.AddDays(4).Month, datum.AddDays(4).Day, 13, 30, 0)
+                    },
+                    new ProjekcijaTermin {
+                        Id = 14,
+                        ProjekcijaId = 1,
+                        Termin = new DateTime(datum.AddDays(4).Year, datum.AddDays(4).Month, datum.AddDays(4).Day, 18, 40, 0)
                     }
                 );
 

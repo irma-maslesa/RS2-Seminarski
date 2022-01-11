@@ -409,5 +409,27 @@ namespace Pelikula.WINUI
             }
         }
 
+        public async Task<PagedPayloadResponse<RezervacijaResponse>> GetRezervacijaNotProdaja(PaginationUtility.PaginationParams paginationParams, IEnumerable<FilterUtility.FilterParams> filterParams, IEnumerable<SortingUtility.SortingParams> sortingParams) {
+            var queryParams = new {
+                pagination = paginationParams != null ? JsonConvert.SerializeObject(paginationParams) : null,
+                filter = filterParams != null && filterParams.Any() ? JsonConvert.SerializeObject(filterParams) : null,
+                sorting = sortingParams != null && sortingParams.Any() ? JsonConvert.SerializeObject(sortingParams) : null
+            };
+
+            try {
+                return await new Uri(Properties.Settings.Default.ApiURL)
+                    .AppendPathSegment(_route)
+                    .AppendPathSegment("not-prodaja")
+                    .WithBasicAuth(_prijavljeniKorisnik?.KorisnickoIme, _prijavljeniKorisnik?.Lozinka)
+                    .SetQueryParams(queryParams)
+                    .GetJsonAsync<PagedPayloadResponse<RezervacijaResponse>>();
+            }
+            catch (FlurlHttpException ex) {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string>>();
+
+                return HandleException<PagedPayloadResponse<RezervacijaResponse>>(errors);
+            }
+        }
+
     }
 }

@@ -84,8 +84,9 @@ class _UrediProfilState extends State<UrediProfil> {
           ApiService.korisnikId!, json.encode(request.toJson()));
     }
 
-    Future<void> _showDialog(String text) async {
+    Future<void> _showDialog(String text, [dismissable = true]) async {
       return showDialog<void>(
+        barrierDismissible: dismissable,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -260,7 +261,7 @@ class _UrediProfilState extends State<UrediProfil> {
               var korisnik = KorisnikResponse.fromJson(response.payload);
               ApiService.setParameters(
                   korisnik.id!, korisnik.korisnickoIme!, request.lozinka!);
-              _showDialog('Profil uspješno uređen!');
+              _showDialog('Profil uspješno uređen!', false);
             } else {
               _showDialog((response as ErrorResponse).message as String);
             }

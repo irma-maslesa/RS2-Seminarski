@@ -88,10 +88,9 @@ namespace Pelikula.CORE.Impl
             var projekcijaTermin = Context.ProjekcijaTermin.FirstOrDefault(e => e.Id == request.ProjekcijaTerminId);
             var projekcija = Context.Projekcija.FirstOrDefault(e => e.Id == projekcijaTermin.ProjekcijaId);
 
-            request.DatumProjekcije = projekcijaTermin.Termin;
-            request.Cijena = request.BrojSjedista * projekcija.Cijena;
-
             Rezervacija entity = Mapper.Map<RezervacijaUpsertRequest, Rezervacija>(request);
+            entity.DatumProjekcije = projekcijaTermin.Termin;
+            entity.Cijena = entity.BrojSjedista * projekcija.Cijena;
 
             entity = Context.Set<Rezervacija>().Add(entity).Entity;
 
@@ -124,12 +123,13 @@ namespace Pelikula.CORE.Impl
             var projekcijaTermin = Context.ProjekcijaTermin.FirstOrDefault(e => e.Id == request.ProjekcijaTerminId);
             var projekcija = Context.Projekcija.FirstOrDefault(e => e.Id == projekcijaTermin.ProjekcijaId);
 
-            request.DatumProjekcije = projekcijaTermin.Termin;
-            request.Cijena = request.BrojSjedista * projekcija.Cijena;
-
+            
             Rezervacija entity = Context.Set<Rezervacija>().Include(e => e.SjedisteRezervacija).FirstOrDefault(e => e.Id == id);
             var sjedisteRezervacijaForDelete = entity.SjedisteRezervacija.Where(e => !request.SjedistaIds.Contains(e.SjedisteId)).ToList();
             Context.SjedisteRezervacija.RemoveRange(sjedisteRezervacijaForDelete);
+
+            entity.DatumProjekcije = projekcijaTermin.Termin;
+            entity.Cijena = entity.BrojSjedista * projekcija.Cijena;
 
             entity = Mapper.Map(request, entity);
 
@@ -203,6 +203,24 @@ namespace Pelikula.CORE.Impl
 
             PaginationUtility.PagedData<RezervacijaSimpleResponse> pagedResponse = PaginationUtility.Paginaion<RezervacijaSimpleResponse>.PaginateData(responseList, pagination);
             return new PagedPayloadResponse<RezervacijaSimpleResponse>(HttpStatusCode.OK, pagedResponse);
+        }
+
+        public PagedPayloadResponse<RezervacijaResponse> GetNotProdaja( PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
+            IEnumerable<Rezervacija> entityList = Context.Set<Rezervacija>()
+                .Include(e => e.Korisnik)
+                .Include(e => e.ProjekcijaTermin).ThenInclude(e => e.Projekcija).ThenInclude(e => e.Film)
+                .Include(e => e.ProjekcijaTermin).ThenInclude(e => e.Projekcija).ThenInclude(e => e.Sala)
+                .Include(e => e.SjedisteRezervacija).ThenInclude(e => e.Sjediste)
+                .Where(e => e.Datum != e.DatumProdano)
+                .ToList();
+
+            entityList = filter != null && filter.Any() ? FilterUtility.Filter<Rezervacija>.FilteredData(filter, entityList) : entityList;
+            entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Rezervacija>.SortData(sorting, entityList) : entityList;
+
+            List<RezervacijaResponse> responseList = Mapper.Map<List<RezervacijaResponse>>(entityList);
+
+            PaginationUtility.PagedData<RezervacijaResponse> pagedResponse = PaginationUtility.Paginaion<RezervacijaResponse>.PaginateData(responseList, pagination);
+            return new PagedPayloadResponse<RezervacijaResponse>(HttpStatusCode.OK, pagedResponse);
         }
     }
 

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:pelikula_mobile/model/korisnik/korisnik_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
+import 'package:pelikula_mobile/model/response/list_payload_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/model/response/payload_response.dart';
 
@@ -61,7 +62,7 @@ class ApiService {
     }
   }
 
-  static Future<dynamic> get(String route, dynamic object) async {
+  static Future<dynamic> getPaged(String route, dynamic object) async {
     String queryString = Uri(queryParameters: object).query;
     String baseUrl = _baseRoute + route;
 
@@ -79,6 +80,26 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return PagedPayloadResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<dynamic> get(String route) async {
+    String baseUrl = _baseRoute + route;
+
+    final String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));
+
+    final response = await http.get(
+      Uri.parse(baseUrl),
+      headers: {HttpHeaders.authorizationHeader: basicAuth},
+    );
+
+    if (response.statusCode == 200) {
+      return ListPayloadResponse.fromJson(json.decode(response.body));
     } else if (response.statusCode == 400) {
       return ErrorResponse.fromJson(json.decode(response.body));
     } else {
@@ -187,6 +208,30 @@ class ApiService {
     final response = await http.get(
       Uri.parse(baseUrl),
       headers: {HttpHeaders.authorizationHeader: basicAuth},
+    );
+
+    if (response.statusCode == 200) {
+      return PayloadResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<dynamic> otkaziRzervaciju(int id) async {
+    String baseUrl =
+        _baseRoute + "Rezervacija" + "/" + id.toString() + "/otkazi";
+
+    final String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));
+
+    final response = await http.put(
+      Uri.parse(baseUrl),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: basicAuth
+      },
     );
 
     if (response.statusCode == 200) {

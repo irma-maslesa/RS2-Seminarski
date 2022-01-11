@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.dart';
 import 'package:pelikula_mobile/pages/dojam/ocjenjivanje.dart';
+import 'package:pelikula_mobile/pages/rezervacija/rezervacija_odabir.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PrikazProjekcije extends StatefulWidget {
@@ -185,7 +186,15 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
               child: MaterialButton(
                 minWidth: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () {},
+                onPressed: widget.projekcija.termini!.isEmpty
+                    ? () {
+                        _showDialog("Trenutno nema aktivnih termina");
+                      }
+                    : () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                RezervacijaOdabir(widget.projekcija)));
+                      },
                 child: Text("Rezerviši",
                     textAlign: TextAlign.center,
                     style: styleTekst.copyWith(
@@ -202,7 +211,15 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
               child: MaterialButton(
                 minWidth: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () {},
+                onPressed: widget.projekcija.termini!.isEmpty
+                    ? () {
+                        _showDialog("Trenutno nema aktivnih termina");
+                      }
+                    : () {
+                        /* Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                RezervacijaOdabir(widget.projekcija))); */
+                      },
                 child: Text("Kupi",
                     textAlign: TextAlign.center,
                     style: styleTekst.copyWith(

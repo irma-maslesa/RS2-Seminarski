@@ -10,5 +10,6 @@ namespace Pelikula.API.Api
         PayloadResponse<RezervacijaResponse> GetByProjekcijaKorisnik(int projekcijaId, int korisnikId);
         PayloadResponse<RezervacijaResponse> Otkazi(int id);
         PagedPayloadResponse<RezervacijaSimpleResponse> GetSimple(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting);
+        PagedPayloadResponse<RezervacijaResponse> GetNotProdaja(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting);
     }
 }

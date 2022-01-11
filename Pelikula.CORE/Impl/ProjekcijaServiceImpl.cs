@@ -306,6 +306,8 @@ namespace Pelikula.CORE.Impl
                 .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo >= datum)
                 .ToList();
 
+            entityList.ToList().ForEach(e => e.ProjekcijaTermin= e.ProjekcijaTermin.Where(o=> o.Termin > datum).ToList());
+
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Projekcija>.FilteredData(filter, entityList) : entityList;
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Projekcija>.SortData(sorting, entityList) : entityList;
 
@@ -314,12 +316,32 @@ namespace Pelikula.CORE.Impl
             if (zanrId != null) {
                 ZanrValidator.ValidateEntityExists(zanrId.Value);
                 entityList = entityList.Where(e => e.Film.ZanrId == zanrId.Value);
-            }
+            }           
 
             List<ProjekcijaDetailedResponse> responseList = Mapper.Map<List<ProjekcijaDetailedResponse>>(entityList);
 
             PaginationUtility.PagedData<ProjekcijaDetailedResponse> pagedResponse = PaginationUtility.Paginaion<ProjekcijaDetailedResponse>.PaginateData(responseList, pagination);
             return new PagedPayloadResponse<ProjekcijaDetailedResponse>(HttpStatusCode.OK, pagedResponse);
+        }
+
+        public ListPayloadResponse<LoV> GetAktivneTermineZaKorisnika(int projekcijaId, int korisnikId) {
+            Validator.ValidateEntityExists(projekcijaId);
+            KorisnikValidator.ValidateEntityExists(korisnikId);
+
+            List<int> rezervisaniTermini = Context.Set<Rezervacija>()
+                .Include(e => e.ProjekcijaTermin.Projekcija)
+                .Where(e => e.ProjekcijaTermin.ProjekcijaId == projekcijaId  && e.KorisnikId == korisnikId)
+                .Select(e => e.ProjekcijaTerminId)
+                .ToList();
+
+
+            List<ProjekcijaTermin> entityList = Context.Set<ProjekcijaTermin>()
+                .Where(e => e.ProjekcijaId == projekcijaId && e.Termin > DateTime.Now && !rezervisaniTermini.Contains(e.Id))
+                .ToList();
+
+            List<LoV> response = Mapper.Map<List<LoV>>(entityList);
+
+            return new ListPayloadResponse<LoV>(HttpStatusCode.OK, response);
         }
     }
 }

@@ -24,20 +24,7 @@ class _ProjekcijeState extends State<Projekcije> {
   TextEditingController nazivController = TextEditingController();
   String? _naziv;
 
-  List<DropdownMenuItem> zanrovi = [
-    DropdownMenuItem(
-        child: Text(
-          "Muško",
-          style: TextStyle(fontSize: 18.0, color: Colors.grey[600]),
-        ),
-        value: 1),
-    DropdownMenuItem(
-        child: Text(
-          "Žensko",
-          style: TextStyle(fontSize: 18.0, color: Colors.grey[600]),
-        ),
-        value: 2),
-  ];
+  List<DropdownMenuItem> zanrovi = [];
   int? _odabraniZanr = 0;
 
   @override
@@ -132,8 +119,8 @@ class _ProjekcijeState extends State<Projekcije> {
     }
 
     dynamic response = params.isEmpty
-        ? await ApiService.get("Projekcija/aktivne/details", null)
-        : await ApiService.get("Projekcija/aktivne/details", params);
+        ? await ApiService.getPaged("Projekcija/aktivne/details", null)
+        : await ApiService.getPaged("Projekcija/aktivne/details", params);
 
     return response;
   }
@@ -232,7 +219,7 @@ class _ProjekcijeState extends State<Projekcije> {
   }
 
   Future<dynamic> getZanrove(int? odabraniZanr) async {
-    dynamic response = await ApiService.get("Zanr/lov", null);
+    dynamic response = await ApiService.getPaged("Zanr/lov", null);
 
     if (response is PagedPayloadResponse) {
       zanrovi = (response.payload

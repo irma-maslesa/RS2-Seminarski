@@ -68,7 +68,7 @@ class _ObavijestiState extends State<Obavijesti> {
       SortingParams(sortOrder: "DESC", columnName: "datum")
     ];
     String sorting = json.encode(sortingParams);
-    var response = await ApiService.get("Obavijest", {"sorting": sorting});
+    var response = await ApiService.getPaged("Obavijest", {"sorting": sorting});
     return response;
   }
 

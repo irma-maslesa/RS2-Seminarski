@@ -133,15 +133,13 @@ namespace Pelikula.DAO.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TipKorisnikaID = table.Column<int>(nullable: false),
                     KorisnickoIme = table.Column<string>(maxLength: 250, nullable: false),
-                    LozinkaHash = table.Column<string>(maxLength: 250, nullable: true),
-                    LozinkaSalt = table.Column<string>(maxLength: 250, nullable: true),
+                    LozinkaHash = table.Column<string>(maxLength: 250, nullable: false),
+                    LozinkaSalt = table.Column<string>(maxLength: 250, nullable: false),
                     Ime = table.Column<string>(maxLength: 250, nullable: false),
                     Prezime = table.Column<string>(maxLength: 250, nullable: false),
                     Email = table.Column<string>(maxLength: 150, nullable: false),
                     Spol = table.Column<string>(maxLength: 10, nullable: false),
-                    DatumRodjenja = table.Column<DateTime>(nullable: false),
-                    Slika = table.Column<byte[]>(nullable: true),
-                    SlikaThumb = table.Column<byte[]>(nullable: true)
+                    DatumRodjenja = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -620,15 +618,15 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.InsertData(
                 table: "Korisnik",
-                columns: new[] { "ID", "DatumRodjenja", "Email", "Ime", "KorisnickoIme", "LozinkaHash", "LozinkaSalt", "Prezime", "Slika", "SlikaThumb", "Spol", "TipKorisnikaID" },
+                columns: new[] { "ID", "DatumRodjenja", "Email", "Ime", "KorisnickoIme", "LozinkaHash", "LozinkaSalt", "Prezime", "Spol", "TipKorisnikaID" },
                 values: new object[,]
                 {
-                    { 6, new DateTime(2003, 12, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "mobile@pelikula.com", "Mobile", "mobile", "uEAAtJ83GlBqaNFPh6lPoMvVnyhd4WFUBZlYWhVpTE4=", "AL+srx+Vbpe5+FFvKyPmVw==", "Mobile", null, null, "Ž", 4 },
-                    { 4, new DateTime(1999, 11, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "klijent@pelikula.com", "Klijent", "klijent", "Aw05B5zz/II5B9hSZxt/2jKXLNiwDK7Vbt7TiGlDhpE=", "BgTX5f5LT5xsIJqT6ue98w==", "Klijent", null, null, "Ž", 4 },
-                    { 3, new DateTime(1996, 8, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "radnik@pelikula.com", "Radnik", "radnik", "Nd6bPVilHV/w96qpMsIfUQyw/Z4pZ1WzJejCNm48ojs=", "fbD5V3to2iRmp7RQZZP4vg==", "Radnik", null, null, "M", 3 },
-                    { 2, new DateTime(1979, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "moderator@pelikula.com", "Moderator", "moderator", "NgdAz6fPvliB4656yBrVrG7J0GkqDPqHUqEGusU2w7E=", "FUFQiylzT8c7rq3iG0v2AA==", "Moderator", null, null, "Ž", 2 },
-                    { 5, new DateTime(1974, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "desktop@pelikula.com", "Desktop", "desktop", "LPRZXWx3/Pch2U0ss9XBMlNZPPhM0bijmhX6hqitYYw=", "uUUpEtUt1/Ugc8nVLsKyBQ==", "Desktop", null, null, "M", 1 },
-                    { 1, new DateTime(1972, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "administrator@pelikula.com", "Administrator", "administrator", "A12uqZ5C0lglHCz/EHOzPtEQLulJKDyPZP6DUAbkY2s=", "fCy+DvCksIn8qN6LWMzMHw==", "Administrator", null, null, "M", 1 }
+                    { 6, new DateTime(2003, 12, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "mobile@pelikula.com", "Mobile", "mobile", "c7aZmtJVAYjmOJw+XlmZX1N71PXBgUQCPncb5NASCBU=", "/JQ1WJR4Dt1bFGcH0sAG8A==", "Mobile", "Ž", 4 },
+                    { 4, new DateTime(1999, 11, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "klijent@pelikula.com", "Klijent", "klijent", "+8atinHUJ7cEeSiih0ZdZsenH8m8XrqsQ4Sg7sRdcrw=", "ZjH7deIgItqF1dz0cAYEJw==", "Klijent", "Ž", 4 },
+                    { 3, new DateTime(1996, 8, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "radnik@pelikula.com", "Radnik", "radnik", "SKtMUIh//9lHg4uWhypfs0+7VhoD//9YtK4oJ9DS8tA=", "9eAED2HBplpxapyvUtGBnA==", "Radnik", "M", 3 },
+                    { 2, new DateTime(1979, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "moderator@pelikula.com", "Moderator", "moderator", "htxACYbUsOpFnCkZJ1hCHEPOY4BKT2u/MEJ9NPs7oaw=", "bjDfJadD/FVTE3mkZ34sWw==", "Moderator", "Ž", 2 },
+                    { 5, new DateTime(1974, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "desktop@pelikula.com", "Desktop", "desktop", "I7PKdrcQtanGOA31SrDDGLLOguX3jIyG2lg1GO++QLE=", "r0F5iU15WcOVhz+iupdC3w==", "Desktop", "M", 1 },
+                    { 1, new DateTime(1972, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "administrator@pelikula.com", "Administrator", "administrator", "qCJHdY3tSw972cyYUkZccvMkxfkoHICsDFGY24L2Dvs=", "TXbzHJlXf+V49N27KVKXyQ==", "Administrator", "M", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -727,8 +725,8 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "Datum", "KorisnikID", "Naslov", "ZakljucenoDatum" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 1, "Omiljeni fimski žanr?", null },
-                    { 2, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 2, "Omiljeni klasik?", null }
+                    { 1, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 1, "Omiljeni fimski žanr?", null },
+                    { 2, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 2, "Omiljeni klasik?", null }
                 });
 
             migrationBuilder.InsertData(
@@ -749,8 +747,8 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "Datum", "KorisnikID", "Naslov", "Tekst" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 1, "Dobro došli!", "Dobro došli na informacijski sistem za podršku rada kino centra!" },
-                    { 2, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 2, "Stigla je nova Pelikula aplikacija!", "Slušali smo vaše prijedloge te vam s ponosom predstavljamo novu Pelikula aplikaciju. Preuzmite novu Pelikula aplikaciju već danas! Nova aplikacija donosi nove značajke: digitalnu bonus karticu, jednostavnu i brzu kupovinu kinoulaznica te još mnogo toga." }
+                    { 1, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 1, "Dobro došli!", "Dobro došli na informacijski sistem za podršku rada kino centra!" },
+                    { 2, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 2, "Stigla je nova Pelikula aplikacija!", "Slušali smo vaše prijedloge te vam s ponosom predstavljamo novu Pelikula aplikaciju. Preuzmite novu Pelikula aplikaciju već danas! Nova aplikacija donosi nove značajke: digitalnu bonus karticu, jednostavnu i brzu kupovinu kinoulaznica te još mnogo toga." }
                 });
 
             migrationBuilder.InsertData(
@@ -758,8 +756,8 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "Cijena", "Datum", "FilmID", "SalaID", "VrijediDo", "VrijediOd" },
                 values: new object[,]
                 {
-                    { 1, 7.5m, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 1, 1, new DateTime(2021, 12, 29, 23, 59, 59, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 5.5m, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 2, 2, new DateTime(2021, 12, 29, 23, 59, 59, 0, DateTimeKind.Unspecified), new DateTime(2021, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 7.5m, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 1, 1, new DateTime(2022, 1, 11, 23, 59, 59, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 5.5m, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 2, 2, new DateTime(2022, 1, 8, 23, 59, 59, 0, DateTimeKind.Unspecified), new DateTime(2022, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -768,15 +766,15 @@ namespace Pelikula.DAO.Migrations
                 values: new object[,]
                 {
                     { 1, 1, "Akcija", 1, 1 },
-                    { 2, 1, "Fantazija", 2, 0 },
-                    { 3, 1, "Komedija", 3, 0 },
-                    { 4, 1, "Romantika", 4, 0 },
-                    { 5, 1, "Horor", 5, 1 },
-                    { 6, 2, "Bonnie i Clyde", 1, 0 },
-                    { 7, 2, "Rosemaryno dijete", 2, 0 },
+                    { 10, 2, "Isijavanje", 5, 1 },
                     { 8, 2, "Kum", 3, 1 },
+                    { 7, 2, "Rosemaryno dijete", 2, 0 },
+                    { 6, 2, "Bonnie i Clyde", 1, 0 },
                     { 9, 2, "Pakleni šund", 4, 0 },
-                    { 10, 2, "Isijavanje", 5, 1 }
+                    { 4, 1, "Romantika", 4, 0 },
+                    { 3, 1, "Komedija", 3, 0 },
+                    { 2, 1, "Fantazija", 2, 0 },
+                    { 5, 1, "Horor", 5, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -784,9 +782,9 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "Datum", "KorisnikID", "Ocjena", "ProjekcijaID", "Tekst" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 6, 5, 2, null },
-                    { 1, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 4, 5, 1, "Odličan film, potpuno sam zadovoljan uslugama kina." },
-                    { 2, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 6, 4, 1, "Kokice su bile preslane." }
+                    { 1, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 4, 5, 1, "Odličan film, potpuno sam zadovoljan uslugama kina." },
+                    { 2, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 6, 4, 1, "Kokice su bile preslane." },
+                    { 3, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 6, 5, 2, null }
                 });
 
             migrationBuilder.InsertData(
@@ -794,14 +792,20 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "ProjekcijaID", "Termin" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 1, new DateTime(2021, 12, 27, 18, 40, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 1, new DateTime(2021, 12, 29, 13, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, 1, new DateTime(2021, 12, 29, 18, 40, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, 2, new DateTime(2021, 12, 29, 13, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, 2, new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, 2, new DateTime(2021, 12, 27, 18, 40, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, 2, new DateTime(2021, 12, 29, 18, 40, 0, 0, DateTimeKind.Unspecified) }
+                    { 13, 1, new DateTime(2022, 1, 11, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 2, new DateTime(2022, 1, 6, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 2, new DateTime(2022, 1, 6, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 14, 1, new DateTime(2022, 1, 11, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 12, 1, new DateTime(2022, 1, 10, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1, new DateTime(2022, 1, 7, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, 1, new DateTime(2022, 1, 9, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, 1, new DateTime(2022, 1, 9, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 1, new DateTime(2022, 1, 8, 18, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 1, new DateTime(2022, 1, 8, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 2, new DateTime(2022, 1, 8, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 1, 1, new DateTime(2022, 1, 7, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 11, 1, new DateTime(2022, 1, 10, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, 2, new DateTime(2022, 1, 8, 18, 40, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -809,10 +813,10 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "AnketaOdgovorID", "Datum", "KorisnikID" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 4 },
-                    { 2, 5, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 6 },
-                    { 3, 7, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 4 },
-                    { 4, 10, new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 6 }
+                    { 1, 1, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 4 },
+                    { 2, 5, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 6 },
+                    { 3, 7, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 4 },
+                    { 4, 10, new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 6 }
                 });
 
             migrationBuilder.InsertData(
@@ -820,14 +824,14 @@ namespace Pelikula.DAO.Migrations
                 columns: new[] { "ID", "BrojSjedista", "Cijena", "Datum", "DatumOtkazano", "DatumProdano", "DatumProjekcije", "KorisnikID", "ProjekcijaTerminID" },
                 values: new object[,]
                 {
-                    { 1, 2, 15m, new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), null, new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified), 4, 1 },
-                    { 2, 1, 5.5m, new DateTime(2021, 12, 29, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), null, null, new DateTime(2021, 12, 27, 13, 30, 0, 0, DateTimeKind.Unspecified), 6, 5 }
+                    { 1, 2, 15m, new DateTime(2022, 1, 8, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), null, new DateTime(2022, 1, 8, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), new DateTime(2022, 1, 6, 13, 30, 0, 0, DateTimeKind.Unspecified), 4, 1 },
+                    { 2, 1, 5.5m, new DateTime(2022, 1, 8, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), null, null, new DateTime(2022, 1, 6, 13, 30, 0, 0, DateTimeKind.Unspecified), 6, 5 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Prodaja",
                 columns: new[] { "ID", "BrojRacuna", "Datum", "KorisnikId", "RezervacijaId" },
-                values: new object[] { 1, "1234abc-def56", new DateTime(2021, 12, 28, 14, 10, 30, 811, DateTimeKind.Local).AddTicks(2024), 3, 1 });
+                values: new object[] { 1, "1234abc-def56", new DateTime(2022, 1, 7, 9, 47, 51, 768, DateTimeKind.Local).AddTicks(1909), 3, 1 });
 
             migrationBuilder.InsertData(
                 table: "SjedisteRezervacija",

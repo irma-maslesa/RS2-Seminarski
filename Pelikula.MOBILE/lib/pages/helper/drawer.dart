@@ -4,6 +4,7 @@ import 'package:pelikula_mobile/pages/korisnik/prijava.dart';
 import 'package:pelikula_mobile/pages/korisnik/uredi_profil.dart';
 import 'package:pelikula_mobile/pages/obavijest/obavijest.dart';
 import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
+import 'package:pelikula_mobile/pages/rezervacija/rezervacija.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -105,7 +106,7 @@ class MyDrawer extends StatelessWidget {
           sizedBox,
           createTile("Projekcije", const Projekcije()),
           sizedBox,
-          createTile("Rezervacije", const Scaffold()),
+          createTile("Rezervacije", const Rezervacije()),
           sizedBox,
           createTile("Kupovine", const Scaffold()),
           sizedBox,
