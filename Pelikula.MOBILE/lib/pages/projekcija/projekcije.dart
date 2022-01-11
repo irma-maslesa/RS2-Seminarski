@@ -1,19 +1,16 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 import 'package:pelikula_mobile/model/lov.dart';
-import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/pages/helper/drawer.dart';
 import 'package:pelikula_mobile/pages/projekcija/lista_projekcija.dart';
-import 'package:pelikula_mobile/pages/projekcija/prikaz_projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Projekcije extends StatefulWidget {
-  const Projekcije({Key? key}) : super(key: key);
+  final bool aktivno;
+
+  const Projekcije(this.aktivno, {Key? key}) : super(key: key);
 
   @override
   _ProjekcijeState createState() => _ProjekcijeState();
@@ -54,7 +51,7 @@ class _ProjekcijeState extends State<Projekcije> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Projekcije"),
+        title: widget.aktivno ? const Text("Projekcije") : const Text("Najave"),
       ),
       drawer: const MyDrawer(),
       body: Column(children: [
@@ -81,11 +78,13 @@ class _ProjekcijeState extends State<Projekcije> {
           );
         } else if (snapshot.data is PagedPayloadResponse &&
             snapshot.data.payload.length > 0) {
-          return ListaProjekcija(snapshot.data.payload, true);
+          return ListaProjekcija(snapshot.data.payload, widget.aktivno);
         } else if (snapshot.data is PagedPayloadResponse &&
             snapshot.data.payload.length == 0) {
-          return const Center(
-            child: Text("Nema rezultata"),
+          return Center(
+            child: widget.aktivno
+                ? const Text("Nema projekcija")
+                : const Text("Nema najavljenih projekcija"),
           );
         } else if (snapshot.data is ErrorResponse) {
           return Center(
@@ -103,6 +102,10 @@ class _ProjekcijeState extends State<Projekcije> {
   Future<dynamic> getProjekcije(String? naziv, int? zanrId) async {
     Map<String, dynamic> params = {};
 
+    var path = widget.aktivno
+        ? "Projekcija/aktivne/details"
+        : "Projekcija/comming-soon/details";
+
     if (naziv != null && naziv.trim().isNotEmpty) {
       params["naziv"] = naziv;
     }
@@ -112,8 +115,8 @@ class _ProjekcijeState extends State<Projekcije> {
     }
 
     dynamic response = params.isEmpty
-        ? await ApiService.getPaged("Projekcija/aktivne/details", null)
-        : await ApiService.getPaged("Projekcija/aktivne/details", params);
+        ? await ApiService.getPaged(path, null)
+        : await ApiService.getPaged(path, params);
 
     return response;
   }

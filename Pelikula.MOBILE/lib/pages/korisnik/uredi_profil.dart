@@ -97,7 +97,7 @@ class _UrediProfilState extends State<UrediProfil> {
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const Projekcije(),
+                      builder: (BuildContext context) => const Projekcije(true),
                     ),
                     (route) => false,
                   );
@@ -222,7 +222,7 @@ class _UrediProfilState extends State<UrediProfil> {
         onPressed: () async {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (BuildContext context) => const Projekcije(),
+              builder: (BuildContext context) => const Projekcije(false),
             ),
             (route) => false,
           );

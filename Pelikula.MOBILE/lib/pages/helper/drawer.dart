@@ -95,7 +95,7 @@ class MyDrawer extends StatelessWidget {
       ),
     );
 
-    const sizedBox = SizedBox(height: 15);
+    const sizedBox = SizedBox(height: 10);
 
     return Drawer(
       child: ListView(
@@ -104,7 +104,9 @@ class MyDrawer extends StatelessWidget {
           sizedBox,
           createTile("Preporučeno", const Scaffold()),
           sizedBox,
-          createTile("Projekcije", const Projekcije()),
+          createTile("Projekcije", const Projekcije(true)),
+          sizedBox,
+          createTile("Najave", const Projekcije(false)),
           sizedBox,
           createTile("Rezervacije", const Rezervacije()),
           sizedBox,

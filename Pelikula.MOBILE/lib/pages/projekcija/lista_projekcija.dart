@@ -60,7 +60,7 @@ class _ListaProjekcijaState extends State<ListaProjekcija> {
                     ),
             ),
             const SizedBox(
-              width: 30,
+              width: 20,
             ),
             Column(
               children: [

@@ -263,7 +263,7 @@ class _RegistracijaState extends State<Registracija> {
                   lozinkaController.text);
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const Projekcije(),
+                  builder: (BuildContext context) => const Projekcije(true),
                 ),
                 (route) => false,
               );
