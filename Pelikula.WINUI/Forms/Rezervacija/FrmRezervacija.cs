@@ -73,7 +73,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
             Cursor = Cursors.WaitCursor;
 
-            PagedPayloadResponse<RezervacijaResponse> obj = await _service.Get<PagedPayloadResponse<RezervacijaResponse>>(null, filters, null);
+            PagedPayloadResponse<RezervacijaResponse> obj = await _service.GetRezervacijaNotProdaja(null, filters, null);
 
             if (obj != null)
                 dgvRezervacije.DataSource = obj.Payload;

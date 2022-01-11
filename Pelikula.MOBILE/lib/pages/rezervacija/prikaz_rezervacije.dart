@@ -1,9 +1,13 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:pelikula_mobile/model/response/error_response.dart';
+import 'package:pelikula_mobile/model/response/payload_response.dart';
 import 'package:pelikula_mobile/model/rezervacija/rezervacija_response.dart';
+import 'package:pelikula_mobile/pages/rezervacija/prikaz_sjedista.dart';
+import 'package:pelikula_mobile/pages/rezervacija/rezervacija.dart';
+import 'package:pelikula_mobile/services/api_service.dart';
 
 class PrikazRezervacije extends StatefulWidget {
   final RezervacijaResponse rezervacija;
@@ -15,9 +19,9 @@ class PrikazRezervacije extends StatefulWidget {
 }
 
 class _PrikazRezervacijeState extends State<PrikazRezervacije> {
-  Future<void> _showDialog(String text) async {
+  Future<void> _showDialog(String text, [dismissable = true]) async {
     return showDialog<void>(
-      barrierDismissible: false,
+      barrierDismissible: dismissable,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -26,8 +30,12 @@ class _PrikazRezervacijeState extends State<PrikazRezervacije> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const Rezervacije(),
+                  ),
+                  (route) => false,
+                );
               },
             ),
           ],
@@ -36,9 +44,48 @@ class _PrikazRezervacijeState extends State<PrikazRezervacije> {
     );
   }
 
+  Future<void> _showDialogDaNe(String text) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(text),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ne'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Da'),
+              onPressed: () async {
+                await sendRequest(widget.rezervacija.id!);
+
+                if (response == null) {
+                  _showDialog('Došlo je do greške, pokušajte opet! ');
+                } else if (response is PayloadResponse) {
+                  _showDialog('Rezervacija uspješno otkazana!', false);
+                } else {
+                  _showDialog((response as ErrorResponse).message as String);
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  dynamic response;
+
   TextStyle style = const TextStyle(fontSize: 18.0);
   TextEditingController terminController = TextEditingController();
   TextEditingController brojSjedistaController = TextEditingController();
+
+  Future<void> sendRequest(int id) async {
+    response = await ApiService.otkaziRzervaciju(id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,32 +140,19 @@ class _PrikazRezervacijeState extends State<PrikazRezervacije> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
 
-    final btnOdustani = Material(
+    final btnOtkazi = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.white,
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
-          Navigator.of(context).pop();
+          _showDialogDaNe("Jeste li sigurni da želite otkazati rezervaciju?");
         },
-        child: Text("Odustani",
+        child: Text("Otkaži rezervaciju",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: const Color(0xff01A0C7), fontWeight: FontWeight.bold)),
-      ),
-    );
-    final btnDalje = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: const Color(0xff01A0C7),
-      child: MaterialButton(
-        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () async {},
-        child: Text("Dalje",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
 
@@ -164,15 +198,37 @@ class _PrikazRezervacijeState extends State<PrikazRezervacije> {
           ],
         ),
         const SizedBox(height: 15.0),
+        Expanded(
+          child: PrikazSjedista(
+              widget.rezervacija.projekcijaTermin!.projekcija!.id,
+              widget.rezervacija.projekcijaTermin!.id,
+              widget.rezervacija.sjedista!.map((e) => e.sjediste!.id!).toList(),
+              widget.rezervacija.brojSjedista,
+              true, (id, ukloni) {
+            return false;
+          }),
+        ),
         //Buttoni
-        Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              btnOdustani,
-              const SizedBox(width: 15.0),
-              Expanded(child: btnDalje)
-            ]),
+        widget.rezervacija.datumOtkazano != null
+            ? Text(
+                "Rezervacija je otakazana ${DateFormat('dd/MM/yyyy, HH:mm').format(widget.rezervacija.datumOtkazano!)}!",
+                textAlign: TextAlign.center,
+              )
+            : widget.rezervacija.datumProdano != null
+                ? Text(
+                    "Rezervacija je prodana ${DateFormat('dd/MM/yyyy, HH:mm').format(widget.rezervacija.datumProdano!)}!",
+                    textAlign: TextAlign.center,
+                  )
+                : widget.rezervacija.projekcijaTermin!.termin!
+                        .isBefore(DateTime.now().add(const Duration(days: 1)))
+                    ? const Text(
+                        "Rezervaciju je moguće otkazati najkasnije 24h prije projekcije!",
+                        textAlign: TextAlign.center,
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Expanded(child: btnOtkazi)]),
       ],
     );
   }

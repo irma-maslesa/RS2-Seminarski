@@ -10,6 +10,7 @@ import 'package:pelikula_mobile/model/response/list_payload_response.dart';
 import 'package:pelikula_mobile/model/response/payload_response.dart';
 import 'package:pelikula_mobile/model/rezervacija/rezervacija_upsert_request.dart';
 import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
+import 'package:pelikula_mobile/pages/rezervacija/prikaz_sjedista.dart';
 import 'package:pelikula_mobile/pages/rezervacija/sjediste.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
@@ -168,11 +169,13 @@ class _RezervacijaOdabirSjedistaState extends State<RezervacijaOdabirSjedista> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: ListView(children: [
-                      Column(
-                        children: widgetList.toList().cast<Widget>(),
-                      ),
-                    ]),
+                    child: PrikazSjedista(
+                        widget.projekcija.id,
+                        widget.request.projekcijaTerminId,
+                        widget.request.sjedistaIds!,
+                        widget.request.brojSjedista,
+                        false,
+                        odaberiSjediste),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -240,6 +243,7 @@ class _RezervacijaOdabirSjedistaState extends State<RezervacijaOdabirSjedista> {
                       e,
                       widget.request.sjedistaIds!.contains(e.id),
                       zauzetaSjedista.map((o) => o.id).contains(e.id),
+                      false,
                       odaberiSjediste,
                     ))
                 .toList()

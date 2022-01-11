@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pelikula_mobile/model/helper/filter_params.dart';
+import 'package:pelikula_mobile/model/helper/sorting_params.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/model/rezervacija/rezervacija_response.dart';
@@ -67,7 +68,13 @@ class _RezervacijeState extends State<Rezervacije> {
       )
     ];
     String filter = json.encode(filterParams);
-    var response = await ApiService.getPaged("Rezervacija", {"filter": filter});
+
+    List<SortingParams> sortingParams = [
+      SortingParams(sortOrder: "DESC", columnName: "datum")
+    ];
+    String sorting = json.encode(sortingParams);
+    var response = await ApiService.getPaged(
+        "Rezervacija/not-prodaja", {"filter": filter, "sorting": sorting});
     return response;
   }
 
@@ -94,7 +101,7 @@ class _RezervacijeState extends State<Rezervacije> {
           const SizedBox(height: 5.0),
           Text(
             DateFormat('dd/MM/yyyy, HH:mm')
-                .format(rezervacija.datumProjekcije!),
+                .format(rezervacija.projekcijaTermin!.termin!),
             style: styleTekst,
           ),
           const SizedBox(height: 5.0),

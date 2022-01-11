@@ -218,4 +218,28 @@ class ApiService {
       return null;
     }
   }
+
+  static Future<dynamic> otkaziRzervaciju(int id) async {
+    String baseUrl =
+        _baseRoute + "Rezervacija" + "/" + id.toString() + "/otkazi";
+
+    final String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$korisnickoIme:$lozinka'));
+
+    final response = await http.put(
+      Uri.parse(baseUrl),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: basicAuth
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return PayloadResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 400) {
+      return ErrorResponse.fromJson(json.decode(response.body));
+    } else {
+      return null;
+    }
+  }
 }
