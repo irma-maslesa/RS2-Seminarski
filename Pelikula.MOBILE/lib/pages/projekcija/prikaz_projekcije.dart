@@ -198,8 +198,8 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
                             }
                           : () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      RezervacijaOdabir(widget.projekcija)));
+                                  builder: (context) => RezervacijaOdabir(
+                                      widget.projekcija, true)));
                             },
                       child: Text("Rezerviši",
                           textAlign: TextAlign.center,
@@ -224,9 +224,9 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
                               _showDialog("Trenutno nema aktivnih termina");
                             }
                           : () {
-                              /* Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                RezervacijaOdabir(widget.projekcija))); */
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => RezervacijaOdabir(
+                                      widget.projekcija, false)));
                             },
                       child: Text("Kupi",
                           textAlign: TextAlign.center,

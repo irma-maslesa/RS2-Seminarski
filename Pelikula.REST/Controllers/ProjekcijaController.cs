@@ -123,7 +123,7 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpGet("comming-soon/details")]
+        [HttpGet("coming-soon/details")]
         public PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedComingSoon([FromQuery] string pagination, [FromQuery] string filter, [FromQuery] string sorting, string naziv, int? zanrId) {
             StringBuilder stringBuilder = new StringBuilder();
             PaginationUtility.PaginationParams paginationParams = new PaginationUtility.PaginationParams();
