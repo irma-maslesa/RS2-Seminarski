@@ -8,6 +8,7 @@ import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.da
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
 import 'package:pelikula_mobile/pages/helper/drawer.dart';
+import 'package:pelikula_mobile/pages/projekcija/lista_projekcija.dart';
 import 'package:pelikula_mobile/pages/projekcija/prikaz_projekcije.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
@@ -80,15 +81,7 @@ class _ProjekcijeState extends State<Projekcije> {
           );
         } else if (snapshot.data is PagedPayloadResponse &&
             snapshot.data.payload.length > 0) {
-          return ListView(
-            children: (snapshot.data.payload
-                    .map((e) => ProjekcijaDetailedResponse.fromJson(e))
-                    .toList()
-                    .cast<ProjekcijaDetailedResponse>() as List)
-                .map((e) => projekcijaWidget(e))
-                .toList()
-                .cast<Widget>(),
-          );
+          return ListaProjekcija(snapshot.data.payload, true);
         } else if (snapshot.data is PagedPayloadResponse &&
             snapshot.data.payload.length == 0) {
           return const Center(
@@ -123,53 +116,6 @@ class _ProjekcijeState extends State<Projekcije> {
         : await ApiService.getPaged("Projekcija/aktivne/details", params);
 
     return response;
-  }
-
-  Widget projekcijaWidget(ProjekcijaDetailedResponse projekcija) {
-    TextStyle styleNaslov = const TextStyle(
-        fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black);
-    TextStyle styleTekst = const TextStyle(
-        fontSize: 20.0, fontWeight: FontWeight.w300, color: Colors.black);
-
-    return Card(
-      child: TextButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PrikazProjekcije(projekcija)));
-        },
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: projekcija.film!.plakatThumb != null &&
-                      projekcija.film!.plakatThumb!.isNotEmpty
-                  ? Image(
-                      image: MemoryImage(
-                          Uint8List.fromList(projekcija.film!.plakatThumb!)),
-                      width: 135,
-                    )
-                  : const Image(
-                      image: AssetImage('assets/no-image.png'),
-                      width: 135,
-                    ),
-            ),
-            const SizedBox(
-              width: 30,
-            ),
-            Column(
-              children: [
-                Text(projekcija.film!.naslov!, style: styleNaslov),
-                Text("Cijena: ${projekcija.cijena.toString()} KM",
-                    style: styleTekst),
-                Text(
-                    "Vrijedi do: ${DateFormat('dd/MM/yyyy').format(projekcija.vrijediDo!)}",
-                    style: styleTekst)
-              ],
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   Widget ddZanr() {

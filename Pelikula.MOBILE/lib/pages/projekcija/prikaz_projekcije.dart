@@ -10,8 +10,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PrikazProjekcije extends StatefulWidget {
   final ProjekcijaDetailedResponse projekcija;
+  final bool aktivno;
 
-  const PrikazProjekcije(this.projekcija, {Key? key}) : super(key: key);
+  const PrikazProjekcije(this.projekcija, this.aktivno, {Key? key})
+      : super(key: key);
 
   @override
   State<PrikazProjekcije> createState() => _PrikazProjekcijeState();
@@ -146,23 +148,25 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
               ),
             ),
           ),
-          Expanded(
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Cijena: ${widget.projekcija.cijena} KM"),
-                    Text("Sala: ${widget.projekcija.sala!.naziv}"),
-                    Text(
-                        "Vrijedi do: ${DateFormat('dd/MM/yyyy').format(widget.projekcija.vrijediDo!)}"),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          widget.aktivno
+              ? Expanded(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Cijena: ${widget.projekcija.cijena} KM"),
+                          Text("Sala: ${widget.projekcija.sala!.naziv}"),
+                          Text(
+                              "Vrijedi do: ${DateFormat('dd/MM/yyyy').format(widget.projekcija.vrijediDo!)}"),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ]),
         sizedBoxWHeight,
         //Sadrzaj
@@ -177,77 +181,95 @@ class _PrikazProjekcijeState extends State<PrikazProjekcije> {
         ),
         sizedBoxWHeight,
         //Buttoni
-        Row(children: [
-          Expanded(
-            child: Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(30.0),
-              color: const Color(0xff01A0C7),
-              child: MaterialButton(
-                minWidth: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: widget.projekcija.termini!.isEmpty
-                    ? () {
-                        _showDialog("Trenutno nema aktivnih termina");
-                      }
-                    : () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                RezervacijaOdabir(widget.projekcija)));
-                      },
-                child: Text("Rezerviši",
-                    textAlign: TextAlign.center,
-                    style: styleTekst.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ),
-          const SizedBox(width: 5),
-          Expanded(
-            child: Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(30.0),
-              color: const Color(0xff01A0C7),
-              child: MaterialButton(
-                minWidth: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: widget.projekcija.termini!.isEmpty
-                    ? () {
-                        _showDialog("Trenutno nema aktivnih termina");
-                      }
-                    : () {
-                        /* Navigator.of(context).push(MaterialPageRoute(
+        widget.aktivno
+            ? Row(children: [
+                Expanded(
+                  child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.circular(30.0),
+                    color: const Color(0xff01A0C7),
+                    child: MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width,
+                      padding:
+                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: widget.projekcija.termini!.isEmpty
+                          ? () {
+                              _showDialog("Trenutno nema aktivnih termina");
+                            }
+                          : () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      RezervacijaOdabir(widget.projekcija)));
+                            },
+                      child: Text("Rezerviši",
+                          textAlign: TextAlign.center,
+                          style: styleTekst.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.circular(30.0),
+                    color: const Color(0xff01A0C7),
+                    child: MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width,
+                      padding:
+                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: widget.projekcija.termini!.isEmpty
+                          ? () {
+                              _showDialog("Trenutno nema aktivnih termina");
+                            }
+                          : () {
+                              /* Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
                                 RezervacijaOdabir(widget.projekcija))); */
+                            },
+                      child: Text("Kupi",
+                          textAlign: TextAlign.center,
+                          style: styleTekst.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.circular(30.0),
+                    color: const Color(0xff01A0C7),
+                    child: MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width,
+                      padding:
+                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                Ocjenjivanje(widget.projekcija)));
                       },
-                child: Text("Kupi",
-                    textAlign: TextAlign.center,
-                    style: styleTekst.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+                      child: Text("Ocijeni",
+                          textAlign: TextAlign.center,
+                          style: styleTekst.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                )
+              ])
+            : Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Vrijedi od: ${DateFormat('dd/MM/yyyy').format(widget.projekcija.vrijediOd!)}",
+                      style: styleTekst,
+                    ),
+                  )
+                ],
               ),
-            ),
-          ),
-          const SizedBox(width: 5),
-          Expanded(
-            child: Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(30.0),
-              color: const Color(0xff01A0C7),
-              child: MaterialButton(
-                minWidth: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Ocjenjivanje(widget.projekcija)));
-                },
-                child: Text("Ocijeni",
-                    textAlign: TextAlign.center,
-                    style: styleTekst.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
-            ),
-          )
-        ]),
       ]),
     );
   }

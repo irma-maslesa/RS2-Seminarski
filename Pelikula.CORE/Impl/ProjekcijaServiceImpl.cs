@@ -324,6 +324,40 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<ProjekcijaDetailedResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
+        public PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedComingSoon(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting, string naziv, int? zanrId) {
+            var datum = DateTime.Now.Date;
+
+            IEnumerable<Projekcija> entityList = Context.Set<Projekcija>()
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.Zanr)
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.Reditelj)
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.FilmGlumac)
+                        .ThenInclude(e => e.FilmskaLicnost)
+                .Include(e => e.Sala)
+                .Include(e => e.ProjekcijaTermin)
+                .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo >= datum.AddDays(10))
+                .ToList();
+
+            entityList.ToList().ForEach(e => e.ProjekcijaTermin = e.ProjekcijaTermin.Where(o => o.Termin > datum).ToList());
+
+            entityList = filter != null && filter.Any() ? FilterUtility.Filter<Projekcija>.FilteredData(filter, entityList) : entityList;
+            entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Projekcija>.SortData(sorting, entityList) : entityList;
+
+            if (naziv != null)
+                entityList = entityList.Where(e => e.Film.Naslov.ToLower().Contains(naziv.ToLower()));
+            if (zanrId != null) {
+                ZanrValidator.ValidateEntityExists(zanrId.Value);
+                entityList = entityList.Where(e => e.Film.ZanrId == zanrId.Value);
+            }
+
+            List<ProjekcijaDetailedResponse> responseList = Mapper.Map<List<ProjekcijaDetailedResponse>>(entityList);
+
+            PaginationUtility.PagedData<ProjekcijaDetailedResponse> pagedResponse = PaginationUtility.Paginaion<ProjekcijaDetailedResponse>.PaginateData(responseList, pagination);
+            return new PagedPayloadResponse<ProjekcijaDetailedResponse>(HttpStatusCode.OK, pagedResponse);
+        }
+
         public ListPayloadResponse<LoV> GetAktivneTermineZaKorisnika(int projekcijaId, int korisnikId) {
             Validator.ValidateEntityExists(projekcijaId);
             KorisnikValidator.ValidateEntityExists(korisnikId);
