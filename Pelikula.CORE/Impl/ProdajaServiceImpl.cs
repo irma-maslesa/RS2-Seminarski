@@ -159,5 +159,35 @@ namespace Pelikula.CORE.Impl
             throw new UserException("Update prodaje nije moguć!", HttpStatusCode.NotFound);
         }
 
+        public PagedPayloadResponse<ProdajaResponse> GetForKorisnik(int korisnikId, PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
+            IEnumerable<Prodaja> entityList = Context.Set<Prodaja>()
+                .Include(e => e.Korisnik)
+                .Include(e => e.ProdajaArtikal)
+                    .ThenInclude(e => e.Artikal)
+                .Include(e => e.Rezervacija)
+                    .ThenInclude(e => e.SjedisteRezervacija)
+                    .ThenInclude(e => e.Sjediste)
+                .Include(e => e.Rezervacija)
+                    .ThenInclude(e => e.ProjekcijaTermin)
+                    .ThenInclude(e => e.Projekcija)
+                    .ThenInclude(e => e.Film)
+                .Include(e => e.Rezervacija)
+                    .ThenInclude(e => e.ProjekcijaTermin)
+                    .ThenInclude(e => e.Projekcija)
+                    .ThenInclude(e => e.Sala)
+                .Include(e => e.Rezervacija)
+                    .ThenInclude(e => e.Korisnik)
+                .Where(e => e.Rezervacija.KorisnikId == korisnikId)
+                .ToList();
+
+            entityList = filter != null && filter.Any() ? FilterUtility.Filter<Prodaja>.FilteredData(filter, entityList) : entityList;
+            entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Prodaja>.SortData(sorting, entityList) : entityList;
+
+            List<ProdajaResponse> responseList = Mapper.Map<List<ProdajaResponse>>(entityList);
+            responseList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
+
+            PaginationUtility.PagedData<ProdajaResponse> pagedResponse = PaginationUtility.Paginaion<ProdajaResponse>.PaginateData(responseList, pagination);
+            return new PagedPayloadResponse<ProdajaResponse>(HttpStatusCode.OK, pagedResponse);
+        }
     }
 }
