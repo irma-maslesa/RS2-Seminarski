@@ -1,4 +1,3 @@
-import 'package:pelikula_mobile/model/film/film_response.dart';
 import 'package:pelikula_mobile/model/lov.dart';
 
 class ProjekcijaResponse {

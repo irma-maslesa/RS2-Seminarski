@@ -184,6 +184,7 @@ namespace Pelikula.CORE.Impl
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Prodaja>.SortData(sorting, entityList) : entityList;
 
             List<ProdajaResponse> responseList = Mapper.Map<List<ProdajaResponse>>(entityList);
+
             responseList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
 
             PaginationUtility.PagedData<ProdajaResponse> pagedResponse = PaginationUtility.Paginaion<ProdajaResponse>.PaginateData(responseList, pagination);

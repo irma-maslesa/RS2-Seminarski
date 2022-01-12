@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pelikula_mobile/model/helper/filter_params.dart';
 import 'package:pelikula_mobile/model/helper/sorting_params.dart';
 import 'package:pelikula_mobile/model/prodaja/prodaja_response.dart';
 import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/paged_payload_response.dart';
-import 'package:pelikula_mobile/model/rezervacija/rezervacija_response.dart';
 import 'package:pelikula_mobile/pages/helper/drawer.dart';
+import 'package:pelikula_mobile/pages/kupovina/prikaz_kupovine.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
 
 class Kupovine extends StatefulWidget {
@@ -80,8 +79,8 @@ class _KupovineState extends State<Kupovine> {
     return Card(
       child: TextButton(
         onPressed: () {
-          /* Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PrikazKupovine(rezervacija))); */
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => PrikazKupovine(prodaja)));
         },
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
