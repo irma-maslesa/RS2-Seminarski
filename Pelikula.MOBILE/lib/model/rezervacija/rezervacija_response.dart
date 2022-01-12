@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:pelikula_mobile/model/lov.dart';
 import 'package:pelikula_mobile/model/projekcija/projekcija_termin_response.dart';
 import 'package:pelikula_mobile/model/rezervacija/sjediste_rezervacija_response.dart';

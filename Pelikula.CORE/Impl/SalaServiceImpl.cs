@@ -110,7 +110,7 @@ namespace Pelikula.CORE.Impl
 
             var zauzetaSjedistaIds = Context.SjedisteRezervacija
                 .Include(e => e.Rezervacija)
-                .Where(e => e.Rezervacija.ProjekcijaTerminId == projekcijaTerminId)
+                .Where(e => e.Rezervacija.ProjekcijaTerminId == projekcijaTerminId && e.Rezervacija.DatumOtkazano == null)
                 .Select(e => e.SjedisteId)
                 .ToList();
 

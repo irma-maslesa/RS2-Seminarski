@@ -1,5 +1,3 @@
-import 'package:pelikula_mobile/model/lov.dart';
-
 class DojamUpsertRequest {
   int? ocjena;
   String? tekst;

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:pelikula_mobile/model/korisnik/tip_korisnika_response.dart';
 
 class KorisnikResponse {

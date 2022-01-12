@@ -13,7 +13,9 @@ import 'package:pelikula_mobile/services/api_service.dart';
 class RezervacijaOdabir extends StatefulWidget {
   final ProjekcijaDetailedResponse projekcija;
 
-  const RezervacijaOdabir(this.projekcija, {Key? key}) : super(key: key);
+  final bool isRezervacija;
+  const RezervacijaOdabir(this.projekcija, this.isRezervacija, {Key? key})
+      : super(key: key);
 
   @override
   _RezervacijaOdabirState createState() => _RezervacijaOdabirState();
@@ -42,7 +44,8 @@ class _RezervacijaOdabirState extends State<RezervacijaOdabir> {
   }
 
   RezervacijaUpsertRequest request = RezervacijaUpsertRequest();
-  List<DropdownMenuItem> termini = [];
+  List<LoV> termini = [];
+  List<DropdownMenuItem> terminiDDItems = [];
   int? _odabraniTermin;
 
   final _formKey = GlobalKey<FormState>();
@@ -56,7 +59,9 @@ class _RezervacijaOdabirState extends State<RezervacijaOdabir> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.projekcija.film!.naslov!,
+          widget.isRezervacija
+              ? "${widget.projekcija.film!.naslov!} - Rezervacija"
+              : "${widget.projekcija.film!.naslov!} - Kupovina",
         ),
       ),
       body: Center(
@@ -124,9 +129,16 @@ class _RezervacijaOdabirState extends State<RezervacijaOdabir> {
             request.korisnikId = ApiService.korisnikId;
             request.projekcijaTerminId = _odabraniTermin;
 
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    RezervacijaOdabirSjedista(request, widget.projekcija)));
+            print(request);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => RezervacijaOdabirSjedista(
+                    request,
+                    widget.projekcija,
+                    widget.isRezervacija,
+                    termini.where((e) => e.id == _odabraniTermin).first.naziv!),
+              ),
+            );
           }
         },
         child: Text("Dalje",
@@ -179,7 +191,12 @@ class _RezervacijaOdabirState extends State<RezervacijaOdabir> {
         "Projekcija/${widget.projekcija.id}/aktivni-termini/${ApiService.korisnikId}");
 
     if (response is ListPayloadResponse) {
-      termini = (response.payload
+      termini = response.payload
+          .map((e) => LoV.fromJson(e))
+          .toList()
+          .cast<LoV>()
+          .toList();
+      terminiDDItems = (response.payload
               .map((e) => LoV.fromJson(e))
               .toList()
               .cast<LoV>() as List)
@@ -192,8 +209,8 @@ class _RezervacijaOdabirState extends State<RezervacijaOdabir> {
             value: e.id);
       }).toList();
 
-      if (termini.isEmpty) {
-        _showDialog("Nema aktivnih termina za koje nemate rezervaciju");
+      if (terminiDDItems.isEmpty) {
+        _showDialog("Nema aktivnih termina koje niste rezervisali ili kupili");
       }
     }
 
@@ -214,7 +231,7 @@ class _RezervacijaOdabirState extends State<RezervacijaOdabir> {
         style: TextStyle(fontSize: 18.0, color: Colors.grey[600]),
       ),
       isExpanded: true,
-      items: termini,
+      items: terminiDDItems,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),

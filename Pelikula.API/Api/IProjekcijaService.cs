@@ -18,8 +18,11 @@ namespace Pelikula.API.Api
         PayloadResponse<string> PosjetiProjekciju(int projekcijaId, int korisnikId);
 
         ListPayloadResponse<LoV> GetTermine(int projekcijaId);
+
         ListPayloadResponse<LoV> GetAktivneTermine(int projekcijaId);
+
         ListPayloadResponse<LoV> GetAktivneTermineZaKorisnika(int projekcijaId, int korisnikId);
-        PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedComingSoon(PaginationUtility.PaginationParams paginationParams, IEnumerable<FilterUtility.FilterParams> filterParams, IEnumerable<SortingUtility.SortingParams> sortingParams, string naziv, int? zanrId);
+
+        PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedComingSoon(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting, string naziv, int? zanrId);
     }
 }

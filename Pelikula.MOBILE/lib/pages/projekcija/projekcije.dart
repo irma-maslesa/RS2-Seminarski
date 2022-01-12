@@ -104,7 +104,7 @@ class _ProjekcijeState extends State<Projekcije> {
 
     var path = widget.aktivno
         ? "Projekcija/aktivne/details"
-        : "Projekcija/comming-soon/details";
+        : "Projekcija/coming-soon/details";
 
     if (naziv != null && naziv.trim().isNotEmpty) {
       params["naziv"] = naziv;

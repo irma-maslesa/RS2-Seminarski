@@ -16,6 +16,8 @@ namespace Pelikula.API.Model.Prodaja
         public ICollection<ProdajaArtikalResponse> ProdajaArtikal { get; set; }
         public RezervacijaResponse Rezervacija { get; set; }
 
+        public bool jeIskoristeno { get; set; }
+
         public decimal GetUkupnaCijena(ICollection<ProdajaArtikalResponse> prodajaArtikli, RezervacijaResponse rezervacija) {
             decimal ukupnaCijena = 0;
 

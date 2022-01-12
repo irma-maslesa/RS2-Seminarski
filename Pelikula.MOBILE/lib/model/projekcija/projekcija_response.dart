@@ -1,4 +1,3 @@
-import 'package:pelikula_mobile/model/film/film_response.dart';
 import 'package:pelikula_mobile/model/lov.dart';
 
 class ProjekcijaResponse {
@@ -30,8 +29,8 @@ class ProjekcijaResponse {
       datum: DateTime.tryParse(jsonObj['datum']),
       vrijediOd: DateTime.tryParse(jsonObj['vrijediOd']),
       vrijediDo: DateTime.tryParse(jsonObj['vrijediDo']),
-      film: LoV.fromJson(jsonObj['film']),
-      sala: LoV.fromJson(jsonObj['sala']),
+      film: jsonObj['film'] != null ? LoV.fromJson(jsonObj['film']) : null,
+      sala: jsonObj['sala'] != null ? LoV.fromJson(jsonObj['sala']) : null,
       termini:
           (jsonObj['termini'] as List).map((i) => LoV.fromJson(i)).toList(),
     );

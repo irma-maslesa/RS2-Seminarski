@@ -364,7 +364,7 @@ namespace Pelikula.CORE.Impl
 
             List<int> rezervisaniTermini = Context.Set<Rezervacija>()
                 .Include(e => e.ProjekcijaTermin.Projekcija)
-                .Where(e => e.ProjekcijaTermin.ProjekcijaId == projekcijaId  && e.KorisnikId == korisnikId)
+                .Where(e => e.ProjekcijaTermin.ProjekcijaId == projekcijaId  && e.KorisnikId == korisnikId && e.DatumOtkazano == null)
                 .Select(e => e.ProjekcijaTerminId)
                 .ToList();
 

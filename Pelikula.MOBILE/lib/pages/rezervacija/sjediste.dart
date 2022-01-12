@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pelikula_mobile/model/lov.dart';
 
+// ignore: must_be_immutable
 class Sjediste extends StatefulWidget {
   final LoV sjediste;
   final bool disabled;

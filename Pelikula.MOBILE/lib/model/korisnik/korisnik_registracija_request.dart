@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class KorisnikRegistracijaRequest {
   String? korisnickoIme;
   String? ime;

@@ -9,6 +9,7 @@ import 'package:pelikula_mobile/model/response/error_response.dart';
 import 'package:pelikula_mobile/model/response/list_payload_response.dart';
 import 'package:pelikula_mobile/model/response/payload_response.dart';
 import 'package:pelikula_mobile/model/rezervacija/rezervacija_upsert_request.dart';
+import 'package:pelikula_mobile/pages/kupovina/kupovina_placanje.dart';
 import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
 import 'package:pelikula_mobile/pages/rezervacija/prikaz_sjedista.dart';
 import 'package:pelikula_mobile/pages/rezervacija/sjediste.dart';
@@ -17,8 +18,13 @@ import 'package:pelikula_mobile/services/api_service.dart';
 class RezervacijaOdabirSjedista extends StatefulWidget {
   final RezervacijaUpsertRequest request;
   final ProjekcijaDetailedResponse projekcija;
+  final String terminNaziv;
 
-  const RezervacijaOdabirSjedista(this.request, this.projekcija, {Key? key})
+  final bool isRezervacija;
+
+  const RezervacijaOdabirSjedista(
+      this.request, this.projekcija, this.isRezervacija, this.terminNaziv,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -87,7 +93,9 @@ class _RezervacijaOdabirSjedistaState extends State<RezervacijaOdabirSjedista> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.projekcija.film!.naslov!,
+          widget.isRezervacija
+              ? "${widget.projekcija.film!.naslov!} - Rezervacija"
+              : "${widget.projekcija.film!.naslov!} - Kupovina",
         ),
       ),
       body: Center(
@@ -156,6 +164,31 @@ class _RezervacijaOdabirSjedistaState extends State<RezervacijaOdabirSjedista> {
       ),
     );
 
+    final btnDalje = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(30.0),
+      color: const Color(0xff01A0C7),
+      child: MaterialButton(
+        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () async {
+          if (widget.request.sjedistaIds!.length !=
+              widget.request.brojSjedista) {
+            _showDialog(
+                "Odaberite tačan broj sjedišta!\n\n\nOdabrano sjedišta: ${widget.request.sjedistaIds!.length}/${widget.request.brojSjedista}");
+          } else {
+            print(request.sjedistaIds);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => KupovinaPlacanje(
+                    widget.request, widget.projekcija, widget.terminNaziv)));
+          }
+        },
+        child: Text("Dalje",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+
     return FutureBuilder(
         future: getSjedista(_odabraniTermin),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -199,7 +232,9 @@ class _RezervacijaOdabirSjedistaState extends State<RezervacijaOdabirSjedista> {
                       children: [
                         btnOdustani,
                         const SizedBox(width: 15.0),
-                        Expanded(child: btnZavrsi)
+                        widget.isRezervacija
+                            ? Expanded(child: btnZavrsi)
+                            : Expanded(child: btnDalje)
                       ]),
                 ]);
           } else {

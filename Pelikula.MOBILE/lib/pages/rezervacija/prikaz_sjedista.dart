@@ -140,8 +140,38 @@ class _PrikazSjedistaState extends State<PrikazSjedista> {
           ),
         )
       ]));
+      widgetList.add(const SizedBox(height: 30.0));
+      widgetList.add(
+        Row(children: [
+          createLegendTile("Slobodno", 0xff01A0C7),
+          createLegendTile("Zauzeto", 0xff97AFBA),
+          createLegendTile("Odabrano", 0xffe36b9d),
+        ]),
+      );
     }
 
     return response;
+  }
+
+  Widget createLegendTile(String tekst, int boja) {
+    return Expanded(
+      child: Row(children: [
+        Container(
+          height: 20.0,
+          width: 20.0,
+          child: Material(
+            elevation: 5.0,
+            borderRadius: BorderRadius.circular(3.0),
+            color: Color(boja),
+            child: const MaterialButton(
+              onPressed: null,
+              child: Text(""),
+            ),
+          ),
+        ),
+        const SizedBox(width: 5.0),
+        Text(tekst)
+      ]),
+    );
   }
 }
