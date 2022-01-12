@@ -123,7 +123,7 @@ namespace Pelikula.CORE.Impl
             var projekcijaTermin = Context.ProjekcijaTermin.FirstOrDefault(e => e.Id == request.ProjekcijaTerminId);
             var projekcija = Context.Projekcija.FirstOrDefault(e => e.Id == projekcijaTermin.ProjekcijaId);
 
-            
+
             Rezervacija entity = Context.Set<Rezervacija>().Include(e => e.SjedisteRezervacija).FirstOrDefault(e => e.Id == id);
             var sjedisteRezervacijaForDelete = entity.SjedisteRezervacija.Where(e => !request.SjedistaIds.Contains(e.SjedisteId)).ToList();
             Context.SjedisteRezervacija.RemoveRange(sjedisteRezervacijaForDelete);
@@ -205,7 +205,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<RezervacijaSimpleResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public PagedPayloadResponse<RezervacijaResponse> GetNotProdaja( PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
+        public PagedPayloadResponse<RezervacijaResponse> GetNotProdaja(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting) {
             IEnumerable<Rezervacija> entityList = Context.Set<Rezervacija>()
                 .Include(e => e.Korisnik)
                 .Include(e => e.ProjekcijaTermin).ThenInclude(e => e.Projekcija).ThenInclude(e => e.Film)

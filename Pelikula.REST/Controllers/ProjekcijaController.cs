@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -59,9 +58,9 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpGet("{korisnickoIme}/preporucene")]
-        public async Task<ListPayloadResponse<ProjekcijaResponse>> GetPreporucene(string korisnickoIme) {
-            return await Service.GetPreporucene(korisnickoIme);
+        [HttpGet("preporucene/{korisnikId}")]
+        public ListPayloadResponse<ProjekcijaResponse> GetPreporucene(int korisnikId) {
+            return Service.GetPreporucene(korisnikId);
         }
 
         [Authorize]

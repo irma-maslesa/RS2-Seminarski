@@ -2,12 +2,10 @@
 using Pelikula.API.Model.Korisnik;
 using Pelikula.CORE.Helper.Response;
 using Pelikula.DAO;
-using Pelikula.WINUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Net.Mail;
 using System.Windows.Forms;

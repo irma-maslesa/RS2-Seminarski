@@ -1,16 +1,14 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace Pelikula.DAO.Migrations
 {
     public partial class Initial : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "FilmskaLicnost",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ime = table.Column<string>(maxLength: 250, nullable: false),
@@ -18,29 +16,25 @@ namespace Pelikula.DAO.Migrations
                     IsReziser = table.Column<bool>(nullable: false),
                     IsGlumac = table.Column<bool>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_FilmskaLicnost", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "JedinicaMjere",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KratkiNaziv = table.Column<string>(nullable: false),
                     Naziv = table.Column<string>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_JedinicaMjere", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Sala",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naziv = table.Column<string>(maxLength: 250, nullable: false),
@@ -48,42 +42,36 @@ namespace Pelikula.DAO.Migrations
                     BrojSjedistaDuzina = table.Column<int>(nullable: false),
                     BrojSjedistaSirina = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Sala", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "TipKorisnika",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naziv = table.Column<string>(maxLength: 250, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_TipKorisnika", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Zanr",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naziv = table.Column<string>(maxLength: 250, nullable: false),
                     Opis = table.Column<string>(maxLength: 2000, nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Zanr", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Artikal",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     JedinicaMjereID = table.Column<int>(nullable: false),
@@ -93,8 +81,7 @@ namespace Pelikula.DAO.Migrations
                     Slika = table.Column<byte[]>(nullable: true),
                     SlikaThumb = table.Column<byte[]>(nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Artikal", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Artikal_JedinicaMjere_JedinicaMjereId",
@@ -106,16 +93,14 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Sjediste",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Red = table.Column<string>(maxLength: 1, nullable: false),
                     Broj = table.Column<int>(nullable: false),
                     SalaID = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Sjediste", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Sjediste_Sala",
@@ -127,8 +112,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Korisnik",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TipKorisnikaID = table.Column<int>(nullable: false),
@@ -141,8 +125,7 @@ namespace Pelikula.DAO.Migrations
                     Spol = table.Column<string>(maxLength: 10, nullable: false),
                     DatumRodjenja = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Korisnik", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Korisnik_TipKorisnika",
@@ -154,8 +137,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Film",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naslov = table.Column<string>(maxLength: 250, nullable: false),
@@ -169,8 +151,7 @@ namespace Pelikula.DAO.Migrations
                     RediteljID = table.Column<int>(nullable: false),
                     ZanrID = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Film", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Film_FilmskaLicnost_RediteljId",
@@ -188,8 +169,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Anketa",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KorisnikID = table.Column<int>(nullable: false),
@@ -197,8 +177,7 @@ namespace Pelikula.DAO.Migrations
                     Datum = table.Column<DateTime>(nullable: false),
                     ZakljucenoDatum = table.Column<DateTime>(nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Anketa", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Anketa_Korisnik_KorisnikId",
@@ -210,8 +189,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Obavijest",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KorisnikID = table.Column<int>(nullable: false),
@@ -219,8 +197,7 @@ namespace Pelikula.DAO.Migrations
                     Tekst = table.Column<string>(maxLength: 2000, nullable: false),
                     Datum = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Obavijest", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Obavijest_Korisnik_KorisnikId",
@@ -232,15 +209,13 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "FilmGlumac",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FilmID = table.Column<int>(nullable: false),
                     FilmskaLicnostID = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_FilmGlumac", x => x.ID);
                     table.ForeignKey(
                         name: "FK_FilmGlumacDodjela_Film_FilmId",
@@ -258,8 +233,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Projekcija",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FilmID = table.Column<int>(nullable: false),
@@ -269,8 +243,7 @@ namespace Pelikula.DAO.Migrations
                     VrijediOd = table.Column<DateTime>(nullable: false),
                     VrijediDo = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Projekcija", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Projekcija_Film_FilmId",
@@ -288,8 +261,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AnketaOdgovor",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AnketaID = table.Column<int>(nullable: false),
@@ -297,8 +269,7 @@ namespace Pelikula.DAO.Migrations
                     RedniBroj = table.Column<int>(nullable: false),
                     UkupnoIzabrano = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_AnketaOdgovor", x => x.ID);
                     table.ForeignKey(
                         name: "FK_AnketaOdgovor_Anketa_AnketaId",
@@ -310,8 +281,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Dojam",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjekcijaID = table.Column<int>(nullable: false),
@@ -320,8 +290,7 @@ namespace Pelikula.DAO.Migrations
                     Tekst = table.Column<string>(maxLength: 2000, nullable: true),
                     Datum = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Dojam", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Dojam_Korisnik_KorisnikId",
@@ -339,8 +308,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProjekcijaKorisnik",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjekcijaID = table.Column<int>(nullable: false),
@@ -348,8 +316,7 @@ namespace Pelikula.DAO.Migrations
                     DatumPosjete = table.Column<DateTime>(nullable: false),
                     DatumPosljednjePosjete = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ProjekcijaKorisnik", x => x.ID);
                     table.ForeignKey(
                         name: "FK_ProjekcijaKorisnikDodjela_Korisnik_KorisnikId",
@@ -367,15 +334,13 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProjekcijaTermin",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjekcijaID = table.Column<int>(nullable: false),
                     Termin = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ProjekcijaTermin", x => x.ID);
                     table.ForeignKey(
                         name: "FK_ProjekcijaTermin_Projekcija_ProjekcijaId",
@@ -387,16 +352,14 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AnketaOdgovorKorisnik",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AnketaOdgovorID = table.Column<int>(nullable: false),
                     KorisnikID = table.Column<int>(nullable: false),
                     Datum = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_AnketaOdgovorKorisnik", x => x.ID);
                     table.ForeignKey(
                         name: "FK_AnketaOdgovorKorisnikDodjela_AnketaOdgovor_AnketaOdgovorId",
@@ -414,8 +377,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Rezervacija",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KorisnikID = table.Column<int>(nullable: false),
@@ -427,8 +389,7 @@ namespace Pelikula.DAO.Migrations
                     DatumOtkazano = table.Column<DateTime>(nullable: true),
                     ProjekcijaTerminID = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Rezervacija", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Rezervacija_Korisnik_KorisnikId",
@@ -446,8 +407,7 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Prodaja",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BrojRacuna = table.Column<string>(nullable: false),
@@ -455,8 +415,7 @@ namespace Pelikula.DAO.Migrations
                     Datum = table.Column<DateTime>(nullable: false),
                     RezervacijaId = table.Column<int>(nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Prodaja", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Prodaja_Korisnik_KorisnikId",
@@ -474,15 +433,13 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SjedisteRezervacija",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SjedisteID = table.Column<int>(nullable: false),
                     RezervacijaID = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_SjedisteRezervacija", x => x.ID);
                     table.ForeignKey(
                         name: "FK_SjedisteRezervacija_Rezervacija",
@@ -500,16 +457,14 @@ namespace Pelikula.DAO.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProdajaArtikal",
-                columns: table => new
-                {
+                columns: table => new {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProdajaID = table.Column<int>(nullable: false),
                     ArtikalID = table.Column<int>(nullable: false),
                     Kolicina = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ProdajaArtikal", x => x.ID);
                     table.ForeignKey(
                         name: "FK_ProdajaArtikalDodjela_Artikal_ArtikalId",
@@ -984,8 +939,7 @@ namespace Pelikula.DAO.Migrations
                 column: "SjedisteID");
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "AnketaOdgovorKorisnik");
 

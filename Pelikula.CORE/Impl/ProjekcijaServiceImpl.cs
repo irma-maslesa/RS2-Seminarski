@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Pelikula.CORE.Impl
 {
@@ -170,77 +169,99 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<ProjekcijaResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public async Task<ListPayloadResponse<ProjekcijaResponse>> GetPreporucene(string korisnickoIme) {
-            var datum = DateTime.Now.Date;
+        public ListPayloadResponse<ProjekcijaResponse> GetPreporucene(int korisnikId) {
 
-            var preporuceneProjekcije = new List<Projekcija>();
-            var maksimalnoPreporucenih = 5;
+            var datum = DateTime.Now;
 
-            var korisnik = await Context.Korisnik.FirstOrDefaultAsync(x => x.KorisnickoIme.ToLower().Equals(korisnickoIme.ToLower()));
-            if (korisnik != null) {
-                var preporuceniRediteljiIds = new List<int>();
-                var preporuceniZanroviIds = new List<int>();
-                var preporuceneProjekcijeIds = new List<int>();
+            var korisnici = Context.Korisnik.Where(e => e.Id != korisnikId && e.TipKorisnika.Naziv == KorisnikTip.Klijent.ToString()).ToList();
 
-                var posjeceneProjekcije = await Context.ProjekcijaKorisnik
-                                                        .Include(e => e.Projekcija)
-                                                        .ThenInclude(e => e.Film)
-                                                        .Where(e => e.KorisnikId == korisnik.Id)
-                                                        .Select(e => e.Projekcija).ToListAsync();
-
-                preporuceniRediteljiIds.AddRange(posjeceneProjekcije.Select(e => e.Film.RediteljId));
-                preporuceniZanroviIds.AddRange(posjeceneProjekcije.Select(e => e.Film.ZanrId));
-
-                preporuceneProjekcijeIds.AddRange(posjeceneProjekcije.Select(e => e.Id));
-
-                if (preporuceniRediteljiIds.Any() || preporuceniZanroviIds.Any()) {
-                    if (preporuceniRediteljiIds.Any() && preporuceniZanroviIds.Any()) {
-                        preporuceneProjekcije = await Context.Projekcija
-                                                        .Include(e => e.ProjekcijaTermin)
-                                                        .Include(e => e.Film)
-                                                        .Include(e => e.Sala)
-                                                        .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo.Date >= datum &&
-                                                                    !preporuceneProjekcijeIds.Contains(e.Id) &&
-                                                                    (preporuceniRediteljiIds.Contains(e.Film.RediteljId) ||
-                                                                    preporuceniZanroviIds.Contains(e.Film.ZanrId)))
-                                                        .OrderBy(e => Guid.NewGuid()).Take(maksimalnoPreporucenih)
-                                                        .ToListAsync();
-                    }
-                    else if (preporuceniRediteljiIds.Any()) {
-                        preporuceneProjekcije = await Context.Projekcija
-                                                        .Include(e => e.ProjekcijaTermin)
-                                                        .Include(e => e.Film)
-                                                        .Include(e => e.Sala)
-                                                        .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo.Date >= datum &&
-                                                                    !preporuceneProjekcijeIds.Contains(e.Id) && preporuceniRediteljiIds.Contains(e.Film.RediteljId))
-                                                        .OrderBy(e => Guid.NewGuid()).Take(maksimalnoPreporucenih)
-                                                        .ToListAsync();
-                    }
-                    else {
-                        preporuceneProjekcije = await Context.Projekcija
-                                                        .Include(e => e.ProjekcijaTermin)
-                                                        .Include(e => e.Film)
-                                                        .Include(e => e.Sala)
-                                                        .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo.Date >= datum &&
-                                                                    !preporuceneProjekcijeIds.Contains(e.Id) && preporuceniZanroviIds.Contains(e.Film.ZanrId))
-                                                        .OrderBy(e => Guid.NewGuid()).Take(maksimalnoPreporucenih)
-                                                        .ToListAsync();
-                    }
-                }
+            Dictionary<Korisnik, List<Dojam>> korisnikOcjene = new Dictionary<Korisnik, List<Dojam>>();
+            foreach (var korisnik in korisnici) {
+                var ocjene = Context.Dojam
+                    .Where(e => e.KorisnikId == korisnik.Id)
+                    .ToList();
+                korisnikOcjene.Add(korisnik, ocjene);
             }
 
-            if (!preporuceneProjekcije.Any())
-                preporuceneProjekcije = await Context.Projekcija
-                            .Include(e => e.ProjekcijaTermin)
-                            .Include(e => e.Film)
-                            .Include(e => e.Sala)
-                            .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo.Date >= datum)
-                            .OrderBy(e => Guid.NewGuid()).Take(maksimalnoPreporucenih)
-                            .ToListAsync();
+            var dojmoviPosmatraca = Context.Dojam.Where(e => e.KorisnikId == korisnikId).ToList();
 
+            if (dojmoviPosmatraca == null || dojmoviPosmatraca.Count == 0)
+                return new ListPayloadResponse<ProjekcijaResponse>(HttpStatusCode.OK, new List<ProjekcijaResponse>());
 
-            var preporuceneProjekcijeResponse = Mapper.Map<List<ProjekcijaResponse>>(preporuceneProjekcije);
+            List<Dojam> zajednickeOcjenePosmatrac = new List<Dojam>();
+            List<Dojam> zajednickeOcjeneKorisnik2 = new List<Dojam>();
+
+            var rezervisaneProjekcijeIds = Context.Rezervacija
+                .Where(e => e.KorisnikId == korisnikId)
+                .Select(e => e.ProjekcijaTermin.ProjekcijaId)
+                .ToList();
+            var preporuceneProjekcijeIds = new List<int>();
+
+            foreach (var item in korisnikOcjene) {
+                foreach (var dojam in dojmoviPosmatraca) {
+                    if (item.Value.Any(e => e.ProjekcijaId == dojam.ProjekcijaId)) {
+                        zajednickeOcjenePosmatrac.Add(dojam);
+                        zajednickeOcjeneKorisnik2.Add(item.Value.FirstOrDefault(e => e.ProjekcijaId == dojam.ProjekcijaId));
+                    }
+                }
+
+                double slicnost = GetSlicnost(zajednickeOcjenePosmatrac, zajednickeOcjeneKorisnik2);
+
+                if (slicnost > 0.5) {
+                    var dobroOcjenjeneProjekcijeIds = korisnikOcjene
+                        .Select(e => e.Value)
+                        .SelectMany(e => e)
+                        .Where(e => e.Ocjena > 3)
+                        .Select(e => e.ProjekcijaId)
+                        .Where(e => !rezervisaneProjekcijeIds.Contains(e))
+                        .ToList();
+
+                    dobroOcjenjeneProjekcijeIds.ForEach(e => {
+                        if (!preporuceneProjekcijeIds.Contains(e))
+                            preporuceneProjekcijeIds.Add(e);
+                    });
+                }
+
+                zajednickeOcjenePosmatrac.Clear();
+                zajednickeOcjeneKorisnik2.Clear();
+            }
+
+            var preporuceneProjekcije = Context.Set<Projekcija>()
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.Zanr)
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.Reditelj)
+                .Include(e => e.Film)
+                    .ThenInclude(e => e.FilmGlumac)
+                        .ThenInclude(e => e.FilmskaLicnost)
+                .Include(e => e.Sala)
+                .Include(e => e.ProjekcijaTermin)
+                .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo >= datum && preporuceneProjekcijeIds.Contains(e.Id))
+                .ToList();
+
+            List<ProjekcijaResponse> preporuceneProjekcijeResponse = Mapper.Map<List<ProjekcijaResponse>>(preporuceneProjekcije);
             return new ListPayloadResponse<ProjekcijaResponse>(HttpStatusCode.OK, preporuceneProjekcijeResponse);
+        }
+
+        private double GetSlicnost(List<Dojam> zajednickeOcjene1, List<Dojam> zajednickeOcjene2) {
+            if (zajednickeOcjene1.Count != zajednickeOcjene2.Count)
+                return 0;
+
+            double brojnik = 0, nazivnik1 = 0, nazivnik2 = 0;
+
+            for (int i = 0; i < zajednickeOcjene1.Count; i++) {
+                brojnik += zajednickeOcjene1[i].Ocjena * zajednickeOcjene2[i].Ocjena;
+                nazivnik1 += zajednickeOcjene1[i].Ocjena * zajednickeOcjene1[i].Ocjena;
+                nazivnik2 += zajednickeOcjene2[i].Ocjena * zajednickeOcjene2[i].Ocjena;
+            }
+            nazivnik1 = Math.Sqrt(nazivnik1);
+            nazivnik2 = Math.Sqrt(nazivnik2);
+
+            double nazivnik = nazivnik1 * nazivnik2;
+            if (nazivnik == 0)
+                return 0;
+            else
+                return brojnik / nazivnik;
         }
 
         public PayloadResponse<string> PosjetiProjekciju(int projekcijaId, int korisnikId) {
@@ -306,7 +327,7 @@ namespace Pelikula.CORE.Impl
                 .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo >= datum)
                 .ToList();
 
-            entityList.ToList().ForEach(e => e.ProjekcijaTermin= e.ProjekcijaTermin.Where(o=> o.Termin > datum).ToList());
+            entityList.ToList().ForEach(e => e.ProjekcijaTermin = e.ProjekcijaTermin.Where(o => o.Termin > datum).ToList());
 
             entityList = filter != null && filter.Any() ? FilterUtility.Filter<Projekcija>.FilteredData(filter, entityList) : entityList;
             entityList = sorting != null && sorting.Any() ? SortingUtility.Sorting<Projekcija>.SortData(sorting, entityList) : entityList;
@@ -316,7 +337,7 @@ namespace Pelikula.CORE.Impl
             if (zanrId != null) {
                 ZanrValidator.ValidateEntityExists(zanrId.Value);
                 entityList = entityList.Where(e => e.Film.ZanrId == zanrId.Value);
-            }           
+            }
 
             List<ProjekcijaDetailedResponse> responseList = Mapper.Map<List<ProjekcijaDetailedResponse>>(entityList);
 
@@ -364,7 +385,7 @@ namespace Pelikula.CORE.Impl
 
             List<int> rezervisaniTermini = Context.Set<Rezervacija>()
                 .Include(e => e.ProjekcijaTermin.Projekcija)
-                .Where(e => e.ProjekcijaTermin.ProjekcijaId == projekcijaId  && e.KorisnikId == korisnikId && e.DatumOtkazano == null)
+                .Where(e => e.ProjekcijaTermin.ProjekcijaId == projekcijaId && e.KorisnikId == korisnikId && e.DatumOtkazano == null)
                 .Select(e => e.ProjekcijaTerminId)
                 .ToList();
 

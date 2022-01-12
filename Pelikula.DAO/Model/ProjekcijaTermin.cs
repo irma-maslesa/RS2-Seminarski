@@ -9,8 +9,7 @@ namespace Pelikula.DAO.Model
 {
     public partial class ProjekcijaTermin
     {
-        public ProjekcijaTermin()
-        {
+        public ProjekcijaTermin() {
             Rezervacija = new HashSet<Rezervacija>();
         }
 
