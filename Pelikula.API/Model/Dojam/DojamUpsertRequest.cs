@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Pelikula.API.Model.Dojam
+﻿namespace Pelikula.API.Model.Dojam
 {
     public partial class DojamUpsertRequest
     {

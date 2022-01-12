@@ -15,7 +15,8 @@ using System.Text;
 namespace API.Controllers
 {
     public class ProdajaController :
-        CrudController<ProdajaResponse, ProdajaInsertRequest, object> {
+        CrudController<ProdajaResponse, ProdajaInsertRequest, object>
+    {
         protected new readonly IProdajaService Service;
 
         public ProdajaController(IProdajaService service) : base(service) {

@@ -212,7 +212,7 @@ namespace Pelikula.WINUI.Forms.Rezervacija
 
         private void BtnOdaberiSjedista_Click(object sender, EventArgs e) {
             FrmOdabirSjedista frm = new FrmOdabirSjedista(sjedistaList, zauzetaSjedistaList, _request.SjedistaIds?.ToList(), _rezervisanaSjedistaIds.ToList()) {
-                
+
             };
 
             if (frm.ShowDialog() == DialogResult.OK) {

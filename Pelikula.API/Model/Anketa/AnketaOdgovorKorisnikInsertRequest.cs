@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Pelikula.API.Model.Anketa
+﻿namespace Pelikula.API.Model.Anketa
 {
     public class AnketaOdgovorKorisnikInsertRequest
     {
