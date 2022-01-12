@@ -169,7 +169,7 @@ namespace Pelikula.CORE.Impl
             return new PagedPayloadResponse<ProjekcijaResponse>(HttpStatusCode.OK, pagedResponse);
         }
 
-        public ListPayloadResponse<ProjekcijaResponse> GetPreporucene(int korisnikId) {
+        public ListPayloadResponse<ProjekcijaDetailedResponse> GetPreporucene(int korisnikId) {
 
             var datum = DateTime.Now;
 
@@ -186,7 +186,7 @@ namespace Pelikula.CORE.Impl
             var dojmoviPosmatraca = Context.Dojam.Where(e => e.KorisnikId == korisnikId).ToList();
 
             if (dojmoviPosmatraca == null || dojmoviPosmatraca.Count == 0)
-                return new ListPayloadResponse<ProjekcijaResponse>(HttpStatusCode.OK, new List<ProjekcijaResponse>());
+                return new ListPayloadResponse<ProjekcijaDetailedResponse>(HttpStatusCode.OK, new List<ProjekcijaDetailedResponse>());
 
             List<Dojam> zajednickeOcjenePosmatrac = new List<Dojam>();
             List<Dojam> zajednickeOcjeneKorisnik2 = new List<Dojam>();
@@ -239,8 +239,8 @@ namespace Pelikula.CORE.Impl
                 .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo >= datum && preporuceneProjekcijeIds.Contains(e.Id))
                 .ToList();
 
-            List<ProjekcijaResponse> preporuceneProjekcijeResponse = Mapper.Map<List<ProjekcijaResponse>>(preporuceneProjekcije);
-            return new ListPayloadResponse<ProjekcijaResponse>(HttpStatusCode.OK, preporuceneProjekcijeResponse);
+            List<ProjekcijaDetailedResponse> preporuceneProjekcijeResponse = Mapper.Map<List<ProjekcijaDetailedResponse>>(preporuceneProjekcije);
+            return new ListPayloadResponse<ProjekcijaDetailedResponse>(HttpStatusCode.OK, preporuceneProjekcijeResponse);
         }
 
         private double GetSlicnost(List<Dojam> zajednickeOcjene1, List<Dojam> zajednickeOcjene2) {

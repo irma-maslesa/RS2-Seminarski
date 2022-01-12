@@ -12,7 +12,7 @@ namespace Pelikula.API.Api
 
         PagedPayloadResponse<ProjekcijaDetailedResponse> GetDetailedActive(PaginationUtility.PaginationParams pagination, IEnumerable<FilterUtility.FilterParams> filter, IEnumerable<SortingUtility.SortingParams> sorting, string naziv, int? zanrId);
 
-        ListPayloadResponse<ProjekcijaResponse> GetPreporucene(int korisnikId);
+        ListPayloadResponse<ProjekcijaDetailedResponse> GetPreporucene(int korisnikId);
 
         PayloadResponse<string> PosjetiProjekciju(int projekcijaId, int korisnikId);
 
