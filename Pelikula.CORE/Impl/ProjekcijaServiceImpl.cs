@@ -192,7 +192,7 @@ namespace Pelikula.CORE.Impl
             List<Dojam> zajednickeOcjeneKorisnik2 = new List<Dojam>();
 
             var rezervisaneProjekcijeIds = Context.Rezervacija
-                .Where(e => e.KorisnikId == korisnikId)
+                .Where(e => e.KorisnikId == korisnikId && e.DatumOtkazano == null)
                 .Select(e => e.ProjekcijaTermin.ProjekcijaId)
                 .ToList();
             var preporuceneProjekcijeIds = new List<int>();

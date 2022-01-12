@@ -4,6 +4,7 @@ import 'package:pelikula_mobile/pages/korisnik/prijava.dart';
 import 'package:pelikula_mobile/pages/korisnik/uredi_profil.dart';
 import 'package:pelikula_mobile/pages/kupovina/kupovina.dart';
 import 'package:pelikula_mobile/pages/obavijest/obavijest.dart';
+import 'package:pelikula_mobile/pages/projekcija/preporuke.dart';
 import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
 import 'package:pelikula_mobile/pages/rezervacija/rezervacija.dart';
 import 'package:pelikula_mobile/services/api_service.dart';
@@ -103,7 +104,7 @@ class MyDrawer extends StatelessWidget {
         children: [
           drawerHeader,
           sizedBox,
-          createTile("Preporučeno", const Scaffold()),
+          createTile("Preporučeno", const Preporuke()),
           sizedBox,
           createTile("Projekcije", const Projekcije(true)),
           sizedBox,
