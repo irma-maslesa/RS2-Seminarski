@@ -59,7 +59,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet("preporucene/{korisnikId}")]
-        public ListPayloadResponse<ProjekcijaResponse> GetPreporucene(int korisnikId) {
+        public ListPayloadResponse<ProjekcijaDetailedResponse> GetPreporucene(int korisnikId) {
             return Service.GetPreporucene(korisnikId);
         }
 

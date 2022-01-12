@@ -38,7 +38,7 @@ class _PrikazKupovineState extends State<PrikazKupovine> {
               Expanded(
                 child: QrImage(
                   data: tekst,
-                  version: 3,
+                  version: 8,
                 ),
               ),
             ]),
@@ -95,8 +95,8 @@ class _PrikazKupovineState extends State<PrikazKupovine> {
     qrData +=
         "- ${widget.kupovina.rezervacija!.projekcijaTermin!.projekcija!.sala!.naziv}\n";
     qrData +=
-        "S: ${widget.kupovina.rezervacija!.sjedista!.map((e) => e.sjediste!.naziv!).join(", ")}\n";
-    qrData += "K: ${ApiService.korisnickoIme}";
+        "Sjedišta: ${widget.kupovina.rezervacija!.sjedista!.map((e) => e.sjediste!.naziv!).join(", ")}\n";
+    qrData += "Korisnik: ${ApiService.korisnickoIme}";
 
     final txtTermin = TextFormField(
       enabled: false,
