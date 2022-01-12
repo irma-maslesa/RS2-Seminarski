@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w700,
             )),
         fontFamily: 'Rajdhani',
+        primaryColor: const Color(0xff01A0C7),
         colorScheme:
             ThemeData().colorScheme.copyWith(primary: const Color(0xff01A0C7)),
       ),

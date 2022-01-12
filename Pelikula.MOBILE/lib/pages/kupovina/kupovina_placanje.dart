@@ -1,11 +1,17 @@
+import 'dart:convert';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:pelikula_mobile/model/prodaja/prodaja_insert_request.dart';
 import 'package:pelikula_mobile/model/projekcija/projekcija_detailed_response.dart';
+import 'package:pelikula_mobile/model/response/error_response.dart';
+import 'package:pelikula_mobile/model/response/payload_response.dart';
+import 'package:pelikula_mobile/model/rezervacija/rezervacija_response.dart';
 import 'package:pelikula_mobile/model/rezervacija/rezervacija_upsert_request.dart';
-import 'package:pelikula_mobile/pages/rezervacija/prikaz_sjedista.dart';
+import 'package:pelikula_mobile/pages/projekcija/projekcije.dart';
+import 'package:pelikula_mobile/services/api_service.dart';
 
 class KupovinaPlacanje extends StatefulWidget {
   final RezervacijaUpsertRequest rezervacijaRequest;
@@ -22,6 +28,10 @@ class KupovinaPlacanje extends StatefulWidget {
 }
 
 class _KupovinaPlacanjeState extends State<KupovinaPlacanje> {
+  ProdajaInsertRequest request = ProdajaInsertRequest();
+  dynamic rezervacijaResponse;
+  dynamic response;
+
   TextStyle style = const TextStyle(fontSize: 18.0);
   TextEditingController terminController = TextEditingController();
   TextEditingController brojSjedistaController = TextEditingController();
@@ -31,9 +41,38 @@ class _KupovinaPlacanjeState extends State<KupovinaPlacanje> {
   String datumIsteka = "";
   String vlasnik = "";
   String cvvKod = "";
-  bool isCvvFocused = true;
+  bool isCvvFocused = false;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  Future<void> _showDialog(String text, [dismissable = true]) async {
+    return showDialog<void>(
+      barrierDismissible: dismissable,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(text),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> sendRezervacijaRequest(RezervacijaUpsertRequest request) async {
+    rezervacijaResponse = await ApiService.post(
+        "Rezervacija", json.encode(widget.rezervacijaRequest.toJson()));
+  }
+
+  Future<void> sendRequest(ProdajaInsertRequest request) async {
+    response = await ApiService.post("Prodaja", json.encode(request.toJson()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +123,6 @@ class _KupovinaPlacanjeState extends State<KupovinaPlacanje> {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
           Navigator.of(context).pop();
-          Navigator.of(context).pop();
         },
         child: Text("Odustani",
             textAlign: TextAlign.center,
@@ -100,9 +138,37 @@ class _KupovinaPlacanjeState extends State<KupovinaPlacanje> {
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
-            print('valid!');
-          } else {
-            print('invalid!');
+            await sendRezervacijaRequest(widget.rezervacijaRequest);
+
+            if (rezervacijaResponse == null) {
+              _showDialog('Došlo je do greške, pokušajte opet!');
+            } else if (rezervacijaResponse is PayloadResponse) {
+              var rezervacija =
+                  RezervacijaResponse.fromJson(rezervacijaResponse.payload);
+
+              request.rezervacijaId = rezervacija.id;
+              request.datum = rezervacija.datum;
+
+              await sendRequest(request);
+
+              if (response == null) {
+                _showDialog('Došlo je do greške, pokušajte opet!');
+              } else if (response is PayloadResponse) {
+                await _showDialog("Uspješno kupljeno!", false);
+
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const Projekcije(true),
+                  ),
+                  (route) => false,
+                );
+              } else {
+                _showDialog((response as ErrorResponse).message as String);
+              }
+            } else {
+              _showDialog(
+                  (rezervacijaResponse as ErrorResponse).message as String);
+            }
           }
         },
         child: Text("Kupi",
@@ -122,10 +188,9 @@ class _KupovinaPlacanjeState extends State<KupovinaPlacanje> {
       });
     }
 
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+    return Column(children: [
+      Expanded(
+        child: ListView(children: [
           Row(children: [
             Expanded(
               child: Column(
@@ -144,87 +209,78 @@ class _KupovinaPlacanjeState extends State<KupovinaPlacanje> {
             )
           ]),
           const SizedBox(height: 15.0),
-          Expanded(
-            child: ListView(children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: CreditCardWidget(
-                      cardBgColor: const Color(0xff01A0C7),
-                      cardNumber: brojKartice,
-                      showBackView: false,
-                      cvvCode: cvvKod,
-                      cardHolderName: vlasnik,
-                      expiryDate: datumIsteka,
-                      onCreditCardWidgetChange: (ccb) {},
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: CreditCardForm(
-                      formKey: formKey,
-                      themeColor: Color(0xff01A0C7),
-                      onCreditCardModelChange: onCreditCardModelChange,
-                      cvvCode: cvvKod,
-                      cvvValidationMessage: "Unesite validan CVV",
-                      cardHolderName: vlasnik,
-                      cardNumber: brojKartice,
-                      numberValidationMessage: "Unesite validan broj kartice",
-                      expiryDate: datumIsteka,
-                      dateValidationMessage: "Unesite validan datum",
-                      cardNumberDecoration: InputDecoration(
-                        labelText: 'Broj kartice',
-                        hintText: 'XXXX XXXX XXXX XXXX',
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
-                      ),
-                      expiryDateDecoration: InputDecoration(
-                        labelText: 'Datum isteka',
-                        hintText: 'MM/GG',
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
-                      ),
-                      cvvCodeDecoration: InputDecoration(
-                        labelText: 'CVV',
-                        hintText: 'XXXX',
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
-                      ),
-                      cardHolderDecoration: InputDecoration(
-                        labelText: 'Vlasnik',
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ]),
-          ),
-          const SizedBox(height: 15.0),
           Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(child: btnOdustani),
-                const SizedBox(width: 15.0),
-                Expanded(child: btnDalje),
-              ]),
-        ]);
+            children: [
+              Expanded(
+                child: CreditCardWidget(
+                  cardBgColor: const Color(0xff01A0C7),
+                  cardNumber: brojKartice,
+                  showBackView: isCvvFocused,
+                  cvvCode: cvvKod,
+                  cardHolderName: vlasnik,
+                  expiryDate: datumIsteka,
+                  onCreditCardWidgetChange: (ccb) {},
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: CreditCardForm(
+                  formKey: formKey,
+                  themeColor: Color(0xff01A0C7),
+                  onCreditCardModelChange: onCreditCardModelChange,
+                  cvvCode: cvvKod,
+                  cvvValidationMessage: "Unesite validan CVV",
+                  cardHolderName: vlasnik,
+                  cardNumber: brojKartice,
+                  numberValidationMessage: "Unesite validan broj kartice",
+                  expiryDate: datumIsteka,
+                  dateValidationMessage: "Unesite validan datum",
+                  isHolderNameVisible: false,
+                  cardNumberDecoration: InputDecoration(
+                    labelText: 'Broj kartice',
+                    hintText: 'XXXX XXXX XXXX XXXX',
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
+                  ),
+                  expiryDateDecoration: InputDecoration(
+                    labelText: 'Datum isteka',
+                    hintText: 'MM/GG',
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
+                  ),
+                  cvvCodeDecoration: InputDecoration(
+                    labelText: 'CVV',
+                    hintText: 'XXXX',
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ]),
+      ),
+      const SizedBox(height: 15.0),
+      Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(child: btnOdustani),
+            const SizedBox(width: 15.0),
+            Expanded(child: btnDalje),
+          ]),
+    ]);
   }
 }
