@@ -2,7 +2,9 @@ version: '3'
 
 services:
   app-sql:
-    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    build: 
+      context: .
+      dockerfile: Dockerfile.mssql
     restart: unless-stopped
     environment:
       - ACCEPT_EULA=Y
@@ -20,7 +22,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ConnectionStrings:DefaultConnection=Server=app-sql,1433;Database=IB180101;User=sa;Password=QWElkj132!;ConnectRetryCount=0
+      - ConnectionStrings:DefaultConnection=Server=app-sql,1433;Database=180101;User=sa;Password=QWElkj132!;ConnectRetryCount=0
     ports:
       - 5001:80
     networks:

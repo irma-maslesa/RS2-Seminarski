@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/mssql/server
+
+ADD setup.sql setup.sql
+ADD setup_database.sh setup_database.sh
+ADD entrypoint.sh entrypoint.sh
+
+CMD /bin/bash entrypoint.sh

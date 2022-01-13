@@ -6,7 +6,7 @@ namespace Pelikula.REST
     public static class SetupService
     {
         public static void Init(AppDbContext context) {
-            context.Database.Migrate();
+            //context.Database.Migrate();
         }
     }
 }
