@@ -97,7 +97,7 @@ class MyDrawer extends StatelessWidget {
       ),
     );
 
-    const sizedBox = SizedBox(height: 10);
+    const sizedBox = SizedBox(height: 5);
 
     return Drawer(
       child: ListView(

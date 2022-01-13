@@ -13,7 +13,7 @@ class ApiService {
   static String? korisnickoIme;
   static String? lozinka;
   String ruta;
-  static const String _baseRoute = "http://192.168.0.30:5001/api/";
+  static const String _baseRoute = "http://10.0.2.2:5001/api/";
 
   ApiService({required this.ruta});
 

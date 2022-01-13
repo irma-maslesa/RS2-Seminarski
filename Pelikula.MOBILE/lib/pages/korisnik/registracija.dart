@@ -281,80 +281,82 @@ class _RegistracijaState extends State<Registracija> {
 
     return Scaffold(
       body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //Logo
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Flexible(child: imgLogo),
-                        SizedBox(width: 15.0),
-                        txtPelikula,
-                      ]),
-                  const SizedBox(height: 20.0),
-                  Form(
-                    key: _formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Column(
+        child: ListView(children: [
+          Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //Logo
+                    Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //Ime i prezime
-                          Row(
-                            children: [
-                              Flexible(child: txtIme),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              Flexible(child: txtPrezime)
-                            ],
-                          ),
-                          const SizedBox(height: 5.0),
-                          txtMail,
-                          const SizedBox(height: 5.0),
-                          //Datum rodjenja i spol
-                          Row(
-                            children: [
-                              Flexible(child: dtpDatumRodjenja),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              Flexible(child: ddSpol())
-                            ],
-                          ),
-                          const SizedBox(height: 5.0),
-                          //Korisnicko ime i lozinka
-                          Row(
-                            children: [
-                              Flexible(child: txtKorisnickoIme),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              Flexible(child: txtLozinka)
-                            ],
-                          ),
-                          const SizedBox(height: 15.0),
-                          //Buttoni
-                          Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                btnOdustani,
-                                const SizedBox(width: 15.0),
-                                Expanded(child: btnRegistrujSe)
-                              ]),
+                        children: const [
+                          Flexible(child: imgLogo),
+                          SizedBox(width: 15.0),
+                          txtPelikula,
                         ]),
-                  ),
-                ]),
+                    const SizedBox(height: 20.0),
+                    Form(
+                      key: _formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //Ime i prezime
+                            Row(
+                              children: [
+                                Flexible(child: txtIme),
+                                const SizedBox(
+                                  width: 5.0,
+                                ),
+                                Flexible(child: txtPrezime)
+                              ],
+                            ),
+                            const SizedBox(height: 5.0),
+                            txtMail,
+                            const SizedBox(height: 5.0),
+                            //Datum rodjenja i spol
+                            Row(
+                              children: [
+                                Flexible(child: dtpDatumRodjenja),
+                                const SizedBox(
+                                  width: 5.0,
+                                ),
+                                Flexible(child: ddSpol())
+                              ],
+                            ),
+                            const SizedBox(height: 5.0),
+                            //Korisnicko ime i lozinka
+                            Row(
+                              children: [
+                                Flexible(child: txtKorisnickoIme),
+                                const SizedBox(
+                                  width: 5.0,
+                                ),
+                                Flexible(child: txtLozinka)
+                              ],
+                            ),
+                            const SizedBox(height: 15.0),
+                            //Buttoni
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  btnOdustani,
+                                  const SizedBox(width: 15.0),
+                                  Expanded(child: btnRegistrujSe)
+                                ]),
+                          ]),
+                    ),
+                  ]),
+            ),
           ),
-        ),
+        ]),
       ),
     );
   }

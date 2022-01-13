@@ -78,22 +78,29 @@ class _AnketeState extends State<Ankete> {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Expanded(
+                  child: ListView(children: [
+                    Card(
+                      child: ExpansionTile(
+                          initiallyExpanded: true,
+                          title:
+                              Text('Neodgovorene ankete', style: styleNaslov),
+                          children: _neodgovoreneAnkete()),
+                    ),
+                  ]),
+                ),
                 Card(
-                    child: ExpansionTile(
-                        initiallyExpanded: true,
-                        title: Text('Neodgovorene ankete', style: styleNaslov),
-                        children: _neodgovoreneAnkete())),
-                Card(
-                    child: ExpansionTile(
-                        initiallyExpanded: true,
-                        title: Text('Odgovorene ankete', style: styleNaslov),
-                        children: [
-                      Column(
-                          children: _odgovorene
-                              .map((e) => anketaWidget(e))
-                              .toList()
-                              .cast<Widget>())
-                    ]))
+                  child: ExpansionTile(
+                      initiallyExpanded: true,
+                      title: Text('Odgovorene ankete', style: styleNaslov),
+                      children: [
+                        Column(
+                            children: _odgovorene
+                                .map((e) => anketaWidget(e))
+                                .toList()
+                                .cast<Widget>()),
+                      ]),
+                ),
               ]);
         } else if (snapshot.data is ErrorResponse) {
           return Center(

@@ -148,36 +148,38 @@ class _PrijavaState extends State<Prijava> {
 
     return Scaffold(
       body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                imgLogo,
-                txtPelikula,
-                const SizedBox(height: 15.0),
-                txtKorisnickoIme,
-                const SizedBox(height: 10.0),
-                txtLozinka,
-                const SizedBox(height: 15.0),
-                btnPrijaviSe,
-                const SizedBox(height: 15.0),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    txtNemasRacun,
-                    const SizedBox(width: 5.0),
-                    txtRegistrujSe
-                  ],
-                )
-              ],
+        child: ListView(children: [
+          Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  imgLogo,
+                  txtPelikula,
+                  const SizedBox(height: 15.0),
+                  txtKorisnickoIme,
+                  const SizedBox(height: 10.0),
+                  txtLozinka,
+                  const SizedBox(height: 15.0),
+                  btnPrijaviSe,
+                  const SizedBox(height: 15.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      txtNemasRacun,
+                      const SizedBox(width: 5.0),
+                      txtRegistrujSe
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
+        ]),
       ),
     );
   }
