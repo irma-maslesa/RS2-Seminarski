@@ -139,7 +139,7 @@ namespace Pelikula.WINUI.Forms.Projekcija
             cbSala.SelectedItem = salaList.FirstOrDefault(e => e.Id == _initial.Sala?.Id);
             txtCijena.Text = _initial.Cijena.ToString("0000.00");
             dtpVrijediOd.Value = _initial.VrijediOd.Date;
-            dtpVrijediDo.Value = _initial.VrijediOd.Date;
+            dtpVrijediDo.Value = _initial.VrijediDo.Date;
 
             SetTermine();
         }

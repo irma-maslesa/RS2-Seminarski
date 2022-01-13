@@ -62,9 +62,13 @@ class _ListaProjekcijaState extends State<ListaProjekcija> {
             const SizedBox(
               width: 20,
             ),
-            Column(
-              children: [
-                Text(projekcija.film!.naslov!, style: styleNaslov),
+            Expanded(
+              child: Column(children: [
+                Text(
+                  projekcija.film!.naslov!,
+                  style: styleNaslov,
+                  textAlign: TextAlign.center,
+                ),
                 Text("Cijena: ${projekcija.cijena.toString()} KM",
                     style: styleTekst),
                 widget.aktivno
@@ -74,7 +78,7 @@ class _ListaProjekcijaState extends State<ListaProjekcija> {
                     : Text(
                         "Vrijedi od: ${DateFormat('dd/MM/yyyy').format(projekcija.vrijediOd!)}",
                         style: styleTekst)
-              ],
+              ]),
             )
           ],
         ),

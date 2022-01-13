@@ -106,7 +106,7 @@ namespace Pelikula.WINUI.Forms.Sala
             // 
             this.nudBrojSjedistaRed.Location = new System.Drawing.Point(114, 58);
             this.nudBrojSjedistaRed.Maximum = new decimal(new int[] {
-            10,
+            9,
             0,
             0,
             0});
@@ -128,7 +128,7 @@ namespace Pelikula.WINUI.Forms.Sala
             // 
             this.nudBrojRedova.Location = new System.Drawing.Point(114, 93);
             this.nudBrojRedova.Maximum = new decimal(new int[] {
-            10,
+            9,
             0,
             0,
             0});

@@ -358,7 +358,7 @@ namespace Pelikula.CORE.Impl
                         .ThenInclude(e => e.FilmskaLicnost)
                 .Include(e => e.Sala)
                 .Include(e => e.ProjekcijaTermin)
-                .Where(e => e.VrijediOd.Date <= datum && e.VrijediDo >= datum.AddDays(10))
+                .Where(e => e.VrijediOd.Date > datum && e.VrijediOd <= datum.AddDays(10))
                 .ToList();
 
             entityList.ToList().ForEach(e => e.ProjekcijaTermin = e.ProjekcijaTermin.Where(o => o.Termin > datum).ToList());
@@ -392,6 +392,7 @@ namespace Pelikula.CORE.Impl
 
             List<ProjekcijaTermin> entityList = Context.Set<ProjekcijaTermin>()
                 .Where(e => e.ProjekcijaId == projekcijaId && e.Termin > DateTime.Now && !rezervisaniTermini.Contains(e.Id))
+                .OrderBy(e => e.Termin)
                 .ToList();
 
             List<LoV> response = Mapper.Map<List<LoV>>(entityList);
