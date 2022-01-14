@@ -36,7 +36,8 @@ class _RezervacijeState extends State<Rezervacije> {
           return const Center(child: Text("Učitavanje..."));
         } else if (snapshot.hasError) {
           return const Center(child: Text("Greška pri učitavanju."));
-        } else if (snapshot.data is PagedPayloadResponse) {
+        } else if (snapshot.data is PagedPayloadResponse &&
+            snapshot.data.payload.length > 0) {
           return ListView(
             children: (snapshot.data.payload
                     .map((e) => RezervacijaResponse.fromJson(e))
@@ -45,6 +46,11 @@ class _RezervacijeState extends State<Rezervacije> {
                 .map((e) => rezervacijaWidget(e))
                 .toList()
                 .cast<Widget>(),
+          );
+        } else if (snapshot.data is PagedPayloadResponse &&
+            snapshot.data.payload.length == 0) {
+          return const Center(
+            child: Text("Nemate rezervacija."),
           );
         } else if (snapshot.data is ErrorResponse) {
           return Center(

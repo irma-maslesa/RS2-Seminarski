@@ -40,7 +40,8 @@ class _ObavijestiState extends State<Obavijesti> {
           return const Center(child: Text("Učitavanje..."));
         } else if (snapshot.hasError) {
           return const Center(child: Text("Greška pri učitavanju."));
-        } else if (snapshot.data is PagedPayloadResponse) {
+        } else if (snapshot.data is PagedPayloadResponse &&
+            snapshot.data.payload.length > 0) {
           return ListView(
             children: (snapshot.data.payload
                     .map((e) => ObavijestResponse.fromJson(e))
@@ -49,6 +50,11 @@ class _ObavijestiState extends State<Obavijesti> {
                 .map((e) => obavijestWidget(e))
                 .toList()
                 .cast<Widget>(),
+          );
+        } else if (snapshot.data is PagedPayloadResponse &&
+            snapshot.data.payload.length == 0) {
+          return const Center(
+            child: Text("Trenutno nema obavijesti."),
           );
         } else if (snapshot.data is ErrorResponse) {
           return Center(

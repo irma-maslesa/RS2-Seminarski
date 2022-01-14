@@ -94,11 +94,15 @@ class _AnketeState extends State<Ankete> {
                       initiallyExpanded: true,
                       title: Text('Odgovorene ankete', style: styleNaslov),
                       children: [
-                        Column(
-                            children: _odgovorene
-                                .map((e) => anketaWidget(e))
-                                .toList()
-                                .cast<Widget>()),
+                        _odgovorene.length > 0
+                            ? Column(
+                                children: _odgovorene
+                                    .map((e) => anketaWidget(e))
+                                    .toList()
+                                    .cast<Widget>())
+                            : const Center(
+                                child: Text("Nemate odgovorenih anketa."),
+                              ),
                       ]),
                 ),
               ]);

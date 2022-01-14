@@ -35,7 +35,8 @@ class _KupovineState extends State<Kupovine> {
           return const Center(child: Text("Učitavanje..."));
         } else if (snapshot.hasError) {
           return const Center(child: Text("Greška pri učitavanju."));
-        } else if (snapshot.data is PagedPayloadResponse) {
+        } else if (snapshot.data is PagedPayloadResponse &&
+            snapshot.data.payload.length > 0) {
           return ListView(
             children: (snapshot.data.payload
                     .map((e) => ProdajaResponse.fromJson(e))
@@ -44,6 +45,11 @@ class _KupovineState extends State<Kupovine> {
                 .map((e) => prodajaWidget(e))
                 .toList()
                 .cast<Widget>(),
+          );
+        } else if (snapshot.data is PagedPayloadResponse &&
+            snapshot.data.payload.length == 0) {
+          return const Center(
+            child: Text("Nemate kupovina."),
           );
         } else if (snapshot.data is ErrorResponse) {
           return Center(
