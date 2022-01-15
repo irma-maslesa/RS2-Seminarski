@@ -33,10 +33,9 @@
 
 - Klijent
 
-    >**Napomena**: zbog recommendera postoji više klijentskih profila
     ```
-    Korisnicko ime: klijent         Korisnicko ime: mobile          Korisnicko ime: mobile2   ...   Korisnicko ime: mobile9
-    Lozinka: test                   Lozinka: test                                       Lozinka: mobile12     
+    Korisnicko ime: klijent             Korisnicko ime: mobile
+    Lozinka: test                       Lozinka: test   
     ```
     
 
