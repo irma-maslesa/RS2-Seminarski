@@ -179,7 +179,11 @@ namespace Pelikula.WINUI.Forms.Rezervacija
             if (dgvRezervacije.SelectedRows.Count > 0)
                 data = (RezervacijaResponse)dgvRezervacije.SelectedRows[0].DataBoundItem;
 
-            if (data != null && (data.DatumOtkazano != null || data.DatumProdano != null)) {
+            if(data != null && data.ProjekcijaTermin.Termin < DateTime.Now) {
+                btnUredi.Enabled = false;
+                btnOtkazi.Enabled = true;
+            }
+            else if (data != null && (data.DatumOtkazano != null || data.DatumProdano != null)) {
                 btnOtkazi.Enabled = false;
                 btnUredi.Enabled = false;
             }

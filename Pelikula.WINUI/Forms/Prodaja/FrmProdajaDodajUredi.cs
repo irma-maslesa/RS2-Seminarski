@@ -60,7 +60,8 @@ namespace Pelikula.WINUI.Forms.Prodaja
             List<FilterUtility.FilterParams> filters = new List<FilterUtility.FilterParams>
             {
                 new FilterUtility.FilterParams("DatumProdano", null, FilterUtility.FilterOptions.isequalto.ToString()),
-                new FilterUtility.FilterParams("DatumOtkazano", null, FilterUtility.FilterOptions.isequalto.ToString())
+                new FilterUtility.FilterParams("DatumOtkazano", null, FilterUtility.FilterOptions.isequalto.ToString()),
+                new FilterUtility.FilterParams("DatumProjekcije", DateTime.Now.ToString(), FilterUtility.FilterOptions.isgreaterthan.ToString())
             };
 
             rezervacijaList = (await _rezervacijaService.GetSimple(null, filters, null)).Payload.OrderBy(o => o.Naziv).ToList();
@@ -406,6 +407,7 @@ namespace Pelikula.WINUI.Forms.Prodaja
 
         private async void CbTipProdaje_SelectedIndexChanged(object sender, EventArgs e) {
             var data = cbTipProdaje.SelectedItem?.ToString();
+            UpdateProjekcijaCijena(0);
 
             switch (data) {
                 case TipProdaje.SA_REZERVACIJOM:
@@ -428,6 +430,8 @@ namespace Pelikula.WINUI.Forms.Prodaja
                         cbRezervacija.Enabled = true;
                         dgvArtikli.Enabled = true;
                         btnSpremi.Enabled = true;
+
+                        UpdateProjekcijaCijena(((RezervacijaSimpleResponse)cbRezervacija.SelectedItem).Cijena);
                     }
 
                     break;
@@ -490,6 +494,8 @@ namespace Pelikula.WINUI.Forms.Prodaja
                 default:
                     break;
             }
+
+            UpdateUkupnaCijena();
         }
 
 

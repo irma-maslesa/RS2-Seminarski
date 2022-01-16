@@ -41,8 +41,8 @@ namespace Pelikula.WINUI.Forms.Izvjestaiji
                 _zanrId = zanrId;
 
                 ReportParameterCollection parameters = new ReportParameterCollection {
-                    new ReportParameter("DatumOd", datum.AddYears(-1).ToString()),
-                    new ReportParameter("DatumDo", datum.ToString())
+                    new ReportParameter("DatumOd", new DateTime(datum.AddYears(-1).AddMonths(1).Year, datum.AddYears(-1).AddMonths(1).Month, 1).ToString()),
+                    new ReportParameter("DatumDo",  new DateTime(datum.Year, datum.Month, DateTime.DaysInMonth(datum.Year, datum.Month)).ToString())
                 };
 
                 var response = await _service.GetPrometUGodini(_zanrId);

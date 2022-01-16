@@ -53,11 +53,6 @@
                       <GroupExpression>=Fields!Mjesec.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
-                  <SortExpressions>
-                    <SortExpression>
-                      <Value>=Fields!Mjesec.Value</Value>
-                    </SortExpression>
-                  </SortExpressions>
                   <Label>=Fields!Mjesec.Value</Label>
                 </ChartMember>
               </ChartMembers>
@@ -81,7 +76,7 @@
                       <ChartDataLabel>
                         <Style />
                       </ChartDataLabel>
-                      <ToolTip>=First(Fields!Promet.Value) + "KM"</ToolTip>
+                      <ToolTip>=Fields!Promet.Value.ToString() + "KM"</ToolTip>
                       <Style />
                       <ChartMarker>
                         <Type>Auto</Type>
@@ -130,6 +125,7 @@
                         <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
+                    <Interval>=1</Interval>
                     <ChartMajorGridLines>
                       <Enabled>False</Enabled>
                       <Style>

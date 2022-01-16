@@ -64,27 +64,38 @@ namespace Pelikula.CORE.Impl
                         .ThenInclude(e => e.ProjekcijaTermin)
                             .ThenInclude(e => e.Projekcija)
                                 .ThenInclude(e => e.Film)
-                    .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId
-                                && e.Datum > datum.AddYears(-1) && e.Datum <= datum);
+                    .Where(e => e.Rezervacija.ProjekcijaTermin.Projekcija.Film.ZanrId == zanrId);
             else
-                entityList = entityList.Include(e => e.Rezervacija)
-                    .Where(e => e.Datum > datum.AddYears(-1) && e.Datum <= datum);
+                entityList = entityList.Include(e => e.Rezervacija);
+
+            entityList = entityList
+                .Where(e => e.Datum >= new DateTime(datum.AddYears(-1).AddMonths(1).Year, datum.AddYears(-1).AddMonths(1).Month, 1) &&
+                e.Datum <= new DateTime(datum.Year, datum.Month, DateTime.DaysInMonth(datum.Year, datum.Month)));
 
             var dtoList = Mapper.Map<List<ProdajaResponse>>(entityList.ToList());
             dtoList.ForEach(e => e.UkupnaCijena = e.GetUkupnaCijena(e.ProdajaArtikal, e.Rezervacija));
 
-            var groupedByMonths = dtoList.GroupBy(e => e.Datum.Month).ToList();
+            var groupedByMonths = dtoList.OrderBy(e => e.Datum).GroupBy(e => e.Datum.Month).ToList();
 
             decimal sum = 0;
             var responseList = new List<IzvjestajPrometUGodiniResponse>();
 
-            foreach (var month in groupedByMonths) {
-                sum = month.Sum(e => e.UkupnaCijena);
+            foreach (string name in Enum.GetNames(typeof(Mjesec))) {
                 responseList.Add(new IzvjestajPrometUGodiniResponse {
-                    Mjesec = ((Mjesec)month.Key).ToString(),
-                    Promet = Math.Round(sum, 2)
+                    Mjesec = name,
+                    Promet = 0
                 });
             }
+
+            foreach (var month in groupedByMonths) {
+                sum = month.Sum(e => e.UkupnaCijena);
+                responseList.FirstOrDefault(e => e.Mjesec == ((Mjesec)month.Key).ToString()).Promet = Math.Round(sum, 2);
+            }
+
+            responseList = responseList.Skip(DateTime.Today.Month)
+                    .Concat(responseList.Take(DateTime.Today.Month))
+                    .Where(s => !string.IsNullOrEmpty(s.Mjesec))
+                    .ToList();
 
             return new ListPayloadResponse<IzvjestajPrometUGodiniResponse>(HttpStatusCode.OK, responseList);
         }

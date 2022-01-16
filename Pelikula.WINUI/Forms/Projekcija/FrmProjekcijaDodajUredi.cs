@@ -109,6 +109,9 @@ namespace Pelikula.WINUI.Forms.Projekcija
 
                 SetValues();
             }
+            else {
+                dtpVrijediOd.MinDate = DateTime.Today.AddDays(1);
+            }
         }
 
         private void EnableDp(bool v1, bool v2, bool v3, bool v4, bool v5, bool v6) {
@@ -339,7 +342,7 @@ namespace Pelikula.WINUI.Forms.Projekcija
         }
 
         private void DtpVrijediOd_ValueChanged(object sender, EventArgs e) {
-            dtpVrijediDo.MinDate = dtpVrijediOd.Value.Date;
+           dtpVrijediDo.MinDate = dtpVrijediOd.Value.Date;
         }
 
         private void DtpVrijediDo_ValueChanged(object sender, EventArgs e) {
